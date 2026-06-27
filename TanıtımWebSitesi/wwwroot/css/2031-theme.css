@@ -94,7 +94,14 @@ h1, h2, h3, h4, h5, h6, .navbar-brand {
     background-color: transparent !important;
     border: 2px solid var(--clr-dark-ink) !important;
     color: var(--clr-dark-ink) !important;
+    padding: 0.75rem 2rem;
+    font-family: var(--font-heading);
+    text-transform: uppercase;
+    letter-spacing: 1px;
     clip-path: var(--clip-button);
+    transition: var(--transition-smooth);
+    display: inline-block;
+    text-decoration: none;
 }
 .btn-geo-outline:hover {
     background-color: var(--clr-dark-ink) !important;
@@ -154,9 +161,6 @@ h1, h2, h3, h4, h5, h6, .navbar-brand {
     clip-path: var(--clip-asym-1);
     transition: var(--transition-smooth);
 }
-.geo-image-wrapper:hover {
-    clip-path: var(--clip-asym-2);
-}
 .geo-image-wrapper img {
     width: 100%;
     height: auto;
@@ -191,27 +195,12 @@ h1, h2, h3, h4, h5, h6, .navbar-brand {
     transition: var(--transition-smooth);
 }
 
-.geo-card:hover {
-    transform: translateY(-10px);
-    box-shadow: 0 15px 40px rgba(0,0,0,0.08);
-    clip-path: polygon(0 0, 100% 0, 100% 100%, 0 100%);
-    color: var(--clr-dark-ink);
-}
-
-.geo-card:hover::after {
-    transform: scaleX(1);
-}
-
 .geo-card-img {
     overflow: hidden;
     clip-path: polygon(0 0, 100% 0, 100% 90%, 0 100%);
     transition: var(--transition-smooth);
     position: relative;
     padding-top: 120%; /* Aspect ratio */
-}
-
-.geo-card:hover .geo-card-img {
-    clip-path: polygon(0 0, 100% 0, 100% 100%, 0 100%);
 }
 
 .geo-card-img img {
@@ -222,9 +211,6 @@ h1, h2, h3, h4, h5, h6, .navbar-brand {
     height: 100%;
     object-fit: cover;
     transition: transform 0.6s ease;
-}
-.geo-card:hover .geo-card-img img {
-    transform: scale(1.05);
 }
 
 .geo-card-body {
