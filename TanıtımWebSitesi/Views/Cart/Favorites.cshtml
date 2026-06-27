@@ -1,0 +1,71 @@
+@model List<TanıtımWebSitesi.Models.CartItem>
+
+@{
+    ViewData["Title"] = "Favorilerim";
+}
+
+<div class="container py-5 mt-5">
+    <h2 class="geo-section-title">Favorilerim</h2>
+
+    @if (!Model.Any())
+    {
+        <div class="alert alert-info py-4 text-center mt-4">
+            <h5 class="mb-3">Favori listenizde henüz ürün bulunmuyor.</h5>
+            <a href="/Home/Index" class="btn-geo">Alışverişe Başla</a>
+        </div>
+    }
+    else
+    {
+        <div class="row mt-4">
+            @foreach (var item in Model)
+            {
+                <div class="col-md-3 col-sm-6 mb-4">
+                    <div class="geo-card h-100">
+                        <a href="/Home/urundetay" class="d-block text-decoration-none">
+                            <div class="geo-card-img position-relative">
+                                <img src="@item.ResimUrl" alt="@item.UrunAdi">
+                            </div>
+                        </a>
+                        <div class="geo-card-body text-center d-flex flex-column">
+                            <a href="/Home/urundetay" class="text-decoration-none text-dark">
+                                <h5 class="mb-2">@item.UrunAdi</h5>
+                            </a>
+                            <div class="geo-price mb-3">@item.Fiyat.ToString("N2") TL</div>
+                            
+                            <div class="mt-auto d-flex justify-content-center gap-2">
+                                <button onclick="addToCartFromFav(@item.UrunId, '@item.UrunAdi', @item.Fiyat.ToString("0.00", System.Globalization.CultureInfo.InvariantCulture), '@item.ResimUrl')" class="btn-geo w-75 py-2" style="font-size: 0.85rem;">
+                                    Sepete Ekle
+                                </button>
+                                <form asp-action="RemoveFromFavorites" asp-controller="Cart" method="post" class="w-25">
+                                    <input type="hidden" name="id" value="@item.UrunId" />
+                                    <button type="submit" class="btn-geo-outline py-2 w-100">
+                                        <i class="fa-solid fa-trash text-danger"></i>
+                                    </button>
+                                </form>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            }
+        </div>
+    }
+</div>
+
+@section Scripts {
+    <script>
+        function addToCartFromFav(id, name, price, image) {
+            $.post('/Cart/AddToCart', { id: id, name: name, price: price, image: image }, function (data) {
+                if (data.success) {
+                    Swal.fire({
+                        icon: 'success',
+                        title: 'Eklendi!',
+                        text: 'Ürün sepetinize eklendi.',
+                        timer: 1500,
+                        showConfirmButton: false
+                    });
+                    $('#cart-count').text(data.cartCount);
+                }
+            });
+        }
+    </script>
+}

@@ -20,6 +20,12 @@ namespace TanıtımWebSitesi.Controllers
             return View();
         }
 
+        public IActionResult Kategori(string id)
+        {
+            ViewBag.KategoriAdi = string.IsNullOrEmpty(id) ? "Kategori" : id.Replace("-", " ");
+            return View();
+        }
+
         public IActionResult Privacy()
         {
             return View();

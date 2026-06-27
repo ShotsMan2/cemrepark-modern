@@ -1,3 +1,8 @@
+@using TanıtımWebSitesi.Models
+@{
+    var _cart = Context.Session.Get<List<CartItem>>("Cart") ?? new List<CartItem>();
+    int cartCount = _cart.Sum(x => x.Adet);
+}
 <!DOCTYPE html>
 <html lang="tr">
 
@@ -279,10 +284,10 @@
                         <li class="nav-item dropdown">
                             <a class="nav-link dropdown-toggle" href="#" data-bs-toggle="dropdown">TAKIMLAR</a>
                             <ul class="dropdown-menu cp-dropdown">
-                                <li><a href="#" class="dropdown-item">Etekli Takım</a></li>
-                                <li><a href="#" class="dropdown-item">Pantolonlu Takım</a></li>
-                                <li><a href="#" class="dropdown-item">Jile Takım</a></li>
-                                <li><a href="#" class="dropdown-item">3'lü Takım</a></li>
+                                <li><a href="/Home/Kategori/Etekli-Takım" class="dropdown-item">Etekli Takım</a></li>
+                                <li><a href="/Home/Kategori/Pantolonlu-Takım" class="dropdown-item">Pantolonlu Takım</a></li>
+                                <li><a href="/Home/Kategori/Jile-Takım" class="dropdown-item">Jile Takım</a></li>
+                                <li><a href="/Home/Kategori/3lü-Takım" class="dropdown-item">3'lü Takım</a></li>
                             </ul>
                         </li>
                         <li class="nav-item dropdown">
@@ -331,8 +336,11 @@
                             <li><a href="/home/Giris" class="dropdown-item">Giriş Yap</a></li>
                         </ul>
                     </div>
-                    <a href="#" class="cp-action-link" data-bs-toggle="offcanvas" data-bs-target="#offcanvasCart" aria-controls="offcanvasCart">
-                        <i class="fa-solid fa-bag-shopping"></i> <span class="d-none d-lg-inline">SEPETİM (0)</span>
+                    <a href="/Cart/Favorites" class="cp-action-link">
+                        <i class="fa-regular fa-heart"></i> <span class="d-none d-lg-inline">FAVORİLERİM</span>
+                    </a>
+                    <a href="/Cart/Index" class="cp-action-link">
+                        <i class="fa-solid fa-bag-shopping"></i> <span class="d-none d-lg-inline">SEPETİM (<span id="cart-count">@cartCount</span>)</span>
                     </a>
                 </div>
             </div>

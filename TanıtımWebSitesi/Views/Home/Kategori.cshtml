@@ -1,0 +1,74 @@
+@{
+    ViewData["Title"] = ViewBag.KategoriAdi;
+}
+
+<div class="container py-5 mt-5">
+    <div class="d-flex justify-content-between align-items-center mb-4">
+        <h2 class="geo-section-title mb-0">@ViewBag.KategoriAdi Kategorisi</h2>
+    </div>
+
+    <div class="row">
+        @for (int i = 1; i <= 8; i++)
+        {
+            var fiyat = 850 + (i * 100);
+            <div class="col-md-3 col-sm-6 mb-4">
+                <div class="geo-card h-100">
+                    <a href="/Home/urundetay" class="d-block text-decoration-none">
+                        <div class="geo-card-img position-relative">
+                            <img src="/assets/siteimg/yeni@(i % 3 + 1).jpg" alt="Ürün @i" onerror="this.src='/assets/siteimg/hero_hijab_tunic.png'">
+                        </div>
+                    </a>
+                    <div class="geo-card-body text-center d-flex flex-column">
+                        <a href="/Home/urundetay" class="text-decoration-none text-dark">
+                            <h5 class="mb-2">@ViewBag.KategoriAdi Model @i</h5>
+                        </a>
+                        <div class="geo-price mb-3">@fiyat,00 TL</div>
+                        
+                        <div class="mt-auto d-flex justify-content-center gap-2">
+                            <button onclick="addToCart(@i, '@ViewBag.KategoriAdi Model @i', @fiyat, '/assets/siteimg/hero_hijab_tunic.png')" class="btn-geo w-75 py-2" style="font-size: 0.85rem;">
+                                Sepete Ekle
+                            </button>
+                            <button onclick="addToFavorites(@i, '@ViewBag.KategoriAdi Model @i', @fiyat, '/assets/siteimg/hero_hijab_tunic.png')" class="btn-geo-outline py-2 px-3">
+                                <i class="fa-regular fa-heart"></i>
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        }
+    </div>
+</div>
+
+@section Scripts {
+    <script>
+        function addToCart(id, name, price, image) {
+            $.post('/Cart/AddToCart', { id: id, name: name, price: price, image: image }, function (data) {
+                if (data.success) {
+                    Swal.fire({
+                        icon: 'success',
+                        title: 'Eklendi!',
+                        text: 'Ürün sepetinize eklendi.',
+                        timer: 1500,
+                        showConfirmButton: false
+                    });
+                    // Sepet sayacını güncelle (Layout'ta id="cart-count" olacak)
+                    $('#cart-count').text(data.cartCount);
+                }
+            });
+        }
+
+        function addToFavorites(id, name, price, image) {
+            $.post('/Cart/AddToFavorites', { id: id, name: name, price: price, image: image }, function (data) {
+                if (data.success) {
+                    Swal.fire({
+                        icon: 'success',
+                        title: 'Favorilere Eklendi!',
+                        text: 'Ürün favorilerinize eklendi.',
+                        timer: 1500,
+                        showConfirmButton: false
+                    });
+                }
+            });
+        }
+    </script>
+}
