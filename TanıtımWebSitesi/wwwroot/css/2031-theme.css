@@ -33,7 +33,7 @@ body {
     font-family: var(--font-body) !important;
     background-color: var(--clr-beige-light) !important;
     color: var(--clr-dark-ink) !important;
-    overflow-x: hidden;
+    overflow-x: clip;
 }
 
 h1, h2, h3, h4, h5, h6, .navbar-brand {
@@ -511,8 +511,8 @@ h1, h2, h3, h4, h5, h6, .navbar-brand {
     box-shadow: 0 0 0 2px rgba(225, 28, 142, 0.3);
 }
 
-/* Sticky Header */
-#cemrepark-header {
+/* Sticky Navbar */
+.cp-navbar {
     position: sticky;
     top: 0;
     z-index: 1050;
