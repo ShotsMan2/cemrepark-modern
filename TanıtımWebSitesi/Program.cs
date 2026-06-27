@@ -1,4 +1,4 @@
-using TanýtýmWebSitesi.Models;
+ï»¿using TanÄ±tÄ±mWebSitesi.Models;
 
 var builder = WebApplication.CreateBuilder(args);
 builder.Services.AddSingleton<IHttpContextAccessor, HttpContextAccessor>();
@@ -35,3 +35,5 @@ app.MapControllerRoute(
     pattern: "{controller=Home}/{action=Index}/{id?}");
 
 app.Run();
+
+

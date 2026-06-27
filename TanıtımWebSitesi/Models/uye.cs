@@ -3,7 +3,7 @@ using System.ComponentModel.DataAnnotations;
 
 namespace TanıtımWebSitesi.Models
 {
-    public class uye
+    public class Uye
     {
         public int Id { get; set; }
         [DisplayName("Ad")]
@@ -27,3 +27,4 @@ namespace TanıtımWebSitesi.Models
 
     }
 }
+
