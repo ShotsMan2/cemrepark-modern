@@ -1,4 +1,4 @@
-﻿@{
+@{
     Layout = "_AdminLayout";
 }
 @model List<Akategori>
@@ -31,48 +31,92 @@
             <div class="container-fluid">
                 <!--begin::Row-->
                 <div class="row g-4">
-                    <div class="col-md-6">
-                        <div class="card mb-4">
-                            <div class="card-header">
-                                <h3 class="card-title">Bordered Table</h3>
+                    <div class="col-md-12">
+                        <div class="card mb-4 shadow-sm" style="border: none; border-radius: 12px;">
+                            <div class="card-header" style="background: var(--clr-terracotta); color: white; border-radius: 12px 12px 0 0;">
+                                <h3 class="card-title mb-0"><i class="fas fa-list me-2"></i> Sistem Kategorileri</h3>
                             </div> <!-- /.card-header -->
                             <div class="card-body">
-                                <table class="table table-bordered">
-                                    <thead>
+                                <table id="categoryTable" class="table table-bordered table-hover dt-responsive nowrap w-100">
+                                    <thead class="table-light">
                                         <tr>
-                                            <th style="width: 10px">#</th>
-                                            <th>Id</th>
+                                            <th style="width: 50px">#</th>
+                                            <th>Kategori Kodu</th>
                                             <th>Kategori Adı</th>
-                                            <th>işlem</th>
+                                            <th class="text-end" style="width: 150px">İşlemler</th>
                                         </tr>
                                     </thead>
                                     <tbody>
                                         @{
-                                        int sira = 1;
-                                        foreach (var item in Model)
-                                        {
-                                        <tr class="align-middle">
-                                            <td>@sira</td>
-                                            <td>@item.Id</td>
-                                            <td>@item.Ad</td>
-                                            <td>
-                                                <a href="/Admin/KategoriSil/@item.Id" onclick="return confirm('silmek istediğinize emin misiniz?')"> <i class="fa-solid fa-trash"></i></a>-
-                                                <a href="/Admin/KategoriEkleGüncelle/@item.Id"><i class="fa-solid fa-pen-to-square"></i></a>
-                                            </td>
-                                        </tr>
-                                        sira++;
+                                            int sira = 1;
+                                            foreach (var item in Model)
+                                            {
+                                                <tr class="align-middle">
+                                                    <td>@sira</td>
+                                                    <td><span class="badge bg-secondary">CAT-@item.Id</span></td>
+                                                    <td class="fw-bold">@item.Ad</td>
+                                                    <td class="text-end">
+                                                        <a href="/Admin/KategoriEkleGüncelle/@item.Id" class="btn btn-sm btn-outline-primary rounded-pill px-3">
+                                                            <i class="fa-solid fa-pen-to-square me-1"></i> Düzenle
+                                                        </a>
+                                                        <button type="button" onclick="confirmDelete(@item.Id)" class="btn btn-sm btn-outline-danger rounded-pill px-3 ms-1">
+                                                            <i class="fa-solid fa-trash me-1"></i> Sil
+                                                        </button>
+                                                    </td>
+                                                </tr>
+                                                sira++;
+                                            }
                                         }
-                                        }
-
                                     </tbody>
                                 </table>
                             </div> <!-- /.card-body -->
                         </div> <!-- /.card -->
-
                     </div> <!-- /.col -->
                 </div>
-
             </div>
         </div>
-
     </main>
+
+@section Scripts {
+    <script>
+        $(document).ready(function() {
+            $('#categoryTable').DataTable({
+                responsive: true,
+                language: {
+                    url: '//cdn.datatables.net/plug-ins/1.13.6/i18n/tr.json'
+                },
+                columnDefs: [
+                    { orderable: false, targets: 3 }
+                ]
+            });
+        });
+
+        function confirmDelete(id) {
+            Swal.fire({
+                title: 'Emin misiniz?',
+                text: "Bu kategoriyi kalıcı olarak silmek üzeresiniz. Bu işlem geri alınamaz!",
+                icon: 'warning',
+                showCancelButton: true,
+                confirmButtonColor: '#e74c3c',
+                cancelButtonColor: '#6c757d',
+                confirmButtonText: '<i class="fa-solid fa-trash"></i> Evet, Sil',
+                cancelButtonText: 'İptal',
+                background: '#fff',
+                customClass: {
+                    confirmButton: 'btn btn-danger px-4 py-2 me-2',
+                    cancelButton: 'btn btn-secondary px-4 py-2'
+                },
+                buttonsStyling: false
+            }).then((result) => {
+                if (result.isConfirmed) {
+                    Swal.fire({
+                        title: 'Siliniyor...',
+                        allowOutsideClick: false,
+                        didOpen: () => { Swal.showLoading(); }
+                    });
+                    window.location.href = '/Admin/KategoriSil/' + id;
+                }
+            })
+        }
+    </script>
+}

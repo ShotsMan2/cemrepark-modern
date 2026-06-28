@@ -2,13 +2,13 @@
 @import url('https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;700&family=Space+Grotesk:wght@300;500;700&display=swap');
 
 :root {
-    /* Renk Paleti - Logo Uyumlu (Magenta/Pink & Dark) */
-    --clr-sage-green: #FF4E88; /* Canlı Pembe */
-    --clr-terracotta: #E11C8E; /* Magenta / Koyu Pembe */
-    --clr-sand: #2a2a2a; /* Koyu arka plan veya detay rengi */
-    --clr-beige-light: #1f1f1f; /* Koyu Tema Arka planı (opsiyonel) */
-    --clr-gold: #FF007F; /* Fosforlu Pembe */
-    --clr-dark-ink: #f0f0f0; /* Açık yazı rengi (Dark moda uygun) */
+    /* Renk Paleti - Logo Uyumlu (CemrePark Kurumsal) */
+    --clr-sage-green: #002946; /* Koyu Lacivert (Hover) */
+    --clr-terracotta: #0b1d69; /* Ana Lacivert (Primary) */
+    --clr-sand: #ffffff; /* Saf Beyaz Kartlar */
+    --clr-beige-light: #f8f9fa; /* Çok Hafif Gri / Premium Arka plan */
+    --clr-gold: #cca16b; /* Zarif Altın/Kum Vurguları */
+    --clr-dark-ink: #1a1a1a; /* Net Siyah Yazı */
     
     /* Geometrik Formlar */
     --clip-hex: polygon(50% 0%, 100% 25%, 100% 75%, 50% 100%, 0% 75%, 0% 25%);
@@ -501,5 +501,27 @@ h1, h2, h3, h4, h5, h6, .navbar-brand {
     position: sticky;
     top: 0;
     z-index: 1050;
+}
+
+
+/* Masa�st� Hover Dropdown */
+@media (min-width: 992px) {
+    .dropdown:hover .dropdown-menu {
+        display: block;
+        margin-top: 0;
+        animation: fadeIn 0.3s ease;
+    }
+}
+
+
+/* Force Dropdown Fix */
+@media (min-width: 992px) {
+    .dropdown:hover .dropdown-menu, .dropdown:hover .cp-dropdown {
+        display: block !important;
+        opacity: 1 !important;
+        visibility: visible !important;
+        z-index: 9999 !important;
+        margin-top: 0 !important;
+    }
 }
 

@@ -3,7 +3,7 @@
     ViewData["Title"] = Model.Ad;
 }
 
-<div class="container py-5 mt-5">
+<div class="container py-5 mt-5" data-aos="fade-up" data-aos-duration="1000">
     <div class="row">
         <div class="col-md-6 mb-4">
             <div class="geo-card h-100 p-3">
@@ -64,17 +64,26 @@
     <script>
         function addToCart(btn, id, name, price, image) {
             let originalHtml = btn.innerHTML;
-            btn.innerHTML = '<i class="fa-solid fa-check"></i> Eklendi';
-            btn.classList.add('bg-success', 'text-white', 'border-success');
+            btn.innerHTML = '<i class="fa-solid fa-spinner fa-spin"></i> Ekleniyor...';
             
             $.post('/Cart/AddToCart', { id: id, name: name, price: price, image: image }, function (data) {
                 if (data.success) {
                     if ($('#cart-count').length) {
                         $('#cart-count').text(data.cartCount);
                     }
+                    btn.innerHTML = '<i class="fa-solid fa-check"></i> Sepete Eklendi';
+                    
+                    Toast.fire({
+                        icon: 'success',
+                        title: 'Sepete Eklendi!',
+                        text: name + ' sepetinize başarıyla eklendi.',
+                        background: 'var(--clr-terracotta)',
+                        color: '#fff',
+                        iconColor: '#fff'
+                    });
+
                     setTimeout(() => {
                         btn.innerHTML = originalHtml;
-                        btn.classList.remove('bg-success', 'text-white', 'border-success');
                     }, 2000);
                 }
             });
@@ -85,7 +94,14 @@
             btn.classList.add('border-danger');
             
             $.post('/Cart/AddToFavorites', { id: id, name: name, price: price, image: image }, function (data) {
-                // Background success
+                Toast.fire({
+                    icon: 'success',
+                    title: 'Favorilere Eklendi!',
+                    text: name + ' favorilerinize kaydedildi.',
+                    background: '#fff',
+                    color: 'var(--clr-terracotta)',
+                    iconColor: '#ff4e88'
+                });
             });
         }
     </script>
