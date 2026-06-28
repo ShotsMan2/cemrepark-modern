@@ -15,22 +15,22 @@
             {
                 <div class="col-md-3 col-sm-6 mb-4">
                     <div class="geo-card h-100">
-                        <a href="/Home/urundetay" class="d-block text-decoration-none">
+                        <a href="/Home/urundetay/@urun.Id" class="d-block text-decoration-none">
                             <div class="geo-card-img position-relative">
                                 <img src="@urun.Gorsel" alt="@urun.Ad" onerror="this.src='/assets/siteimg/hero_hijab_tunic.png'">
                             </div>
                         </a>
                         <div class="geo-card-body text-center d-flex flex-column">
-                            <a href="/Home/urundetay" class="text-decoration-none text-dark">
+                            <a href="/Home/urundetay/@urun.Id" class="text-decoration-none text-white">
                                 <h5 class="mb-2">@urun.Ad</h5>
                             </a>
                             <div class="geo-price mb-3">@urun.Fiyat.ToString("N2") TL</div>
                             
                             <div class="mt-auto d-flex justify-content-center gap-2">
-                                <button onclick="addToCart(@urun.Id, '@urun.Ad.Replace("'", "\\'")', @urun.Fiyat.ToString("0.##", System.Globalization.CultureInfo.InvariantCulture), '@urun.Gorsel')" class="btn-geo w-75 py-2" style="font-size: 0.85rem;">
+                                <button onclick="addToCart(this, @urun.Id, '@urun.Ad.Replace("'", "\\'")', @urun.Fiyat.ToString("0.##", System.Globalization.CultureInfo.InvariantCulture), '@urun.Gorsel')" class="btn-geo w-75 py-2" style="font-size: 0.85rem; transition: all 0.3s;">
                                     Sepete Ekle
                                 </button>
-                                <button onclick="addToFavorites(@urun.Id, '@urun.Ad.Replace("'", "\\'")', @urun.Fiyat.ToString("0.##", System.Globalization.CultureInfo.InvariantCulture), '@urun.Gorsel')" class="btn-geo-outline py-2 px-3">
+                                <button onclick="addToFavorites(this, @urun.Id, '@urun.Ad.Replace("'", "\\'")', @urun.Fiyat.ToString("0.##", System.Globalization.CultureInfo.InvariantCulture), '@urun.Gorsel')" class="btn-geo-outline py-2 px-3" style="transition: all 0.3s;">
                                     <i class="fa-regular fa-heart"></i>
                                 </button>
                             </div>
@@ -50,33 +50,32 @@
 
 @section Scripts {
     <script>
-        function addToCart(id, name, price, image) {
+        function addToCart(btn, id, name, price, image) {
+            let originalHtml = btn.innerHTML;
+            btn.innerHTML = '<i class="fa-solid fa-check"></i> Eklendi';
+            btn.classList.add('bg-success', 'text-white', 'border-success');
+            
             $.post('/Cart/AddToCart', { id: id, name: name, price: price, image: image }, function (data) {
                 if (data.success) {
-                    Swal.fire({
-                        icon: 'success',
-                        title: 'Eklendi!',
-                        text: 'Ürün sepetinize eklendi.',
-                        timer: 1500,
-                        showConfirmButton: false
-                    });
-                    // Sepet sayacını güncelle (Layout'ta id="cart-count" olacak)
-                    $('#cart-count').text(data.cartCount);
+                    if ($('#cart-count').length) {
+                        $('#cart-count').text(data.cartCount);
+                    }
+                    // 2 saniye sonra butonu eski haline getir
+                    setTimeout(() => {
+                        btn.innerHTML = originalHtml;
+                        btn.classList.remove('bg-success', 'text-white', 'border-success');
+                    }, 2000);
                 }
             });
         }
 
-        function addToFavorites(id, name, price, image) {
+        function addToFavorites(btn, id, name, price, image) {
+            // İkonu katı (dolu) kırmızı kalbe çevir
+            btn.innerHTML = '<i class="fa-solid fa-heart text-danger"></i>';
+            btn.classList.add('border-danger');
+            
             $.post('/Cart/AddToFavorites', { id: id, name: name, price: price, image: image }, function (data) {
-                if (data.success) {
-                    Swal.fire({
-                        icon: 'success',
-                        title: 'Favorilere Eklendi!',
-                        text: 'Ürün favorilerinize eklendi.',
-                        timer: 1500,
-                        showConfirmButton: false
-                    });
-                }
+                // Arka planda favorilere eklendi
             });
         }
     </script>

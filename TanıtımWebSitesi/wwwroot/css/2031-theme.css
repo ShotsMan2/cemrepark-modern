@@ -169,17 +169,17 @@ h1, h2, h3, h4, h5, h6, .navbar-brand {
 
 /* Kart Tasarımları (Ürünler & Blog vs.) */
 .geo-card {
-    background: white;
-    border-radius: 0;
-    border: none;
-    clip-path: var(--clip-asym-1);
-    box-shadow: 0 10px 30px rgba(0,0,0,0.03);
+    background: var(--clr-sand);
+    border-radius: 12px;
+    border: 1px solid rgba(255,255,255,0.08);
+    box-shadow: 0 4px 15px rgba(0,0,0,0.2);
     transition: var(--transition-smooth);
     margin-bottom: 2rem;
     position: relative;
     display: block;
     text-decoration: none;
     color: var(--clr-dark-ink);
+    overflow: hidden;
 }
 
 .geo-card::after {
@@ -197,10 +197,9 @@ h1, h2, h3, h4, h5, h6, .navbar-brand {
 
 .geo-card-img {
     overflow: hidden;
-    clip-path: polygon(0 0, 100% 0, 100% 90%, 0 100%);
     transition: var(--transition-smooth);
     position: relative;
-    padding-top: 120%; /* Aspect ratio */
+    padding-top: 130%; /* Aspect ratio */
 }
 
 .geo-card-img img {

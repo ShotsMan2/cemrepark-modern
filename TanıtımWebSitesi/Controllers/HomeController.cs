@@ -104,9 +104,14 @@ namespace TanıtımWebSitesi.Controllers
             }
             return View(nesne);
         }
-        public IActionResult urundetay()
+        public IActionResult urundetay(int id = 1)
         {
-            return View();
+            var product = GetShopierProducts().FirstOrDefault(p => p.Id == id);
+            if (product == null)
+            {
+                product = GetShopierProducts().First();
+            }
+            return View(product);
         }
         public IActionResult urundetay2()
         {

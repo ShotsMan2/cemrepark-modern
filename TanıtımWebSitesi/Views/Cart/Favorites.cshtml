@@ -21,19 +21,19 @@
             {
                 <div class="col-md-3 col-sm-6 mb-4">
                     <div class="geo-card h-100">
-                        <a href="/Home/urundetay" class="d-block text-decoration-none">
+                        <a href="/Home/urundetay/@item.UrunId" class="d-block text-decoration-none">
                             <div class="geo-card-img position-relative">
                                 <img src="@item.ResimUrl" alt="@item.UrunAdi">
                             </div>
                         </a>
                         <div class="geo-card-body text-center d-flex flex-column">
-                            <a href="/Home/urundetay" class="text-decoration-none text-dark">
+                            <a href="/Home/urundetay/@item.UrunId" class="text-decoration-none text-white">
                                 <h5 class="mb-2">@item.UrunAdi</h5>
                             </a>
                             <div class="geo-price mb-3">@item.Fiyat.ToString("N2") TL</div>
                             
                             <div class="mt-auto d-flex justify-content-center gap-2">
-                                <button onclick="addToCartFromFav(@item.UrunId, '@item.UrunAdi', @item.Fiyat.ToString("0.00", System.Globalization.CultureInfo.InvariantCulture), '@item.ResimUrl')" class="btn-geo w-75 py-2" style="font-size: 0.85rem;">
+                                <button onclick="addToCartFromFav(this, @item.UrunId, '@item.UrunAdi.Replace("'", "\\'")', @item.Fiyat.ToString("0.00", System.Globalization.CultureInfo.InvariantCulture), '@item.ResimUrl')" class="btn-geo w-75 py-2" style="font-size: 0.85rem; transition: all 0.3s;">
                                     Sepete Ekle
                                 </button>
                                 <form asp-action="RemoveFromFavorites" asp-controller="Cart" method="post" class="w-25">
@@ -53,17 +53,20 @@
 
 @section Scripts {
     <script>
-        function addToCartFromFav(id, name, price, image) {
+        function addToCartFromFav(btn, id, name, price, image) {
+            let originalHtml = btn.innerHTML;
+            btn.innerHTML = '<i class="fa-solid fa-check"></i> Eklendi';
+            btn.classList.add('bg-success', 'text-white', 'border-success');
+
             $.post('/Cart/AddToCart', { id: id, name: name, price: price, image: image }, function (data) {
                 if (data.success) {
-                    Swal.fire({
-                        icon: 'success',
-                        title: 'Eklendi!',
-                        text: 'Ürün sepetinize eklendi.',
-                        timer: 1500,
-                        showConfirmButton: false
-                    });
-                    $('#cart-count').text(data.cartCount);
+                    if ($('#cart-count').length) {
+                        $('#cart-count').text(data.cartCount);
+                    }
+                    setTimeout(() => {
+                        btn.innerHTML = originalHtml;
+                        btn.classList.remove('bg-success', 'text-white', 'border-success');
+                    }, 2000);
                 }
             });
         }

@@ -1,88 +1,92 @@
-﻿<div class="container">
+@model TanıtımWebSitesi.Models.Admin.Aurun
+@{
+    ViewData["Title"] = Model.Ad;
+}
+
+<div class="container py-5 mt-5">
     <div class="row">
-        <div class="col-6">
-            <div id="carouselExampleIndicators" class="carousel slide">
-                <div class="carousel-indicators">
-                    <button type="button" data-bs-target="#carouselExampleIndicators" data-bs-slide-to="0" class="active" aria-current="true" aria-label="Slide 1"></button>
-                    <button type="button" data-bs-target="#carouselExampleIndicators" data-bs-slide-to="1" aria-label="Slide 2"></button>
-                    <button type="button" data-bs-target="#carouselExampleIndicators" data-bs-slide-to="2" aria-label="Slide 3"></button>
-                </div>
-                <div class="carousel-inner">
-                    <div class="carousel-item active">
-                        <img src="https://cdn.shopier.app/pictures_large/CEMREPARKK_a47813e0cf177f97f306ddc5eaede9af.JPG" class="d-block w-100" alt="...">
-                    </div>
-                    <div class="carousel-item">
-                        <img src="https://cdn.shopier.app/pictures_large/CEMREPARKK_178ced312f09f4258b89508f871fbe8d.JPG" class="d-block w-100" alt="...">
-                    </div>
-                    <div class="carousel-item">
-                        <img src="https://cdn.shopier.app/pictures_large/CEMREPARKK_7332e44bc53789400a040d8db784d980.JPG" class="d-block w-100" alt="...">
-                    </div>
-                    <div class="carousel-item">
-                        <img src="https://cdn.shopier.app/pictures_large/CEMREPARKK_c08b46ed8abf9efa00afd0d75ca11509.JPG" class="d-block w-100" alt="...">
-                    </div>
-                    <div class="carousel-item">
-                        <img src="https://cdn.shopier.app/pictures_large/CEMREPARKK_78b402f5894eac18f7bfe85038ca3e0f.JPG" class="d-block w-100" alt="...">
-                    </div>
-                </div>
-                <button class="carousel-control-prev" type="button" data-bs-target="#carouselExampleIndicators" data-bs-slide="prev">
-                    <span class="carousel-control-prev-icon" aria-hidden="true"></span>
-                    <span class="visually-hidden">Previous</span>
-                </button>
-                <button class="carousel-control-next" type="button" data-bs-target="#carouselExampleIndicators" data-bs-slide="next">
-                    <span class="carousel-control-next-icon" aria-hidden="true"></span>
-                    <span class="visually-hidden">Next</span>
-                </button>
+        <div class="col-md-6 mb-4">
+            <div class="geo-card h-100 p-3">
+                <img src="@Model.Gorsel" class="img-fluid rounded" alt="@Model.Ad" onerror="this.src='/assets/siteimg/hero_hijab_tunic.png'">
             </div>
         </div>
-        <div class="col-6">
-            <h3>2316 DESENLİ ZİNCİR DETAYLI KAP</h3>
-            <hr />
-            <h4>
-                850,00 TL
+        <div class="col-md-6">
+            <h3 class="geo-section-title" style="margin-bottom: 1rem;">@Model.Ad</h3>
+            <h4 class="geo-price mb-4">
+                @Model.Fiyat.ToString("N2") TL
             </h4>
             <hr />
-            <div class="form-floating">
-                <select class="form-select" id="floatingSelect" aria-label="Floating label select example">
+            <div class="form-floating mb-3">
+                <select class="form-select" id="bedenSelect" aria-label="Beden Seçimi">
                     <option selected>Seçiniz</option>
-                    <option value="1">42</option>
-                    <option value="2">44</option>
-                    <option value="4">46</option>
-                    <option value="5">48</option>
-                    <option value="6">50</option>
-                    <option value="7">52</option>
+                    <option value="1">38</option>
+                    <option value="2">40</option>
+                    <option value="3">42</option>
+                    <option value="4">44</option>
+                    <option value="5">46</option>
+                    <option value="6">48</option>
                 </select>
-                <label for="floatingSelect">Beden</label>
-                <br />
+                <label for="bedenSelect">Beden</label>
             </div>
-            <div class="form-floating">
-                <select class="form-select" id="floatingSelect" aria-label="Floating label select example">
+            <div class="form-floating mb-4">
+                <select class="form-select" id="renkSelect" aria-label="Renk Seçimi">
                     <option selected>Seçiniz</option>
-                    <option value="1">Taba</option>
-                    <option value="2">İndigo</option>
-                    <option value="3">Siyah</option>
+                    <option value="1">Siyah</option>
+                    <option value="2">Ekru</option>
+                    <option value="3">Taba</option>
                 </select>
-                <label for="floatingSelect">RENK</label>
+                <label for="renkSelect">Renk</label>
             </div>
             <hr />
 
-            <div class="btn-group" role="group" aria-label="Basic example">
-                <button type="button" class="btn btn-primary">Sepete Ekle</button>
-                <button type="button" class="btn btn-primary"> <a href="/home/Giris" class="card-link"><i class="fa-regular fa-heart"></i></a></button>
+            <div class="d-flex gap-3 mb-4">
+                <button onclick="addToCart(this, @Model.Id, '@Model.Ad.Replace("'", "\\'")', @Model.Fiyat.ToString("0.##", System.Globalization.CultureInfo.InvariantCulture), '@Model.Gorsel')" class="btn-geo py-3 px-5 fs-5 flex-grow-1" style="transition: all 0.3s;">
+                    Sepete Ekle
+                </button>
+                <button onclick="addToFavorites(this, @Model.Id, '@Model.Ad.Replace("'", "\\'")', @Model.Fiyat.ToString("0.##", System.Globalization.CultureInfo.InvariantCulture), '@Model.Gorsel')" class="btn-geo-outline py-3 px-4" style="transition: all 0.3s;">
+                    <i class="fa-regular fa-heart fs-4"></i>
+                </button>
             </div>
             <hr />
-            <h5>Ürün Açıklması</h5>
-            <p>
-                DESENLİ ZİNCİR DETAYLI KAP-
-                1.SINIF KREP KUMAŞTIR.
-                TAM KALIP KULLANDIĞINIZ BEDENİ TERCİH EDEBİLİRSİNİZ.
-                42-52 BEDEN ARALIĞIDIR.
-                BOY 120CM'DİR.
-                SİYAH-TABA-İNDİGO RENK SEÇENEĞİ VARDIR.
-                KARGO ÜCRETİ: 20TL
+            <h5>Ürün Açıklaması</h5>
+            <p class="text-muted">
+                @Model.Ad - 
+                Cemre Park kalitesiyle özenle üretilmiştir. 
+                Tam kalıp, kullandığınız bedeni tercih edebilirsiniz. 
+                Kumaş dokusu ve rahatlığıyla gün boyu şıklığınızı tamamlar. 
+                Güvenli ödeme ve hızlı kargo ile hemen sahip olun.
             </p>
-
         </div>
     </div>
-
 </div>
 
+@section Scripts {
+    <script>
+        function addToCart(btn, id, name, price, image) {
+            let originalHtml = btn.innerHTML;
+            btn.innerHTML = '<i class="fa-solid fa-check"></i> Eklendi';
+            btn.classList.add('bg-success', 'text-white', 'border-success');
+            
+            $.post('/Cart/AddToCart', { id: id, name: name, price: price, image: image }, function (data) {
+                if (data.success) {
+                    if ($('#cart-count').length) {
+                        $('#cart-count').text(data.cartCount);
+                    }
+                    setTimeout(() => {
+                        btn.innerHTML = originalHtml;
+                        btn.classList.remove('bg-success', 'text-white', 'border-success');
+                    }, 2000);
+                }
+            });
+        }
+
+        function addToFavorites(btn, id, name, price, image) {
+            btn.innerHTML = '<i class="fa-solid fa-heart text-danger fs-4"></i>';
+            btn.classList.add('border-danger');
+            
+            $.post('/Cart/AddToFavorites', { id: id, name: name, price: price, image: image }, function (data) {
+                // Background success
+            });
+        }
+    </script>
+}
