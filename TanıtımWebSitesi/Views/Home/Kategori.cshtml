@@ -20,11 +20,11 @@
                                 <img src="@urun.Gorsel" alt="@urun.Ad" onerror="this.src='/assets/siteimg/hero_hijab_tunic.png'">
                             </div>
                         </a>
-                        <div class="geo-card-body text-center d-flex flex-column">
-                            <a href="/Home/urundetay/@urun.Id" class="text-decoration-none text-white">
-                                <h5 class="mb-2">@urun.Ad</h5>
+                        <div class="geo-card-body text-center d-flex flex-column p-3">
+                            <a href="/Home/urundetay/@urun.Id" class="text-decoration-none text-dark d-block" style="min-height: 48px; display: flex; align-items: center; justify-content: center;">
+                                <h5 class="mb-2" style="font-size: 1.05rem; font-weight: 600; line-height: 1.4;">@urun.Ad</h5>
                             </a>
-                            <div class="geo-price mb-3">@urun.Fiyat.ToString("N2") TL</div>
+                            <div class="geo-price mb-3" style="color: #E11C8E; font-size: 1.1rem; font-weight: 700;">@urun.Fiyat.ToString("N2") TL</div>
                             
                             <div class="mt-auto d-flex justify-content-center gap-2">
                                 <button onclick="addToCart(this, @urun.Id, '@urun.Ad.Replace("'", "\\'")', @urun.Fiyat.ToString("0.##", System.Globalization.CultureInfo.InvariantCulture), '@urun.Gorsel')" class="btn-geo w-75 py-2" style="font-size: 0.85rem; transition: all 0.3s;">
