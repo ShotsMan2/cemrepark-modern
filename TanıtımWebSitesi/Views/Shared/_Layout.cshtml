@@ -263,11 +263,24 @@
             </div>
         </div>
 
-        <!-- Logo Bölümü -->
-        <div class="cp-logo-bar text-center py-3">
-            <a href="/home/index/">
-                <img src="/assets/siteimg/cemre park.png?v=4" alt="CemrePark Logo" class="cp-logo" />
-            </a>
+        <!-- Logo ve Arama Bölümü -->
+        <div class="cp-logo-bar py-3">
+            <div class="container-fluid d-flex justify-content-center align-items-center flex-column flex-md-row px-lg-5" style="gap: 5rem;">
+                <!-- Logo -->
+                <a href="/home/index/">
+                    <img src="/assets/siteimg/cemre park.png?v=4" alt="CemrePark Logo" class="cp-logo" />
+                </a>
+                
+                <!-- Arama Çubuğu (Desktop & Mobile) -->
+                <div class="header-search" style="width: 100%; max-width: 500px;">
+                    <form action="/Home/Search" method="get" class="d-flex position-relative">
+                        <input type="text" name="q" class="form-control rounded-pill bg-dark text-white border-secondary ps-4 pe-5 py-2" placeholder="Ne aramıştınız? (Örn: Tunik, Elbise)">
+                        <button type="submit" class="btn position-absolute end-0 top-0 h-100 px-4 text-white rounded-pill" style="background: transparent;">
+                            <i class="fa-solid fa-magnifying-glass"></i>
+                        </button>
+                    </form>
+                </div>
+            </div>
         </div>
     </header>
 
