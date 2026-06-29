@@ -3,9 +3,10 @@ import { useState } from "react";
 import Image from "next/image";
 import Swal from "sweetalert2";
 import { useStore } from "../../../context/StoreContext";
+import FavoriteButton from "../../../components/FavoriteButton";
 
 export default function ProductDetailsClient({ product }) {
-  const { addToCart, addToFavorites } = useStore();
+  const { addToCart } = useStore();
   const [beden, setBeden] = useState("");
   const [renk, setRenk] = useState("");
 
@@ -43,25 +44,6 @@ export default function ProductDetailsClient({ product }) {
       iconColor: '#ff007f',
       customClass: {
         popup: 'border border-neon-pink backdrop-blur-md rounded-xl'
-      }
-    });
-  };
-
-  const handleAddToFavorites = () => {
-    addToFavorites(product);
-    Swal.fire({
-      toast: true,
-      position: 'bottom-end',
-      showConfirmButton: false,
-      timer: 3000,
-      icon: 'success',
-      title: 'Favorilere Eklendi!',
-      text: product.ad + ' favorilerinize kaydedildi.',
-      background: 'rgba(10, 10, 10, 0.9)',
-      color: '#fff',
-      iconColor: '#ffd700',
-      customClass: {
-        popup: 'border border-holo-gold backdrop-blur-md rounded-xl'
       }
     });
   };
@@ -145,9 +127,7 @@ export default function ProductDetailsClient({ product }) {
               <button onClick={handleAddToCart} className="flex-1 bg-transparent border border-neon-pink text-neon-pink hover:bg-neon-pink hover:text-white py-4 px-8 uppercase font-bold tracking-widest transition-all duration-300 clip-angled text-sm">
                 Sepete Ekle
               </button>
-              <button onClick={handleAddToFavorites} className="w-16 flex items-center justify-center border border-gray-700 text-gray-400 hover:text-holo-gold hover:border-holo-gold transition-all duration-300 clip-angled">
-                <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"></path></svg>
-              </button>
+              <FavoriteButton product={product} className="w-16 flex items-center justify-center border border-gray-700 hover:border-neon-pink transition-all duration-300 clip-angled" />
             </div>
 
             <div className="h-px w-full bg-white/10 mb-8"></div>

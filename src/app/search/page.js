@@ -17,12 +17,16 @@ export default async function SearchPage({ searchParams }) {
       <div className="container mx-auto px-4 relative z-10">
         
         {/* Search Header */}
-        <div className="text-center mb-16 glass-panel p-8 clip-angled max-w-4xl mx-auto">
-          <h1 className="text-3xl md:text-4xl font-black text-white mb-4 uppercase tracking-widest">
-            Arama Sonuçları: <span className="text-glow-pink">"{query}"</span>
+        <div className="glass-panel p-8 clip-angled mb-12 text-center">
+          <h1 className="text-3xl md:text-5xl font-black mb-4 uppercase tracking-widest text-white">
+            {query ? (
+              <>Arama Sonuçları: <span className="text-neon-pink">"{query}"</span></>
+            ) : (
+              "Koleksiyon"
+            )}
           </h1>
           <p className="text-gray-400">
-            Toplam <span className="text-white font-bold">{results.length}</span> ürün bulundu.
+            Toplam <strong className="text-white">{results.length}</strong> ürün bulunuyor.
           </p>
         </div>
 

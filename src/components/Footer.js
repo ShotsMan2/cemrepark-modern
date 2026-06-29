@@ -75,8 +75,8 @@ export default function Footer() {
             © {new Date().getFullYear()} Cemre Park. Tüm hakları saklıdır.
           </p>
           <div className="flex gap-4">
-            <Image src="/images/visa.png" alt="Visa" width={40} height={25} className="opacity-50 grayscale hover:opacity-100 hover:grayscale-0 transition-all" />
-            <Image src="/images/mastercard.png" alt="Mastercard" width={40} height={25} className="opacity-50 grayscale hover:opacity-100 hover:grayscale-0 transition-all" />
+            <Image src="/assets/img/credit/visa.png" alt="Visa" width={40} height={25} className="opacity-50 grayscale hover:opacity-100 hover:grayscale-0 transition-all" />
+            <Image src="/assets/img/credit/mastercard.png" alt="Mastercard" width={40} height={25} className="opacity-50 grayscale hover:opacity-100 hover:grayscale-0 transition-all" />
           </div>
         </div>
       </div>

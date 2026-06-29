@@ -42,9 +42,9 @@ export default function FavoriteButton({ product, className }) {
         title: 'Favorilere Eklendi!',
         background: 'rgba(10, 10, 10, 0.9)',
         color: '#fff',
-        iconColor: '#ffd700',
+        iconColor: '#ff007f',
         customClass: {
-          popup: 'border border-holo-gold backdrop-blur-md rounded-xl'
+          popup: 'border border-neon-pink backdrop-blur-md rounded-xl'
         }
       });
     }
@@ -53,7 +53,7 @@ export default function FavoriteButton({ product, className }) {
   return (
     <button 
       onClick={toggleFavorite} 
-      className={`transition-colors relative z-20 ${isFavorite ? 'text-holo-gold' : 'text-gray-500 hover:text-white'} ${className || ''}`}
+      className={`transition-colors relative z-20 ${isFavorite ? 'text-neon-pink' : 'text-gray-500 hover:text-white'} ${className || ''}`}
       title={isFavorite ? "Favorilerden Çıkar" : "Favorilere Ekle"}
     >
       <svg width="24" height="24" viewBox="0 0 24 24" fill={isFavorite ? "currentColor" : "none"} stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
