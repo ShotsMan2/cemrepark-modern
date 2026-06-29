@@ -15,8 +15,8 @@ const jost = Jost({ subsets: ["latin"], variable: "--font-jost" });
 const marcellus = Marcellus({ weight: "400", subsets: ["latin"], variable: "--font-marcellus" });
 
 export const metadata = {
-  title: "Cemre Park - TesettÃ¼r Giyimde ÅžÄ±klÄ±k ve Kalite",
-  description: "Cemre Park online maÄŸaza",
+  title: "Cemre Park - Size çok yakışıcak! 💫",
+  description: "Cemre Park Online Mağaza",
 };
 
 export default function RootLayout({ children }) {

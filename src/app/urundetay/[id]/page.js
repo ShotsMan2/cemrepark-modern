@@ -1,6 +1,8 @@
 import { getProductById } from "../../../data/products";
 import ProductDetailsClient from "./ProductDetailsClient";
 
+export const dynamic = 'force-dynamic';
+
 export default async function UrunDetay({ params }) {
   const { id } = await params;
   const product = getProductById(id);

@@ -1,9 +1,12 @@
 import Image from "next/image";
 import Link from "next/link";
-import { products } from "../data/products";
+import { getProducts } from "../data/products";
 import FavoriteButton from "../components/FavoriteButton";
 
+export const dynamic = 'force-dynamic';
+
 export default function Home() {
+  const products = getProducts();
   const bestSellers = products.slice(0, 4);
   const discounted = products.slice(4, 8);
 
@@ -22,10 +25,10 @@ export default function Home() {
             <div className="w-full md:w-1/2" data-aos="fade-right">
               <h2 className="text-holo-gold tracking-[0.3em] text-sm uppercase mb-4 font-bold">YENİ SEZON KOLEKSİYONU</h2>
               <h1 className="text-5xl md:text-7xl font-black mb-6 leading-tight text-glow-pink">
-                TESETTÜR GİYİMDE <br/> ŞIKLIK
+                Size çok <br/> yakışıcak! 💫
               </h1>
               <p className="text-gray-400 text-lg md:text-xl mb-10 max-w-lg font-light leading-relaxed">
-                Size çok yakışacak! En trend tesettür takım, kap ve tunik modelleriyle tarzınızı yeniden keşfedin. Havale, EFT veya Kapıda Nakit/Kredi Kartı ile güvenle alışveriş yapın.
+                En trend tesettür takım, kap ve tunik modelleriyle tarzınızı yeniden keşfedin. Havale, EFT veya Kapıda Nakit/Kredi Kartı ile güvenle alışveriş yapın.
               </p>
               
               <div className="flex gap-6">
@@ -76,40 +79,30 @@ export default function Home() {
 
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8">
             {bestSellers.map((product, index) => (
-              <div key={product.id} className="glass-card group relative" data-aos="fade-up" data-aos-delay={index * 150}>
-                {/* Floating Tags */}
-                <div className="absolute top-4 left-4 z-20">
-                  <span className="glass-panel px-3 py-1 text-xs text-white uppercase tracking-wider clip-angled">
-                    Yeni
-                  </span>
+              <div key={product.id} className="glass-panel p-4 clip-angled group hover:border-neon-pink transition-colors relative" data-aos="fade-up" data-aos-delay={index * 150}>
+                <div className="relative aspect-[3/4] mb-4 overflow-hidden clip-angled">
+                  {product.etiket && (
+                    <div className="absolute top-3 left-3 z-20 bg-neon-pink text-white text-[10px] font-bold px-2 py-1 uppercase tracking-wider">
+                      {product.etiket}
+                    </div>
+                  )}
+                  
+                  <Image src={product.gorsel || product.resim1} alt={product.ad} fill className="object-cover transition-transform duration-700 group-hover:scale-110" />
+                  
+                  <Link href={`/urundetay/${product.id}`} className="absolute inset-0 z-20">
+                    <div className="absolute inset-0 bg-black/40 opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex items-center justify-center">
+                      <span className="border border-white text-white px-6 py-2 uppercase tracking-widest hover:bg-white hover:text-black transition-colors">
+                        İncele
+                      </span>
+                    </div>
+                  </Link>
                 </div>
-
-                <Link href={`/urundetay/${product.id}`} className="block relative h-96 w-full clip-angled overflow-hidden m-2 rounded-t-lg group-hover:shadow-[0_0_20px_rgba(255,0,127,0.3)] transition-shadow duration-300">
-                  <Image 
-                    src={product.gorsel} 
-                    alt={product.ad}
-                    fill
-                    className="object-cover group-hover:scale-110 transition-transform duration-500 opacity-90 group-hover:opacity-100"
-                  />
-                  {/* Glass overlay on hover */}
-                  <div className="absolute inset-0 bg-black/40 opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex items-center justify-center">
-                    <span className="border border-white/50 text-white px-6 py-2 uppercase tracking-widest text-sm backdrop-blur-sm">İncele</span>
-                  </div>
-                </Link>
-
-                <div className="p-6">
-                  <h3 className="text-gray-300 font-medium text-lg mb-2 truncate group-hover:text-neon-pink transition-colors">
-                    {product.ad}
-                  </h3>
-                  <div className="flex justify-between items-center">
-                    <span className="text-glow-gold font-bold text-xl">
-                      {product.fiyat.toLocaleString('tr-TR', { minimumFractionDigits: 2 })} TL
-                    </span>
-                    <FavoriteButton product={product} />
-                  </div>
+                
+                <h3 className="font-bold text-gray-200 group-hover:text-holo-gold transition-colors mb-1 truncate">{product.ad}</h3>
+                <div className="flex justify-between items-center">
+                  <span className="text-white font-bold">{product.fiyat.toLocaleString('tr-TR', { minimumFractionDigits: 2 })} TL</span>
+                  <FavoriteButton product={product} className="relative z-30" />
                 </div>
-                {/* Invisible link overlay for the whole card */}
-                <Link href={`/urundetay/${product.id}`} className="absolute inset-0 z-10"></Link>
               </div>
             ))}
           </div>

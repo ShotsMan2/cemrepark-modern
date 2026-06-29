@@ -2,9 +2,11 @@
 import { useState, useEffect } from "react";
 import Link from "next/link";
 import Image from "next/image";
+import { usePathname } from "next/navigation";
 import { useStore } from "../context/StoreContext";
 
 export default function Header() {
+  const pathname = usePathname();
   const [isSearchOpen, setIsSearchOpen] = useState(false);
   const { cartItems, favoriteItems, isLoaded } = useStore();
 
@@ -16,6 +18,8 @@ export default function Header() {
     window.addEventListener('keydown', handleEsc);
     return () => window.removeEventListener('keydown', handleEsc);
   }, []);
+
+  if (pathname.startsWith("/admin")) return null;
 
   return (
     <>
@@ -34,11 +38,13 @@ export default function Header() {
           </Link>
 
           {/* Desktop Menu */}
-          <div className="hidden lg:flex items-center gap-8">
-            <Link href="/" className="text-gray-300 hover:text-neon-pink text-sm uppercase tracking-widest transition-colors font-medium">Anasayfa</Link>
-            <Link href="/search" className="text-gray-300 hover:text-neon-pink text-sm uppercase tracking-widest transition-colors font-medium">Koleksiyon</Link>
-            <Link href="/search?q=Kaban" className="text-gray-300 hover:text-neon-pink text-sm uppercase tracking-widest transition-colors font-medium">Kap & Kaban</Link>
-            <Link href="#contact" className="text-gray-300 hover:text-neon-pink text-sm uppercase tracking-widest transition-colors font-medium">İletişim</Link>
+          <div className="hidden lg:flex items-center gap-6">
+            <Link href="/search" className="text-gray-300 hover:text-neon-pink text-sm uppercase tracking-widest transition-colors font-medium">Tüm Ürünler</Link>
+            <Link href="/search?q=Takım" className="text-gray-300 hover:text-neon-pink text-sm uppercase tracking-widest transition-colors font-medium">Takım</Link>
+            <Link href="/search?q=Tunik" className="text-gray-300 hover:text-neon-pink text-sm uppercase tracking-widest transition-colors font-medium">Tunik</Link>
+            <Link href="/search?q=Ceket" className="text-gray-300 hover:text-neon-pink text-sm uppercase tracking-widest transition-colors font-medium">Ceket</Link>
+            <Link href="/search?q=Elbise" className="text-gray-300 hover:text-neon-pink text-sm uppercase tracking-widest transition-colors font-medium">Elbise</Link>
+            <Link href="/search?q=Pantolon" className="text-gray-300 hover:text-neon-pink text-sm uppercase tracking-widest transition-colors font-medium">Pantolon</Link>
           </div>
 
           {/* Right Actions */}

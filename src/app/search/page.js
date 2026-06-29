@@ -3,6 +3,8 @@ import Link from "next/link";
 import { searchProducts } from "../../data/products";
 import FavoriteButton from "../../components/FavoriteButton";
 
+export const dynamic = 'force-dynamic';
+
 export default async function SearchPage({ searchParams }) {
   const resolvedParams = await searchParams;
   const query = resolvedParams.q || "";
@@ -20,7 +22,7 @@ export default async function SearchPage({ searchParams }) {
         <div className="glass-panel p-8 clip-angled mb-12 text-center">
           <h1 className="text-3xl md:text-5xl font-black mb-4 uppercase tracking-widest text-white">
             {query ? (
-              <>Arama Sonuçları: <span className="text-neon-pink">"{query}"</span></>
+              <span className="text-neon-pink">{query}</span>
             ) : (
               "Koleksiyon"
             )}
