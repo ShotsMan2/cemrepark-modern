@@ -1,4 +1,4 @@
-/* 2031 Geometrik ve Fütüristik Tesettür Giyim Teması */
+﻿/* 2031 Geometrik ve Fütüristik Tesettür Giyim Teması */
 @import url('https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;700&family=Space+Grotesk:wght@300;500;700&display=swap');
 
 :root {
@@ -315,7 +315,7 @@ h1, h2, h3, h4, h5, h6, .navbar-brand {
 .geo-footer {
     background-color: #1a1e23 !important;
     color: #ccc !important;
-    padding: 4rem 0 2rem;
+    padding: 4rem 0 0; margin-bottom: 0 !important;
     clip-path: polygon(0 10%, 100% 0, 100% 100%, 0 100%);
     margin-top: 4rem;
 }
@@ -504,7 +504,7 @@ h1, h2, h3, h4, h5, h6, .navbar-brand {
 }
 
 
-/* Masa�st� Hover Dropdown */
+/* Masa�st� Hover Dropdown */
 @media (min-width: 992px) {
     .dropdown:hover .dropdown-menu {
         display: block;

@@ -44,6 +44,23 @@ namespace TanıtımWebSitesi.Controllers
             return View(filteredProducts);
         }
 
+        public IActionResult Search(string q)
+        {
+            ViewBag.SearchQuery = q;
+            var allProducts = GetShopierProducts();
+            
+            if (string.IsNullOrWhiteSpace(q))
+            {
+                return View(allProducts);
+            }
+
+            var filteredProducts = allProducts
+                .Where(x => x.Ad.Contains(q, StringComparison.OrdinalIgnoreCase))
+                .ToList();
+
+            return View(filteredProducts);
+        }
+
         private List<TanıtımWebSitesi.Models.Admin.Aurun> GetShopierProducts()
         {
             return new List<TanıtımWebSitesi.Models.Admin.Aurun>
@@ -131,6 +148,7 @@ namespace TanıtımWebSitesi.Controllers
                     if (sifre == "0852" && eposta == "uysalselimefe@gmail.com")
                     {
                         _sessionService.SetString("giris", "uysalselimefe@gmail.com");
+                        return RedirectToAction("KategoriListele", "Admin");
                     }
                     else
                     {
