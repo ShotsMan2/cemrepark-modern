@@ -10,6 +10,9 @@ export default function ProductDetailsClient({ product }) {
   const [beden, setBeden] = useState("");
   const [renk, setRenk] = useState("");
 
+  const bedenList = product.beden ? product.beden.split(",").map(s => s.trim()) : ["Standart"];
+  const renkList = product.renk ? product.renk.split(",").map(s => s.trim()) : ["Standart"];
+
   const handleAddToCart = () => {
     if (!beden || !renk) {
       Swal.fire({
@@ -94,12 +97,9 @@ export default function ProductDetailsClient({ product }) {
                 <div className="relative">
                   <select value={beden} onChange={(e) => setBeden(e.target.value)} className="block appearance-none w-full bg-black border border-gray-700 text-white py-3 px-4 pr-8 rounded-none leading-tight focus:outline-none focus:border-neon-pink transition-colors">
                     <option value="" disabled>Beden Seçiniz</option>
-                    <option value="38">38</option>
-                    <option value="40">40</option>
-                    <option value="42">42</option>
-                    <option value="44">44</option>
-                    <option value="46">46</option>
-                    <option value="48">48</option>
+                    {bedenList.map(b => (
+                      <option key={b} value={b}>{b}</option>
+                    ))}
                   </select>
                   <div className="pointer-events-none absolute inset-y-0 right-0 flex items-center px-4 text-gray-500">
                     <svg className="fill-current h-4 w-4" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20"><path d="M9.293 12.95l.707.707L15.657 8l-1.414-1.414L10 10.828 5.757 6.586 4.343 8z"/></svg>
@@ -112,9 +112,9 @@ export default function ProductDetailsClient({ product }) {
                 <div className="relative">
                   <select value={renk} onChange={(e) => setRenk(e.target.value)} className="block appearance-none w-full bg-black border border-gray-700 text-white py-3 px-4 pr-8 rounded-none leading-tight focus:outline-none focus:border-holo-gold transition-colors">
                     <option value="" disabled>Renk Seçiniz</option>
-                    <option value="Siyah">Siyah</option>
-                    <option value="Ekru">Ekru</option>
-                    <option value="Taba">Taba</option>
+                    {renkList.map(r => (
+                      <option key={r} value={r}>{r}</option>
+                    ))}
                   </select>
                   <div className="pointer-events-none absolute inset-y-0 right-0 flex items-center px-4 text-gray-500">
                     <svg className="fill-current h-4 w-4" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20"><path d="M9.293 12.95l.707.707L15.657 8l-1.414-1.414L10 10.828 5.757 6.586 4.343 8z"/></svg>
