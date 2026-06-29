@@ -33,11 +33,11 @@ export default function RootLayout({ children }) {
           <Footer />
         </StoreProvider>
         
-        <Script src="https://code.jquery.com/jquery-3.7.1.min.js" strategy="beforeInteractive" />
+        <Script src="https://code.jquery.com/jquery-3.7.1.min.js" strategy="afterInteractive" />
         <Script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js" strategy="afterInteractive" />
         <Script src="https://cdn.jsdelivr.net/npm/sweetalert2@11" strategy="afterInteractive" />
-        <Script src="https://cdn.jsdelivr.net/npm/swiper@9/swiper-bundle.min.js" strategy="beforeInteractive" />
-        <Script src="https://unpkg.com/aos@2.3.1/dist/aos.js" strategy="beforeInteractive" />
+        <Script src="https://cdn.jsdelivr.net/npm/swiper@9/swiper-bundle.min.js" strategy="afterInteractive" />
+        <Script src="https://unpkg.com/aos@2.3.1/dist/aos.js" strategy="afterInteractive" />
         <Script src="/js/plugins.js" strategy="afterInteractive" />
         <Script src="/js/SmoothScroll.js" strategy="afterInteractive" />
         <Script src="/js/script.min.js" strategy="afterInteractive" />

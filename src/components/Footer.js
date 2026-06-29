@@ -49,14 +49,15 @@ export default function Footer() {
             </ul>
           </div>
 
-          {/* Müşteri Hizmetleri */}
+          {/* Müşteri Hizmetleri & Kurumsal */}
           <div>
-            <h4 className="text-white font-bold uppercase tracking-wider mb-6 text-sm">Hizmetler</h4>
+            <h4 className="text-white font-bold uppercase tracking-wider mb-6 text-sm">Kurumsal</h4>
             <ul className="space-y-3">
-              <li><Link href="#" className="text-gray-400 hover:text-white text-sm transition-colors">Bize Ulaşın</Link></li>
-              <li><Link href="#" className="text-gray-400 hover:text-white text-sm transition-colors">Sıkça Sorulan Sorular</Link></li>
-              <li><Link href="#" className="text-gray-400 hover:text-white text-sm transition-colors">İade ve Değişim</Link></li>
-              <li><Link href="#" className="text-gray-400 hover:text-white text-sm transition-colors">Kargo Takip</Link></li>
+              <li><Link href="/kurumsal/hakkimizda" className="text-gray-400 hover:text-white text-sm transition-colors">Hakkımızda</Link></li>
+              <li><Link href="/kurumsal/iletisim" className="text-gray-400 hover:text-white text-sm transition-colors">İletişim</Link></li>
+              <li><Link href="/kurumsal/sozlesmeler" className="text-gray-400 hover:text-white text-sm transition-colors">Mesafeli Satış Sözleşmesi</Link></li>
+              <li><Link href="/kurumsal/sozlesmeler" className="text-gray-400 hover:text-white text-sm transition-colors">İade ve Değişim Koşulları</Link></li>
+              <li><Link href="/kurumsal/sozlesmeler" className="text-gray-400 hover:text-white text-sm transition-colors">Gizlilik Politikası</Link></li>
             </ul>
           </div>
 
@@ -77,11 +78,14 @@ export default function Footer() {
         {/* Alt Bilgi */}
         <div className="pt-8 border-t border-white/10 flex flex-col md:flex-row justify-between items-center gap-4">
           <p className="text-gray-600 text-xs">
-            © {new Date().getFullYear()} Cemre Park. Tüm hakları saklıdır.
+            © {new Date().getFullYear()} Cemre Park. Tüm hakları saklıdır. Yüksek Güvenlikli Ödeme Altyapısı.
           </p>
-          <div className="flex gap-4">
-            <Image src="/assets/img/credit/visa.png" alt="Visa" width={40} height={25} className="opacity-50 grayscale hover:opacity-100 hover:grayscale-0 transition-all" />
-            <Image src="/assets/img/credit/mastercard.png" alt="Mastercard" width={40} height={25} className="opacity-50 grayscale hover:opacity-100 hover:grayscale-0 transition-all" />
+          <div className="flex gap-4 items-center">
+            <span className="text-xs text-gray-500 font-bold uppercase tracking-widest mr-2">100% Güvenli</span>
+            {/* Using text badges if images are missing */}
+            <div className="px-2 py-1 border border-white/20 text-[10px] text-white font-bold rounded">VISA</div>
+            <div className="px-2 py-1 border border-white/20 text-[10px] text-white font-bold rounded">MASTERCARD</div>
+            <div className="px-2 py-1 border border-white/20 text-[10px] text-white font-bold rounded">TROY</div>
           </div>
         </div>
       </div>
