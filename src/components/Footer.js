@@ -3,7 +3,7 @@ import Image from "next/image";
 
 export default function Footer() {
   return (
-    <footer className="relative bg-black pt-24 pb-12 border-t border-white/10 overflow-hidden">
+    <footer id="contact" className="relative bg-black pt-24 pb-12 border-t border-white/10 overflow-hidden">
       {/* Background Glow */}
       <div className="absolute bottom-0 left-1/2 -translate-x-1/2 w-full max-w-4xl h-64 bg-neon-pink opacity-[0.03] rounded-full blur-[100px] pointer-events-none"></div>
       

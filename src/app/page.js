@@ -1,6 +1,7 @@
 import Image from "next/image";
 import Link from "next/link";
 import { products } from "../data/products";
+import FavoriteButton from "../components/FavoriteButton";
 
 export default function Home() {
   const bestSellers = products.slice(0, 4);
@@ -83,7 +84,7 @@ export default function Home() {
                   </span>
                 </div>
 
-                <Link href={`/urundetay/${product.id}`} className="block relative h-96 w-full clip-angled overflow-hidden m-2 rounded-t-lg">
+                <Link href={`/urundetay/${product.id}`} className="block relative h-96 w-full clip-angled overflow-hidden m-2 rounded-t-lg group-hover:shadow-[0_0_20px_rgba(255,0,127,0.3)] transition-shadow duration-300">
                   <Image 
                     src={product.gorsel} 
                     alt={product.ad}
@@ -104,11 +105,11 @@ export default function Home() {
                     <span className="text-glow-gold font-bold text-xl">
                       {product.fiyat.toLocaleString('tr-TR', { minimumFractionDigits: 2 })} TL
                     </span>
-                    <button className="text-gray-500 hover:text-white transition-colors">
-                      <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"></path></svg>
-                    </button>
+                    <FavoriteButton product={product} />
                   </div>
                 </div>
+                {/* Invisible link overlay for the whole card */}
+                <Link href={`/urundetay/${product.id}`} className="absolute inset-0 z-10"></Link>
               </div>
             ))}
           </div>
