@@ -33,7 +33,7 @@ export default function Header() {
       <header className="w-full z-50 transition-all duration-300">
         {/* TOP BAR */}
         <div className="bg-[#111] border-b border-neon-pink text-gray-400 text-[11px] md:text-xs py-2 hidden md:block">
-          <div className="container mx-auto px-4 flex justify-between items-center">
+          <div className="w-full px-4 md:px-6 flex justify-between items-center">
             <div className="flex gap-4 items-center">
               <a href="https://wa.me/905541698909" className="flex items-center gap-1.5 hover:text-neon-pink transition-colors">
                 <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72 12.84 12.84 0 0 0 .7 2.81 2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45 12.84 12.84 0 0 0 2.81.7A2 2 0 0 1 22 16.92z"></path></svg>
@@ -46,7 +46,7 @@ export default function Header() {
               </a>
             </div>
             <div className="flex gap-4 items-center">
-              <a href="#" className="flex items-center gap-1.5 hover:text-white transition-colors">
+              <a href="https://www.shopier.com/CEMREPARKK" target="_blank" rel="noopener noreferrer" className="flex items-center gap-1.5 hover:text-white transition-colors">
                 <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M6 2L3 6v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2V6l-3-4z"></path><line x1="3" y1="6" x2="21" y2="6"></line><path d="M16 10a4 4 0 0 1-8 0"></path></svg>
                 Shopier Mağaza
               </a>
@@ -126,7 +126,9 @@ export default function Header() {
 
               <Link href="/search?q=Takım" className="text-gray-300 hover:text-neon-pink text-sm uppercase tracking-widest transition-colors font-medium">Takım</Link>
               <Link href="/search?q=Tunik" className="text-gray-300 hover:text-neon-pink text-sm uppercase tracking-widest transition-colors font-medium">Tunik</Link>
+              <Link href="/search?q=Ceket" className="text-gray-300 hover:text-neon-pink text-sm uppercase tracking-widest transition-colors font-medium">Ceket</Link>
               <Link href="/search?q=Elbise" className="text-gray-300 hover:text-neon-pink text-sm uppercase tracking-widest transition-colors font-medium">Elbise</Link>
+              <Link href="/search?q=Pantolon" className="text-gray-300 hover:text-neon-pink text-sm uppercase tracking-widest transition-colors font-medium">Pantolon</Link>
             </div>
 
             {/* Right Actions */}
@@ -167,6 +169,7 @@ export default function Header() {
           </button>
 
           <form role="search" method="get" className="relative group" action="/search">
+            <input type="hidden" name="type" value="search" />
             {/* Glowing underline effect */}
             <div className="absolute -bottom-0.5 left-0 w-full h-[2px] bg-gradient-to-r from-neon-pink to-holo-gold scale-x-0 group-hover:scale-x-100 transition-transform duration-500 origin-left"></div>
             

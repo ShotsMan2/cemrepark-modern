@@ -125,9 +125,18 @@ export default function CartPage() {
                   GÜVENLİ ÖDEME
                 </Link>
                 
-                <div className="mt-6 flex justify-center gap-4 text-gray-500">
-                  <svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1" strokeLinecap="round" strokeLinejoin="round"><rect x="1" y="4" width="22" height="16" rx="2" ry="2"></rect><line x1="1" y1="10" x2="23" y2="10"></line></svg>
-                  <svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1" strokeLinecap="round" strokeLinejoin="round"><rect x="2" y="5" width="20" height="14" rx="2"></rect><line x1="2" y1="10" x2="22" y2="10"></line></svg>
+                <div className="mt-6 flex justify-center gap-3">
+                  {/* Visa */}
+                  <div className="w-14 h-8 bg-white rounded flex items-center justify-center shadow">
+                    <span className="text-[#1434CB] font-black italic text-sm tracking-tighter">VISA</span>
+                  </div>
+                  {/* Mastercard */}
+                  <div className="w-14 h-8 bg-[#1a1a1a] border border-white/10 rounded flex items-center justify-center relative overflow-hidden shadow">
+                    <svg width="26" height="16" viewBox="0 0 32 20" fill="none">
+                      <circle cx="10" cy="10" r="10" fill="#EB001B" />
+                      <circle cx="22" cy="10" r="10" fill="#F79E1B" fillOpacity="0.8" />
+                    </svg>
+                  </div>
                 </div>
               </div>
             </div>

@@ -1,7 +1,9 @@
 import { notFound } from "next/navigation";
+import ContactForm from "../../../components/ContactForm";
 
-export default function KurumsalPage({ params }) {
-  const { slug } = params;
+export default async function KurumsalPage({ params }) {
+  const resolvedParams = await params;
+  const { slug } = resolvedParams;
 
   const contentMap = {
     hakkimizda: {
@@ -55,47 +57,38 @@ export default function KurumsalPage({ params }) {
             </div>
           </div>
           <div className="glass-panel p-8 clip-angled">
-            <form className="space-y-4">
-              <div>
-                <label className="block text-gray-400 text-xs font-bold mb-2 uppercase tracking-wider">Ad Soyad</label>
-                <input type="text" className="w-full bg-black/50 border border-white/10 text-white px-4 py-3 text-sm focus:border-neon-pink outline-none transition-colors" />
-              </div>
-              <div>
-                <label className="block text-gray-400 text-xs font-bold mb-2 uppercase tracking-wider">E-Posta</label>
-                <input type="email" className="w-full bg-black/50 border border-white/10 text-white px-4 py-3 text-sm focus:border-neon-pink outline-none transition-colors" />
-              </div>
-              <div>
-                <label className="block text-gray-400 text-xs font-bold mb-2 uppercase tracking-wider">Mesajınız</label>
-                <textarea rows="4" className="w-full bg-black/50 border border-white/10 text-white px-4 py-3 text-sm focus:border-neon-pink outline-none transition-colors"></textarea>
-              </div>
-              <button type="button" className="w-full bg-neon-pink text-white font-bold py-3 uppercase tracking-widest text-sm hover:bg-white hover:text-black transition-colors clip-angled">Gönder</button>
-            </form>
+            <ContactForm />
           </div>
         </div>
       )
     },
-    sozlesmeler: {
-      title: "Kurumsal Sözleşmeler",
+    "mesafeli-satis-sozlesmesi": {
+      title: "Mesafeli Satış Sözleşmesi",
       content: (
         <div className="space-y-8">
-          <div className="border-b border-white/10 pb-6">
-            <h3 className="text-holo-gold font-bold text-xl uppercase tracking-widest mb-4">Mesafeli Satış Sözleşmesi</h3>
-            <p className="text-gray-400 text-sm leading-relaxed">
-              İşbu Sözleşme, Alıcı'nın, Satıcı'ya ait cemrepark.com internet sitesinden elektronik ortamda siparişini yaptığı aşağıda nitelikleri ve satış ücreti belirtilen ürünün satışı ve teslimi ile ilgili olarak yürürlükteki yasal mevzuat gereğince tarafların hak ve yükümlülüklerini saptar.
-            </p>
-          </div>
-          <div className="border-b border-white/10 pb-6">
-            <h3 className="text-holo-gold font-bold text-xl uppercase tracking-widest mb-4">İade ve Değişim Koşulları</h3>
-            <p className="text-gray-400 text-sm leading-relaxed">
-              Satın almış olduğunuz ürünleri, kullanılmamış, etiketleri sökülmemiş ve tekrar satılabilir özelliğini kaybetmemiş olması şartıyla 14 gün içerisinde iade edebilir veya değiştirebilirsiniz. İade kargo bedelleri firmamız tarafından karşılanmaktadır.
-            </p>
-          </div>
-          <div className="border-b border-white/10 pb-6">
-            <h3 className="text-holo-gold font-bold text-xl uppercase tracking-widest mb-4">Gizlilik Politikası</h3>
-            <p className="text-gray-400 text-sm leading-relaxed">
-              Müşterilerimize ait kişisel bilgiler, en yüksek güvenlik standartlarında korunmakta olup, hiçbir şekilde üçüncü şahıslar veya firmalarla paylaşılmaz. SSL sertifikası ile korunan altyapımızda güvenle alışveriş yapabilirsiniz.
-            </p>
-          </div>
+          <p className="text-gray-400 text-sm leading-relaxed">
+            İşbu Sözleşme, Alıcı'nın, Satıcı'ya ait cemrepark.com internet sitesinden elektronik ortamda siparişini yaptığı aşağıda nitelikleri ve satış ücreti belirtilen ürünün satışı ve teslimi ile ilgili olarak yürürlükteki yasal mevzuat gereğince tarafların hak ve yükümlülüklerini saptar.
+          </p>
+        </div>
+      )
+    },
+    "iade-ve-degisim-kosullari": {
+      title: "İade ve Değişim Koşulları",
+      content: (
+        <div className="space-y-8">
+          <p className="text-gray-400 text-sm leading-relaxed">
+            Satın almış olduğunuz ürünleri, kullanılmamış, etiketleri sökülmemiş ve tekrar satılabilir özelliğini kaybetmemiş olması şartıyla 14 gün içerisinde iade edebilir veya değiştirebilirsiniz. İade kargo bedelleri firmamız tarafından karşılanmaktadır.
+          </p>
+        </div>
+      )
+    },
+    "gizlilik-politikasi": {
+      title: "Gizlilik Politikası",
+      content: (
+        <div className="space-y-8">
+          <p className="text-gray-400 text-sm leading-relaxed">
+            Müşterilerimize ait kişisel bilgiler, en yüksek güvenlik standartlarında korunmakta olup, hiçbir şekilde üçüncü şahıslar veya firmalarla paylaşılmaz. SSL sertifikası ile korunan altyapımızda güvenle alışveriş yapabilirsiniz.
+          </p>
         </div>
       )
     }

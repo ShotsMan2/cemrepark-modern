@@ -33,7 +33,7 @@ export default function Home() {
               </p>
               
               <div className="flex gap-6">
-                <Link href="#collection" className="glass-panel px-8 py-4 text-white font-medium uppercase tracking-wider hover:bg-neon-pink hover:border-neon-pink transition-all duration-300 clip-angled text-center inline-block">
+                <Link href="/search" className="glass-panel px-8 py-4 text-white font-medium uppercase tracking-wider hover:bg-neon-pink hover:border-neon-pink transition-all duration-300 clip-angled text-center inline-block">
                   Koleksiyonu Keşfet
                 </Link>
                 <SearchTrigger />
