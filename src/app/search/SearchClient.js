@@ -175,7 +175,7 @@ export default function SearchClient({ initialResults, query, isSearch }) {
                     <Link href={`/urundetay/${product.id}`} className="block w-full h-full">
                       <Image 
                         src={product.gorsel} 
-                        alt={product.ad}
+                        alt={t(product.ad)}
                         fill
                         className="object-cover group-hover:scale-110 transition-transform duration-500 opacity-90 group-hover:opacity-100"
                       />
@@ -195,7 +195,7 @@ export default function SearchClient({ initialResults, query, isSearch }) {
                   <div className="p-6">
                     <Link href={`/urundetay/${product.id}`}>
                       <h3 className="text-gray-300 font-medium text-lg mb-2 truncate group-hover:text-neon-pink transition-colors">
-                        {product.ad}
+                        {t(product.ad)}
                       </h3>
                     </Link>
                     <div className="flex justify-between items-center">

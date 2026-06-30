@@ -84,13 +84,13 @@ export default function CheckoutPage() {
       setIsProcessing(false);
       if (typeof window !== "undefined" && window.Swal) {
         window.Swal.fire({
-          title: 'Ödeme Başarılı!',
-          text: 'Siparişiniz başarıyla alınmıştır. Bizi tercih ettiğiniz için teşekkür ederiz.',
+          title: t("order_success"),
+          text: t("order_success_desc"),
           icon: 'success',
           background: '#1a1a1a',
           color: '#fff',
           confirmButtonColor: '#ff007f',
-          confirmButtonText: 'Alışverişe Dön'
+          confirmButtonText: t("back_to_home")
         }).then(() => {
           if(clearCart) clearCart(); // Clear the cart context
           router.push("/");
@@ -107,7 +107,7 @@ export default function CheckoutPage() {
       <div className="absolute top-1/3 right-0 w-96 h-96 bg-neon-pink opacity-5 rounded-full blur-[100px] mix-blend-screen pointer-events-none"></div>
 
       <div className="container mx-auto px-4 relative z-10">
-        <h1 className="text-4xl md:text-5xl font-black mb-12 tracking-widest uppercase text-glow-pink text-center">GÜVENLİ ÖDEME</h1>
+        <h1 className="text-4xl md:text-5xl font-black mb-12 tracking-widest uppercase text-glow-pink text-center">{t("checkout_title")}</h1>
 
         <div className="flex flex-col lg:flex-row gap-12 max-w-5xl mx-auto">
           
@@ -117,28 +117,28 @@ export default function CheckoutPage() {
               
               {/* Teslimat Bilgileri */}
               <div className="glass-panel p-6 md:p-8 rounded-xl border border-white/5">
-                <h2 className="text-xl font-bold mb-6 text-holo-gold border-b border-white/10 pb-4">1. Teslimat Bilgileri</h2>
+                <h2 className="text-xl font-bold mb-6 text-holo-gold border-b border-white/10 pb-4">1. {t("shipping_info")}</h2>
                 
                 <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
                   <div>
-                    <label className="block text-sm text-gray-400 mb-2">Ad Soyad</label>
-                    <input required type="text" name="fullName" value={formData.fullName} onChange={handleInputChange} className="w-full bg-black/50 border border-white/10 rounded-lg p-3 text-white focus:outline-none focus:border-neon-pink transition-colors" placeholder="Adınız Soyadınız" />
+                    <label className="block text-sm text-gray-400 mb-2">{t("full_name")}</label>
+                    <input required type="text" name="fullName" value={formData.fullName} onChange={handleInputChange} className="w-full bg-black/50 border border-white/10 rounded-lg p-3 text-white focus:outline-none focus:border-neon-pink transition-colors" placeholder={t("full_name")} />
                   </div>
                   <div>
-                    <label className="block text-sm text-gray-400 mb-2">E-posta Adresi</label>
+                    <label className="block text-sm text-gray-400 mb-2">E-mail</label>
                     <input required type="email" name="email" value={formData.email} onChange={handleInputChange} className="w-full bg-black/50 border border-white/10 rounded-lg p-3 text-white focus:outline-none focus:border-neon-pink transition-colors" placeholder="ornek@email.com" />
                   </div>
                   <div>
-                    <label className="block text-sm text-gray-400 mb-2">Telefon Numarası</label>
+                    <label className="block text-sm text-gray-400 mb-2">{t("phone")}</label>
                     <input required type="tel" name="phone" value={formData.phone} onChange={handleInputChange} className="w-full bg-black/50 border border-white/10 rounded-lg p-3 text-white focus:outline-none focus:border-neon-pink transition-colors" placeholder="0 (5XX) XXX XX XX" />
                   </div>
                   <div>
-                    <label className="block text-sm text-gray-400 mb-2">İlçe / İl</label>
-                    <input required type="text" name="city" value={formData.city} onChange={handleInputChange} className="w-full bg-black/50 border border-white/10 rounded-lg p-3 text-white focus:outline-none focus:border-neon-pink transition-colors" placeholder="Örn: Kadıköy, İstanbul" />
+                    <label className="block text-sm text-gray-400 mb-2">{t("district")} / {t("city")}</label>
+                    <input required type="text" name="city" value={formData.city} onChange={handleInputChange} className="w-full bg-black/50 border border-white/10 rounded-lg p-3 text-white focus:outline-none focus:border-neon-pink transition-colors" placeholder={t("city")} />
                   </div>
                   <div className="md:col-span-2">
-                    <label className="block text-sm text-gray-400 mb-2">Açık Adres</label>
-                    <textarea required name="address" value={formData.address} onChange={handleInputChange} rows="3" className="w-full bg-black/50 border border-white/10 rounded-lg p-3 text-white focus:outline-none focus:border-neon-pink transition-colors resize-none" placeholder="Mahalle, sokak, bina, daire vb."></textarea>
+                    <label className="block text-sm text-gray-400 mb-2">{t("address")}</label>
+                    <textarea required name="address" value={formData.address} onChange={handleInputChange} rows="3" className="w-full bg-black/50 border border-white/10 rounded-lg p-3 text-white focus:outline-none focus:border-neon-pink transition-colors resize-none" placeholder={t("address")}></textarea>
                   </div>
                 </div>
               </div>
@@ -149,7 +149,7 @@ export default function CheckoutPage() {
                   <svg width="100" height="100" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1"><rect x="1" y="4" width="22" height="16" rx="2" ry="2"></rect><line x1="1" y1="10" x2="23" y2="10"></line></svg>
                 </div>
                 
-                <h2 className="text-xl font-bold mb-6 text-holo-gold border-b border-white/10 pb-4">2. Ödeme Bilgileri</h2>
+                <h2 className="text-xl font-bold mb-6 text-holo-gold border-b border-white/10 pb-4">2. {t("payment_info")}</h2>
                 
                 {/* Credit Card Mock Visual */}
                 <div className="w-full max-w-sm mx-auto mb-8 h-52 bg-gradient-to-br from-gray-900 to-black border border-white/10 rounded-xl p-6 flex flex-col justify-between shadow-2xl relative overflow-hidden">
@@ -163,23 +163,23 @@ export default function CheckoutPage() {
                       {formData.cardNumber || "•••• •••• •••• ••••"}
                     </div>
                     <div className="flex justify-between text-gray-400 text-sm uppercase">
-                      <span className="truncate max-w-[150px]">{formData.fullName || "AD SOYAD"}</span>
-                      <span>{formData.cardExpiry || "AA/YY"}</span>
+                      <span className="truncate max-w-[150px]">{formData.fullName || t("full_name")}</span>
+                      <span>{formData.cardExpiry || "MM/YY"}</span>
                     </div>
                   </div>
                 </div>
 
                 <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
                   <div className="md:col-span-2">
-                    <label className="block text-sm text-gray-400 mb-2">Kart Numarası</label>
+                    <label className="block text-sm text-gray-400 mb-2">{t("card_number")}</label>
                     <input required type="text" name="cardNumber" value={formData.cardNumber} onChange={handleInputChange} maxLength="19" className="w-full bg-black/50 border border-white/10 rounded-lg p-3 text-white font-mono focus:outline-none focus:border-neon-pink transition-colors" placeholder="0000 0000 0000 0000" />
                   </div>
                   <div>
-                    <label className="block text-sm text-gray-400 mb-2">Son Kullanma (AA/YY)</label>
-                    <input required type="text" name="cardExpiry" value={formData.cardExpiry} onChange={handleInputChange} maxLength="5" className="w-full bg-black/50 border border-white/10 rounded-lg p-3 text-white font-mono focus:outline-none focus:border-neon-pink transition-colors" placeholder="AA/YY" />
+                    <label className="block text-sm text-gray-400 mb-2">{t("expiry")}</label>
+                    <input required type="text" name="cardExpiry" value={formData.cardExpiry} onChange={handleInputChange} maxLength="5" className="w-full bg-black/50 border border-white/10 rounded-lg p-3 text-white font-mono focus:outline-none focus:border-neon-pink transition-colors" placeholder="MM/YY" />
                   </div>
                   <div>
-                    <label className="block text-sm text-gray-400 mb-2">CVV</label>
+                    <label className="block text-sm text-gray-400 mb-2">{t("cvv")}</label>
                     <input required type="text" name="cardCvv" value={formData.cardCvv} onChange={handleInputChange} maxLength="3" className="w-full bg-black/50 border border-white/10 rounded-lg p-3 text-white font-mono focus:outline-none focus:border-neon-pink transition-colors" placeholder="***" />
                   </div>
                 </div>
@@ -196,19 +196,19 @@ export default function CheckoutPage() {
                       <circle className="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="4"></circle>
                       <path className="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path>
                     </svg>
-                    İşleniyor...
+                    {t("processing")}
                   </>
                 ) : (
                   <>
                     <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2"><rect x="3" y="11" width="18" height="11" rx="2" ry="2"></rect><path d="M7 11V7a5 5 0 0 1 10 0v4"></path></svg>
-                    <span>{formatPrice(totalAmount)}</span> {t("checkout")}
+                    <span>{formatPrice(totalAmount)}</span> {t("complete_order")}
                   </>
                 )}
               </button>
 
               <div className="flex items-center justify-center gap-2 text-gray-500 text-xs">
                 <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2"><rect x="3" y="11" width="18" height="11" rx="2" ry="2"></rect><path d="M7 11V7a5 5 0 0 1 10 0v4"></path></svg>
-                256-bit SSL sertifikası ile ödemeniz güvence altındadır.
+                {t("ssl_guarantee")}
               </div>
             </form>
           </div>
@@ -216,7 +216,7 @@ export default function CheckoutPage() {
           {/* RIGHT: ORDER SUMMARY */}
           <div className="w-full lg:w-1/3">
             <div className="glass-panel p-6 md:p-8 border border-white/5 sticky top-32">
-              <h2 className="text-xl font-bold mb-6 text-white uppercase tracking-widest border-b border-white/10 pb-4">Sipariş Özeti</h2>
+              <h2 className="text-xl font-bold mb-6 text-white uppercase tracking-widest border-b border-white/10 pb-4">{t("order_summary")}</h2>
               
               <div className="space-y-4 mb-6 max-h-[300px] overflow-y-auto pr-2 custom-scrollbar">
                 {cartItems.map((item, index) => (
@@ -225,8 +225,8 @@ export default function CheckoutPage() {
                       <Image src={item.gorsel || "/assets/siteimg/placeholder.jpg"} alt={item.ad} fill className="object-cover" />
                     </div>
                     <div className="flex-1 min-w-0">
-                      <h4 className="text-sm font-bold text-white truncate">{item.ad}</h4>
-                      <p className="text-xs text-gray-400 mt-1">Beden: {item.beden} | Renk: {item.renk}</p>
+                      <h4 className="text-sm font-bold text-white truncate">{t(item.ad)}</h4>
+                      <p className="text-xs text-gray-400 mt-1">{t("size")}: {item.beden} | {t("color")}: {item.renk}</p>
                       <p className="text-xs text-neon-pink font-bold mt-1">{item.quantity} x {formatPrice(item.fiyat)}</p>
                     </div>
                   </div>

@@ -58,8 +58,8 @@ export default function QuickViewModal({ product, onClose }) {
         </div>
         
         <div className="w-full md:w-1/2 p-8 flex flex-col justify-center">
-          <span className="text-neon-pink text-xs font-bold uppercase tracking-widest mb-2 block">{product.kategori || t("collection")}</span>
-          <h2 className="text-3xl font-black text-white uppercase tracking-widest mb-4">{product.ad}</h2>
+          <span className="text-neon-pink text-xs font-bold uppercase tracking-widest mb-2 block">{t(product.kategori) || t("collection")}</span>
+          <h2 className="text-3xl font-black text-white uppercase tracking-widest mb-4">{t(product.ad)}</h2>
           <div className="text-3xl font-bold text-holo-gold mb-8">{formatPrice(product.fiyat)}</div>
           
           <p className="text-gray-400 text-sm mb-8 leading-relaxed">

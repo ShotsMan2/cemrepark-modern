@@ -17,15 +17,15 @@ export default function CartPage() {
       <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[600px] h-[600px] bg-neon-pink opacity-[0.03] rounded-full blur-[120px] pointer-events-none"></div>
 
       <div className="container mx-auto px-4 relative z-10">
-        <h1 className="text-3xl md:text-5xl font-black mb-12 text-glow-pink uppercase tracking-widest text-center">Alışveriş Sepetim</h1>
+        <h1 className="text-3xl md:text-5xl font-black mb-12 text-glow-pink uppercase tracking-widest text-center">{t("my_cart")}</h1>
         
         {cartItems.length === 0 ? (
           <div className="text-center py-20" data-aos="fade-up">
             <div className="w-24 h-24 rounded-full border border-white/10 mx-auto flex items-center justify-center mb-6">
               <svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="gray" strokeWidth="1" strokeLinecap="round" strokeLinejoin="round"><circle cx="9" cy="21" r="1"></circle><circle cx="20" cy="21" r="1"></circle><path d="M1 1h4l2.68 13.39a2 2 0 0 0 2 1.61h9.72a2 2 0 0 0 2-1.61L23 6H6"></path></svg>
             </div>
-            <h2 className="text-2xl font-bold text-white mb-4">Sepetiniz Boş</h2>
-            <p className="text-gray-400 mb-8">Sepetinizde henüz hiç ürün yok. Koleksiyonumuzu keşfetmeye başlayın.</p>
+            <h2 className="text-2xl font-bold text-white mb-4">{t("cart_empty")}</h2>
+            <p className="text-gray-400 mb-8">{t("no_products_found_desc")}</p>
             <Link href="/search" className="bg-white text-black px-8 py-3 uppercase tracking-widest text-sm font-bold clip-angled hover:bg-neon-pink hover:text-white transition-colors">
               {t("explore_collection")}
             </Link>
@@ -35,10 +35,10 @@ export default function CartPage() {
             <div className="w-full lg:w-2/3">
               <div className="glass-panel clip-angled p-6 mb-6">
                 <div className="hidden md:grid grid-cols-12 gap-4 text-gray-500 text-xs font-bold uppercase tracking-wider mb-4 border-b border-white/10 pb-4">
-                  <div className="col-span-6">Ürün</div>
-                  <div className="col-span-2 text-center">Adet</div>
-                  <div className="col-span-2 text-center">Fiyat</div>
-                  <div className="col-span-2 text-center">İşlem</div>
+                  <div className="col-span-6">{t("product_col")}</div>
+                  <div className="col-span-2 text-center">{t("quantity_col")}</div>
+                  <div className="col-span-2 text-center">{t("price_col")}</div>
+                  <div className="col-span-2 text-center">{t("explore")}</div>
                 </div>
 
                 <div className="flex flex-col gap-6">
@@ -52,18 +52,18 @@ export default function CartPage() {
                         </Link>
                         <div>
                           <Link href={`/urundetay/${item.id}`} className="text-lg font-bold text-white hover:text-neon-pink transition-colors mb-1 block">
-                            {item.ad}
+                            {t(item.ad)}
                           </Link>
                           <div className="flex items-center gap-3 text-xs text-gray-400">
-                            <span className="bg-white/5 px-2 py-1 rounded">Beden: <strong className="text-white">{item.beden}</strong></span>
-                            <span className="bg-white/5 px-2 py-1 rounded">Renk: <strong className="text-white">{item.renk}</strong></span>
+                            <span className="bg-white/5 px-2 py-1 rounded">{t("size")}: <strong className="text-white">{item.beden}</strong></span>
+                            <span className="bg-white/5 px-2 py-1 rounded">{t("color")}: <strong className="text-white">{item.renk}</strong></span>
                           </div>
                         </div>
                       </div>
 
                       {/* Quantity */}
                       <div className="col-span-1 md:col-span-2 flex justify-start md:justify-center items-center">
-                        <span className="md:hidden text-gray-500 text-xs uppercase tracking-wider mr-2">Adet:</span>
+                        <span className="md:hidden text-gray-500 text-xs uppercase tracking-wider mr-2">{t("quantity_col")}:</span>
                         <div className="text-white font-bold bg-black border border-gray-800 px-4 py-2 clip-angled">
                           {item.quantity}
                         </div>
@@ -71,7 +71,7 @@ export default function CartPage() {
 
                       {/* Price */}
                       <div className="col-span-1 md:col-span-2 flex justify-start md:justify-center items-center">
-                        <span className="md:hidden text-gray-500 text-xs uppercase tracking-wider mr-2">Fiyat:</span>
+                        <span className="md:hidden text-gray-500 text-xs uppercase tracking-wider mr-2">{t("price_col")}:</span>
                         <span className="text-white font-bold whitespace-nowrap">
                           {formatPrice(item.fiyat * item.quantity)}
                         </span>
@@ -79,7 +79,7 @@ export default function CartPage() {
 
                       {/* Remove Button */}
                       <div className="col-span-1 md:col-span-2 flex justify-start md:justify-center items-center">
-                        <button onClick={() => removeFromCart(item.id, item.beden, item.renk)} className="text-gray-500 hover:text-neon-pink transition-colors p-2" title="Sepetten Çıkar">
+                        <button onClick={() => removeFromCart(item.id, item.beden, item.renk)} className="text-gray-500 hover:text-neon-pink transition-colors p-2" title={t("remove")}>
                           <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M3 6h18"></path><path d="M19 6v14c0 1-1 2-2 2H7c-1 0-2-1-2-2V6"></path><path d="M8 6V4c0-1 1-2 2-2h4c1 0 2 1 2 2v2"></path><line x1="10" y1="11" x2="10" y2="17"></line><line x1="14" y1="11" x2="14" y2="17"></line></svg>
                         </button>
                       </div>
@@ -93,7 +93,7 @@ export default function CartPage() {
             {/* Order Summary */}
             <div className="w-full lg:w-1/3">
               <div className="glass-panel clip-angled p-8 sticky top-32">
-                <h3 className="text-xl font-bold text-white mb-6 uppercase tracking-wider">Sipariş Özeti</h3>
+                <h3 className="text-xl font-bold text-white mb-6 uppercase tracking-wider">{t("order_summary")}</h3>
                 
                 <div className="flex justify-between items-center mb-4 text-gray-400">
                   <span>{t("subtotal")}</span>

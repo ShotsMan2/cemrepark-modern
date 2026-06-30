@@ -98,9 +98,9 @@ export default function OrdersView() {
 
       {/* INVOICE MODAL */}
       {selectedOrder && (
-        <div className="fixed inset-0 z-50 flex items-center justify-center p-4">
-          <div className="absolute inset-0 bg-black/80 backdrop-blur-md" onClick={() => setSelectedOrder(null)}></div>
-          <div className="glass-panel w-full max-w-3xl max-h-[90vh] overflow-y-auto clip-angled relative z-10 animate-fade-in bg-[#111]">
+        <div className="fixed inset-0 z-50 flex items-center justify-center p-4 print:p-0 print:items-start print:relative print:block">
+          <div className="absolute inset-0 bg-black/80 backdrop-blur-md print:hidden" onClick={() => setSelectedOrder(null)}></div>
+          <div className="glass-panel w-full max-w-3xl max-h-[90vh] overflow-y-auto clip-angled relative z-10 animate-fade-in bg-[#111] print:max-h-none print:overflow-visible print:bg-transparent print:border-none print:shadow-none print:clip-none print:text-black">
             <button 
               onClick={() => setSelectedOrder(null)}
               className="absolute top-4 right-4 w-8 h-8 flex items-center justify-center text-gray-500 hover:text-white transition-colors"
@@ -178,7 +178,7 @@ export default function OrdersView() {
 
               <div className="flex justify-between items-center border-t border-white/10 pt-6">
                 <p className="text-gray-500 text-xs italic">Bizi tercih ettiğiniz için teşekkür ederiz.</p>
-                <div className="flex gap-4">
+                <div className="flex gap-4 print:hidden">
                   <button 
                     onClick={() => setSelectedOrder(null)}
                     className="bg-transparent border border-white/20 text-white hover:border-white px-6 py-2 uppercase tracking-widest text-xs font-bold transition-colors clip-angled"

@@ -101,8 +101,10 @@ export default function HomeClient({ bestSellers, discounted }) {
               <div key={product.id} className="glass-panel p-4 clip-angled group hover:border-neon-pink transition-colors relative" data-aos="fade-up" data-aos-delay={index * 150}>
                 <div className="relative aspect-[3/4] mb-4 overflow-hidden clip-angled">
                   {product.etiket && (
-                     <div className="absolute top-3 left-3 z-20 bg-neon-pink text-white text-[10px] font-bold px-2 py-1 uppercase tracking-wider">
-                      {product.etiket}
+                    <div className="absolute top-2 left-2 z-20">
+                      <span className="text-xs font-bold uppercase tracking-widest bg-neon-pink text-white px-3 py-1 clip-angled shadow-lg">
+                        {t(product.etiket)}
+                      </span>
                     </div>
                   )}
                   
@@ -124,10 +126,13 @@ export default function HomeClient({ bestSellers, discounted }) {
                   </div>
                 </div>
                 
-                <h3 className="font-bold text-gray-200 group-hover:text-holo-gold transition-colors mb-1 truncate">{product.ad}</h3>
-                <div className="flex justify-between items-center">
-                  <PriceDisplay amount={product.fiyat} className="text-white font-bold" />
-                  <FavoriteButton product={product} className="relative z-30" />
+                <div className="p-4 relative">
+                  <p className="text-gray-400 text-xs uppercase tracking-widest mb-1">{t(product.kategori)}</p>
+                  <h3 className="text-white font-bold text-lg truncate mb-2">{t(product.ad)}</h3>
+                  <div className="flex justify-between items-center">
+                    <PriceDisplay amount={product.fiyat} className="text-white font-bold" />
+                    <FavoriteButton product={product} className="relative z-30" />
+                  </div>
                 </div>
               </div>
             ))}
@@ -233,8 +238,8 @@ export default function HomeClient({ bestSellers, discounted }) {
       {/* 5. NEWSLETTER */}
       <section className="py-24 bg-gradient-to-t from-black via-black/80 to-transparent border-t border-neon-pink/20">
         <div className="w-full max-w-4xl mx-auto px-4 text-center" data-aos="zoom-in">
-          <h2 className="text-3xl md:text-4xl font-black text-white mb-4 uppercase tracking-widest">VIP Ailemize Katılın</h2>
-          <p className="text-gray-400 mb-8 max-w-lg mx-auto">Yeni sezon koleksiyonlarından, özel indirimlerden ve kampanyalardan ilk siz haberdar olun.</p>
+          <h2 className="text-3xl md:text-4xl font-black text-white mb-4 uppercase tracking-widest">{t("vip_family")}</h2>
+          <p className="text-gray-400 mb-8 max-w-lg mx-auto">{t("vip_desc")}</p>
           <NewsletterForm />
         </div>
       </section>

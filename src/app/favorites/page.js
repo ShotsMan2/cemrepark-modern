@@ -35,7 +35,7 @@ export default function FavoritesPage() {
                 <Link href={`/urundetay/${product.id}`} className="block relative h-96 w-full clip-angled overflow-hidden m-2 rounded-t-lg group-hover:shadow-[0_0_20px_rgba(255,215,0,0.3)] transition-shadow duration-300">
                   <Image 
                     src={product.gorsel} 
-                    alt={product.ad}
+                    alt={t(product.ad)}
                     fill
                     className="object-cover group-hover:scale-110 transition-transform duration-500 opacity-90 group-hover:opacity-100"
                   />
@@ -47,7 +47,7 @@ export default function FavoritesPage() {
 
                 <div className="p-6">
                   <h3 className="text-gray-300 font-medium text-lg mb-2 truncate group-hover:text-holo-gold transition-colors">
-                    {product.ad}
+                    {t(product.ad)}
                   </h3>
                   <div className="flex justify-between items-center">
                     <span className="text-white font-bold text-xl">

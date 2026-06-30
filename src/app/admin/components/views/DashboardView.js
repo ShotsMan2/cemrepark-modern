@@ -23,6 +23,8 @@ export default function DashboardView({ products }) {
   const activeCategories = [...new Set(products.map(p => p.kategori))].filter(Boolean).length;
   const totalValue = products.reduce((sum, p) => sum + (parseFloat(p.fiyat) || 0), 0);
   
+  const totalCategoryValue = categoryData.reduce((sum, item) => sum + item.value, 0);
+  
   const CustomTooltip = ({ active, payload, label }) => {
     if (active && payload && payload.length) {
       return (
@@ -154,6 +156,10 @@ export default function DashboardView({ products }) {
                   ))}
                 </Pie>
                 <Tooltip 
+                  formatter={(value, name) => {
+                    const percentage = ((value / totalCategoryValue) * 100).toFixed(1);
+                    return [`${value} (${percentage}%)`, name];
+                  }}
                   contentStyle={{ backgroundColor: 'rgba(0,0,0,0.9)', border: '1px solid rgba(255,255,255,0.1)', borderRadius: 0 }}
                   itemStyle={{ color: '#fff', fontWeight: 'bold' }}
                 />
