@@ -8,7 +8,7 @@ import { useStore } from "../context/StoreContext";
 export default function Header() {
   const pathname = usePathname();
   const [isSearchOpen, setIsSearchOpen] = useState(false);
-  const { cartItems, favoriteItems, isLoaded } = useStore();
+  const { cartItems, favoriteItems, isLoaded, language, setLanguage, currency, setCurrency, t } = useStore();
 
   // Close search on escape key
   useEffect(() => {
@@ -34,16 +34,16 @@ export default function Header() {
         {/* SCROLLING ANNOUNCEMENT BAR */}
         <div className="bg-neon-pink text-white text-[10px] md:text-[11px] font-bold py-1.5 overflow-hidden border-b border-black/20">
           <div className="w-full whitespace-nowrap animate-marquee hover-pause flex gap-12 md:gap-24 min-w-max">
-            <span className="flex items-center gap-2"><span className="text-holo-gold">✨</span> YENİ SEZON KOLEKSİYONUMUZU KEŞFEDİN</span>
-            <span className="flex items-center gap-2"><span className="text-white">🚀</span> TÜM SİPARİŞLERDE ÜCRETSİZ KARGO</span>
-            <span className="flex items-center gap-2"><span className="text-holo-gold">🎁</span> İLK ALIŞVERİŞİNİZE ÖZEL %10 İNDİRİM</span>
-            <span className="flex items-center gap-2"><span className="text-white">💳</span> KAPIDA NAKİT VE KREDİ KARTINA TAKSİT İMKANI</span>
+            <span className="flex items-center gap-2"><span className="text-holo-gold">✨</span> {t("discover_new_season")}</span>
+            <span className="flex items-center gap-2"><span className="text-white">🚀</span> {t("free_shipping")}</span>
+            <span className="flex items-center gap-2"><span className="text-holo-gold">🎁</span> {t("discount")}</span>
+            <span className="flex items-center gap-2"><span className="text-white">💳</span> {t("installment")}</span>
             
             {/* Duplicated for seamless scrolling */}
-            <span className="flex items-center gap-2"><span className="text-holo-gold">✨</span> YENİ SEZON KOLEKSİYONUMUZU KEŞFEDİN</span>
-            <span className="flex items-center gap-2"><span className="text-white">🚀</span> TÜM SİPARİŞLERDE ÜCRETSİZ KARGO</span>
-            <span className="flex items-center gap-2"><span className="text-holo-gold">🎁</span> İLK ALIŞVERİŞİNİZE ÖZEL %10 İNDİRİM</span>
-            <span className="flex items-center gap-2"><span className="text-white">💳</span> KAPIDA NAKİT VE KREDİ KARTINA TAKSİT İMKANI</span>
+            <span className="flex items-center gap-2"><span className="text-holo-gold">✨</span> {t("discover_new_season")}</span>
+            <span className="flex items-center gap-2"><span className="text-white">🚀</span> {t("free_shipping")}</span>
+            <span className="flex items-center gap-2"><span className="text-holo-gold">🎁</span> {t("discount")}</span>
+            <span className="flex items-center gap-2"><span className="text-white">💳</span> {t("installment")}</span>
           </div>
         </div>
 
@@ -60,14 +60,35 @@ export default function Header() {
                 <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><rect x="2" y="2" width="20" height="20" rx="5" ry="5"></rect><path d="M16 11.37A4 4 0 1 1 12.63 8 4 4 0 0 1 16 11.37z"></path><line x1="17.5" y1="6.5" x2="17.51" y2="6.5"></line></svg>
                 @cemrepark
               </a>
+              <span className="text-gray-700">|</span>
+              <div className="flex gap-2 items-center">
+                <select 
+                  value={language}
+                  onChange={(e) => setLanguage(e.target.value)}
+                  className="bg-transparent border-none text-gray-400 text-[11px] focus:outline-none cursor-pointer uppercase font-bold hover:text-white transition-colors"
+                >
+                  <option className="bg-[#111]" value="TR">TR</option>
+                  <option className="bg-[#111]" value="EN">EN</option>
+                  <option className="bg-[#111]" value="AR">AR</option>
+                </select>
+                <select 
+                  value={currency}
+                  onChange={(e) => setCurrency(e.target.value)}
+                  className="bg-transparent border-none text-gray-400 text-[11px] focus:outline-none cursor-pointer uppercase font-bold hover:text-white transition-colors"
+                >
+                  <option className="bg-[#111]" value="TL">₺ TRY</option>
+                  <option className="bg-[#111]" value="USD">$ USD</option>
+                  <option className="bg-[#111]" value="EUR">€ EUR</option>
+                </select>
+              </div>
             </div>
             <div className="flex gap-4 items-center">
               <a href="https://www.shopier.com/CEMREPARKK" target="_blank" rel="noopener noreferrer" className="flex items-center gap-1.5 hover:text-white transition-colors">
                 <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M6 2L3 6v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2V6l-3-4z"></path><line x1="3" y1="6" x2="21" y2="6"></line><path d="M16 10a4 4 0 0 1-8 0"></path></svg>
-                Shopier Mağaza
+                {t("shopier_store")}
               </a>
               <span className="text-gray-700">|</span>
-              <span className="text-neon-pink font-bold">Size çok yakışacak! ✨</span>
+              <span className="text-neon-pink font-bold">{t("suits_you_well")}</span>
             </div>
           </div>
         </div>
@@ -98,7 +119,7 @@ export default function Header() {
               {/* Mega Menu Wrapper */}
               <div className="group py-3">
                 <Link href="/search" className="text-gray-300 hover:text-neon-pink text-sm uppercase tracking-widest transition-colors font-medium flex items-center gap-1">
-                  Koleksiyonlar
+                  {t("collections_menu")}
                   <svg className="w-4 h-4 group-hover:rotate-180 transition-transform" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M19 9l-7 7-7-7"></path></svg>
                 </Link>
                 
@@ -130,8 +151,8 @@ export default function Header() {
                         <div className="absolute inset-0 bg-gradient-to-r from-neon-pink/50 to-holo-gold/50 mix-blend-overlay z-10"></div>
                         <Image src="/assets/siteimg/yeni1.jpg" alt="Yeni Sezon" fill className="object-cover group-hover/img:scale-110 transition-transform duration-700" />
                         <div className="absolute inset-0 z-20 p-8 flex flex-col justify-end bg-gradient-to-t from-black/80 to-transparent">
-                          <h4 className="text-white font-black text-2xl uppercase tracking-widest">Yeni Sezon</h4>
-                          <Link href="/search" className="text-neon-pink text-sm uppercase tracking-widest mt-2 hover:text-white transition-colors">Koleksiyonu Keşfet →</Link>
+                          <h4 className="text-white font-black text-2xl uppercase tracking-widest">{t("new_season")}</h4>
+                          <Link href="/search" className="text-neon-pink text-sm uppercase tracking-widest mt-2 hover:text-white transition-colors">{t("discover_collection")} →</Link>
                         </div>
                       </div>
 
@@ -140,11 +161,11 @@ export default function Header() {
                 </div>
               </div>
 
-              <Link href="/search?q=Takım" className="text-gray-300 hover:text-neon-pink text-sm uppercase tracking-widest transition-colors font-medium">Takım</Link>
-              <Link href="/search?q=Tunik" className="text-gray-300 hover:text-neon-pink text-sm uppercase tracking-widest transition-colors font-medium">Tunik</Link>
-              <Link href="/search?q=Ceket" className="text-gray-300 hover:text-neon-pink text-sm uppercase tracking-widest transition-colors font-medium">Ceket</Link>
-              <Link href="/search?q=Elbise" className="text-gray-300 hover:text-neon-pink text-sm uppercase tracking-widest transition-colors font-medium">Elbise</Link>
-              <Link href="/search?q=Pantolon" className="text-gray-300 hover:text-neon-pink text-sm uppercase tracking-widest transition-colors font-medium">Pantolon</Link>
+              <Link href="/search?q=Takım" className="text-gray-300 hover:text-neon-pink text-sm uppercase tracking-widest transition-colors font-medium">{t("sets")}</Link>
+              <Link href="/search?q=Tunik" className="text-gray-300 hover:text-neon-pink text-sm uppercase tracking-widest transition-colors font-medium">{t("tunics")}</Link>
+              <Link href="/search?q=Ceket" className="text-gray-300 hover:text-neon-pink text-sm uppercase tracking-widest transition-colors font-medium">{t("jackets")}</Link>
+              <Link href="/search?q=Elbise" className="text-gray-300 hover:text-neon-pink text-sm uppercase tracking-widest transition-colors font-medium">{t("dresses")}</Link>
+              <Link href="/search?q=Pantolon" className="text-gray-300 hover:text-neon-pink text-sm uppercase tracking-widest transition-colors font-medium">{t("trousers")}</Link>
             </div>
 
             {/* Right Actions */}

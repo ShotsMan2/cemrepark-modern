@@ -2,6 +2,7 @@ import { useState } from 'react';
 
 export default function OrdersView() {
   const [activeTab, setActiveTab] = useState('Tümü');
+  const [selectedOrder, setSelectedOrder] = useState(null);
   
   const mockOrders = [
     { id: 'ORD-2023-001', musteri: 'Ahmet Yılmaz', tarih: '29 Haz 2026', tutar: '4.500 ₺', durum: 'Hazırlanıyor', renk: 'text-holo-gold', border: 'border-holo-gold/30', bg: 'bg-holo-gold/10' },
@@ -71,7 +72,12 @@ export default function OrdersView() {
                   </span>
                 </td>
                 <td className="p-4 text-right">
-                  <button className="text-gray-400 hover:text-white transition-colors text-sm underline decoration-white/20 underline-offset-4">Detay</button>
+                  <button 
+                    onClick={() => setSelectedOrder(order)}
+                    className="text-gray-400 hover:text-white transition-colors text-sm underline decoration-white/20 underline-offset-4"
+                  >
+                    Detay
+                  </button>
                 </td>
               </tr>
             ))}
@@ -89,6 +95,111 @@ export default function OrdersView() {
           </div>
         </div>
       </div>
+
+      {/* INVOICE MODAL */}
+      {selectedOrder && (
+        <div className="fixed inset-0 z-50 flex items-center justify-center p-4">
+          <div className="absolute inset-0 bg-black/80 backdrop-blur-md" onClick={() => setSelectedOrder(null)}></div>
+          <div className="glass-panel w-full max-w-3xl max-h-[90vh] overflow-y-auto clip-angled relative z-10 animate-fade-in bg-[#111]">
+            <button 
+              onClick={() => setSelectedOrder(null)}
+              className="absolute top-4 right-4 w-8 h-8 flex items-center justify-center text-gray-500 hover:text-white transition-colors"
+            >
+              <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><line x1="18" y1="6" x2="6" y2="18"></line><line x1="6" y1="6" x2="18" y2="18"></line></svg>
+            </button>
+            
+            <div className="p-8">
+              <div className="flex justify-between items-start mb-12 border-b border-white/10 pb-8">
+                <div>
+                  <h2 className="text-3xl font-black text-white uppercase tracking-widest mb-1">Cemre Park</h2>
+                  <p className="text-gray-500 text-xs tracking-wider">PREMİUM E-TİCARET A.Ş.</p>
+                </div>
+                <div className="text-right">
+                  <h3 className="text-neon-pink font-bold text-xl uppercase tracking-widest mb-1">FATURA</h3>
+                  <p className="text-white text-sm">Sipariş No: {selectedOrder.id}</p>
+                  <p className="text-gray-400 text-sm">Tarih: {selectedOrder.tarih}</p>
+                </div>
+              </div>
+
+              <div className="flex justify-between mb-12">
+                <div>
+                  <h4 className="text-gray-500 text-xs font-bold uppercase tracking-widest mb-2">Fatura Edilen</h4>
+                  <p className="text-white font-bold">{selectedOrder.musteri}</p>
+                  <p className="text-gray-400 text-sm">musteri@email.com</p>
+                  <p className="text-gray-400 text-sm">555 123 45 67</p>
+                  <p className="text-gray-400 text-sm mt-2 max-w-xs">Barbaros Mah. Premium Sk. No:1 Ataşehir / İstanbul</p>
+                </div>
+                <div className="text-right">
+                  <h4 className="text-gray-500 text-xs font-bold uppercase tracking-widest mb-2">Durum</h4>
+                  <span className={`inline-block px-3 py-1 text-xs border rounded-full ${selectedOrder.renk} ${selectedOrder.bg} ${selectedOrder.border}`}>
+                    {selectedOrder.durum}
+                  </span>
+                </div>
+              </div>
+
+              <table className="w-full text-left mb-8">
+                <thead>
+                  <tr className="border-b border-white/10 text-gray-400 text-xs uppercase tracking-wider">
+                    <th className="py-2 font-bold">Ürün / Açıklama</th>
+                    <th className="py-2 font-bold text-center">Adet</th>
+                    <th className="py-2 font-bold text-right">Birim Fiyat</th>
+                    <th className="py-2 font-bold text-right">Toplam</th>
+                  </tr>
+                </thead>
+                <tbody className="divide-y divide-white/5">
+                  <tr>
+                    <td className="py-4">
+                      <p className="text-white font-bold text-sm">Premium Kadın Takım</p>
+                      <p className="text-gray-500 text-xs">Renk: Siyah | Beden: M</p>
+                    </td>
+                    <td className="py-4 text-white text-sm text-center">1</td>
+                    <td className="py-4 text-white text-sm text-right">{selectedOrder.tutar}</td>
+                    <td className="py-4 text-white font-bold text-sm text-right">{selectedOrder.tutar}</td>
+                  </tr>
+                </tbody>
+              </table>
+
+              <div className="flex justify-end mb-12">
+                <div className="w-64">
+                  <div className="flex justify-between py-2 border-b border-white/5">
+                    <span className="text-gray-400 text-sm">Ara Toplam</span>
+                    <span className="text-white text-sm">{selectedOrder.tutar}</span>
+                  </div>
+                  <div className="flex justify-between py-2 border-b border-white/5">
+                    <span className="text-gray-400 text-sm">Kargo</span>
+                    <span className="text-white text-sm">0.00 ₺</span>
+                  </div>
+                  <div className="flex justify-between py-3">
+                    <span className="text-white font-bold uppercase tracking-wider">Genel Toplam</span>
+                    <span className="text-holo-gold font-bold text-xl">{selectedOrder.tutar}</span>
+                  </div>
+                </div>
+              </div>
+
+              <div className="flex justify-between items-center border-t border-white/10 pt-6">
+                <p className="text-gray-500 text-xs italic">Bizi tercih ettiğiniz için teşekkür ederiz.</p>
+                <div className="flex gap-4">
+                  <button 
+                    onClick={() => setSelectedOrder(null)}
+                    className="bg-transparent border border-white/20 text-white hover:border-white px-6 py-2 uppercase tracking-widest text-xs font-bold transition-colors clip-angled"
+                  >
+                    Kapat
+                  </button>
+                  <button 
+                    onClick={() => window.print()}
+                    className="bg-neon-pink text-white hover:bg-white hover:text-black px-6 py-2 uppercase tracking-widest text-xs font-bold transition-colors clip-angled flex items-center gap-2"
+                  >
+                    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><polyline points="6 9 6 2 18 2 18 9"></polyline><path d="M6 18H4a2 2 0 0 1-2-2v-5a2 2 0 0 1 2-2h16a2 2 0 0 1 2 2v5a2 2 0 0 1-2 2h-2"></path><rect x="6" y="14" width="12" height="8"></rect></svg>
+                    Fatura Yazdır
+                  </button>
+                </div>
+              </div>
+
+            </div>
+          </div>
+        </div>
+      )}
+
     </div>
   );
 }

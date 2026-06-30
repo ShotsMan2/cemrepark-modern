@@ -7,7 +7,7 @@ import FavoriteButton from "../../../components/FavoriteButton";
 import Link from "next/link";
 
 export default function ProductDetailsClient({ product, relatedProducts = [] }) {
-  const { addToCart } = useStore();
+  const { addToCart, formatPrice, t } = useStore();
   const [beden, setBeden] = useState("");
   const [renk, setRenk] = useState("");
   const [activeTab, setActiveTab] = useState("detay");
@@ -109,7 +109,7 @@ export default function ProductDetailsClient({ product, relatedProducts = [] }) 
             <h1 className="text-4xl md:text-5xl font-black text-white mb-6 leading-tight">{product.ad}</h1>
             
             <h2 className="text-3xl font-bold text-glow-gold mb-8">
-              {product.fiyat.toLocaleString('tr-TR', { minimumFractionDigits: 2 })} TL
+              {formatPrice(product.fiyat)}
             </h2>
 
             <div className="h-px w-full bg-white/10 mb-8"></div>
@@ -240,7 +240,7 @@ export default function ProductDetailsClient({ product, relatedProducts = [] }) 
                   <div className="p-2">
                     <p className="text-gray-400 text-[10px] uppercase tracking-widest mb-1">{rp.kategori}</p>
                     <h4 className="text-white font-bold text-sm truncate mb-2">{rp.ad}</h4>
-                    <p className="text-neon-pink font-bold text-sm">{parseFloat(rp.fiyat).toLocaleString('tr-TR')} TL</p>
+                    <p className="text-neon-pink font-bold text-sm">{formatPrice(rp.fiyat)}</p>
                   </div>
                 </Link>
               ))}
@@ -258,11 +258,11 @@ export default function ProductDetailsClient({ product, relatedProducts = [] }) 
           </div>
           <div>
             <h4 className="text-white font-bold text-xs truncate w-32">{product.ad}</h4>
-            <span className="text-neon-pink text-xs font-bold">{product.fiyat} TL</span>
+            <span className="text-neon-pink text-xs font-bold">{formatPrice(product.fiyat)}</span>
           </div>
         </div>
         <button onClick={handleAddToCart} className="bg-neon-pink text-white uppercase tracking-widest font-bold px-6 py-3 text-xs clip-angled hover:bg-white hover:text-black transition-colors">
-          Sepete Ekle
+          {t("add_to_cart")}
         </button>
       </div>
 
