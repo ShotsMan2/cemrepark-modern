@@ -31,6 +31,22 @@ export default function Header() {
   return (
     <>
       <header className="w-full z-50 transition-all duration-300">
+        {/* SCROLLING ANNOUNCEMENT BAR */}
+        <div className="bg-neon-pink text-white text-[10px] md:text-[11px] font-bold py-1.5 overflow-hidden border-b border-black/20">
+          <div className="w-full whitespace-nowrap animate-marquee hover-pause flex gap-12 md:gap-24 min-w-max">
+            <span className="flex items-center gap-2"><span className="text-holo-gold">✨</span> YENİ SEZON KOLEKSİYONUMUZU KEŞFEDİN</span>
+            <span className="flex items-center gap-2"><span className="text-white">🚀</span> TÜM SİPARİŞLERDE ÜCRETSİZ KARGO</span>
+            <span className="flex items-center gap-2"><span className="text-holo-gold">🎁</span> İLK ALIŞVERİŞİNİZE ÖZEL %10 İNDİRİM</span>
+            <span className="flex items-center gap-2"><span className="text-white">💳</span> KAPIDA NAKİT VE KREDİ KARTINA TAKSİT İMKANI</span>
+            
+            {/* Duplicated for seamless scrolling */}
+            <span className="flex items-center gap-2"><span className="text-holo-gold">✨</span> YENİ SEZON KOLEKSİYONUMUZU KEŞFEDİN</span>
+            <span className="flex items-center gap-2"><span className="text-white">🚀</span> TÜM SİPARİŞLERDE ÜCRETSİZ KARGO</span>
+            <span className="flex items-center gap-2"><span className="text-holo-gold">🎁</span> İLK ALIŞVERİŞİNİZE ÖZEL %10 İNDİRİM</span>
+            <span className="flex items-center gap-2"><span className="text-white">💳</span> KAPIDA NAKİT VE KREDİ KARTINA TAKSİT İMKANI</span>
+          </div>
+        </div>
+
         {/* TOP BAR */}
         <div className="bg-[#111] border-b border-neon-pink text-gray-400 text-[11px] md:text-xs py-2 hidden md:block">
           <div className="w-full px-4 md:px-6 flex justify-between items-center">
