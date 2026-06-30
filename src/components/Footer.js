@@ -2,9 +2,11 @@
 import Link from "next/link";
 import Image from "next/image";
 import { usePathname } from "next/navigation";
+import { useStore } from "../context/StoreContext";
 
 export default function Footer() {
   const pathname = usePathname();
+  const { t } = useStore();
 
   const handleNewsletter = (e) => {
     e.preventDefault();
@@ -58,7 +60,7 @@ export default function Footer() {
 
           {/* Hızlı Linkler */}
           <div>
-            <h4 className="text-white font-bold uppercase tracking-wider mb-6 text-sm">Keşfet</h4>
+            <h4 className="text-white font-bold uppercase tracking-wider mb-6 text-sm">{t("explore")}</h4>
             <ul className="space-y-3">
               <li><Link href="/search" className="text-gray-400 hover:text-white text-sm transition-colors">Yeni Gelenler</Link></li>
               <li><Link href="/search" className="text-gray-400 hover:text-white text-sm transition-colors">Çok Satanlar</Link></li>
@@ -69,7 +71,7 @@ export default function Footer() {
 
           {/* Müşteri Hizmetleri & Kurumsal */}
           <div>
-            <h4 className="text-white font-bold uppercase tracking-wider mb-6 text-sm">Kurumsal</h4>
+            <h4 className="text-white font-bold uppercase tracking-wider mb-6 text-sm">{t("corporate")}</h4>
             <ul className="space-y-3">
               <li><Link href="/kurumsal/hakkimizda" className="text-gray-400 hover:text-white text-sm transition-colors">Hakkımızda</Link></li>
               <li><Link href="/kurumsal/iletisim" className="text-gray-400 hover:text-white text-sm transition-colors">İletişim</Link></li>
@@ -81,7 +83,7 @@ export default function Footer() {
 
           {/* Newsletter */}
           <div>
-            <h4 className="text-white font-bold uppercase tracking-wider mb-6 text-sm">Bültene Katıl</h4>
+            <h4 className="text-white font-bold uppercase tracking-wider mb-6 text-sm">{t("newsletter")}</h4>
             <p className="text-gray-400 text-sm mb-4">Özel koleksiyonlardan ilk sizin haberiniz olsun.</p>
             <form className="relative" onSubmit={handleNewsletter}>
               <input type="email" name="email" required placeholder="E-posta Adresiniz" className="w-full bg-transparent border-b border-gray-700 py-3 text-sm text-white focus:outline-none focus:border-holo-gold transition-colors" />

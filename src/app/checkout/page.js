@@ -5,9 +5,9 @@ import { useRouter } from "next/navigation";
 import Image from "next/image";
 
 export default function CheckoutPage() {
-  const { cartItems, clearCart } = useStore();
-  const [isLoaded, setIsLoaded] = useState(false);
   const router = useRouter();
+  const { cartItems, clearCart, formatPrice, t } = useStore();
+  const [isLoaded, setIsLoaded] = useState(false);
 
   const [formData, setFormData] = useState({
     fullName: "",
@@ -201,7 +201,7 @@ export default function CheckoutPage() {
                 ) : (
                   <>
                     <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2"><rect x="3" y="11" width="18" height="11" rx="2" ry="2"></rect><path d="M7 11V7a5 5 0 0 1 10 0v4"></path></svg>
-                    {totalAmount.toLocaleString('tr-TR', { minimumFractionDigits: 2 })} TL ÖDEMEYİ TAMAMLA
+                    <span>{formatPrice(totalAmount)}</span> {t("checkout")}
                   </>
                 )}
               </button>
@@ -227,7 +227,7 @@ export default function CheckoutPage() {
                     <div className="flex-1 min-w-0">
                       <h4 className="text-sm font-bold text-white truncate">{item.ad}</h4>
                       <p className="text-xs text-gray-400 mt-1">Beden: {item.beden} | Renk: {item.renk}</p>
-                      <p className="text-xs text-neon-pink font-bold mt-1">{item.quantity} x {item.fiyat} TL</p>
+                      <p className="text-xs text-neon-pink font-bold mt-1">{item.quantity} x {formatPrice(item.fiyat)}</p>
                     </div>
                   </div>
                 ))}
@@ -237,20 +237,18 @@ export default function CheckoutPage() {
 
               <div className="space-y-4 mb-6 text-sm">
                 <div className="flex justify-between text-gray-400">
-                  <span>Ara Toplam</span>
-                  <span className="text-white">{totalAmount.toLocaleString('tr-TR', { minimumFractionDigits: 2 })} TL</span>
+                  <span>{t("subtotal")}</span>
+                  <span className="text-white">{formatPrice(totalAmount)}</span>
                 </div>
                 <div className="flex justify-between text-gray-400">
-                  <span>Kargo Ücreti</span>
-                  <span className="text-green-400">Ücretsiz</span>
+                  <span>{t("shipping")}</span>
+                  <span className="text-neon-pink font-bold">{t("free")}</span>
                 </div>
               </div>
               
-              <div className="h-px w-full bg-white/10 mb-6"></div>
-              
               <div className="flex justify-between items-center text-lg">
-                <span className="text-white font-bold">Toplam</span>
-                <span className="text-glow-gold font-black">{totalAmount.toLocaleString('tr-TR', { minimumFractionDigits: 2 })} TL</span>
+                <span className="text-white font-bold">{t("total")}</span>
+                <span className="text-glow-gold font-black text-2xl">{formatPrice(totalAmount)}</span>
               </div>
             </div>
           </div>

@@ -5,12 +5,7 @@ import { useState, useEffect } from "react";
 import { useStore } from "../../context/StoreContext";
 
 export default function CartPage() {
-  const { cartItems, removeFromCart } = useStore();
-  const [isLoaded, setIsLoaded] = useState(false);
-
-  useEffect(() => {
-    setIsLoaded(true);
-  }, []);
+  const { cartItems, removeFromCart, isLoaded, formatPrice, t } = useStore();
 
   const totalAmount = cartItems.reduce((acc, item) => acc + (item.fiyat * item.quantity), 0);
 
@@ -25,14 +20,14 @@ export default function CartPage() {
         <h1 className="text-3xl md:text-5xl font-black mb-12 text-glow-pink uppercase tracking-widest text-center">Alışveriş Sepetim</h1>
         
         {cartItems.length === 0 ? (
-          <div className="glass-panel p-12 clip-angled mb-8 flex flex-col items-center justify-center max-w-2xl mx-auto text-center">
-            <div className="w-20 h-20 rounded-full border border-gray-700 flex items-center justify-center text-gray-500 mb-6">
-              <svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round"><path d="M6 2L3 6v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2V6l-3-4z"></path><line x1="3" y1="6" x2="21" y2="6"></line><path d="M16 10a4 4 0 0 1-8 0"></path></svg>
+          <div className="text-center py-20" data-aos="fade-up">
+            <div className="w-24 h-24 rounded-full border border-white/10 mx-auto flex items-center justify-center mb-6">
+              <svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="gray" strokeWidth="1" strokeLinecap="round" strokeLinejoin="round"><circle cx="9" cy="21" r="1"></circle><circle cx="20" cy="21" r="1"></circle><path d="M1 1h4l2.68 13.39a2 2 0 0 0 2 1.61h9.72a2 2 0 0 0 2-1.61L23 6H6"></path></svg>
             </div>
-            <h2 className="text-2xl font-bold text-white mb-2">Sepetiniz Şu An Boş</h2>
-            <p className="text-gray-400 mb-8">Yeni sezon koleksiyonumuzu inceleyerek sepetinizi doldurmaya başlayın.</p>
-            <Link href="/search" className="inline-block bg-transparent border border-neon-pink text-neon-pink hover:bg-neon-pink hover:text-white py-3 px-8 uppercase font-bold tracking-widest transition-all duration-300 clip-angled text-sm">
-              Alışverişe Başla
+            <h2 className="text-2xl font-bold text-white mb-4">Sepetiniz Boş</h2>
+            <p className="text-gray-400 mb-8">Sepetinizde henüz hiç ürün yok. Koleksiyonumuzu keşfetmeye başlayın.</p>
+            <Link href="/search" className="bg-white text-black px-8 py-3 uppercase tracking-widest text-sm font-bold clip-angled hover:bg-neon-pink hover:text-white transition-colors">
+              {t("explore_collection")}
             </Link>
           </div>
         ) : (
@@ -77,9 +72,9 @@ export default function CartPage() {
                       {/* Price */}
                       <div className="col-span-1 md:col-span-2 flex justify-start md:justify-center items-center">
                         <span className="md:hidden text-gray-500 text-xs uppercase tracking-wider mr-2">Fiyat:</span>
-                        <div className="text-holo-gold font-bold">
-                          {(item.fiyat * item.quantity).toLocaleString('tr-TR', { minimumFractionDigits: 2 })} TL
-                        </div>
+                        <span className="text-white font-bold whitespace-nowrap">
+                          {formatPrice(item.fiyat * item.quantity)}
+                        </span>
                       </div>
 
                       {/* Remove Button */}
@@ -101,28 +96,27 @@ export default function CartPage() {
                 <h3 className="text-xl font-bold text-white mb-6 uppercase tracking-wider">Sipariş Özeti</h3>
                 
                 <div className="flex justify-between items-center mb-4 text-gray-400">
-                  <span>Ara Toplam</span>
-                  <span>{totalAmount.toLocaleString('tr-TR', { minimumFractionDigits: 2 })} TL</span>
+                  <span>{t("subtotal")}</span>
+                  <span>{formatPrice(totalAmount)}</span>
                 </div>
                 
                 <div className="flex justify-between items-center mb-6 text-gray-400">
-                  <span>Kargo Ücreti</span>
-                  <span className="text-green-400">Ücretsiz</span>
+                  <span>{t("shipping")}</span>
+                  <span className="text-green-500 font-bold">{t("free")}</span>
                 </div>
                 
                 <div className="h-px w-full bg-white/10 mb-6"></div>
                 
                 <div className="flex justify-between items-center mb-8">
-                  <span className="text-white font-bold text-lg">Toplam</span>
-                  <span className="text-glow-gold font-black text-2xl">{totalAmount.toLocaleString('tr-TR', { minimumFractionDigits: 2 })} TL</span>
+                  <span className="text-white font-bold text-lg">{t("total")}</span>
+                  <span className="text-white font-bold text-lg">{formatPrice(totalAmount)}</span>
                 </div>
 
                 <Link 
-                  href="/checkout"
-                  className="w-full bg-neon-pink text-white hover:bg-white hover:text-neon-pink py-4 uppercase font-bold tracking-widest transition-all duration-300 rounded-lg text-sm flex items-center justify-center gap-2"
+                  href="/checkout" 
+                  className="block w-full bg-holo-gold text-black text-center py-4 font-black uppercase tracking-widest hover:bg-white transition-colors clip-angled shadow-[0_0_20px_rgba(255,215,0,0.3)]"
                 >
-                  <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2"><rect x="3" y="11" width="18" height="11" rx="2" ry="2"></rect><path d="M7 11V7a5 5 0 0 1 10 0v4"></path></svg>
-                  GÜVENLİ ÖDEME
+                  {t("checkout")}
                 </Link>
                 
                 <div className="mt-6 flex justify-center gap-3">
