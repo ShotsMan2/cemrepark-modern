@@ -43,6 +43,18 @@ export function StoreProvider({ children }) {
     if (isLoaded) {
       localStorage.setItem("cemrepark_lang", language);
       localStorage.setItem("cemrepark_curr", currency);
+      
+      // Handle RTL support for Arabic
+      if (language === "AR") {
+        document.documentElement.dir = "rtl";
+      } else {
+        document.documentElement.dir = "ltr";
+      }
+      
+      // Handle Document Title dynamically
+      if (translations[language] && translations[language]["suits_you_well"]) {
+        document.title = "Cemre Park - " + translations[language]["suits_you_well"];
+      }
     }
   }, [language, currency, isLoaded]);
 

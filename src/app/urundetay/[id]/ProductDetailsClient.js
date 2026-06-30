@@ -70,13 +70,13 @@ export default function ProductDetailsClient({ product, relatedProducts = [] }) 
             <li>
               <div className="flex items-center">
                 <span className="mx-2">/</span>
-                <Link href={`/search?q=${product.kategori || ''}`} className="hover:text-neon-pink transition-colors">{product.kategori || 'Koleksiyon'}</Link>
+                <Link href={`/search?q=${product.kategori || ''}`} className="hover:text-neon-pink transition-colors">{t(product.kategori) || t('collection')}</Link>
               </div>
             </li>
             <li aria-current="page">
               <div className="flex items-center text-white">
                 <span className="mx-2 text-gray-500">/</span>
-                <span className="truncate max-w-[200px] sm:max-w-xs">{product.ad}</span>
+                <span className="truncate max-w-[200px] sm:max-w-xs">{t(product.ad)}</span>
               </div>
             </li>
           </ol>
@@ -106,7 +106,7 @@ export default function ProductDetailsClient({ product, relatedProducts = [] }) 
           {/* Details Section */}
           <div className="w-full lg:w-1/2 glass-panel p-8 md:p-12 clip-angled" data-aos="fade-left">
             <span className="text-neon-pink tracking-[0.2em] text-xs font-bold uppercase mb-4 block">YENİ SEZON</span>
-            <h1 className="text-4xl md:text-5xl font-black text-white mb-6 leading-tight">{product.ad}</h1>
+            <h1 className="text-4xl md:text-5xl font-black text-white mb-6 leading-tight">{t(product.ad)}</h1>
             
             <h2 className="text-3xl font-bold text-glow-gold mb-8">
               {formatPrice(product.fiyat)}
@@ -149,7 +149,7 @@ export default function ProductDetailsClient({ product, relatedProducts = [] }) 
 
             <div className="flex gap-4 mb-10">
               <button onClick={handleAddToCart} className="flex-1 bg-transparent border border-neon-pink text-neon-pink hover:bg-neon-pink hover:text-white py-4 px-8 uppercase font-bold tracking-widest transition-all duration-300 clip-angled text-sm">
-                Sepete Ekle
+                {t("add_to_cart")}
               </button>
               <FavoriteButton product={product} className="w-16 flex items-center justify-center border border-gray-700 hover:border-neon-pink transition-all duration-300 clip-angled" />
             </div>
@@ -161,12 +161,12 @@ export default function ProductDetailsClient({ product, relatedProducts = [] }) 
               {/* Detay Tab */}
               <div className="border border-gray-800 bg-black/30">
                 <button onClick={() => setActiveTab(activeTab === 'detay' ? '' : 'detay')} className="w-full flex justify-between items-center p-4 text-white hover:text-neon-pink transition-colors uppercase tracking-widest text-sm font-bold">
-                  <span>Ürün Detayları</span>
+                  <span>{t("product_specs")}</span>
                   <span>{activeTab === 'detay' ? '−' : '+'}</span>
                 </button>
                 <div className={`overflow-hidden transition-all duration-300 ${activeTab === 'detay' ? 'max-h-40 p-4 pt-0' : 'max-h-0 px-4'}`}>
                   <p className="text-gray-400 font-light text-sm leading-relaxed">
-                    {product.ad} - Cemre Park kalitesiyle özenle üretilmiştir. Tam kalıp, kullandığınız bedeni tercih edebilirsiniz. Kumaş dokusu ve rahatlığıyla gün boyu şıklığınızı tamamlar.
+                    {product.ad} - {t("quick_view_desc")}
                   </p>
                 </div>
               </div>
@@ -174,14 +174,13 @@ export default function ProductDetailsClient({ product, relatedProducts = [] }) 
               {/* Kumaş Tab */}
               <div className="border border-gray-800 bg-black/30">
                 <button onClick={() => setActiveTab(activeTab === 'kumas' ? '' : 'kumas')} className="w-full flex justify-between items-center p-4 text-white hover:text-neon-pink transition-colors uppercase tracking-widest text-sm font-bold">
-                  <span>Kumaş ve Bakım</span>
+                  <span>{t("fabric")} & {t("washing")}</span>
                   <span>{activeTab === 'kumas' ? '−' : '+'}</span>
                 </button>
                 <div className={`overflow-hidden transition-all duration-300 ${activeTab === 'kumas' ? 'max-h-40 p-4 pt-0' : 'max-h-0 px-4'}`}>
                   <ul className="text-gray-400 font-light text-sm leading-relaxed list-disc list-inside">
-                    <li>%100 Premium Kumaş</li>
-                    <li>30 derecede hassas yıkama önerilir.</li>
-                    <li>Ağartıcı kullanmayınız.</li>
+                    <li>{t("fabric_type")}</li>
+                    <li>{t("washing_instruction")}</li>
                   </ul>
                 </div>
               </div>
@@ -189,15 +188,15 @@ export default function ProductDetailsClient({ product, relatedProducts = [] }) 
               {/* Teslimat Tab */}
               <div className="border border-gray-800 bg-black/30">
                 <button onClick={() => setActiveTab(activeTab === 'teslimat' ? '' : 'teslimat')} className="w-full flex justify-between items-center p-4 text-white hover:text-neon-pink transition-colors uppercase tracking-widest text-sm font-bold">
-                  <span>Teslimat ve İade</span>
+                  <span>{t("fast_shipping")}</span>
                   <span>{activeTab === 'teslimat' ? '−' : '+'}</span>
                 </button>
                 <div className={`overflow-hidden transition-all duration-300 ${activeTab === 'teslimat' ? 'max-h-40 p-4 pt-0' : 'max-h-0 px-4'}`}>
                   <p className="text-gray-400 font-light text-sm leading-relaxed mb-2">
-                    📦 24 saat içinde kargoya verilir. Yurtiçi Kargo ile 1-3 iş günü içinde teslimat.
+                    📦 {t("fast_shipping_desc")}
                   </p>
                   <p className="text-gray-400 font-light text-sm leading-relaxed">
-                    🔄 14 gün içinde kullanılmamış ürünlerde koşulsuz şartsız iade ve değişim hakkı.
+                    🔄 {t("return_policy")}
                   </p>
                 </div>
               </div>
@@ -205,13 +204,13 @@ export default function ProductDetailsClient({ product, relatedProducts = [] }) 
 
             <ul className="mt-6 space-y-2 text-gray-500 text-sm">
               <li className="flex items-center gap-3">
-                <div className="w-1.5 h-1.5 bg-neon-pink rounded-full"></div> Hızlı Teslimat (1-3 İş Günü)
+                <div className="w-1.5 h-1.5 bg-neon-pink rounded-full"></div> {t("fast_shipping")}
               </li>
               <li className="flex items-center gap-3">
-                <div className="w-1.5 h-1.5 bg-holo-gold rounded-full"></div> Kapıda Ödeme Seçeneği
+                <div className="w-1.5 h-1.5 bg-holo-gold rounded-full"></div> {t("installment")}
               </li>
               <li className="flex items-center gap-3">
-                <div className="w-1.5 h-1.5 bg-white/30 rounded-full"></div> %100 Güvenli Alışveriş
+                <div className="w-1.5 h-1.5 bg-white/30 rounded-full"></div> {t("secure_shopping")}
               </li>
             </ul>
 
@@ -223,7 +222,7 @@ export default function ProductDetailsClient({ product, relatedProducts = [] }) 
           <div className="mt-24 border-t border-white/10 pt-16 relative">
             <div className="absolute top-0 right-1/4 w-[300px] h-[300px] bg-holo-gold opacity-[0.02] rounded-full blur-[100px] pointer-events-none"></div>
             
-            <h3 className="text-2xl font-black text-white uppercase tracking-widest mb-10 text-center">Benzer Ürünler</h3>
+            <h3 className="text-2xl font-black text-white uppercase tracking-widest mb-10 text-center">{t("similar_products")}</h3>
             
             <div className="grid grid-cols-2 md:grid-cols-4 gap-6">
               {relatedProducts.map(rp => (
@@ -233,13 +232,13 @@ export default function ProductDetailsClient({ product, relatedProducts = [] }) 
                     <Image src={rp.gorsel} alt={rp.ad} fill className="object-cover group-hover:scale-110 transition-transform duration-700" />
                     {rp.etiket && (
                       <div className="absolute top-2 left-2 z-20">
-                        <span className="text-[10px] font-bold uppercase tracking-widest bg-white text-black px-2 py-1">{rp.etiket}</span>
+                        <span className="text-[10px] font-bold uppercase tracking-widest bg-white text-black px-2 py-1">{t(rp.etiket)}</span>
                       </div>
                     )}
                   </div>
                   <div className="p-2">
-                    <p className="text-gray-400 text-[10px] uppercase tracking-widest mb-1">{rp.kategori}</p>
-                    <h4 className="text-white font-bold text-sm truncate mb-2">{rp.ad}</h4>
+                    <p className="text-gray-400 text-[10px] uppercase tracking-widest mb-1">{t(rp.kategori)}</p>
+                    <h4 className="text-white font-bold text-sm truncate mb-2">{t(rp.ad)}</h4>
                     <p className="text-neon-pink font-bold text-sm">{formatPrice(rp.fiyat)}</p>
                   </div>
                 </Link>
