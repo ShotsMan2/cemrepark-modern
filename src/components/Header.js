@@ -23,7 +23,7 @@ export default function Header() {
 
   return (
     <>
-      <header className="fixed w-full z-50 top-0 left-0 transition-all duration-300 shadow-xl">
+      <header className="w-full z-50 transition-all duration-300">
         {/* TOP BAR */}
         <div className="bg-[#111] border-b border-neon-pink text-gray-400 text-[11px] md:text-xs py-2 hidden md:block">
           <div className="container mx-auto px-4 flex justify-between items-center">
@@ -52,7 +52,7 @@ export default function Header() {
         {/* LOGO ROW */}
         <div className="bg-[#1a1a1a]/98 border-b border-neon-pink/30 flex justify-center py-4 md:py-6">
           <Link href="/" className="flex items-center group">
-            <div className="relative w-[180px] h-[60px] md:w-[280px] md:h-[90px] group-hover:opacity-80 transition-opacity duration-300">
+            <div className="relative w-[220px] h-[75px] md:w-[360px] md:h-[120px] group-hover:opacity-80 transition-opacity duration-300">
               <Image 
                 src="/assets/siteimg/cemre park.png" 
                 alt="Cemre Park" 
@@ -63,9 +63,10 @@ export default function Header() {
             </div>
           </Link>
         </div>
+      </header>
 
-        {/* MAIN NAV (Original layout) */}
-        <div className="w-full glass-panel border-b-0 border-white/5 py-1">
+      {/* MAIN NAV (Original layout) */}
+      <div className="w-full glass-panel border-b-0 border-white/5 py-1 sticky top-0 z-[60] shadow-xl">
           <div className="container mx-auto px-4 flex justify-between items-center relative">
 
             {/* Desktop Menu */}
@@ -148,10 +149,6 @@ export default function Header() {
             </div>
           </div>
         </div>
-      </header>
-
-      {/* spacer to prevent content from hiding behind the fixed header */}
-      <div className="h-[140px] md:h-[180px] w-full bg-transparent pointer-events-none"></div>
 
       {/* Search Popup Area */}
       <div className={`fixed inset-0 bg-black/95 backdrop-blur-xl z-[100] flex items-center justify-center transition-all duration-500 ${isSearchOpen ? 'opacity-100 pointer-events-auto' : 'opacity-0 pointer-events-none'}`}>
