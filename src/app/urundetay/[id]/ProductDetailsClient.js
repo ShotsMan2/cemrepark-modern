@@ -10,6 +10,7 @@ export default function ProductDetailsClient({ product, relatedProducts = [] }) 
   const { addToCart } = useStore();
   const [beden, setBeden] = useState("");
   const [renk, setRenk] = useState("");
+  const [activeTab, setActiveTab] = useState("detay");
 
   const bedenList = product.beden ? product.beden.split(",").map(s => s.trim()) : ["Standart"];
   const renkList = product.renk ? product.renk.split(",").map(s => s.trim()) : ["Standart"];
@@ -155,10 +156,52 @@ export default function ProductDetailsClient({ product, relatedProducts = [] }) 
 
             <div className="h-px w-full bg-white/10 mb-8"></div>
 
-            <h3 className="text-white font-bold uppercase tracking-wider mb-4">Ürün Detayları</h3>
-            <p className="text-gray-400 leading-relaxed font-light text-sm">
-              {product.ad} - Cemre Park kalitesiyle özenle üretilmiştir. Tam kalıp, kullandığınız bedeni tercih edebilirsiniz. Kumaş dokusu ve rahatlığıyla gün boyu şıklığınızı tamamlar. Güvenli ödeme ve hızlı kargo ile hemen sahip olun.
-            </p>
+            {/* ACCORDION TABS */}
+            <div className="space-y-4">
+              {/* Detay Tab */}
+              <div className="border border-gray-800 bg-black/30">
+                <button onClick={() => setActiveTab(activeTab === 'detay' ? '' : 'detay')} className="w-full flex justify-between items-center p-4 text-white hover:text-neon-pink transition-colors uppercase tracking-widest text-sm font-bold">
+                  <span>Ürün Detayları</span>
+                  <span>{activeTab === 'detay' ? '−' : '+'}</span>
+                </button>
+                <div className={`overflow-hidden transition-all duration-300 ${activeTab === 'detay' ? 'max-h-40 p-4 pt-0' : 'max-h-0 px-4'}`}>
+                  <p className="text-gray-400 font-light text-sm leading-relaxed">
+                    {product.ad} - Cemre Park kalitesiyle özenle üretilmiştir. Tam kalıp, kullandığınız bedeni tercih edebilirsiniz. Kumaş dokusu ve rahatlığıyla gün boyu şıklığınızı tamamlar.
+                  </p>
+                </div>
+              </div>
+
+              {/* Kumaş Tab */}
+              <div className="border border-gray-800 bg-black/30">
+                <button onClick={() => setActiveTab(activeTab === 'kumas' ? '' : 'kumas')} className="w-full flex justify-between items-center p-4 text-white hover:text-neon-pink transition-colors uppercase tracking-widest text-sm font-bold">
+                  <span>Kumaş ve Bakım</span>
+                  <span>{activeTab === 'kumas' ? '−' : '+'}</span>
+                </button>
+                <div className={`overflow-hidden transition-all duration-300 ${activeTab === 'kumas' ? 'max-h-40 p-4 pt-0' : 'max-h-0 px-4'}`}>
+                  <ul className="text-gray-400 font-light text-sm leading-relaxed list-disc list-inside">
+                    <li>%100 Premium Kumaş</li>
+                    <li>30 derecede hassas yıkama önerilir.</li>
+                    <li>Ağartıcı kullanmayınız.</li>
+                  </ul>
+                </div>
+              </div>
+
+              {/* Teslimat Tab */}
+              <div className="border border-gray-800 bg-black/30">
+                <button onClick={() => setActiveTab(activeTab === 'teslimat' ? '' : 'teslimat')} className="w-full flex justify-between items-center p-4 text-white hover:text-neon-pink transition-colors uppercase tracking-widest text-sm font-bold">
+                  <span>Teslimat ve İade</span>
+                  <span>{activeTab === 'teslimat' ? '−' : '+'}</span>
+                </button>
+                <div className={`overflow-hidden transition-all duration-300 ${activeTab === 'teslimat' ? 'max-h-40 p-4 pt-0' : 'max-h-0 px-4'}`}>
+                  <p className="text-gray-400 font-light text-sm leading-relaxed mb-2">
+                    📦 24 saat içinde kargoya verilir. Yurtiçi Kargo ile 1-3 iş günü içinde teslimat.
+                  </p>
+                  <p className="text-gray-400 font-light text-sm leading-relaxed">
+                    🔄 14 gün içinde kullanılmamış ürünlerde koşulsuz şartsız iade ve değişim hakkı.
+                  </p>
+                </div>
+              </div>
+            </div>
 
             <ul className="mt-6 space-y-2 text-gray-500 text-sm">
               <li className="flex items-center gap-3">
@@ -206,6 +249,23 @@ export default function ProductDetailsClient({ product, relatedProducts = [] }) 
         )}
 
       </div>
+
+      {/* STICKY ADD TO CART BAR (Mobile mostly, but useful everywhere on scroll down) */}
+      <div className="fixed bottom-0 left-0 w-full z-40 bg-black/80 backdrop-blur-md border-t border-white/10 py-3 px-4 flex items-center justify-between md:hidden translate-y-0 transition-transform duration-300">
+        <div className="flex items-center gap-3">
+          <div className="relative w-12 h-12 rounded overflow-hidden">
+            <Image src={product.gorsel || product.resim1} alt={product.ad} fill className="object-cover" />
+          </div>
+          <div>
+            <h4 className="text-white font-bold text-xs truncate w-32">{product.ad}</h4>
+            <span className="text-neon-pink text-xs font-bold">{product.fiyat} TL</span>
+          </div>
+        </div>
+        <button onClick={handleAddToCart} className="bg-neon-pink text-white uppercase tracking-widest font-bold px-6 py-3 text-xs clip-angled hover:bg-white hover:text-black transition-colors">
+          Sepete Ekle
+        </button>
+      </div>
+
     </div>
   );
 }

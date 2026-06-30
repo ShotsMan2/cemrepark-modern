@@ -64,9 +64,24 @@ export default function ProductsView({
       {/* Product List */}
       <div className="lg:col-span-2">
         <div className="glass-panel p-6 clip-angled min-h-[600px]">
-          <h2 className="text-xl font-bold text-white mb-6 uppercase tracking-wider border-b border-white/10 pb-4">
-            Tüm Ürünler ({products.length})
-          </h2>
+          <div className="flex flex-col md:flex-row justify-between items-start md:items-center gap-4 mb-6 border-b border-white/10 pb-4">
+            <h2 className="text-xl font-bold text-white uppercase tracking-wider">
+              Tüm Ürünler ({products.length})
+            </h2>
+            <div className="flex gap-4">
+              <input 
+                type="text" 
+                placeholder="Ürün Ara..." 
+                className="bg-black/50 border border-white/10 text-white px-4 py-2 focus:outline-none focus:border-neon-pink text-sm w-48"
+              />
+              <select className="bg-black/50 border border-white/10 text-gray-300 px-4 py-2 focus:outline-none focus:border-neon-pink text-sm uppercase tracking-widest">
+                <option value="all">Tüm Kategoriler</option>
+                <option value="elbise">Elbise</option>
+                <option value="tunik">Tunik</option>
+                <option value="takim">Takım</option>
+              </select>
+            </div>
+          </div>
           
           {isLoading ? (
             <div className="flex justify-center items-center h-64">
@@ -77,6 +92,7 @@ export default function ProductsView({
               {products.map(product => (
                 <div key={product.id} className="bg-black/30 border border-white/5 p-4 flex items-center justify-between hover:border-white/20 transition-colors clip-angled group">
                   <div className="flex items-center gap-4">
+                    <input type="checkbox" className="accent-neon-pink" />
                     <div className="w-16 h-20 bg-black overflow-hidden clip-angled relative">
                       {/* eslint-disable-next-line @next/next/no-img-element */}
                       <img src={product.gorsel || product.resim1} alt={product.ad} className="w-full h-full object-cover group-hover:scale-110 transition-transform" />

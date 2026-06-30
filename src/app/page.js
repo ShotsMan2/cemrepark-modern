@@ -3,6 +3,7 @@ import Link from "next/link";
 import { getProducts } from "../data/products";
 import FavoriteButton from "../components/FavoriteButton";
 import SearchTrigger from "../components/SearchTrigger";
+import NewsletterForm from "../components/NewsletterForm";
 
 export const dynamic = 'force-dynamic';
 
@@ -60,6 +61,24 @@ export default function Home() {
             </div>
 
           </div>
+        </div>
+      </section>
+
+      {/* 1.5 TRUSTED BRANDS MARQUEE */}
+      <section className="py-8 border-y border-white/5 bg-black/50 overflow-hidden">
+        <div className="w-full whitespace-nowrap animate-marquee flex gap-16 md:gap-32 items-center opacity-40">
+          <h4 className="text-xl font-black text-white uppercase tracking-[0.3em]">Shopier</h4>
+          <h4 className="text-xl font-black text-white uppercase tracking-[0.3em]">Yurtiçi Kargo</h4>
+          <h4 className="text-xl font-black text-white uppercase tracking-[0.3em]">Visa</h4>
+          <h4 className="text-xl font-black text-white uppercase tracking-[0.3em]">Mastercard</h4>
+          <h4 className="text-xl font-black text-white uppercase tracking-[0.3em]">Shopier</h4>
+          <h4 className="text-xl font-black text-white uppercase tracking-[0.3em]">Yurtiçi Kargo</h4>
+          <h4 className="text-xl font-black text-white uppercase tracking-[0.3em]">Visa</h4>
+          <h4 className="text-xl font-black text-white uppercase tracking-[0.3em]">Mastercard</h4>
+          <h4 className="text-xl font-black text-white uppercase tracking-[0.3em]">Shopier</h4>
+          <h4 className="text-xl font-black text-white uppercase tracking-[0.3em]">Yurtiçi Kargo</h4>
+          <h4 className="text-xl font-black text-white uppercase tracking-[0.3em]">Visa</h4>
+          <h4 className="text-xl font-black text-white uppercase tracking-[0.3em]">Mastercard</h4>
         </div>
       </section>
 
@@ -146,6 +165,39 @@ export default function Home() {
         </div>
       </section>
 
+      {/* 3.5 TESTIMONIALS */}
+      <section className="py-24 relative overflow-hidden">
+        <div className="absolute top-1/2 left-0 w-96 h-96 bg-neon-pink opacity-10 rounded-full blur-[120px] pointer-events-none"></div>
+        <div className="w-full max-w-6xl mx-auto px-4 relative z-10">
+          <div className="text-center mb-16" data-aos="fade-up">
+            <h2 className="text-4xl md:text-5xl font-black text-white mb-4">Müşterilerimiz Ne Diyor?</h2>
+            <div className="w-24 h-1 bg-holo-gold mx-auto mb-4"></div>
+            <p className="text-gray-400">Yüzlerce mutlu müşterimizin arasına katılın.</p>
+          </div>
+          
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
+            {[
+              { name: "Ayşe Y.", text: "Kumaş kalitesi beklediğimden çok daha iyi çıktı. Kargo çok hızlıydı, teşekkürler Cemre Park!", stars: 5 },
+              { name: "Zeynep K.", text: "Takımın duruşu efsane! Özel günümde kurtarıcım oldu. Kesinlikle tavsiye ediyorum.", stars: 5 },
+              { name: "Fatma T.", text: "Müşteri iletişimi harika. Beden konusunda çok yardımcı oldular, ürün tam üzerime göre.", stars: 5 }
+            ].map((review, i) => (
+              <div key={i} className="glass-panel p-8 clip-angled relative" data-aos="fade-up" data-aos-delay={i * 150}>
+                <div className="text-holo-gold mb-4 text-2xl">
+                  {"★".repeat(review.stars)}
+                </div>
+                <p className="text-gray-300 italic mb-6 leading-relaxed">&quot;{review.text}&quot;</p>
+                <div className="flex items-center gap-4">
+                  <div className="w-10 h-10 rounded-full bg-gradient-to-br from-neon-pink to-holo-gold flex items-center justify-center text-white font-bold">
+                    {review.name.charAt(0)}
+                  </div>
+                  <h4 className="text-white font-bold">{review.name}</h4>
+                </div>
+              </div>
+            ))}
+          </div>
+        </div>
+      </section>
+
       {/* 4. FUTURISTIC TRUST BADGES */}
       <section className="py-24">
         <div className="w-full max-w-6xl mx-auto px-4">
@@ -167,6 +219,15 @@ export default function Home() {
               </div>
             ))}
           </div>
+        </div>
+      </section>
+
+      {/* 5. NEWSLETTER */}
+      <section className="py-24 bg-gradient-to-t from-black via-black/80 to-transparent border-t border-neon-pink/20">
+        <div className="w-full max-w-4xl mx-auto px-4 text-center" data-aos="zoom-in">
+          <h2 className="text-3xl md:text-4xl font-black text-white mb-4 uppercase tracking-widest">VIP Ailemize Katılın</h2>
+          <p className="text-gray-400 mb-8 max-w-lg mx-auto">Yeni sezon koleksiyonlarından, özel indirimlerden ve kampanyalardan ilk siz haberdar olun.</p>
+          <NewsletterForm />
         </div>
       </section>
 
