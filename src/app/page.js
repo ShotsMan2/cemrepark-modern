@@ -2,6 +2,7 @@ import Image from "next/image";
 import Link from "next/link";
 import { getProducts } from "../data/products";
 import FavoriteButton from "../components/FavoriteButton";
+import SearchTrigger from "../components/SearchTrigger";
 
 export const dynamic = 'force-dynamic';
 
@@ -18,7 +19,7 @@ export default function Home() {
         <div className="absolute top-1/4 left-1/4 w-96 h-96 bg-neon-pink opacity-20 rounded-full blur-[100px] mix-blend-screen pointer-events-none"></div>
         <div className="absolute bottom-1/4 right-1/4 w-96 h-96 bg-holo-gold opacity-10 rounded-full blur-[100px] mix-blend-screen pointer-events-none"></div>
 
-        <div className="container mx-auto px-4 z-10 relative">
+        <div className="w-full max-w-6xl mx-auto px-4 z-10 relative">
           <div className="flex flex-col md:flex-row items-center gap-12">
             
             {/* Left Content */}
@@ -32,12 +33,10 @@ export default function Home() {
               </p>
               
               <div className="flex gap-6">
-                <Link href="#collection" className="glass-panel px-8 py-4 text-white font-medium uppercase tracking-wider hover:bg-neon-pink hover:border-neon-pink transition-all duration-300 clip-angled">
+                <Link href="#collection" className="glass-panel px-8 py-4 text-white font-medium uppercase tracking-wider hover:bg-neon-pink hover:border-neon-pink transition-all duration-300 clip-angled text-center inline-block">
                   Koleksiyonu Keşfet
                 </Link>
-                <Link href="/search" className="px-8 py-4 text-gray-300 font-medium uppercase tracking-wider border border-gray-700 hover:border-holo-gold hover:text-holo-gold transition-all duration-300 clip-angled">
-                  Arama Yap
-                </Link>
+                <SearchTrigger />
               </div>
             </div>
 
@@ -66,7 +65,7 @@ export default function Home() {
 
       {/* 2. FLOATING CARDS (BEST SELLERS) */}
       <section id="collection" className="py-24 relative z-10">
-        <div className="container mx-auto px-4">
+        <div className="w-full max-w-6xl mx-auto px-4">
           <div className="flex flex-col md:flex-row justify-between items-end mb-16" data-aos="fade-up">
             <div>
               <h2 className="text-4xl md:text-5xl font-black text-white mb-2">Trend Olanlar</h2>
@@ -111,7 +110,7 @@ export default function Home() {
 
       {/* 3. BENTO BOX SHOWCASE */}
       <section className="py-24 bg-black/50 border-y border-white/5">
-        <div className="container mx-auto px-4">
+        <div className="w-full max-w-6xl mx-auto px-4">
           <div className="grid grid-cols-1 md:grid-cols-3 gap-6 h-auto md:h-[600px]">
             
             {/* Big Feature */}
@@ -149,7 +148,7 @@ export default function Home() {
 
       {/* 4. FUTURISTIC TRUST BADGES */}
       <section className="py-24">
-        <div className="container mx-auto px-4">
+        <div className="w-full max-w-6xl mx-auto px-4">
           <div className="grid grid-cols-1 md:grid-cols-4 gap-8">
             {[
               { title: "Hızlı Teslimat", desc: "Tüm Türkiye'ye hızlı kargo imkanı", icon: "M13 10V3L4 14h7v7l9-11h-7z" },

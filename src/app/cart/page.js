@@ -1,17 +1,23 @@
 "use client";
 import Link from "next/link";
 import Image from "next/image";
+import { useState, useEffect } from "react";
 import { useStore } from "../../context/StoreContext";
 
 export default function CartPage() {
-  const { cartItems, removeFromCart, isLoaded } = useStore();
+  const { cartItems, removeFromCart } = useStore();
+  const [isLoaded, setIsLoaded] = useState(false);
+
+  useEffect(() => {
+    setIsLoaded(true);
+  }, []);
 
   const totalAmount = cartItems.reduce((acc, item) => acc + (item.fiyat * item.quantity), 0);
 
-  if (!isLoaded) return null; // Wait for localStorage
+  if (!isLoaded) return null;
 
   return (
-    <div className="min-h-screen pt-32 pb-24 relative overflow-hidden">
+    <div className="min-h-[70vh] pt-24 pb-12 relative overflow-hidden">
       {/* Background Glow */}
       <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[600px] h-[600px] bg-neon-pink opacity-[0.03] rounded-full blur-[120px] pointer-events-none"></div>
 
@@ -30,7 +36,7 @@ export default function CartPage() {
             </Link>
           </div>
         ) : (
-          <div className="flex flex-col lg:flex-row gap-8">
+          <div className="flex flex-col lg:flex-row gap-12 max-w-4xl mx-auto">
             <div className="w-full lg:w-2/3">
               <div className="glass-panel clip-angled p-6 mb-6">
                 <div className="hidden md:grid grid-cols-12 gap-4 text-gray-500 text-xs font-bold uppercase tracking-wider mb-4 border-b border-white/10 pb-4">
@@ -111,9 +117,13 @@ export default function CartPage() {
                   <span className="text-glow-gold font-black text-2xl">{totalAmount.toLocaleString('tr-TR', { minimumFractionDigits: 2 })} TL</span>
                 </div>
 
-                <button className="w-full bg-transparent border border-holo-gold text-holo-gold hover:bg-holo-gold hover:text-black py-4 uppercase font-bold tracking-widest transition-all duration-300 clip-angled text-sm">
-                  Alışverişi Tamamla
-                </button>
+                <Link 
+                  href="/checkout"
+                  className="w-full bg-neon-pink text-white hover:bg-white hover:text-neon-pink py-4 uppercase font-bold tracking-widest transition-all duration-300 rounded-lg text-sm flex items-center justify-center gap-2"
+                >
+                  <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2"><rect x="3" y="11" width="18" height="11" rx="2" ry="2"></rect><path d="M7 11V7a5 5 0 0 1 10 0v4"></path></svg>
+                  GÜVENLİ ÖDEME
+                </Link>
                 
                 <div className="mt-6 flex justify-center gap-4 text-gray-500">
                   <svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1" strokeLinecap="round" strokeLinejoin="round"><rect x="1" y="4" width="22" height="16" rx="2" ry="2"></rect><line x1="1" y1="10" x2="23" y2="10"></line></svg>

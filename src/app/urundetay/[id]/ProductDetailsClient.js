@@ -4,8 +4,9 @@ import Image from "next/image";
 import Swal from "sweetalert2";
 import { useStore } from "../../../context/StoreContext";
 import FavoriteButton from "../../../components/FavoriteButton";
+import Link from "next/link";
 
-export default function ProductDetailsClient({ product }) {
+export default function ProductDetailsClient({ product, relatedProducts = [] }) {
   const { addToCart } = useStore();
   const [beden, setBeden] = useState("");
   const [renk, setRenk] = useState("");
@@ -58,6 +59,28 @@ export default function ProductDetailsClient({ product }) {
       <div className="absolute bottom-1/4 right-1/4 w-[400px] h-[400px] bg-holo-gold opacity-[0.03] rounded-full blur-[100px] pointer-events-none"></div>
 
       <div className="container mx-auto px-4 relative z-10">
+        
+        {/* Breadcrumb */}
+        <nav className="flex text-gray-500 text-xs tracking-widest uppercase mb-8" aria-label="Breadcrumb">
+          <ol className="inline-flex items-center space-x-2">
+            <li className="inline-flex items-center">
+              <Link href="/" className="hover:text-neon-pink transition-colors">Ana Sayfa</Link>
+            </li>
+            <li>
+              <div className="flex items-center">
+                <span className="mx-2">/</span>
+                <Link href={`/search?q=${product.kategori || ''}`} className="hover:text-neon-pink transition-colors">{product.kategori || 'Koleksiyon'}</Link>
+              </div>
+            </li>
+            <li aria-current="page">
+              <div className="flex items-center text-white">
+                <span className="mx-2 text-gray-500">/</span>
+                <span className="truncate max-w-[200px] sm:max-w-xs">{product.ad}</span>
+              </div>
+            </li>
+          </ol>
+        </nav>
+
         <div className="flex flex-col lg:flex-row gap-12 items-start">
           
           {/* Image Section - Floating and Clipped */}
@@ -151,6 +174,37 @@ export default function ProductDetailsClient({ product }) {
 
           </div>
         </div>
+
+        {/* Benzer Ürünler (Related Products) */}
+        {relatedProducts.length > 0 && (
+          <div className="mt-24 border-t border-white/10 pt-16 relative">
+            <div className="absolute top-0 right-1/4 w-[300px] h-[300px] bg-holo-gold opacity-[0.02] rounded-full blur-[100px] pointer-events-none"></div>
+            
+            <h3 className="text-2xl font-black text-white uppercase tracking-widest mb-10 text-center">Benzer Ürünler</h3>
+            
+            <div className="grid grid-cols-2 md:grid-cols-4 gap-6">
+              {relatedProducts.map(rp => (
+                <Link href={`/urundetay/${rp.id}`} key={rp.id} className="group relative block glass-panel p-2 clip-angled transition-all hover:border-white/20">
+                  <div className="relative h-64 md:h-80 w-full overflow-hidden clip-angled mb-3">
+                    <div className="absolute inset-0 bg-black/20 group-hover:bg-transparent transition-colors z-10"></div>
+                    <Image src={rp.gorsel} alt={rp.ad} fill className="object-cover group-hover:scale-110 transition-transform duration-700" />
+                    {rp.etiket && (
+                      <div className="absolute top-2 left-2 z-20">
+                        <span className="text-[10px] font-bold uppercase tracking-widest bg-white text-black px-2 py-1">{rp.etiket}</span>
+                      </div>
+                    )}
+                  </div>
+                  <div className="p-2">
+                    <p className="text-gray-400 text-[10px] uppercase tracking-widest mb-1">{rp.kategori}</p>
+                    <h4 className="text-white font-bold text-sm truncate mb-2">{rp.ad}</h4>
+                    <p className="text-neon-pink font-bold text-sm">{parseFloat(rp.fiyat).toLocaleString('tr-TR')} TL</p>
+                  </div>
+                </Link>
+              ))}
+            </div>
+          </div>
+        )}
+
       </div>
     </div>
   );

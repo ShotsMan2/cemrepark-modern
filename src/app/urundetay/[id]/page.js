@@ -1,4 +1,4 @@
-import { getProductById } from "../../../data/products";
+import { getProductById, getProducts } from "../../../data/products";
 import ProductDetailsClient from "./ProductDetailsClient";
 
 export const dynamic = 'force-dynamic';
@@ -15,5 +15,10 @@ export default async function UrunDetay({ params }) {
     );
   }
 
-  return <ProductDetailsClient product={product} />;
+  const allProducts = getProducts();
+  const relatedProducts = allProducts
+    .filter(p => p.kategori === product.kategori && p.id !== product.id)
+    .slice(0, 4);
+
+  return <ProductDetailsClient product={product} relatedProducts={relatedProducts} />;
 }
