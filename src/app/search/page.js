@@ -8,6 +8,7 @@ export const dynamic = 'force-dynamic';
 export default async function SearchPage({ searchParams }) {
   const resolvedParams = await searchParams;
   const query = resolvedParams.q || "";
+  const isSearch = resolvedParams.type === 'search';
   const results = searchProducts(query);
 
   return (
@@ -27,9 +28,11 @@ export default async function SearchPage({ searchParams }) {
               "Koleksiyon"
             )}
           </h1>
-          <p className="text-gray-400">
-            Toplam <strong className="text-white">{results.length}</strong> ürün bulunuyor.
-          </p>
+          {isSearch && (
+            <p className="text-gray-400">
+              Toplam <strong className="text-white">{results.length}</strong> ürün bulunuyor.
+            </p>
+          )}
         </div>
 
         {results.length === 0 ? (
