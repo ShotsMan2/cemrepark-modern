@@ -102,14 +102,14 @@ export default function CheckoutPage() {
   if (!isLoaded || cartItems.length === 0) return null;
 
   return (
-    <div className="min-h-screen pt-32 pb-24 relative overflow-hidden">
+    <div className="min-h-[70vh] pt-24 pb-12 relative overflow-hidden">
       {/* Background glow */}
       <div className="absolute top-1/3 right-0 w-96 h-96 bg-neon-pink opacity-5 rounded-full blur-[100px] mix-blend-screen pointer-events-none"></div>
 
       <div className="container mx-auto px-4 relative z-10">
         <h1 className="text-4xl md:text-5xl font-black mb-12 tracking-widest uppercase text-glow-pink text-center">GÜVENLİ ÖDEME</h1>
 
-        <div className="flex flex-col lg:flex-row gap-12 max-w-6xl mx-auto">
+        <div className="flex flex-col lg:flex-row gap-12 max-w-5xl mx-auto">
           
           {/* LEFT: PAYMENT FORM */}
           <div className="w-full lg:w-2/3">

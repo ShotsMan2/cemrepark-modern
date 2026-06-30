@@ -18,11 +18,8 @@ export default function Footer() {
           {/* Brand Info */}
           <div className="lg:col-span-1">
             <Link href="/" className="inline-block mb-6">
-              <div className="flex items-center gap-3">
-                <div className="w-10 h-10 rounded-full border border-holo-gold flex items-center justify-center p-1 bg-white">
-                  <Image src="/assets/siteimg/cemre park.png" alt="Cemre Park" width={32} height={32} className="object-contain" />
-                </div>
-                <span className="text-xl font-bold tracking-widest text-white uppercase">Cemre Park</span>
+              <div className="relative w-[200px] h-[70px]">
+                <Image src="/assets/siteimg/cemre park.png" alt="Cemre Park" fill className="object-contain object-left" />
               </div>
             </Link>
             <p className="text-gray-400 text-sm leading-relaxed mb-6">

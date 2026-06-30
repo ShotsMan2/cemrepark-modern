@@ -15,8 +15,15 @@ export default function Header() {
     const handleEsc = (e) => {
       if (e.key === 'Escape') setIsSearchOpen(false);
     };
+    const handleOpenSearch = () => setIsSearchOpen(true);
+    
     window.addEventListener('keydown', handleEsc);
-    return () => window.removeEventListener('keydown', handleEsc);
+    window.addEventListener('open-search', handleOpenSearch);
+    
+    return () => {
+      window.removeEventListener('keydown', handleEsc);
+      window.removeEventListener('open-search', handleOpenSearch);
+    };
   }, []);
 
   if (pathname.startsWith("/admin")) return null;
@@ -67,7 +74,7 @@ export default function Header() {
 
       {/* MAIN NAV (Original layout) */}
       <div className="w-full glass-panel border-b-0 border-white/5 py-1 sticky top-0 z-[60] shadow-xl">
-          <div className="container mx-auto px-4 flex justify-between items-center relative">
+          <div className="w-full px-4 md:px-6 flex justify-between items-center relative">
 
             {/* Desktop Menu */}
             <div className="hidden lg:flex items-center gap-6">
