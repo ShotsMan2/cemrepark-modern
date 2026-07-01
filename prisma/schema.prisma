@@ -1,0 +1,90 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "sqlite"
+  url      = "file:./dev.db"
+}
+
+model User {
+  id       Int      @id @default(autoincrement())
+  email    String   @unique
+  password String
+  role     String   @default("admin")
+  reviews  Review[]
+  orders   Order[]
+}
+
+model Setting {
+  id    Int    @id @default(autoincrement())
+  key   String @unique
+  value String
+}
+
+model Message {
+  id      Int      @id @default(autoincrement())
+  adSoyad String
+  telefon String?
+  email   String
+  mesaj   String
+  tarih   String
+}
+
+model Product {
+  id       Int     @id @default(autoincrement())
+  ad       String
+  fiyat    Float
+  kategori String?
+  resim    String?
+  gorsel   String?
+  etiket   String?
+  renk     String?
+  beden    String?
+  stok     Int     @default(0)
+  reviews  Review[]
+}
+
+model Category {
+  id   Int    @id @default(autoincrement())
+  name String @unique
+}
+
+model Order {
+  id         Int      @id @default(autoincrement())
+  customer   String
+  userId     Int?
+  user       User?    @relation(fields: [userId], references: [id])
+  total      Float
+  status     String
+  createdAt  DateTime @default(now())
+}
+
+model Page {
+  id        Int      @id @default(autoincrement())
+  slug      String   @unique
+  title     String
+  content   String
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+}
+
+model Banner {
+  id        Int      @id @default(autoincrement())
+  title     String
+  imageUrl  String
+  linkUrl   String?
+  isActive  Boolean  @default(true)
+  order     Int      @default(0)
+}
+
+model Review {
+  id        Int      @id @default(autoincrement())
+  productId Int
+  product   Product  @relation(fields: [productId], references: [id])
+  userId    Int
+  user      User     @relation(fields: [userId], references: [id])
+  rating    Int
+  comment   String
+  createdAt DateTime @default(now())
+}

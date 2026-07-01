@@ -1,50 +1,79 @@
 import { NextResponse } from 'next/server';
-import fs from 'fs';
-import path from 'path';
+import prisma from '@/lib/prisma';
 
-const filePath = path.join(process.cwd(), 'src', 'data', 'settings.json');
-
-function readSettings() {
-  try {
-    const fileContents = fs.readFileSync(filePath, 'utf8');
-    return JSON.parse(fileContents);
-  } catch (error) {
-    return {
-      siteAdi: "Cemre Park",
-      iletisimEposta: "info@cemrepark.com",
-      destekTelefonu: "0554 169 89 09",
-      adres: "Moda Sokak No: 123, Tekstil Merkezi, İstanbul",
-      kargoUcreti: 49.90,
-      ucretsizKargoLimiti: 1500,
-      ayniGunTeslimat: true,
-      bakimModu: false,
-      ozelCss: ""
-    };
-  }
-}
-
-function writeSettings(data) {
-  fs.writeFileSync(filePath, JSON.stringify(data, null, 2));
-}
+const defaultSettings = {
+  siteAdi: "Cemre Park",
+  iletisimEposta: "info@cemrepark.com",
+  destekTelefonu: "0554 169 89 09",
+  adres: "Moda Sokak No: 123, Tekstil Merkezi, İstanbul",
+  kargoUcreti: 49.90,
+  ucretsizKargoLimiti: 1500,
+  ayniGunTeslimat: true,
+  bakimModu: false,
+  ozelCss: ""
+};
 
 export async function GET() {
-  const settings = readSettings();
-  return NextResponse.json(settings);
+  try {
+    const settingsRows = await prisma.setting.findMany();
+    
+    // If no settings in DB, return defaults
+    if (settingsRows.length === 0) {
+      return NextResponse.json(defaultSettings);
+    }
+    
+    const settings = { ...defaultSettings };
+    
+    settingsRows.forEach(row => {
+      // Parse boolean and number values if needed based on key
+      let value = row.value;
+      if (value === 'true') value = true;
+      else if (value === 'false') value = false;
+      else if (!isNaN(Number(value)) && value.trim() !== '' && typeof defaultSettings[row.key] === 'number') {
+        value = Number(value);
+      }
+      settings[row.key] = value;
+    });
+
+    return NextResponse.json(settings);
+  } catch (error) {
+    console.error(error);
+    return NextResponse.json(defaultSettings);
+  }
 }
 
 export async function POST(request) {
   try {
     const body = await request.json();
-    const currentSettings = readSettings();
     
-    const updatedSettings = {
-      ...currentSettings,
-      ...body
-    };
+    // Update or create each setting
+    for (const [key, value] of Object.entries(body)) {
+      const stringValue = typeof value === 'string' ? value : String(value);
+      
+      await prisma.setting.upsert({
+        where: { key },
+        update: { value: stringValue },
+        create: { key, value: stringValue },
+      });
+    }
     
-    writeSettings(updatedSettings);
+    // Fetch updated settings to return
+    const updatedRows = await prisma.setting.findMany();
+    const updatedSettings = { ...defaultSettings };
+    
+    updatedRows.forEach(row => {
+      let value = row.value;
+      if (value === 'true') value = true;
+      else if (value === 'false') value = false;
+      else if (!isNaN(Number(value)) && value.trim() !== '' && typeof defaultSettings[row.key] === 'number') {
+        value = Number(value);
+      }
+      updatedSettings[row.key] = value;
+    });
+    
     return NextResponse.json(updatedSettings);
   } catch (error) {
+    console.error(error);
     return NextResponse.json({ error: 'Ayarlar güncellenemedi' }, { status: 500 });
   }
 }

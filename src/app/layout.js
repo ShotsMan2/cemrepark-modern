@@ -10,6 +10,7 @@ import SvgDefs from "../components/SvgDefs";
 import AOSInitializer from "../components/AOSInitializer";
 import { StoreProvider } from "../context/StoreContext";
 import MaintenanceGuard from "../components/MaintenanceGuard";
+import AuthProvider from "../components/AuthProvider";
 import Script from "next/script";
 
 const jost = Jost({ subsets: ["latin"], variable: "--font-jost" });
@@ -19,9 +20,37 @@ import { getSettings } from "../data/settings";
 
 export async function generateMetadata() {
   const settings = getSettings();
+  const siteAdi = settings.siteAdi || "Cemre Park";
+  const defaultTitle = `${siteAdi} - Size çok yakışacak! 💫`;
+  const defaultDescription = `${siteAdi} Online Mağaza`;
+
   return {
-    title: `${settings.siteAdi || "Cemre Park"} - Size çok yakışacak! 💫`,
-    description: `${settings.siteAdi || "Cemre Park"} Online Mağaza`,
+    title: {
+      default: defaultTitle,
+      template: `%s | ${siteAdi}`
+    },
+    description: defaultDescription,
+    openGraph: {
+      title: defaultTitle,
+      description: defaultDescription,
+      url: process.env.NEXT_PUBLIC_BASE_URL || 'http://localhost:3000',
+      siteName: siteAdi,
+      images: [
+        {
+          url: '/images/og-image.jpg', // Default OG image
+          width: 1200,
+          height: 630,
+        }
+      ],
+      locale: 'tr_TR',
+      type: 'website',
+    },
+    twitter: {
+      card: 'summary_large_image',
+      title: defaultTitle,
+      description: defaultDescription,
+      images: ['/images/og-image.jpg'],
+    },
   };
 }
 
@@ -37,17 +66,19 @@ export default function RootLayout({ children }) {
         <Script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js" strategy="beforeInteractive" />
       </head>
       <body className={`${jost.variable} ${marcellus.variable} homepage`}>
-        <StoreProvider>
-          <MaintenanceGuard>
-            <AOSInitializer />
-            <SvgDefs />
-            <Header />
-            
-            {children}
-            
-            <Footer />
-          </MaintenanceGuard>
-        </StoreProvider>
+        <AuthProvider>
+          <StoreProvider>
+            <MaintenanceGuard>
+              <AOSInitializer />
+              <SvgDefs />
+              <Header />
+              
+              {children}
+              
+              <Footer />
+            </MaintenanceGuard>
+          </StoreProvider>
+        </AuthProvider>
 
         <Script src="https://cdn.jsdelivr.net/npm/sweetalert2@11" strategy="afterInteractive" />
         <Script src="https://cdn.jsdelivr.net/npm/swiper@9/swiper-bundle.min.js" strategy="afterInteractive" />

@@ -7,13 +7,23 @@ import FavoriteButton from "../../../components/FavoriteButton";
 import Link from "next/link";
 import QuickViewModal from "../../../components/QuickViewModal";
 import { getValidImageUrl } from "../../../utils/imageHelper";
+import { useSession } from "next-auth/react";
 
-export default function ProductDetailsClient({ product, relatedProducts = [] }) {
+export default function ProductDetailsClient({ product, relatedProducts = [], initialReviews = [] }) {
+  const { data: session } = useSession();
   const { addToCart, formatPrice, t } = useStore();
   const [beden, setBeden] = useState("");
   const [renk, setRenk] = useState("");
   const [activeTab, setActiveTab] = useState("detay");
   const [quickViewProduct, setQuickViewProduct] = useState(null);
+  
+  const [reviews, setReviews] = useState(initialReviews);
+  const [rating, setRating] = useState(5);
+  const [comment, setComment] = useState("");
+  const [isSubmittingReview, setIsSubmittingReview] = useState(false);
+
+  const avgRating = reviews.length > 0 ? (reviews.reduce((acc, r) => acc + r.rating, 0) / reviews.length).toFixed(1) : 0;
+
 
   const bedenList = product.beden ? product.beden.split(",").map(s => s.trim()) : ["Standart"];
   const renkList = product.renk ? product.renk.split(",").map(s => s.trim()) : ["Standart"];
@@ -54,6 +64,64 @@ export default function ProductDetailsClient({ product, relatedProducts = [] }) 
         popup: 'border border-neon-pink backdrop-blur-md rounded-xl'
       }
     });
+  };
+
+  const handleReviewSubmit = async (e) => {
+    e.preventDefault();
+    if (!session) {
+      Swal.fire({
+        icon: 'warning',
+        title: 'Giriş Yapın',
+        text: 'Yorum yapmak için giriş yapmalısınız.',
+        background: '#1a1a1a',
+        color: '#fff',
+      });
+      return;
+    }
+    
+    setIsSubmittingReview(true);
+    try {
+      const res = await fetch("/api/reviews", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({
+          productId: product.id,
+          userId: session.user.id,
+          rating,
+          comment
+        })
+      });
+      
+      const data = await res.json();
+      
+      if (!res.ok) throw new Error(data.error);
+      
+      setReviews([{...data.review, user: { email: session.user.email }}, ...reviews]);
+      setComment("");
+      setRating(5);
+      Swal.fire({
+        toast: true,
+        position: 'bottom-end',
+        showConfirmButton: false,
+        timer: 3000,
+        icon: 'success',
+        title: 'Teşekkürler!',
+        text: 'Yorumunuz başarıyla eklendi.',
+        background: 'rgba(10, 10, 10, 0.9)',
+        color: '#fff',
+        iconColor: '#ff007f',
+      });
+    } catch (err) {
+      Swal.fire({
+        icon: 'error',
+        title: 'Hata',
+        text: err.message,
+        background: '#1a1a1a',
+        color: '#fff',
+      });
+    } finally {
+      setIsSubmittingReview(false);
+    }
   };
 
   return (
@@ -109,7 +177,17 @@ export default function ProductDetailsClient({ product, relatedProducts = [] }) 
           {/* Details Section */}
           <div className="w-full lg:w-1/2 glass-panel p-8 md:p-12 clip-angled" data-aos="fade-left">
             <span className="text-neon-pink tracking-[0.2em] text-xs font-bold uppercase mb-4 block">{product.etiket ? t(product.etiket) : t("new_season")}</span>
-            <h1 className="text-4xl md:text-5xl font-black text-white mb-6 leading-tight">{t(product.ad)}</h1>
+            <h1 className="text-4xl md:text-5xl font-black text-white mb-2 leading-tight">{t(product.ad)}</h1>
+            
+            {/* Reviews Summary */}
+            <div className="flex items-center gap-2 mb-6">
+              <div className="flex text-holo-gold text-lg">
+                {[1,2,3,4,5].map(star => (
+                  <span key={star} className={star <= avgRating ? "text-holo-gold" : "text-gray-600"}>★</span>
+                ))}
+              </div>
+              <span className="text-gray-400 text-sm">({reviews.length} Değerlendirme)</span>
+            </div>
             
             <h2 className="text-3xl font-bold text-glow-gold mb-8">
               {formatPrice(product.fiyat)}
@@ -217,6 +295,85 @@ export default function ProductDetailsClient({ product, relatedProducts = [] }) 
               </li>
             </ul>
 
+          </div>
+        </div>
+
+        {/* Müşteri Yorumları Section */}
+        <div className="mt-24 border-t border-white/10 pt-16 relative">
+          <h3 className="text-2xl font-black text-white uppercase tracking-widest mb-10 text-center">Değerlendirmeler</h3>
+          
+          <div className="grid md:grid-cols-2 gap-12">
+            {/* Add Review Form */}
+            <div className="glass-panel p-8 clip-angled bg-black/40 border border-white/10 backdrop-blur-md">
+              <h4 className="text-xl font-bold text-white mb-6 uppercase tracking-wider">Yorum Yap</h4>
+              {session ? (
+                <form onSubmit={handleReviewSubmit} className="space-y-4">
+                  <div>
+                    <label className="block text-gray-400 text-sm font-bold mb-2 uppercase">Puanınız</label>
+                    <div className="flex gap-2">
+                      {[1,2,3,4,5].map(star => (
+                        <button 
+                          key={star} 
+                          type="button" 
+                          onClick={() => setRating(star)}
+                          className={`text-2xl ${rating >= star ? 'text-holo-gold' : 'text-gray-600'} hover:text-holo-gold transition-colors`}
+                        >
+                          ★
+                        </button>
+                      ))}
+                    </div>
+                  </div>
+                  <div>
+                    <label className="block text-gray-400 text-sm font-bold mb-2 uppercase">Yorumunuz</label>
+                    <textarea 
+                      value={comment}
+                      onChange={(e) => setComment(e.target.value)}
+                      className="w-full bg-black/50 border border-white/10 text-white px-4 py-3 focus:outline-none focus:border-neon-pink transition-colors h-32 resize-none"
+                      placeholder="Ürün hakkındaki düşüncelerinizi paylaşın..."
+                      required
+                    ></textarea>
+                  </div>
+                  <button 
+                    type="submit" 
+                    disabled={isSubmittingReview}
+                    className="w-full bg-neon-pink text-white font-bold py-3 uppercase tracking-widest hover:bg-white hover:text-black transition-colors clip-angled disabled:opacity-50"
+                  >
+                    {isSubmittingReview ? "Gönderiliyor..." : "Yorumu Gönder"}
+                  </button>
+                </form>
+              ) : (
+                <div className="text-center py-8">
+                  <p className="text-gray-400 mb-4">Yorum yapmak için giriş yapmalısınız.</p>
+                  <Link href="/hesabim" className="inline-block bg-transparent border border-neon-pink text-neon-pink hover:bg-neon-pink hover:text-white py-3 px-8 uppercase font-bold tracking-widest transition-all duration-300 clip-angled text-sm">
+                    Giriş Yap
+                  </Link>
+                </div>
+              )}
+            </div>
+
+            {/* Reviews List */}
+            <div className="space-y-6">
+              {reviews.length > 0 ? (
+                reviews.map(review => (
+                  <div key={review.id} className="border-b border-white/10 pb-6">
+                    <div className="flex justify-between items-start mb-2">
+                      <div>
+                        <p className="text-white font-bold">{review.user?.email.split('@')[0]}</p>
+                        <div className="flex text-holo-gold text-sm mt-1">
+                          {[1,2,3,4,5].map(star => (
+                            <span key={star} className={star <= review.rating ? "text-holo-gold" : "text-gray-600"}>★</span>
+                          ))}
+                        </div>
+                      </div>
+                      <span className="text-gray-500 text-xs">{new Date(review.createdAt).toLocaleDateString('tr-TR')}</span>
+                    </div>
+                    <p className="text-gray-400 text-sm mt-2">{review.comment}</p>
+                  </div>
+                ))
+              ) : (
+                <p className="text-gray-500 italic">Henüz yorum yapılmamış. İlk yorumu siz yapın!</p>
+              )}
+            </div>
           </div>
         </div>
 

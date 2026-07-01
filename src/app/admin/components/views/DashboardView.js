@@ -20,9 +20,19 @@ const categoryData = [
 const COLORS = ['#ff007f', '#ffd700', '#a855f7', '#3b82f6'];
 
 export default function DashboardView({ products }) {
-  const totalProducts = products.length;
-  const activeCategories = [...new Set(products.map(p => p.kategori))].filter(Boolean).length;
-  const totalValue = products.reduce((sum, p) => sum + (parseFloat(p.fiyat) || 0), 0);
+  const [stats, setStats] = useState(null);
+
+  useEffect(() => {
+    fetch('/api/analytics')
+      .then(res => res.json())
+      .then(data => setStats(data))
+      .catch(err => console.error("Analytics fetch error:", err));
+  }, []);
+
+  const totalProducts = stats ? stats.products : products.length;
+  const activeCategories = stats ? stats.categories : [...new Set(products.map(p => p.kategori))].filter(Boolean).length;
+  const totalRevenue = stats ? stats.revenue : 0;
+  const totalOrders = stats ? stats.orders : 0;
   
   const totalCategoryValue = categoryData.reduce((sum, item) => sum + item.value, 0);
 
@@ -94,17 +104,17 @@ export default function DashboardView({ products }) {
         {/* Metric Card 3 */}
         <div className="glass-panel p-6 clip-angled relative overflow-hidden group hover:border-purple-500 transition-colors">
           <div className="absolute top-0 right-0 w-24 h-24 bg-purple-500 opacity-10 rounded-bl-full group-hover:scale-110 transition-transform"></div>
-          <p className="text-gray-400 text-xs font-bold uppercase tracking-widest mb-1">Stok Değeri</p>
-          <h3 className="text-3xl font-black text-white">{totalValue.toLocaleString('tr-TR')} ₺</h3>
-          <p className="text-purple-500 text-xs mt-2 font-bold">Satışa hazır</p>
+          <p className="text-gray-400 text-xs font-bold uppercase tracking-widest mb-1">Toplam Gelir</p>
+          <h3 className="text-3xl font-black text-white">{totalRevenue.toLocaleString('tr-TR')} ₺</h3>
+          <p className="text-purple-500 text-xs mt-2 font-bold">Tamamlanan satışlar</p>
         </div>
 
         {/* Metric Card 4 */}
         <div className="glass-panel p-6 clip-angled relative overflow-hidden group hover:border-green-500 transition-colors">
           <div className="absolute top-0 right-0 w-24 h-24 bg-green-500 opacity-10 rounded-bl-full group-hover:scale-110 transition-transform"></div>
-          <p className="text-gray-400 text-xs font-bold uppercase tracking-widest mb-1">Bekleyen Sipariş</p>
-          <h3 className="text-3xl font-black text-white">14</h3>
-          <p className="text-green-500 text-xs mt-2 font-bold">Acil gönderim</p>
+          <p className="text-gray-400 text-xs font-bold uppercase tracking-widest mb-1">Toplam Sipariş</p>
+          <h3 className="text-3xl font-black text-white">{totalOrders}</h3>
+          <p className="text-green-500 text-xs mt-2 font-bold">Tüm zamanlar</p>
         </div>
       </div>
 
