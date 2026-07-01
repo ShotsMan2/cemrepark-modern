@@ -204,26 +204,26 @@ export default function DashboardView({ products }) {
         </div>
 
         {/* Top Selling Products Mock */}
-        <div className="glass-panel p-6 md:p-8 clip-angled relative border border-white/5 h-[400px]">
-          <h3 className="text-white font-bold uppercase tracking-widest mb-2">En Çok Satanlar</h3>
-          <p className="text-gray-500 text-xs mb-6">Bu ayın en popüler ürünleri</p>
+        <div className="glass-panel p-6 clip-angled relative border border-white/5 h-[400px]">
+          <h3 className="text-white font-bold uppercase tracking-widest mb-1">En Çok Satanlar</h3>
+          <p className="text-gray-500 text-xs mb-4">Bu ayın en popüler ürünleri</p>
           
-          <div className="space-y-4">
+          <div className="space-y-3 overflow-y-auto max-h-[280px] pr-1 custom-scrollbar">
             {[
               { name: "Premium Kadın Takım Siyah", sales: 124, rev: "310.000 ₺", progress: 85, color: "neon-pink" },
               { name: "Yeni Sezon Tunik Bej", sales: 98, rev: "147.000 ₺", progress: 65, color: "holo-gold" },
               { name: "Klasik Ceket Ekru", sales: 75, rev: "187.500 ₺", progress: 45, color: "purple-500" },
               { name: "Günlük Elbise Desenli", sales: 42, rev: "63.000 ₺", progress: 25, color: "blue-400" }
             ].map((prod, i) => (
-              <div key={i} className="bg-black/30 p-3 border border-white/5 clip-angled">
-                <div className="flex justify-between text-sm mb-2">
-                  <span className="text-white font-bold truncate pr-4">{prod.name}</span>
-                  <span className="text-holo-gold font-bold whitespace-nowrap">{prod.rev}</span>
+              <div key={i} className="bg-black/30 p-2.5 border border-white/5 clip-angled">
+                <div className="flex justify-between text-sm mb-1.5">
+                  <span className="text-white font-bold truncate pr-4 text-xs md:text-sm">{prod.name}</span>
+                  <span className="text-holo-gold font-bold whitespace-nowrap text-xs md:text-sm">{prod.rev}</span>
                 </div>
-                <div className="flex justify-between text-xs text-gray-500 mb-1">
+                <div className="flex justify-between text-[10px] text-gray-500 mb-1">
                   <span>{prod.sales} Adet satıldı</span>
                 </div>
-                <div className="w-full h-1.5 bg-gray-800 rounded-full overflow-hidden">
+                <div className="w-full h-1 bg-gray-800 rounded-full overflow-hidden">
                   <div className={`h-full bg-${prod.color}`} style={{ width: `${prod.progress}%` }}></div>
                 </div>
               </div>

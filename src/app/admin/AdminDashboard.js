@@ -1,6 +1,6 @@
 "use client";
 
-import { useState, useEffect } from "react";
+import { useState, useEffect, useRef } from "react";
 import Swal from "sweetalert2";
 import AdminSidebar from "./components/AdminSidebar";
 import DashboardView from "./components/views/DashboardView";
@@ -189,6 +189,22 @@ export default function AdminDashboard({ onLogout }) {
     }
   };
 
+  const notificationRef = useRef(null);
+
+  useEffect(() => {
+    const handleClickOutside = (event) => {
+      if (notificationRef.current && !notificationRef.current.contains(event.target)) {
+        setShowNotifications(false);
+      }
+    };
+    if (showNotifications) {
+      document.addEventListener("mousedown", handleClickOutside);
+    }
+    return () => {
+      document.removeEventListener("mousedown", handleClickOutside);
+    };
+  }, [showNotifications]);
+
   return (
     <div className="min-h-screen flex bg-[#0a0a0a] relative overflow-hidden text-white">
       {/* Background ambient light */}
@@ -211,7 +227,7 @@ export default function AdminDashboard({ onLogout }) {
             </h1>
           </div>
           <div className="flex items-center gap-4">
-            <div className="relative">
+            <div className="relative" ref={notificationRef}>
               <button 
                 onClick={() => {
                   setShowNotifications(!showNotifications);
