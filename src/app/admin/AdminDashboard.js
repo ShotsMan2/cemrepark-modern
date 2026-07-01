@@ -1,6 +1,6 @@
 "use client";
 
-import { useState, useEffect } from "react";
+import { useState, useEffect, useRef } from "react";
 import Swal from "sweetalert2";
 import AdminSidebar from "./components/AdminSidebar";
 import DashboardView from "./components/views/DashboardView";
@@ -8,6 +8,7 @@ import ProductsView from "./components/views/ProductsView";
 import OrdersView from "./components/views/OrdersView";
 import CustomersView from "./components/views/CustomersView";
 import SettingsView from "./components/views/SettingsView";
+import MessagesView from "./components/views/MessagesView";
 
 export default function AdminDashboard({ onLogout }) {
   const [activeTab, setActiveTab] = useState('dashboard');
@@ -135,6 +136,8 @@ export default function AdminDashboard({ onLogout }) {
         return <OrdersView />;
       case 'customers':
         return <CustomersView />;
+      case 'messages':
+        return <MessagesView />;
       case 'settings':
         return <SettingsView />;
       default:
@@ -144,14 +147,63 @@ export default function AdminDashboard({ onLogout }) {
 
   const [showNotifications, setShowNotifications] = useState(false);
   const [unreadNotifications, setUnreadNotifications] = useState(true);
+  const [notifications, setNotifications] = useState([
+    { id: 'n1', text: "Yeni sipariş alındı #1042", time: "2 dk önce" },
+    { id: 'n2', text: "Ayşe Y. siparişi teslim edildi", time: "1 saat önce" },
+    { id: 'n3', text: "Ürün stoğu güncellendi (Kap)", time: "3 saat önce" },
+    { id: 'n4', text: "Yeni üye kaydı (zeynep@...)", time: "5 saat önce" },
+    { id: 'n5', text: "Ödeme onaylandı #1041", time: "12 saat önce" },
+  ]);
 
-  const notifications = [
-    { id: 1, text: "Yeni sipariş alındı #1042", time: "2 dk önce" },
-    { id: 2, text: "Ayşe Y. siparişi teslim edildi", time: "1 saat önce" },
-    { id: 3, text: "Ürün stoğu güncellendi (Kap)", time: "3 saat önce" },
-    { id: 4, text: "Yeni üye kaydı (zeynep@...)", time: "5 saat önce" },
-    { id: 5, text: "Ödeme onaylandı #1041", time: "12 saat önce" },
-  ];
+  useEffect(() => {
+    const fetchMessageNotifications = async () => {
+      try {
+        const res = await fetch('/api/messages');
+        if (res.ok) {
+          const data = await res.json();
+          const messageNotifications = data.map(msg => ({
+            id: `msg-${msg.id}`,
+            text: `Yeni Mesaj: ${msg.adSoyad} - "${msg.mesaj.substring(0, 25)}${msg.mesaj.length > 25 ? '...' : ''}"`,
+            time: msg.tarih,
+            isMessage: true
+          }));
+          setNotifications(prev => {
+            const standardNotes = prev.filter(n => typeof n.id === 'string' && n.id.startsWith('n'));
+            return [...messageNotifications, ...standardNotes];
+          });
+          if (data.length > 0) {
+            setUnreadNotifications(true);
+          }
+        }
+      } catch (err) {
+        console.error("Bildirim mesajları yüklenirken hata:", err);
+      }
+    };
+    fetchMessageNotifications();
+  }, [activeTab]);
+
+  const handleNotificationClick = (item) => {
+    if (item.isMessage) {
+      setActiveTab('messages');
+      setShowNotifications(false);
+    }
+  };
+
+  const notificationRef = useRef(null);
+
+  useEffect(() => {
+    const handleClickOutside = (event) => {
+      if (notificationRef.current && !notificationRef.current.contains(event.target)) {
+        setShowNotifications(false);
+      }
+    };
+    if (showNotifications) {
+      document.addEventListener("mousedown", handleClickOutside);
+    }
+    return () => {
+      document.removeEventListener("mousedown", handleClickOutside);
+    };
+  }, [showNotifications]);
 
   return (
     <div className="min-h-screen flex bg-[#0a0a0a] relative overflow-hidden text-white">
@@ -170,11 +222,12 @@ export default function AdminDashboard({ onLogout }) {
               {activeTab === 'dashboard' ? 'Dashboard' : 
                activeTab === 'products' ? 'Ürün Yönetimi' : 
                activeTab === 'orders' ? 'Sipariş Yönetimi' : 
-               activeTab === 'customers' ? 'Müşteri Yönetimi' : 'Ayarlar'}
+               activeTab === 'customers' ? 'Müşteri Yönetimi' : 
+               activeTab === 'messages' ? 'Gelen Mesajlar' : 'Ayarlar'}
             </h1>
           </div>
           <div className="flex items-center gap-4">
-            <div className="relative">
+            <div className="relative" ref={notificationRef}>
               <button 
                 onClick={() => {
                   setShowNotifications(!showNotifications);
@@ -201,7 +254,11 @@ export default function AdminDashboard({ onLogout }) {
                   </div>
                   <div className="space-y-3 max-h-64 overflow-y-auto">
                     {notifications.map(n => (
-                      <div key={n.id} className="p-2.5 rounded bg-white/5 hover:bg-white/10 transition-colors border-l-2 border-neon-pink text-xs">
+                      <div 
+                        key={n.id} 
+                        onClick={() => handleNotificationClick(n)}
+                        className={`p-2.5 rounded bg-white/5 hover:bg-white/10 transition-colors border-l-2 border-neon-pink text-xs ${n.isMessage ? 'cursor-pointer hover:border-holo-gold' : ''}`}
+                      >
                         <p className="text-white font-medium mb-1">{n.text}</p>
                         <span className="text-gray-500 text-[10px]">{n.time}</span>
                       </div>
