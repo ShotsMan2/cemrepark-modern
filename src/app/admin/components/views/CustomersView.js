@@ -1,4 +1,9 @@
+import { useState } from 'react';
+import Swal from 'sweetalert2';
+
 export default function CustomersView() {
+  const [searchTerm, setSearchTerm] = useState('');
+
   const mockCustomers = [
     { id: 'CUS-001', isim: 'Ahmet Yılmaz', email: 'ahmet@example.com', kayit: '15 Oca 2026', harcama: 12500, segment: 'VIP', siparisSayisi: 8 },
     { id: 'CUS-002', isim: 'Ayşe Demir', email: 'ayse@example.com', kayit: '02 Mar 2026', harcama: 4200, segment: 'Regular', siparisSayisi: 3 },
@@ -7,6 +12,11 @@ export default function CustomersView() {
     { id: 'CUS-005', isim: 'Zeynep Yılmaz', email: 'zeynep@example.com', kayit: '20 May 2026', harcama: 2400, segment: 'Regular', siparisSayisi: 2 },
   ];
 
+  const filteredCustomers = mockCustomers.filter(c => {
+    return c.isim.toLowerCase().includes(searchTerm.toLowerCase()) || 
+           c.email.toLowerCase().includes(searchTerm.toLowerCase());
+  });
+
   const getSegmentColor = (segment) => {
     switch (segment) {
       case 'VIP': return 'bg-holo-gold/20 text-holo-gold border-holo-gold/30';
@@ -14,6 +24,32 @@ export default function CustomersView() {
       case 'New': return 'bg-neon-pink/20 text-neon-pink border-neon-pink/30';
       default: return 'bg-gray-500/20 text-gray-400 border-gray-500/30';
     }
+  };
+
+  const handleSendEmail = () => {
+    Swal.fire({
+      title: 'Toplu E-posta Gönder',
+      text: `${filteredCustomers.length} müşteriye bülten e-postası gönderilecek. Onaylıyor musunuz?`,
+      icon: 'question',
+      showCancelButton: true,
+      confirmButtonColor: '#ff007f',
+      cancelButtonColor: '#333',
+      confirmButtonText: 'Evet, Gönder',
+      cancelButtonText: 'İptal',
+      background: "#1a1a1a",
+      color: "#fff"
+    }).then((result) => {
+      if (result.isConfirmed) {
+        Swal.fire({
+          title: 'Başarılı!',
+          text: 'E-postalar kuyruğa alındı ve gönderim işlemi başlatıldı.',
+          icon: 'success',
+          confirmButtonColor: '#ff007f',
+          background: "#1a1a1a",
+          color: "#fff"
+        });
+      }
+    });
   };
 
   return (
@@ -28,20 +64,24 @@ export default function CustomersView() {
             <input 
               type="text" 
               placeholder="İsim, E-posta Ara..." 
+              value={searchTerm}
+              onChange={(e) => setSearchTerm(e.target.value)}
               className="bg-black/50 border border-white/10 text-white px-4 py-2 focus:outline-none focus:border-neon-pink text-sm w-64"
             />
-            <button className="bg-neon-pink text-white font-bold py-2 px-6 uppercase tracking-widest text-sm hover:bg-white hover:text-black transition-colors clip-angled">
+            <button 
+              onClick={handleSendEmail}
+              className="bg-neon-pink text-white font-bold py-2 px-6 uppercase tracking-widest text-sm hover:bg-white hover:text-black transition-colors clip-angled"
+            >
               E-posta Gönder
             </button>
           </div>
         </div>
       </div>
-
+ 
       <div className="glass-panel p-0 clip-angled overflow-hidden">
         <table className="w-full text-left border-collapse">
           <thead>
             <tr className="border-b border-white/10 bg-black/40 text-gray-400 text-xs uppercase tracking-wider">
-              <th className="p-4 w-12"><input type="checkbox" className="accent-neon-pink" /></th>
               <th className="p-4 font-bold">Müşteri</th>
               <th className="p-4 font-bold">İletişim</th>
               <th className="p-4 font-bold">Segment</th>
@@ -51,9 +91,8 @@ export default function CustomersView() {
             </tr>
           </thead>
           <tbody className="divide-y divide-white/5">
-            {mockCustomers.map((c, i) => (
+            {filteredCustomers.map((c, i) => (
               <tr key={i} className="hover:bg-white/5 transition-colors group cursor-pointer">
-                <td className="p-4"><input type="checkbox" className="accent-neon-pink" /></td>
                 <td className="p-4">
                   <div className="flex items-center gap-3">
                     <div className="w-10 h-10 rounded-full bg-gradient-to-br from-neon-pink/50 to-holo-gold/50 flex items-center justify-center text-white font-bold uppercase">
@@ -79,7 +118,29 @@ export default function CustomersView() {
                   {c.harcama.toLocaleString('tr-TR')} ₺
                 </td>
                 <td className="p-4 text-right">
-                  <button className="text-gray-400 hover:text-white transition-colors text-sm underline decoration-white/20 underline-offset-4">Profili Gör</button>
+                  <button 
+                    onClick={() => {
+                      Swal.fire({
+                        title: c.isim,
+                        html: `
+                          <div class="text-left text-sm space-y-2">
+                            <p><strong>Müşteri ID:</strong> ${c.id}</p>
+                            <p><strong>E-posta:</strong> ${c.email}</p>
+                            <p><strong>Segment:</strong> ${c.segment}</p>
+                            <p><strong>Kayıt Tarihi:</strong> ${c.kayit}</p>
+                            <p><strong>Sipariş Adedi:</strong> ${c.siparisSayisi}</p>
+                            <p><strong>Toplam Harcama:</strong> ${c.harcama.toLocaleString('tr-TR')} ₺</p>
+                          </div>
+                        `,
+                        confirmButtonColor: '#ff007f',
+                        background: "#1a1a1a",
+                        color: "#fff"
+                      });
+                    }}
+                    className="text-gray-400 hover:text-white transition-colors text-sm underline decoration-white/20 underline-offset-4"
+                  >
+                    Profili Gör
+                  </button>
                 </td>
               </tr>
             ))}

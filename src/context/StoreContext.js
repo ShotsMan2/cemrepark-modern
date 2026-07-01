@@ -11,6 +11,18 @@ export function StoreProvider({ children }) {
   const [language, setLanguage] = useState("TR");
   const [currency, setCurrency] = useState("TL");
 
+  const [settings, setSettings] = useState({
+    siteAdi: "Cemre Park",
+    iletisimEposta: "info@cemrepark.com",
+    destekTelefonu: "0554 169 89 09",
+    adres: "Moda Sokak No: 123, Tekstil Merkezi, İstanbul",
+    kargoUcreti: 49.90,
+    ucretsizKargoLimiti: 1500,
+    ayniGunTeslimat: true,
+    bakimModu: false,
+    ozelCss: ""
+  });
+
   // Load from localStorage on mount
   useEffect(() => {
     const savedCart = localStorage.getItem("cemrepark_cart");
@@ -24,6 +36,22 @@ export function StoreProvider({ children }) {
     if (savedCurr) setCurrency(savedCurr);
     
     setIsLoaded(true);
+  }, []);
+
+  // Load settings from API
+  useEffect(() => {
+    const fetchSettings = async () => {
+      try {
+        const res = await fetch("/api/settings");
+        if (res.ok) {
+          const data = await res.json();
+          setSettings(data);
+        }
+      } catch (error) {
+        console.error("Ayarlar yüklenirken hata:", error);
+      }
+    };
+    fetchSettings();
   }, []);
 
   // Save to localStorage whenever items change
@@ -70,6 +98,9 @@ export function StoreProvider({ children }) {
   };
 
   const t = (key, params = {}) => {
+    if (key === "badge_whatsapp_support_desc" && settings?.destekTelefonu) {
+      return settings.destekTelefonu;
+    }
     let text = translations[language]?.[key] || translations["TR"][key] || key;
     Object.keys(params).forEach(k => {
       text = text.replace(`{${k}}`, params[k]);
@@ -121,7 +152,9 @@ export function StoreProvider({ children }) {
       currency,
       setCurrency,
       formatPrice,
-      t
+      t,
+      settings,
+      setSettings
     }}>
       {children}
     </StoreContext.Provider>

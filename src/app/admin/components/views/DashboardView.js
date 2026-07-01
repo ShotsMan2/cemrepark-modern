@@ -1,3 +1,4 @@
+import { useState, useEffect } from 'react';
 import { AreaChart, Area, XAxis, YAxis, CartesianGrid, Tooltip, ResponsiveContainer, PieChart, Pie, Cell } from 'recharts';
 
 const data = [
@@ -24,6 +25,38 @@ export default function DashboardView({ products }) {
   const totalValue = products.reduce((sum, p) => sum + (parseFloat(p.fiyat) || 0), 0);
   
   const totalCategoryValue = categoryData.reduce((sum, item) => sum + item.value, 0);
+
+  const [activities, setActivities] = useState([
+    { text: "Yeni sipariş alındı #1042", time: "2 dk önce", color: "neon-pink" },
+    { text: "Ayşe Y. siparişi teslim edildi", time: "1 saat önce", color: "green-500" },
+    { text: "Ürün stoğu güncellendi (Kap)", time: "3 saat önce", color: "holo-gold" },
+    { text: "Yeni üye kaydı (zeynep@...)", time: "5 saat önce", color: "purple-500" },
+    { text: "Ödeme onaylandı #1041", time: "Dün", color: "green-500" }
+  ]);
+
+  useEffect(() => {
+    const fetchRecentMessages = async () => {
+      try {
+        const res = await fetch('/api/messages');
+        if (res.ok) {
+          const messagesData = await res.json();
+          const messageActivities = messagesData.map(msg => ({
+            text: `Yeni İletişim Mesajı: ${msg.adSoyad}`,
+            time: msg.tarih,
+            color: "neon-pink"
+          }));
+          
+          setActivities(prev => {
+            const mockActs = prev.filter(a => !a.text.startsWith("Yeni İletişim Mesajı:"));
+            return [...messageActivities, ...mockActs];
+          });
+        }
+      } catch (error) {
+        console.error("Dashboard son işlemler yüklenirken hata:", error);
+      }
+    };
+    fetchRecentMessages();
+  }, []);
   
   const CustomTooltip = ({ active, payload, label }) => {
     if (active && payload && payload.length) {
@@ -113,13 +146,7 @@ export default function DashboardView({ products }) {
         <div className="glass-panel p-6 md:p-8 clip-angled relative border border-white/5">
           <h3 className="text-white font-bold uppercase tracking-widest mb-6">Son İşlemler</h3>
           <div className="space-y-6 overflow-y-auto max-h-72 pr-2 custom-scrollbar">
-            {[
-              { text: "Yeni sipariş alındı #1042", time: "2 dk önce", color: "neon-pink" },
-              { text: "Ayşe Y. siparişi teslim edildi", time: "1 saat önce", color: "green-500" },
-              { text: "Ürün stoğu güncellendi (Kap)", time: "3 saat önce", color: "holo-gold" },
-              { text: "Yeni üye kaydı (zeynep@...)", time: "5 saat önce", color: "purple-500" },
-              { text: "Ödeme onaylandı #1041", time: "Dün", color: "green-500" }
-            ].map((act, i) => (
+            {activities.map((act, i) => (
               <div key={i} className="flex items-start gap-4">
                 <div className={`w-2 h-2 mt-2 rounded-full bg-${act.color} shadow-[0_0_8px_var(--color-${act.color})]`}></div>
                 <div>

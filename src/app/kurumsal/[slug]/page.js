@@ -1,9 +1,11 @@
 import { notFound } from "next/navigation";
 import ContactForm from "../../../components/ContactForm";
+import { getSettings } from "../../../data/settings";
 
 export default async function KurumsalPage({ params }) {
   const resolvedParams = await params;
   const { slug } = resolvedParams;
+  const settings = getSettings();
 
   const contentMap = {
     hakkimizda: {
@@ -37,21 +39,21 @@ export default async function KurumsalPage({ params }) {
                 <div className="w-12 h-12 border border-holo-gold flex items-center justify-center text-holo-gold clip-angled">M</div>
                 <div>
                   <h4 className="text-white font-bold uppercase tracking-wider text-sm">E-Posta</h4>
-                  <p className="text-gray-400">info@cemrepark.com</p>
+                  <p className="text-gray-400">{settings.iletisimEposta || "info@cemrepark.com"}</p>
                 </div>
               </div>
               <div className="flex gap-4 items-center">
                 <div className="w-12 h-12 border border-neon-pink flex items-center justify-center text-neon-pink clip-angled">T</div>
                 <div>
                   <h4 className="text-white font-bold uppercase tracking-wider text-sm">Telefon</h4>
-                  <p className="text-gray-400">0850 123 45 67</p>
+                  <p className="text-gray-400">{settings.destekTelefonu || "0554 169 89 09"}</p>
                 </div>
               </div>
               <div className="flex gap-4 items-center">
                 <div className="w-12 h-12 border border-white/20 flex items-center justify-center text-white clip-angled">A</div>
                 <div>
                   <h4 className="text-white font-bold uppercase tracking-wider text-sm">Adres</h4>
-                  <p className="text-gray-400">Moda Sokak No: 123, Tekstil Merkezi, İstanbul</p>
+                  <p className="text-gray-400">{settings.adres || "Moda Sokak No: 123, Tekstil Merkezi, İstanbul"}</p>
                 </div>
               </div>
             </div>
