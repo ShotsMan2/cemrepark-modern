@@ -5,6 +5,7 @@ import Link from "next/link";
 import FavoriteButton from "../../components/FavoriteButton";
 import QuickViewModal from "../../components/QuickViewModal";
 import { useStore } from "../../context/StoreContext";
+import { getValidImageUrl } from "../../utils/imageHelper";
 
 export default function SearchClient({ initialResults, query, isSearch }) {
   const { formatPrice, t } = useStore();
@@ -86,8 +87,8 @@ export default function SearchClient({ initialResults, query, isSearch }) {
                 className="w-full accent-neon-pink mb-2"
               />
               <div className="flex justify-between text-xs text-gray-500 font-bold">
-                <span>0 TL</span>
-                <span>{priceRange} TL</span>
+                <span>{formatPrice(0)}</span>
+                <span>{formatPrice(priceRange)}</span>
               </div>
             </div>
 
@@ -156,7 +157,14 @@ export default function SearchClient({ initialResults, query, isSearch }) {
               </div>
               <h2 className="text-2xl font-bold text-white mb-4">{t("no_products_found")}</h2>
               <p className="text-gray-400 mb-8">{t("no_products_found_desc")}</p>
-              <button onClick={() => setResults(initialResults)} className="inline-block bg-transparent border border-holo-gold text-holo-gold hover:bg-holo-gold hover:text-black py-3 px-8 uppercase font-bold tracking-widest transition-all duration-300 clip-angled text-sm">
+              <button 
+                onClick={() => {
+                  setPriceRange(5000);
+                  setSelectedColors([]);
+                  setSelectedSizes([]);
+                }} 
+                className="inline-block bg-transparent border border-holo-gold text-holo-gold hover:bg-holo-gold hover:text-black py-3 px-8 uppercase font-bold tracking-widest transition-all duration-300 clip-angled text-sm"
+              >
                 {t("remove_filters")}
               </button>
             </div>
@@ -174,7 +182,7 @@ export default function SearchClient({ initialResults, query, isSearch }) {
                   <div className="relative h-96 w-full clip-angled overflow-hidden m-2 rounded-t-lg group-hover:shadow-[0_0_20px_rgba(255,0,127,0.3)] transition-shadow duration-300">
                     <Link href={`/urundetay/${product.id}`} className="block w-full h-full">
                       <Image 
-                        src={product.gorsel} 
+                        src={getValidImageUrl(product.gorsel)} 
                         alt={t(product.ad)}
                         fill
                         className="object-cover group-hover:scale-110 transition-transform duration-500 opacity-90 group-hover:opacity-100"

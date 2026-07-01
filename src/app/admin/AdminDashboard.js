@@ -47,6 +47,20 @@ export default function AdminDashboard({ onLogout }) {
       return Swal.fire("Hata", "Lütfen zorunlu alanları (Ad, Fiyat, Görsel URL) doldurun.", "error");
     }
 
+    const gorselUrl = formData.gorsel.trim();
+    const isValidUrl = gorselUrl.startsWith('/') || gorselUrl.startsWith('http://') || gorselUrl.startsWith('https://');
+    
+    if (!isValidUrl) {
+      return Swal.fire({
+        title: "Geçersiz Görsel URL",
+        text: "Görsel URL'si '/' ile başlamalı (örn: /assets/siteimg/yeni1.jpg) veya 'http://', 'https://' içermelidir.",
+        icon: "warning",
+        confirmButtonColor: "#ff007f",
+        background: "#1a1a1a",
+        color: "#fff"
+      });
+    }
+
     const method = editingId ? 'PUT' : 'POST';
     const url = editingId ? `/api/products/${editingId}` : '/api/products';
     const payload = { ...formData, fiyat: parseFloat(formData.fiyat) };
@@ -128,6 +142,17 @@ export default function AdminDashboard({ onLogout }) {
     }
   };
 
+  const [showNotifications, setShowNotifications] = useState(false);
+  const [unreadNotifications, setUnreadNotifications] = useState(true);
+
+  const notifications = [
+    { id: 1, text: "Yeni sipariş alındı #1042", time: "2 dk önce" },
+    { id: 2, text: "Ayşe Y. siparişi teslim edildi", time: "1 saat önce" },
+    { id: 3, text: "Ürün stoğu güncellendi (Kap)", time: "3 saat önce" },
+    { id: 4, text: "Yeni üye kaydı (zeynep@...)", time: "5 saat önce" },
+    { id: 5, text: "Ödeme onaylandı #1041", time: "12 saat önce" },
+  ];
+
   return (
     <div className="min-h-screen flex bg-[#0a0a0a] relative overflow-hidden text-white">
       {/* Background ambient light */}
@@ -149,10 +174,42 @@ export default function AdminDashboard({ onLogout }) {
             </h1>
           </div>
           <div className="flex items-center gap-4">
-            <button className="text-gray-400 hover:text-white transition-colors relative">
-              <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M18 8A6 6 0 0 0 6 8c0 7-3 9-3 9h18s-3-2-3-9"></path><path d="M13.73 21a2 2 0 0 1-3.46 0"></path></svg>
-              <span className="absolute -top-1 -right-1 w-3 h-3 bg-neon-pink rounded-full border border-black"></span>
-            </button>
+            <div className="relative">
+              <button 
+                onClick={() => {
+                  setShowNotifications(!showNotifications);
+                  setUnreadNotifications(false);
+                }} 
+                className="text-gray-400 hover:text-white transition-colors relative focus:outline-none block py-2"
+              >
+                <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M18 8A6 6 0 0 0 6 8c0 7-3 9-3 9h18s-3-2-3-9"></path><path d="M13.73 21a2 2 0 0 1-3.46 0"></path></svg>
+                {unreadNotifications && (
+                  <span className="absolute top-1.5 right-0.5 w-3 h-3 bg-neon-pink rounded-full border border-black"></span>
+                )}
+              </button>
+              
+              {showNotifications && (
+                <div className="absolute right-0 mt-2 w-80 glass-panel p-4 clip-angled border border-white/10 shadow-2xl z-50 text-left">
+                  <div className="flex justify-between items-center mb-4 pb-2 border-b border-white/10">
+                    <span className="font-bold text-xs uppercase tracking-widest text-holo-gold">Bildirimler</span>
+                    <button 
+                      onClick={() => setShowNotifications(false)}
+                      className="text-gray-500 hover:text-white text-xs"
+                    >
+                      Kapat
+                    </button>
+                  </div>
+                  <div className="space-y-3 max-h-64 overflow-y-auto">
+                    {notifications.map(n => (
+                      <div key={n.id} className="p-2.5 rounded bg-white/5 hover:bg-white/10 transition-colors border-l-2 border-neon-pink text-xs">
+                        <p className="text-white font-medium mb-1">{n.text}</p>
+                        <span className="text-gray-500 text-[10px]">{n.time}</span>
+                      </div>
+                    ))}
+                  </div>
+                </div>
+              )}
+            </div>
             <button 
               onClick={onLogout}
               className="border border-white/20 text-white hover:border-neon-pink hover:text-neon-pink px-4 py-1.5 uppercase tracking-widest text-xs transition-colors clip-angled ml-4"

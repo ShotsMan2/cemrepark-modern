@@ -33,6 +33,7 @@ export const translations = {
     "filters": "Filtreler",
     "price_range": "Fiyat Aralığı",
     "remove_filters": "Filtreleri Kaldır",
+    "no_products_found": "Ürün Bulunamadı",
     "no_products_found_desc": "Aradığınız kriterlere uygun bir ürün stoklarımızda bulunmuyor.",
     "quick_view_desc": "Bu ürün Cemre Park özel koleksiyonunun bir parçasıdır. Göz alıcı tasarımı ve premium kumaş kalitesiyle öne çıkar. Detaylı incelemek için ürün sayfasına gidebilirsiniz.",
     "explore": "Keşfet",
@@ -133,6 +134,60 @@ export const translations = {
     "Bol Paça Pantolon": "Bol Paça Pantolon",
     "İspanyol Paça Dabil Pantolon": "İspanyol Paça Dabil Pantolon",
     "Beyoğlu Taşlı Pantolon": "Beyoğlu Taşlı Pantolon",
+    
+    // Yorumlar & Güven Rozetleri
+    "review_1_text": "Kumaş kalitesi beklediğimden çok daha iyi çıktı. Kargo çok hızlıydı, teşekkürler Cemre Park!",
+    "review_2_text": "Takımın duruşu efsane! Özel günümde kurtarıcım oldu. Kesinlikle tavsiye ediyorum.",
+    "review_3_text": "Müşteri iletişimi harika. Beden konusunda çok yardımcı oldular, ürün tam üzerime göre.",
+    
+    "badge_fast_delivery": "Hızlı Teslimat",
+    "badge_fast_delivery_desc": "Tüm Türkiye'ye hızlı kargo imkanı",
+    "badge_secure_payment": "Güvenli Ödeme",
+    "badge_secure_payment_desc": "Kapıda Nakit veya Kredi Kartı",
+    "badge_customer_satisfaction": "Müşteri Memnuniyeti",
+    "badge_customer_satisfaction_desc": "Yüzlerce mutlu müşteri",
+    "badge_whatsapp_support": "WhatsApp Destek",
+    "badge_whatsapp_support_desc": "0554 169 89 09",
+    
+    "menu_clothing": "Giyim",
+    "menu_two_piece": "İkili Takımlar",
+    "menu_dresses": "Elbiseler",
+    "menu_tunics": "Tunikler",
+    "menu_trousers": "Pantolonlar",
+    
+    "menu_outerwear": "Dış Giyim",
+    "menu_jacket_blazer": "Ceket & Blazer",
+    "menu_trench": "Trençkot",
+    "menu_coat_jacket": "Kaban & Mont",
+    
+    "favorite_added_toast": "Favorilere Eklendi!",
+    "favorite_removed_toast": "Favorilerden Çıkarıldı!",
+    "favorite_add_title": "Favorilere Ekle",
+    "favorite_remove_title": "Favorilerden Çıkar",
+    
+    "home": "Ana Sayfa",
+    "select_size": "Beden Seçiniz",
+    "select_color": "Renk Seçiniz",
+    
+    "favorites": "Favorilerim",
+    "no_favorites": "Favori Ürününüz Yok",
+    "no_favorites_desc": "Beğendiğiniz ürünleri favorilerinize ekleyerek daha sonra kolayca bulabilirsiniz.",
+    
+    "Siyah": "Siyah",
+    "Bej": "Bej",
+    "Haki": "Haki",
+    "pembe": "Pembe",
+    "yar": "Yar",
+    
+    "search_placeholder": "Ürün, kategori arayın...",
+    "popular_searches": "Popüler Aramalar",
+    "search_hijab_dress": "Tesettür Elbise",
+    "search_two_piece": "İkili Takım",
+    "search_tunic": "Tunik",
+    "search_coat": "Kap & Kaban",
+    "search_trousers": "Pantolon",
+    "search_evening_dress": "Abiye",
+    
     "expiry": "SKT (AA/YY)",
     "cvv": "CVV",
     "complete_order": "Siparişi Tamamla",
@@ -191,6 +246,7 @@ export const translations = {
     "filters": "Filters",
     "price_range": "Price Range",
     "remove_filters": "Remove Filters",
+    "no_products_found": "No Products Found",
     "no_products_found_desc": "We couldn't find any products matching your criteria.",
     "quick_view_desc": "This product is part of the Cemre Park special collection. It stands out with its eye-catching design and premium fabric quality.",
     "explore": "Explore",
@@ -313,7 +369,59 @@ export const translations = {
     "Jileli Bronşlu Elbise": "Brooch Jumper Dress",
     "Bol Paça Pantolon": "Wide Leg Trousers",
     "İspanyol Paça Dabil Pantolon": "Flared Double Trousers",
-    "Beyoğlu Taşlı Pantolon": "Beyoglu Stone Trousers"
+    "Beyoğlu Taşlı Pantolon": "Beyoglu Stone Trousers",
+    
+    "review_1_text": "The fabric quality was much better than I expected. Shipping was very fast, thanks Cemre Park!",
+    "review_2_text": "The stance of the suit is legendary! It was my savior on my special day. I definitely recommend it.",
+    "review_3_text": "Great customer communication. They were very helpful with the sizing, the product fits me perfectly.",
+    
+    "badge_fast_delivery": "Fast Delivery",
+    "badge_fast_delivery_desc": "Fast shipping opportunity to all over Turkey",
+    "badge_secure_payment": "Secure Payment",
+    "badge_secure_payment_desc": "Cash on Delivery or Credit Card",
+    "badge_customer_satisfaction": "Customer Satisfaction",
+    "badge_customer_satisfaction_desc": "Hundreds of happy customers",
+    "badge_whatsapp_support": "WhatsApp Support",
+    "badge_whatsapp_support_desc": "0554 169 89 09",
+    
+    "menu_clothing": "Clothing",
+    "menu_two_piece": "Two-Piece Sets",
+    "menu_dresses": "Dresses",
+    "menu_tunics": "Tunics",
+    "menu_trousers": "Trousers",
+    
+    "menu_outerwear": "Outerwear",
+    "menu_jacket_blazer": "Jacket & Blazer",
+    "menu_trench": "Trench Coat",
+    "menu_coat_jacket": "Coat & Jacket",
+    
+    "favorite_added_toast": "Added to Favorites!",
+    "favorite_removed_toast": "Removed from Favorites!",
+    "favorite_add_title": "Add to Favorites",
+    "favorite_remove_title": "Remove from Favorites",
+    
+    "home": "Home",
+    "select_size": "Select Size",
+    "select_color": "Select Color",
+    
+    "favorites": "My Favorites",
+    "no_favorites": "No Favorite Products",
+    "no_favorites_desc": "You can easily find the products you like later by adding them to your favorites.",
+    
+    "Siyah": "Black",
+    "Bej": "Beige",
+    "Haki": "Khaki",
+    "pembe": "Pink",
+    "yar": "Yar",
+    
+    "search_placeholder": "Search product, category...",
+    "popular_searches": "Popular Searches",
+    "search_hijab_dress": "Hijab Dress",
+    "search_two_piece": "Two-Piece Set",
+    "search_tunic": "Tunic",
+    "search_coat": "Coat & Jacket",
+    "search_trousers": "Trousers",
+    "search_evening_dress": "Evening Dress"
   },
   AR: {
     "collection": "مجموعة",
@@ -349,6 +457,7 @@ export const translations = {
     "filters": "مرشحات",
     "price_range": "نطاق السعر",
     "remove_filters": "إزالة المرشحات",
+    "no_products_found": "لم يتم العثور على أي منتج",
     "no_products_found_desc": "لم نتمكن من العثور على أي منتجات.",
     "quick_view_desc": "هذا المنتج جزء من مجموعة سيمري بارك الخاصة.",
     "explore": "اكتشف",
@@ -471,6 +580,58 @@ export const translations = {
     "Jileli Bronşlu Elbise": "فستان بدون أكمام ببروش",
     "Bol Paça Pantolon": "بنطلون واسع الساق",
     "İspanyol Paça Dabil Pantolon": "بنطلون واسع من الأسفل",
-    "Beyoğlu Taşlı Pantolon": "بنطلون بيوغلو بحجر"
+    "Beyoğlu Taşlı Pantolon": "بنطلون بيوغلو بحجر",
+    
+    "review_1_text": "جودة القماش كانت أفضل بكثير مما توقعت. الشحن كان سريعاً جداً، شكراً جمرة بارك!",
+    "review_2_text": "مظهر الطقم أسطوري! كان منقذي في يومي الخاص. أوصي به بالتأكيد.",
+    "review_3_text": "تواصل رائع مع العملاء. لقد كانوا متعاونين للغاية في تحديد المقاس، المنتج يناسبني تماماً.",
+    
+    "badge_fast_delivery": "توصيل سريع",
+    "badge_fast_delivery_desc": "فرصة شحن سريع لجميع أنحاء تركيا",
+    "badge_secure_payment": "دفع آمن",
+    "badge_secure_payment_desc": "الدفع نقدًا عند الاستلام أو بالبطاقة الائتمانية",
+    "badge_customer_satisfaction": "رضا العملاء",
+    "badge_customer_satisfaction_desc": "المئات من العملاء السعداء",
+    "badge_whatsapp_support": "دعم واتساب",
+    "badge_whatsapp_support_desc": "0554 169 89 09",
+    
+    "menu_clothing": "ملابس",
+    "menu_two_piece": "أطقم قطعتين",
+    "menu_dresses": "فساتين",
+    "menu_tunics": "تونيكات",
+    "menu_trousers": "بنطلونات",
+    
+    "menu_outerwear": "ملابس خارجية",
+    "menu_jacket_blazer": "جاكيت وبليزر",
+    "menu_trench": "معطف خندق",
+    "menu_coat_jacket": "معاطف وجاكيتات",
+    
+    "favorite_added_toast": "تمت الإضافة إلى المفضلة!",
+    "favorite_removed_toast": "تمت الإزالة من المفضلة!",
+    "favorite_add_title": "أضف إلى المفضلة",
+    "favorite_remove_title": "إزالة من المفضلة",
+    
+    "home": "الرئيسية",
+    "select_size": "اختر المقاس",
+    "select_color": "اختر اللون",
+    
+    "favorites": "مفضلاتي",
+    "no_favorites": "لا توجد منتجات مفضلة",
+    "no_favorites_desc": "يمكنك العثور بسهولة على المنتجات التي تعجبك لاحقًا عن طريق إضافتها إلى مفضلاتك.",
+    
+    "Siyah": "أسود",
+    "Bej": "بيج",
+    "Haki": "كاكي",
+    "pembe": "وردي",
+    "yar": "يار",
+    
+    "search_placeholder": "ابحث عن منتج، فئة...",
+    "popular_searches": "عمليات البحث الشائعة",
+    "search_hijab_dress": "فستان محجبات",
+    "search_two_piece": "طقم قطعتين",
+    "search_tunic": "تونيك",
+    "search_coat": "معاطف وجواكت",
+    "search_trousers": "بنطلونات",
+    "search_evening_dress": "فستان سهرة"
   }
 };

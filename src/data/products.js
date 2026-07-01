@@ -30,10 +30,39 @@ export function searchProducts(query) {
   const allProducts = getProducts();
   if (!query) return allProducts;
   
-  const lowerQuery = query.toLowerCase();
-  return allProducts.filter(p => 
-    p.ad.toLowerCase().includes(lowerQuery) || 
-    (p.etiket && p.etiket.toLowerCase().includes(lowerQuery)) ||
-    (p.kategori && p.kategori.toLowerCase().includes(lowerQuery))
-  );
+  let lowerQuery = query.toLowerCase();
+
+  // Create a mapping from popular search english/arabic terms to their turkish counterparts
+  const termMappings = {
+    "hijab dress": "elbise",
+    "فستان محجبات": "elbise",
+    "two-piece set": "takım",
+    "طقم قطعتين": "takım",
+    "coat & jacket": "kaban",
+    "معاطف وجواكت": "kaban",
+    "trousers": "pantolon",
+    "بنطلونات": "pantolon",
+    "evening dress": "abiye",
+    "فستان سهرة": "abiye",
+    "tunic": "tunik",
+    "تونيك": "tunik"
+  };
+
+  let mappedQuery = lowerQuery;
+  for (const [key, val] of Object.entries(termMappings)) {
+    if (lowerQuery.includes(key)) {
+      mappedQuery = val;
+      break;
+    }
+  }
+
+  return allProducts.filter(p => {
+    const textToSearch = [
+      p.ad,
+      p.etiket || "",
+      p.kategori || ""
+    ].join(" ").toLowerCase();
+
+    return textToSearch.includes(lowerQuery) || textToSearch.includes(mappedQuery);
+  });
 }

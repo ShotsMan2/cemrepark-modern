@@ -10,10 +10,10 @@ export default function AdminSidebar({ activeTab, setActiveTab }) {
   return (
     <aside className="w-64 bg-black/40 border-r border-white/10 hidden lg:block backdrop-blur-xl h-screen sticky top-0">
       <div className="p-6 h-full flex flex-col">
-        <div className="mb-10 text-center">
+        <a href="/admin" className="mb-10 text-center block group hover:opacity-80 transition-opacity w-full focus:outline-none cursor-pointer">
           <h2 className="text-2xl font-black text-white tracking-[0.2em] uppercase">CEMRE<span className="text-neon-pink">PARK</span></h2>
           <p className="text-gray-500 text-[10px] tracking-widest mt-1 uppercase">Yönetim Paneli</p>
-        </div>
+        </a>
         
         <nav className="flex-1 space-y-2">
           {menuItems.map(item => (

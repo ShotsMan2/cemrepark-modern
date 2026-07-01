@@ -5,9 +5,9 @@ import Link from "next/link";
 import FavoriteButton from "../components/FavoriteButton";
 import QuickViewModal from "../components/QuickViewModal";
 import SearchTrigger from "../components/SearchTrigger";
-import NewsletterForm from "../components/NewsletterForm";
 import PriceDisplay from "../components/PriceDisplay";
 import { useStore } from "../context/StoreContext";
+import { getValidImageUrl } from "../utils/imageHelper";
 
 export default function HomeClient({ bestSellers, discounted }) {
   const { t } = useStore();
@@ -51,7 +51,7 @@ export default function HomeClient({ bestSellers, discounted }) {
               <div className="relative w-4/5 h-full clip-angled glass-panel p-2">
                 <div className="relative w-full h-full clip-angled overflow-hidden">
                   <Image 
-                    src={bestSellers[0]?.gorsel || "/images/placeholder.jpg"} 
+                    src={getValidImageUrl(bestSellers[0]?.gorsel)} 
                     alt="Hero Image" 
                     fill
                     className="object-cover scale-105 hover:scale-110 transition-transform duration-700"
@@ -108,7 +108,7 @@ export default function HomeClient({ bestSellers, discounted }) {
                     </div>
                   )}
                   
-                  <Image src={product.gorsel || product.resim1} alt={product.ad} fill className="object-cover transition-transform duration-700 group-hover:scale-110" />
+                  <Image src={getValidImageUrl(product.gorsel || product.resim1)} alt={product.ad} fill className="object-cover transition-transform duration-700 group-hover:scale-110" />
                   
                   <Link href={`/urundetay/${product.id}`} className="absolute inset-0 z-20">
                     <div className="absolute inset-0 bg-black/40 opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex items-center justify-center">
@@ -147,7 +147,7 @@ export default function HomeClient({ bestSellers, discounted }) {
             
             {/* Big Feature */}
             <div className="md:col-span-2 glass-panel relative group overflow-hidden clip-angled" data-aos="fade-right">
-              <Image src={discounted[0]?.gorsel || "/images/placeholder.jpg"} alt="Giyim" fill className="object-cover opacity-60 group-hover:opacity-80 transition-opacity duration-500" />
+              <Image src={getValidImageUrl(discounted[0]?.gorsel)} alt="Giyim" fill className="object-cover opacity-60 group-hover:opacity-80 transition-opacity duration-500" />
               <div className="absolute inset-0 bg-gradient-to-t from-black/90 via-black/20 to-transparent p-10 flex flex-col justify-end">
                 <span className="text-neon-pink uppercase tracking-[0.2em] text-sm font-bold mb-2">{t("special_design")}</span>
                 <h3 className="text-4xl font-black text-white mb-4">{t("premium_coats")}</h3>
@@ -159,14 +159,14 @@ export default function HomeClient({ bestSellers, discounted }) {
             <div className="flex flex-col gap-6" data-aos="fade-left">
               <div className="h-1/2 glass-panel relative group overflow-hidden clip-angled">
                 <div className="absolute inset-0 bg-gradient-to-br from-neon-pink/20 to-transparent z-10 pointer-events-none"></div>
-                <Image src={discounted[1]?.gorsel || "/images/placeholder.jpg"} alt="Elbise" fill className="object-cover opacity-50 group-hover:scale-110 transition-transform duration-700" />
+                <Image src={getValidImageUrl(discounted[1]?.gorsel)} alt="Elbise" fill className="object-cover opacity-50 group-hover:scale-110 transition-transform duration-700" />
                 <div className="absolute inset-0 flex flex-col items-center justify-center text-center z-20">
                   <h4 className="text-2xl font-bold text-white mb-2">{t("minimalist_dresses")}</h4>
                   <Link href="/search" className="text-xs uppercase tracking-widest text-gray-300 hover:text-white">{t("explore")}</Link>
                 </div>
               </div>
               <div className="h-1/2 glass-panel relative group overflow-hidden clip-angled">
-                <Image src={discounted[2]?.gorsel || "/images/placeholder.jpg"} alt="Tunik" fill className="object-cover opacity-50 group-hover:scale-110 transition-transform duration-700" />
+                <Image src={getValidImageUrl(discounted[2]?.gorsel)} alt="Tunik" fill className="object-cover opacity-50 group-hover:scale-110 transition-transform duration-700" />
                 <div className="absolute inset-0 flex flex-col items-center justify-center text-center z-20">
                   <h4 className="text-2xl font-bold text-white mb-2">{t("modern_tunics")}</h4>
                   <Link href="/search" className="text-xs uppercase tracking-widest text-gray-300 hover:text-white">{t("explore")}</Link>
@@ -190,9 +190,9 @@ export default function HomeClient({ bestSellers, discounted }) {
           
           <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
             {[
-              { name: "Ayşe Y.", text: "Kumaş kalitesi beklediğimden çok daha iyi çıktı. Kargo çok hızlıydı, teşekkürler Cemre Park!", stars: 5 },
-              { name: "Zeynep K.", text: "Takımın duruşu efsane! Özel günümde kurtarıcım oldu. Kesinlikle tavsiye ediyorum.", stars: 5 },
-              { name: "Fatma T.", text: "Müşteri iletişimi harika. Beden konusunda çok yardımcı oldular, ürün tam üzerime göre.", stars: 5 }
+              { name: "Ayşe Y.", text: t("review_1_text"), stars: 5 },
+              { name: "Zeynep K.", text: t("review_2_text"), stars: 5 },
+              { name: "Fatma T.", text: t("review_3_text"), stars: 5 }
             ].map((review, i) => (
               <div key={i} className="glass-panel p-8 clip-angled relative" data-aos="fade-up" data-aos-delay={i * 150}>
                 <div className="text-holo-gold mb-4 text-2xl">
@@ -216,10 +216,10 @@ export default function HomeClient({ bestSellers, discounted }) {
         <div className="w-full max-w-6xl mx-auto px-4">
           <div className="grid grid-cols-1 md:grid-cols-4 gap-8">
             {[
-              { title: "Hızlı Teslimat", desc: "Tüm Türkiye'ye hızlı kargo imkanı", icon: "M13 10V3L4 14h7v7l9-11h-7z" },
-              { title: "Güvenli Ödeme", desc: "Kapıda Nakit veya Kredi Kartı", icon: "M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z" },
-              { title: "Müşteri Memnuniyeti", desc: "Yüzlerce mutlu müşteri", icon: "M21 16V8a2 2 0 0 0-1-1.73l-7-4a2 2 0 0 0-2 0l-7 4A2 2 0 0 0 3 8v8a2 2 0 0 0 1 1.73l7 4a2 2 0 0 0 2 0l7-4A2 2 0 0 0 21 16z" },
-              { title: "WhatsApp Destek", desc: "0554 169 89 09", icon: "M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2 M9 3a4 4 0 1 0 0 8 4 4 0 0 0 0-8z" }
+              { title: t("badge_fast_delivery"), desc: t("badge_fast_delivery_desc"), icon: "M13 10V3L4 14h7v7l9-11h-7z" },
+              { title: t("badge_secure_payment"), desc: t("badge_secure_payment_desc"), icon: "M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z" },
+              { title: t("badge_customer_satisfaction"), desc: t("badge_customer_satisfaction_desc"), icon: "M21 16V8a2 2 0 0 0-1-1.73l-7-4a2 2 0 0 0-2 0l-7 4A2 2 0 0 0 3 8v8a2 2 0 0 0 1 1.73l7 4a2 2 0 0 0 2 0l7-4A2 2 0 0 0 21 16z" },
+              { title: t("badge_whatsapp_support"), desc: t("badge_whatsapp_support_desc"), icon: "M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2 M9 3a4 4 0 1 0 0 8 4 4 0 0 0 0-8z" }
             ].map((badge, i) => (
               <div key={i} className="glass-panel p-8 text-center group clip-hexa hover:border-holo-gold transition-colors duration-300" data-aos="zoom-in" data-aos-delay={i * 100}>
                 <div className="w-16 h-16 mx-auto mb-6 bg-white/5 rounded-full flex items-center justify-center text-neon-pink group-hover:text-holo-gold transition-colors duration-300">
@@ -235,14 +235,6 @@ export default function HomeClient({ bestSellers, discounted }) {
         </div>
       </section>
 
-      {/* 5. NEWSLETTER */}
-      <section className="py-24 bg-gradient-to-t from-black via-black/80 to-transparent border-t border-neon-pink/20">
-        <div className="w-full max-w-4xl mx-auto px-4 text-center" data-aos="zoom-in">
-          <h2 className="text-3xl md:text-4xl font-black text-white mb-4 uppercase tracking-widest">{t("vip_family")}</h2>
-          <p className="text-gray-400 mb-8 max-w-lg mx-auto">{t("vip_desc")}</p>
-          <NewsletterForm />
-        </div>
-      </section>
 
       {/* QUICK VIEW MODAL */}
       <QuickViewModal product={quickViewProduct} onClose={() => setQuickViewProduct(null)} />

@@ -6,6 +6,22 @@ export default function NewsletterForm() {
   const { t } = useStore();
   const handleSubmit = (e) => {
     e.preventDefault();
+    
+    const emailInput = e.target.querySelector('input[type="email"]');
+    if (!emailInput.value) {
+      if (typeof window !== 'undefined' && window.Swal) {
+        window.Swal.fire({
+          icon: 'warning',
+          title: 'Uyarı',
+          text: t("email_placeholder") || 'Lütfen e-posta adresinizi giriniz.',
+          confirmButtonColor: '#ff007f',
+          background: '#1a1a1a',
+          color: '#fff'
+        });
+      }
+      return;
+    }
+
     if (typeof window !== 'undefined' && window.Swal) {
       window.Swal.fire({
         icon: 'success',
@@ -20,7 +36,7 @@ export default function NewsletterForm() {
   };
 
   return (
-    <form className="flex flex-col md:flex-row gap-4 justify-center" onSubmit={handleSubmit}>
+    <form className="flex flex-col md:flex-row gap-4 justify-center" onSubmit={handleSubmit} noValidate>
       <input 
         type="email" 
         placeholder={t("email_placeholder")}

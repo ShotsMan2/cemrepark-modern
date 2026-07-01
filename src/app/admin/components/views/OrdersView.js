@@ -3,6 +3,7 @@ import { useState } from 'react';
 export default function OrdersView() {
   const [activeTab, setActiveTab] = useState('Tümü');
   const [selectedOrder, setSelectedOrder] = useState(null);
+  const [searchTerm, setSearchTerm] = useState('');
   
   const mockOrders = [
     { id: 'ORD-2023-001', musteri: 'Ahmet Yılmaz', tarih: '29 Haz 2026', tutar: '4.500 ₺', durum: 'Hazırlanıyor', renk: 'text-holo-gold', border: 'border-holo-gold/30', bg: 'bg-holo-gold/10' },
@@ -12,7 +13,39 @@ export default function OrdersView() {
     { id: 'ORD-2023-005', musteri: 'Zeynep Yılmaz', tarih: '24 Haz 2026', tutar: '8.500 ₺', durum: 'Hazırlanıyor', renk: 'text-holo-gold', border: 'border-holo-gold/30', bg: 'bg-holo-gold/10' },
   ];
 
-  const filteredOrders = activeTab === 'Tümü' ? mockOrders : mockOrders.filter(o => o.durum === activeTab);
+  const filteredOrders = mockOrders.filter(o => {
+    const matchesTab = activeTab === 'Tümü' || o.durum === activeTab;
+    const matchesSearch = o.id.toLowerCase().includes(searchTerm.toLowerCase()) || 
+                          o.musteri.toLowerCase().includes(searchTerm.toLowerCase());
+    return matchesTab && matchesSearch;
+  });
+
+  const handleExport = () => {
+    const headers = ["Sipariş No", "Müşteri", "Tarih", "Tutar", "Durum"];
+    const rows = filteredOrders.map(order => [
+      order.id,
+      order.musteri,
+      order.tarih,
+      order.tutar,
+      order.durum
+    ]);
+    
+    let csvContent = "\uFEFF"; // UTF-8 BOM for Turkish characters in Excel
+    csvContent += headers.join(",") + "\n";
+    rows.forEach(row => {
+      const escapedRow = row.map(val => `"${val.replace(/"/g, '""')}"`);
+      csvContent += escapedRow.join(",") + "\n";
+    });
+
+    const blob = new Blob([csvContent], { type: 'text/csv;charset=utf-8;' });
+    const url = URL.createObjectURL(blob);
+    const link = document.createElement("a");
+    link.setAttribute("href", url);
+    link.setAttribute("download", `siparisler_${new Date().toISOString().slice(0,10)}.csv`);
+    document.body.appendChild(link);
+    link.click();
+    document.body.removeChild(link);
+  };
 
   return (
     <div className="animate-fade-in">
@@ -25,9 +58,14 @@ export default function OrdersView() {
           <input 
             type="text" 
             placeholder="Sipariş No, Müşteri Ara..." 
+            value={searchTerm}
+            onChange={(e) => setSearchTerm(e.target.value)}
             className="bg-black/50 border border-white/10 text-white px-4 py-2 focus:outline-none focus:border-neon-pink text-sm w-64"
           />
-          <button className="bg-neon-pink text-white font-bold py-2 px-6 uppercase tracking-widest text-sm hover:bg-white hover:text-black transition-colors clip-angled">
+          <button 
+            onClick={handleExport}
+            className="bg-neon-pink text-white font-bold py-2 px-6 uppercase tracking-widest text-sm hover:bg-white hover:text-black transition-colors clip-angled"
+          >
             Dışa Aktar
           </button>
         </div>
@@ -49,7 +87,7 @@ export default function OrdersView() {
         <table className="w-full text-left border-collapse">
           <thead>
             <tr className="border-b border-white/10 bg-black/40 text-gray-400 text-xs uppercase tracking-wider">
-              <th className="p-4 w-12"><input type="checkbox" className="accent-neon-pink" /></th>
+
               <th className="p-4 font-bold">Sipariş No</th>
               <th className="p-4 font-bold">Müşteri</th>
               <th className="p-4 font-bold">Tarih</th>
@@ -61,7 +99,7 @@ export default function OrdersView() {
           <tbody className="divide-y divide-white/5">
             {filteredOrders.map((order, i) => (
               <tr key={i} className="hover:bg-white/5 transition-colors group cursor-pointer">
-                <td className="p-4"><input type="checkbox" className="accent-neon-pink" /></td>
+
                 <td className="p-4 font-bold text-white text-sm group-hover:text-neon-pink transition-colors">{order.id}</td>
                 <td className="p-4 text-gray-300 text-sm">{order.musteri}</td>
                 <td className="p-4 text-gray-400 text-sm">{order.tarih}</td>
