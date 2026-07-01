@@ -4,13 +4,14 @@ export const metadata = {
 
 export default function AdminLayout({ children }) {
   return (
-    <div style={{ padding: "20px", fontFamily: "sans-serif" }}>
-      <header style={{ borderBottom: "1px solid #ccc", paddingBottom: "10px", marginBottom: "20px" }}>
-        <h2>Cemre Park Admin Paneli</h2>
-      </header>
-      <main>
-        {children}
-      </main>
+    <div className="admin-wrapper">
+      <style dangerouslySetInnerHTML={{__html: `
+        .admin-wrapper .clip-angled {
+          clip-path: none !important;
+          border-radius: 8px !important;
+        }
+      `}} />
+      {children}
     </div>
   );
 }

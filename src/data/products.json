@@ -1,11 +1,31 @@
 [
   {
+    "id": 27,
+    "ad": "sdsad",
+    "fiyat": 232,
+    "gorsel": "/fcds/sds",
+    "etiket": "",
+    "kategori": "",
+    "renk": "",
+    "beden": ""
+  },
+  {
+    "id": 26,
+    "ad": "dsadsa",
+    "fiyat": 32323,
+    "gorsel": "/sadsad/sdsd",
+    "etiket": "",
+    "kategori": "",
+    "renk": "",
+    "beden": ""
+  },
+  {
     "id": 25,
     "ad": "selim",
-    "fiyat": 242,
-    "gorsel": "/assets/siteimg/yeni1.jpg",
-    "etiket": "dfsfs",
-    "kategori": "fsf",
+    "fiyat": 2323,
+    "gorsel": "31",
+    "etiket": "31",
+    "kategori": "sadsadsa",
     "renk": "pembe, yar",
     "beden": "s, 31"
   },

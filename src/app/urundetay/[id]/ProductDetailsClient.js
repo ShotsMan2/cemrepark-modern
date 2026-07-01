@@ -6,6 +6,7 @@ import { useStore } from "../../../context/StoreContext";
 import FavoriteButton from "../../../components/FavoriteButton";
 import Link from "next/link";
 import QuickViewModal from "../../../components/QuickViewModal";
+import { getValidImageUrl } from "../../../utils/imageHelper";
 
 export default function ProductDetailsClient({ product, relatedProducts = [] }) {
   const { addToCart, formatPrice, t } = useStore();
@@ -92,7 +93,7 @@ export default function ProductDetailsClient({ product, relatedProducts = [] }) 
             <div className="relative glass-panel p-2 clip-angled">
               <div className="relative w-full h-[600px] md:h-[800px] clip-angled overflow-hidden">
                 <Image 
-                  src={product.gorsel} 
+                  src={getValidImageUrl(product.gorsel)} 
                   alt={product.ad} 
                   fill 
                   className="object-cover hover:scale-105 transition-transform duration-700" 
@@ -231,7 +232,7 @@ export default function ProductDetailsClient({ product, relatedProducts = [] }) 
                 <Link href={`/urundetay/${rp.id}`} key={rp.id} className="group relative block glass-panel p-2 clip-angled transition-all hover:border-white/20">
                   <div className="relative h-64 md:h-80 w-full overflow-hidden clip-angled mb-3">
                     <div className="absolute inset-0 bg-black/20 group-hover:bg-transparent transition-colors z-10"></div>
-                    <Image src={rp.gorsel} alt={rp.ad} fill className="object-cover group-hover:scale-110 transition-transform duration-700" />
+                    <Image src={getValidImageUrl(rp.gorsel)} alt={rp.ad} fill className="object-cover group-hover:scale-110 transition-transform duration-700" />
                     {rp.etiket && (
                       <div className="absolute top-2 left-2 z-20">
                         <span className="text-[10px] font-bold uppercase tracking-widest bg-white text-black px-2 py-1">{t(rp.etiket)}</span>
@@ -268,7 +269,7 @@ export default function ProductDetailsClient({ product, relatedProducts = [] }) 
       <div className="fixed bottom-0 left-0 w-full z-40 bg-black/80 backdrop-blur-md border-t border-white/10 py-3 px-4 flex items-center justify-between md:hidden translate-y-0 transition-transform duration-300">
         <div className="flex items-center gap-3">
           <div className="relative w-12 h-12 rounded overflow-hidden">
-            <Image src={product.gorsel || product.resim1} alt={product.ad} fill className="object-cover" />
+            <Image src={getValidImageUrl(product.gorsel || product.resim1)} alt={product.ad} fill className="object-cover" />
           </div>
           <div>
             <h4 className="text-white font-bold text-xs truncate w-32">{product.ad}</h4>

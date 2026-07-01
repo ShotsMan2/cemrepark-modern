@@ -7,6 +7,7 @@ import QuickViewModal from "../components/QuickViewModal";
 import SearchTrigger from "../components/SearchTrigger";
 import PriceDisplay from "../components/PriceDisplay";
 import { useStore } from "../context/StoreContext";
+import { getValidImageUrl } from "../utils/imageHelper";
 
 export default function HomeClient({ bestSellers, discounted }) {
   const { t } = useStore();
@@ -50,7 +51,7 @@ export default function HomeClient({ bestSellers, discounted }) {
               <div className="relative w-4/5 h-full clip-angled glass-panel p-2">
                 <div className="relative w-full h-full clip-angled overflow-hidden">
                   <Image 
-                    src={bestSellers[0]?.gorsel || "/images/placeholder.jpg"} 
+                    src={getValidImageUrl(bestSellers[0]?.gorsel)} 
                     alt="Hero Image" 
                     fill
                     className="object-cover scale-105 hover:scale-110 transition-transform duration-700"
@@ -107,7 +108,7 @@ export default function HomeClient({ bestSellers, discounted }) {
                     </div>
                   )}
                   
-                  <Image src={product.gorsel || product.resim1} alt={product.ad} fill className="object-cover transition-transform duration-700 group-hover:scale-110" />
+                  <Image src={getValidImageUrl(product.gorsel || product.resim1)} alt={product.ad} fill className="object-cover transition-transform duration-700 group-hover:scale-110" />
                   
                   <Link href={`/urundetay/${product.id}`} className="absolute inset-0 z-20">
                     <div className="absolute inset-0 bg-black/40 opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex items-center justify-center">
@@ -146,7 +147,7 @@ export default function HomeClient({ bestSellers, discounted }) {
             
             {/* Big Feature */}
             <div className="md:col-span-2 glass-panel relative group overflow-hidden clip-angled" data-aos="fade-right">
-              <Image src={discounted[0]?.gorsel || "/images/placeholder.jpg"} alt="Giyim" fill className="object-cover opacity-60 group-hover:opacity-80 transition-opacity duration-500" />
+              <Image src={getValidImageUrl(discounted[0]?.gorsel)} alt="Giyim" fill className="object-cover opacity-60 group-hover:opacity-80 transition-opacity duration-500" />
               <div className="absolute inset-0 bg-gradient-to-t from-black/90 via-black/20 to-transparent p-10 flex flex-col justify-end">
                 <span className="text-neon-pink uppercase tracking-[0.2em] text-sm font-bold mb-2">{t("special_design")}</span>
                 <h3 className="text-4xl font-black text-white mb-4">{t("premium_coats")}</h3>
@@ -158,14 +159,14 @@ export default function HomeClient({ bestSellers, discounted }) {
             <div className="flex flex-col gap-6" data-aos="fade-left">
               <div className="h-1/2 glass-panel relative group overflow-hidden clip-angled">
                 <div className="absolute inset-0 bg-gradient-to-br from-neon-pink/20 to-transparent z-10 pointer-events-none"></div>
-                <Image src={discounted[1]?.gorsel || "/images/placeholder.jpg"} alt="Elbise" fill className="object-cover opacity-50 group-hover:scale-110 transition-transform duration-700" />
+                <Image src={getValidImageUrl(discounted[1]?.gorsel)} alt="Elbise" fill className="object-cover opacity-50 group-hover:scale-110 transition-transform duration-700" />
                 <div className="absolute inset-0 flex flex-col items-center justify-center text-center z-20">
                   <h4 className="text-2xl font-bold text-white mb-2">{t("minimalist_dresses")}</h4>
                   <Link href="/search" className="text-xs uppercase tracking-widest text-gray-300 hover:text-white">{t("explore")}</Link>
                 </div>
               </div>
               <div className="h-1/2 glass-panel relative group overflow-hidden clip-angled">
-                <Image src={discounted[2]?.gorsel || "/images/placeholder.jpg"} alt="Tunik" fill className="object-cover opacity-50 group-hover:scale-110 transition-transform duration-700" />
+                <Image src={getValidImageUrl(discounted[2]?.gorsel)} alt="Tunik" fill className="object-cover opacity-50 group-hover:scale-110 transition-transform duration-700" />
                 <div className="absolute inset-0 flex flex-col items-center justify-center text-center z-20">
                   <h4 className="text-2xl font-bold text-white mb-2">{t("modern_tunics")}</h4>
                   <Link href="/search" className="text-xs uppercase tracking-widest text-gray-300 hover:text-white">{t("explore")}</Link>

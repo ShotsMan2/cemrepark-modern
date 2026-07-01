@@ -4,6 +4,7 @@ import Image from "next/image";
 import { useStore } from "../../context/StoreContext";
 import QuickViewModal from "../../components/QuickViewModal";
 import { useState } from "react";
+import { getValidImageUrl } from "../../utils/imageHelper";
 
 export default function FavoritesPage() {
   const { favoriteItems, removeFromFavorites, isLoaded, t } = useStore();
@@ -37,7 +38,7 @@ export default function FavoritesPage() {
                 
                 <Link href={`/urundetay/${product.id}`} className="block relative h-96 w-full clip-angled overflow-hidden m-2 rounded-t-lg group-hover:shadow-[0_0_20px_rgba(255,215,0,0.3)] transition-shadow duration-300">
                   <Image 
-                    src={product.gorsel} 
+                    src={getValidImageUrl(product.gorsel)} 
                     alt={t(product.ad)}
                     fill
                     className="object-cover group-hover:scale-110 transition-transform duration-500 opacity-90 group-hover:opacity-100"

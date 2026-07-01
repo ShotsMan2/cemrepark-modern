@@ -3,6 +3,7 @@ import Link from "next/link";
 import Image from "next/image";
 import { useState, useEffect } from "react";
 import { useStore } from "../../context/StoreContext";
+import { getValidImageUrl } from "../../utils/imageHelper";
 
 export default function CartPage() {
   const { cartItems, removeFromCart, isLoaded, formatPrice, t } = useStore();
@@ -48,7 +49,7 @@ export default function CartPage() {
                       {/* Product Info */}
                       <div className="col-span-1 md:col-span-6 flex gap-4 items-center">
                         <Link href={`/urundetay/${item.id}`} className="relative w-24 h-32 shrink-0 clip-angled overflow-hidden">
-                          <Image src={item.gorsel} alt={item.ad} fill className="object-cover group-hover:scale-110 transition-transform duration-500" />
+                          <Image src={getValidImageUrl(item.gorsel)} alt={item.ad} fill className="object-cover group-hover:scale-110 transition-transform duration-500" />
                         </Link>
                         <div>
                           <Link href={`/urundetay/${item.id}`} className="text-lg font-bold text-white hover:text-neon-pink transition-colors mb-1 block">

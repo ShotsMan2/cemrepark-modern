@@ -1,7 +1,26 @@
+import { useState } from "react";
+
 export default function ProductsView({ 
   products, isLoading, formData, editingId, 
   handleInputChange, handleSubmit, handleEdit, handleDelete, cancelEdit 
 }) {
+  const [searchTerm, setSearchTerm] = useState("");
+  const [selectedCat, setSelectedCat] = useState("all");
+
+  // Get unique categories from products
+  const categories = ["all", ...new Set(products.map(p => p.kategori?.trim()).filter(Boolean))];
+
+  // Filter products based on search term and selected category
+  const filteredProducts = products.filter(product => {
+    const matchesSearch = product.ad.toLowerCase().includes(searchTerm.toLowerCase()) || 
+                          (product.kategori && product.kategori.toLowerCase().includes(searchTerm.toLowerCase()));
+    
+    const matchesCategory = selectedCat === "all" || 
+                            (product.kategori && product.kategori.trim().toLowerCase() === selectedCat.toLowerCase());
+                            
+    return matchesSearch && matchesCategory;
+  });
+
   return (
     <div className="grid grid-cols-1 lg:grid-cols-3 gap-8 animate-fade-in">
       {/* Form */}
@@ -66,19 +85,26 @@ export default function ProductsView({
         <div className="glass-panel p-6 clip-angled min-h-[600px]">
           <div className="flex flex-col md:flex-row justify-between items-start md:items-center gap-4 mb-6 border-b border-white/10 pb-4">
             <h2 className="text-xl font-bold text-white uppercase tracking-wider">
-              Tüm Ürünler ({products.length})
+              Tüm Ürünler ({filteredProducts.length})
             </h2>
             <div className="flex gap-4">
               <input 
                 type="text" 
                 placeholder="Ürün Ara..." 
+                value={searchTerm}
+                onChange={(e) => setSearchTerm(e.target.value)}
                 className="bg-black/50 border border-white/10 text-white px-4 py-2 focus:outline-none focus:border-neon-pink text-sm w-48"
               />
-              <select className="bg-black/50 border border-white/10 text-gray-300 px-4 py-2 focus:outline-none focus:border-neon-pink text-sm uppercase tracking-widest">
-                <option value="all">Tüm Kategoriler</option>
-                <option value="elbise">Elbise</option>
-                <option value="tunik">Tunik</option>
-                <option value="takim">Takım</option>
+              <select 
+                value={selectedCat}
+                onChange={(e) => setSelectedCat(e.target.value)}
+                className="bg-black/50 border border-white/10 text-gray-300 px-4 py-2 focus:outline-none focus:border-neon-pink text-sm uppercase tracking-widest"
+              >
+                {categories.map(cat => (
+                  <option key={cat} value={cat}>
+                    {cat === "all" ? "Tüm Kategoriler" : cat}
+                  </option>
+                ))}
               </select>
             </div>
           </div>
@@ -89,10 +115,9 @@ export default function ProductsView({
             </div>
           ) : (
             <div className="space-y-4">
-              {products.map(product => (
+              {filteredProducts.map(product => (
                 <div key={product.id} className="bg-black/30 border border-white/5 p-4 flex items-center justify-between hover:border-white/20 transition-colors clip-angled group">
                   <div className="flex items-center gap-4">
-                    <input type="checkbox" className="accent-neon-pink" />
                     <div className="w-16 h-20 bg-black overflow-hidden clip-angled relative">
                       {/* eslint-disable-next-line @next/next/no-img-element */}
                       <img src={product.gorsel || product.resim1} alt={product.ad} className="w-full h-full object-cover group-hover:scale-110 transition-transform" />
