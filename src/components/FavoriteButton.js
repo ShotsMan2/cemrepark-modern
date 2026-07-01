@@ -3,7 +3,7 @@ import { useStore } from "../context/StoreContext";
 import Swal from "sweetalert2";
 
 export default function FavoriteButton({ product, className }) {
-  const { favoriteItems, addToFavorites, removeFromFavorites, isLoaded } = useStore();
+  const { favoriteItems, addToFavorites, removeFromFavorites, isLoaded, t } = useStore();
 
   if (!isLoaded) {
     return (
@@ -26,7 +26,7 @@ export default function FavoriteButton({ product, className }) {
         showConfirmButton: false,
         timer: 2000,
         icon: 'info',
-        title: 'Favorilerden Çıkarıldı!',
+        title: t("favorite_removed_toast"),
         background: 'rgba(10, 10, 10, 0.9)',
         color: '#fff',
         iconColor: '#a0a0a0',
@@ -39,7 +39,7 @@ export default function FavoriteButton({ product, className }) {
         showConfirmButton: false,
         timer: 2000,
         icon: 'success',
-        title: 'Favorilere Eklendi!',
+        title: t("favorite_added_toast"),
         background: 'rgba(10, 10, 10, 0.9)',
         color: '#fff',
         iconColor: '#ff007f',
@@ -54,7 +54,7 @@ export default function FavoriteButton({ product, className }) {
     <button 
       onClick={toggleFavorite} 
       className={`transition-colors relative z-20 ${isFavorite ? 'text-neon-pink' : 'text-gray-500 hover:text-white'} ${className || ''}`}
-      title={isFavorite ? "Favorilerden Çıkar" : "Favorilere Ekle"}
+      title={isFavorite ? t("favorite_remove_title") : t("favorite_add_title")}
     >
       <svg width="24" height="24" viewBox="0 0 24 24" fill={isFavorite ? "currentColor" : "none"} stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
         <path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"></path>

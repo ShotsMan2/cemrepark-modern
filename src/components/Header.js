@@ -129,21 +129,21 @@ export default function Header() {
                     <div className="grid grid-cols-4 gap-8">
                       
                       <div>
-                        <h3 className="text-white font-bold tracking-widest uppercase mb-6 border-b border-white/10 pb-2">Giyim</h3>
+                        <h3 className="text-white font-bold tracking-widest uppercase mb-6 border-b border-white/10 pb-2">{t("menu_clothing")}</h3>
                         <ul className="space-y-4">
-                          <li><Link href="/search?q=Takım" className="text-gray-400 hover:text-neon-pink transition-colors text-sm block">İkili Takımlar</Link></li>
-                          <li><Link href="/search?q=Elbise" className="text-gray-400 hover:text-neon-pink transition-colors text-sm block">Elbiseler</Link></li>
-                          <li><Link href="/search?q=Tunik" className="text-gray-400 hover:text-neon-pink transition-colors text-sm block">Tunikler</Link></li>
-                          <li><Link href="/search?q=Pantolon" className="text-gray-400 hover:text-neon-pink transition-colors text-sm block">Pantolonlar</Link></li>
+                          <li><Link href="/search?q=Takım" className="text-gray-400 hover:text-neon-pink transition-colors text-sm block">{t("menu_two_piece")}</Link></li>
+                          <li><Link href="/search?q=Elbise" className="text-gray-400 hover:text-neon-pink transition-colors text-sm block">{t("menu_dresses")}</Link></li>
+                          <li><Link href="/search?q=Tunik" className="text-gray-400 hover:text-neon-pink transition-colors text-sm block">{t("menu_tunics")}</Link></li>
+                          <li><Link href="/search?q=Pantolon" className="text-gray-400 hover:text-neon-pink transition-colors text-sm block">{t("menu_trousers")}</Link></li>
                         </ul>
                       </div>
 
                       <div>
-                        <h3 className="text-white font-bold tracking-widest uppercase mb-6 border-b border-white/10 pb-2">Dış Giyim</h3>
+                        <h3 className="text-white font-bold tracking-widest uppercase mb-6 border-b border-white/10 pb-2">{t("menu_outerwear")}</h3>
                         <ul className="space-y-4">
-                          <li><Link href="/search?q=Ceket" className="text-gray-400 hover:text-holo-gold transition-colors text-sm block">Ceket & Blazer</Link></li>
-                          <li><Link href="/search?q=Trenç" className="text-gray-400 hover:text-holo-gold transition-colors text-sm block">Trençkot</Link></li>
-                          <li><Link href="/search?q=Kaban" className="text-gray-400 hover:text-holo-gold transition-colors text-sm block">Kaban & Mont</Link></li>
+                          <li><Link href="/search?q=Ceket" className="text-gray-400 hover:text-holo-gold transition-colors text-sm block">{t("menu_jacket_blazer")}</Link></li>
+                          <li><Link href="/search?q=Trenç" className="text-gray-400 hover:text-holo-gold transition-colors text-sm block">{t("menu_trench")}</Link></li>
+                          <li><Link href="/search?q=Kaban" className="text-gray-400 hover:text-holo-gold transition-colors text-sm block">{t("menu_coat_jacket")}</Link></li>
                         </ul>
                       </div>
 
@@ -211,21 +211,26 @@ export default function Header() {
             <div className="absolute -bottom-0.5 left-0 w-full h-[2px] bg-gradient-to-r from-neon-pink to-holo-gold scale-x-0 group-hover:scale-x-100 transition-transform duration-500 origin-left"></div>
             
             <input type="search" id="search-form" autoFocus={isSearchOpen} className="w-full bg-transparent border-b border-gray-800 py-4 text-2xl text-white focus:outline-none placeholder-gray-700 transition-colors"
-                   placeholder="Ürün, kategori arayın..." defaultValue="" name="q" />
+                   placeholder={t("search_placeholder")} defaultValue="" name="q" />
             <button type="submit" className="absolute right-0 top-1/2 -translate-y-1/2 text-gray-600 hover:text-holo-gold transition-colors">
               <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><circle cx="11" cy="11" r="8"></circle><line x1="21" y1="21" x2="16.65" y2="16.65"></line></svg>
             </button>
           </form>
 
-          <h5 className="text-gray-500 text-sm tracking-widest uppercase mt-12 mb-6">Popüler Aramalar</h5>
+          <h5 className="text-gray-500 text-sm tracking-widest uppercase mt-12 mb-6">{t("popular_searches")}</h5>
 
           <ul className="flex flex-wrap gap-3">
             {[
-              "Tesettür Elbise", "İkili Takım", "Tunik", "Kap & Kaban", "Pantolon", "Abiye"
+              { label: "search_hijab_dress", value: "Tesettür Elbise" },
+              { label: "search_two_piece", value: "İkili Takım" },
+              { label: "search_tunic", value: "Tunik" },
+              { label: "search_coat", value: "Kap & Kaban" },
+              { label: "search_trousers", value: "Pantolon" },
+              { label: "search_evening_dress", value: "Abiye" }
             ].map((item, i) => (
               <li key={i}>
-                <button onClick={() => { document.getElementById('search-form').value = item; }} type="button" className="inline-block px-4 py-2 border border-gray-800 text-gray-400 text-sm hover:border-neon-pink hover:text-white clip-angled transition-all duration-300">
-                  {item}
+                <button onClick={() => { document.getElementById('search-form').value = t(item.label); }} type="button" className="inline-block px-4 py-2 border border-gray-800 text-gray-400 text-sm hover:border-neon-pink hover:text-white clip-angled transition-all duration-300">
+                  {t(item.label)}
                 </button>
               </li>
             ))}

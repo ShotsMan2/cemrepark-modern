@@ -5,12 +5,14 @@ import Swal from "sweetalert2";
 import { useStore } from "../../../context/StoreContext";
 import FavoriteButton from "../../../components/FavoriteButton";
 import Link from "next/link";
+import QuickViewModal from "../../../components/QuickViewModal";
 
 export default function ProductDetailsClient({ product, relatedProducts = [] }) {
   const { addToCart, formatPrice, t } = useStore();
   const [beden, setBeden] = useState("");
   const [renk, setRenk] = useState("");
   const [activeTab, setActiveTab] = useState("detay");
+  const [quickViewProduct, setQuickViewProduct] = useState(null);
 
   const bedenList = product.beden ? product.beden.split(",").map(s => s.trim()) : ["Standart"];
   const renkList = product.renk ? product.renk.split(",").map(s => s.trim()) : ["Standart"];
@@ -65,7 +67,7 @@ export default function ProductDetailsClient({ product, relatedProducts = [] }) 
         <nav className="flex text-gray-500 text-xs tracking-widest uppercase mb-8" aria-label="Breadcrumb">
           <ol className="inline-flex items-center space-x-2">
             <li className="inline-flex items-center">
-              <Link href="/" className="hover:text-neon-pink transition-colors">Ana Sayfa</Link>
+              <Link href="/" className="hover:text-neon-pink transition-colors">{t("home")}</Link>
             </li>
             <li>
               <div className="flex items-center">
@@ -105,7 +107,7 @@ export default function ProductDetailsClient({ product, relatedProducts = [] }) 
 
           {/* Details Section */}
           <div className="w-full lg:w-1/2 glass-panel p-8 md:p-12 clip-angled" data-aos="fade-left">
-            <span className="text-neon-pink tracking-[0.2em] text-xs font-bold uppercase mb-4 block">YENİ SEZON</span>
+            <span className="text-neon-pink tracking-[0.2em] text-xs font-bold uppercase mb-4 block">{product.etiket ? t(product.etiket) : t("new_season")}</span>
             <h1 className="text-4xl md:text-5xl font-black text-white mb-6 leading-tight">{t(product.ad)}</h1>
             
             <h2 className="text-3xl font-bold text-glow-gold mb-8">
@@ -117,10 +119,10 @@ export default function ProductDetailsClient({ product, relatedProducts = [] }) 
             {/* Select Options */}
             <div className="grid grid-cols-1 md:grid-cols-2 gap-6 mb-8">
               <div>
-                <label className="block text-gray-400 text-sm font-bold mb-2 uppercase tracking-wider">Beden</label>
+                <label className="block text-gray-400 text-sm font-bold mb-2 uppercase tracking-wider">{t("size")}</label>
                 <div className="relative">
                   <select value={beden} onChange={(e) => setBeden(e.target.value)} className="block appearance-none w-full bg-black border border-gray-700 text-white py-3 px-4 pr-8 rounded-none leading-tight focus:outline-none focus:border-neon-pink transition-colors">
-                    <option value="" disabled>Beden Seçiniz</option>
+                    <option value="" disabled>{t("select_size")}</option>
                     {bedenList.map(b => (
                       <option key={b} value={b}>{b}</option>
                     ))}
@@ -132,12 +134,12 @@ export default function ProductDetailsClient({ product, relatedProducts = [] }) 
               </div>
 
               <div>
-                <label className="block text-gray-400 text-sm font-bold mb-2 uppercase tracking-wider">Renk</label>
+                <label className="block text-gray-400 text-sm font-bold mb-2 uppercase tracking-wider">{t("color")}</label>
                 <div className="relative">
                   <select value={renk} onChange={(e) => setRenk(e.target.value)} className="block appearance-none w-full bg-black border border-gray-700 text-white py-3 px-4 pr-8 rounded-none leading-tight focus:outline-none focus:border-holo-gold transition-colors">
-                    <option value="" disabled>Renk Seçiniz</option>
+                    <option value="" disabled>{t("select_color")}</option>
                     {renkList.map(r => (
-                      <option key={r} value={r}>{r}</option>
+                      <option key={r} value={r}>{t(r) || r}</option>
                     ))}
                   </select>
                   <div className="pointer-events-none absolute inset-y-0 right-0 flex items-center px-4 text-gray-500">
@@ -235,6 +237,19 @@ export default function ProductDetailsClient({ product, relatedProducts = [] }) 
                         <span className="text-[10px] font-bold uppercase tracking-widest bg-white text-black px-2 py-1">{t(rp.etiket)}</span>
                       </div>
                     )}
+                    
+                    {/* Quick View Button - appears on hover */}
+                    <div className="absolute bottom-4 left-0 w-full px-4 flex justify-center opacity-0 group-hover:opacity-100 transition-all duration-300 translate-y-4 group-hover:translate-y-0 z-30">
+                      <button 
+                        onClick={(e) => {
+                          e.preventDefault(); // Prevent navigating to product details page
+                          setQuickViewProduct(rp);
+                        }}
+                        className="text-xs uppercase tracking-widest font-bold border-b border-gray-500 pb-1 text-white hover:text-neon-pink hover:border-neon-pink transition-colors mt-1 bg-black/50 px-4 py-2 rounded-full backdrop-blur-sm"
+                      >
+                        {t("quick_view")}
+                      </button>
+                    </div>
                   </div>
                   <div className="p-2">
                     <p className="text-gray-400 text-[10px] uppercase tracking-widest mb-1">{t(rp.kategori)}</p>
@@ -264,6 +279,13 @@ export default function ProductDetailsClient({ product, relatedProducts = [] }) 
           {t("add_to_cart")}
         </button>
       </div>
+
+      {quickViewProduct && (
+        <QuickViewModal 
+          product={quickViewProduct} 
+          onClose={() => setQuickViewProduct(null)} 
+        />
+      )}
 
     </div>
   );

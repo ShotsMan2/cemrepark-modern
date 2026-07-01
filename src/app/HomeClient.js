@@ -5,7 +5,6 @@ import Link from "next/link";
 import FavoriteButton from "../components/FavoriteButton";
 import QuickViewModal from "../components/QuickViewModal";
 import SearchTrigger from "../components/SearchTrigger";
-import NewsletterForm from "../components/NewsletterForm";
 import PriceDisplay from "../components/PriceDisplay";
 import { useStore } from "../context/StoreContext";
 
@@ -190,9 +189,9 @@ export default function HomeClient({ bestSellers, discounted }) {
           
           <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
             {[
-              { name: "Ayşe Y.", text: "Kumaş kalitesi beklediğimden çok daha iyi çıktı. Kargo çok hızlıydı, teşekkürler Cemre Park!", stars: 5 },
-              { name: "Zeynep K.", text: "Takımın duruşu efsane! Özel günümde kurtarıcım oldu. Kesinlikle tavsiye ediyorum.", stars: 5 },
-              { name: "Fatma T.", text: "Müşteri iletişimi harika. Beden konusunda çok yardımcı oldular, ürün tam üzerime göre.", stars: 5 }
+              { name: "Ayşe Y.", text: t("review_1_text"), stars: 5 },
+              { name: "Zeynep K.", text: t("review_2_text"), stars: 5 },
+              { name: "Fatma T.", text: t("review_3_text"), stars: 5 }
             ].map((review, i) => (
               <div key={i} className="glass-panel p-8 clip-angled relative" data-aos="fade-up" data-aos-delay={i * 150}>
                 <div className="text-holo-gold mb-4 text-2xl">
@@ -216,10 +215,10 @@ export default function HomeClient({ bestSellers, discounted }) {
         <div className="w-full max-w-6xl mx-auto px-4">
           <div className="grid grid-cols-1 md:grid-cols-4 gap-8">
             {[
-              { title: "Hızlı Teslimat", desc: "Tüm Türkiye'ye hızlı kargo imkanı", icon: "M13 10V3L4 14h7v7l9-11h-7z" },
-              { title: "Güvenli Ödeme", desc: "Kapıda Nakit veya Kredi Kartı", icon: "M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z" },
-              { title: "Müşteri Memnuniyeti", desc: "Yüzlerce mutlu müşteri", icon: "M21 16V8a2 2 0 0 0-1-1.73l-7-4a2 2 0 0 0-2 0l-7 4A2 2 0 0 0 3 8v8a2 2 0 0 0 1 1.73l7 4a2 2 0 0 0 2 0l7-4A2 2 0 0 0 21 16z" },
-              { title: "WhatsApp Destek", desc: "0554 169 89 09", icon: "M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2 M9 3a4 4 0 1 0 0 8 4 4 0 0 0 0-8z" }
+              { title: t("badge_fast_delivery"), desc: t("badge_fast_delivery_desc"), icon: "M13 10V3L4 14h7v7l9-11h-7z" },
+              { title: t("badge_secure_payment"), desc: t("badge_secure_payment_desc"), icon: "M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z" },
+              { title: t("badge_customer_satisfaction"), desc: t("badge_customer_satisfaction_desc"), icon: "M21 16V8a2 2 0 0 0-1-1.73l-7-4a2 2 0 0 0-2 0l-7 4A2 2 0 0 0 3 8v8a2 2 0 0 0 1 1.73l7 4a2 2 0 0 0 2 0l7-4A2 2 0 0 0 21 16z" },
+              { title: t("badge_whatsapp_support"), desc: t("badge_whatsapp_support_desc"), icon: "M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2 M9 3a4 4 0 1 0 0 8 4 4 0 0 0 0-8z" }
             ].map((badge, i) => (
               <div key={i} className="glass-panel p-8 text-center group clip-hexa hover:border-holo-gold transition-colors duration-300" data-aos="zoom-in" data-aos-delay={i * 100}>
                 <div className="w-16 h-16 mx-auto mb-6 bg-white/5 rounded-full flex items-center justify-center text-neon-pink group-hover:text-holo-gold transition-colors duration-300">
@@ -235,14 +234,6 @@ export default function HomeClient({ bestSellers, discounted }) {
         </div>
       </section>
 
-      {/* 5. NEWSLETTER */}
-      <section className="py-24 bg-gradient-to-t from-black via-black/80 to-transparent border-t border-neon-pink/20">
-        <div className="w-full max-w-4xl mx-auto px-4 text-center" data-aos="zoom-in">
-          <h2 className="text-3xl md:text-4xl font-black text-white mb-4 uppercase tracking-widest">{t("vip_family")}</h2>
-          <p className="text-gray-400 mb-8 max-w-lg mx-auto">{t("vip_desc")}</p>
-          <NewsletterForm />
-        </div>
-      </section>
 
       {/* QUICK VIEW MODAL */}
       <QuickViewModal product={quickViewProduct} onClose={() => setQuickViewProduct(null)} />
