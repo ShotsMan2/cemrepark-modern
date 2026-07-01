@@ -1,5 +1,5 @@
 "use client";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import Image from "next/image";
 import Link from "next/link";
 import FavoriteButton from "../components/FavoriteButton";
@@ -9,22 +9,104 @@ import PriceDisplay from "../components/PriceDisplay";
 import { useStore } from "../context/StoreContext";
 import { getValidImageUrl } from "../utils/imageHelper";
 
-export default function HomeClient({ bestSellers, discounted }) {
+export default function HomeClient({ bestSellers, discounted, banners = [] }) {
   const { t } = useStore();
   const [quickViewProduct, setQuickViewProduct] = useState(null);
 
-  return (
-    <div className="overflow-hidden">
-      {/* 1. HERO SECTION - ASYMMETRIC & FLOATING */}
+  const activeBanners = banners.filter((b) => b.isActive);
+  const [currentSlide, setCurrentSlide] = useState(0);
+
+  useEffect(() => {
+    if (activeBanners.length <= 1) return;
+    const interval = setInterval(() => {
+      setCurrentSlide((prev) => (prev + 1) % activeBanners.length);
+    }, 6000);
+    return () => clearInterval(interval);
+  }, [activeBanners.length]);
+
+  const renderHeroSection = () => {
+    if (activeBanners.length > 0) {
+      return (
+        <section className="relative min-h-screen flex items-center justify-center pt-24 pb-12 overflow-hidden">
+          <div className="absolute top-1/4 left-1/4 w-96 h-96 bg-neon-pink opacity-20 rounded-full blur-[100px] mix-blend-screen pointer-events-none"></div>
+          <div className="absolute bottom-1/4 right-1/4 w-96 h-96 bg-holo-gold opacity-10 rounded-full blur-[100px] mix-blend-screen pointer-events-none"></div>
+
+          <div className="w-full max-w-6xl mx-auto px-4 z-10 relative h-[600px] md:h-[500px]">
+            {activeBanners.map((slide, index) => {
+              const isActive = index === currentSlide;
+              return (
+                <div
+                  key={slide.id}
+                  className={`absolute inset-0 transition-all duration-1000 flex flex-col md:flex-row items-center gap-12 ${
+                    isActive ? "opacity-100 translate-x-0 z-10" : "opacity-0 translate-x-8 z-0 pointer-events-none"
+                  }`}
+                >
+                  <div className="w-full md:w-1/2 text-left">
+                    <h2 className="text-holo-gold tracking-[0.3em] text-sm uppercase mb-4 font-bold">
+                      {t("new_season")}
+                    </h2>
+                    <h1 className="text-5xl md:text-7xl font-black mb-6 leading-tight text-glow-pink">
+                      <span>{slide.title}</span>
+                    </h1>
+                    <p className="text-gray-400 text-lg md:text-xl mb-10 max-w-lg font-light leading-relaxed">
+                      {t("hero_desc")}
+                    </p>
+                    
+                    <div className="flex gap-6">
+                      <Link href={slide.linkUrl || "/search"} className="glass-panel px-8 py-4 text-white font-medium uppercase tracking-wider hover:bg-neon-pink hover:border-neon-pink transition-all duration-300 clip-angled text-center inline-block">
+                        {t("explore_collection")}
+                      </Link>
+                      <SearchTrigger />
+                    </div>
+                  </div>
+
+                  <div className="w-full md:w-1/2 relative h-full flex justify-center float-fx">
+                    <div className="absolute top-10 right-10 w-24 h-24 border border-neon-pink opacity-50 clip-hexa float-fx-delay"></div>
+                    <div className="absolute bottom-20 left-10 w-16 h-16 border border-holo-gold opacity-30 clip-angled float-fx"></div>
+                    
+                    <div className="relative w-4/5 h-full clip-angled glass-panel p-2">
+                      <div className="relative w-full h-full clip-angled overflow-hidden">
+                        <Image 
+                          src={getValidImageUrl(slide.imageUrl)} 
+                          alt={slide.title} 
+                          fill
+                          className="object-cover scale-105 hover:scale-110 transition-transform duration-700"
+                          priority
+                        />
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              );
+            })}
+          </div>
+
+          {activeBanners.length > 1 && (
+            <div className="absolute bottom-6 left-1/2 transform -translate-x-1/2 flex gap-3 z-20">
+              {activeBanners.map((_, index) => (
+                <button
+                  key={index}
+                  onClick={() => setCurrentSlide(index)}
+                  className={`w-3 h-3 rounded-full transition-all duration-300 ${
+                    index === currentSlide ? "bg-neon-pink w-8" : "bg-white/30 hover:bg-white/50"
+                  }`}
+                  aria-label={`Slayt ${index + 1}`}
+                />
+              ))}
+            </div>
+          )}
+        </section>
+      );
+    }
+
+    return (
       <section className="relative min-h-screen flex items-center justify-center pt-24 pb-12">
-        {/* Neon Background Glows */}
         <div className="absolute top-1/4 left-1/4 w-96 h-96 bg-neon-pink opacity-20 rounded-full blur-[100px] mix-blend-screen pointer-events-none"></div>
         <div className="absolute bottom-1/4 right-1/4 w-96 h-96 bg-holo-gold opacity-10 rounded-full blur-[100px] mix-blend-screen pointer-events-none"></div>
 
         <div className="w-full max-w-6xl mx-auto px-4 z-10 relative">
           <div className="flex flex-col md:flex-row items-center gap-12">
             
-            {/* Left Content */}
             <div className="w-full md:w-1/2" data-aos="fade-right">
               <h2 className="text-holo-gold tracking-[0.3em] text-sm uppercase mb-4 font-bold">{t("new_season")}</h2>
               <h1 className="text-5xl md:text-7xl font-black mb-6 leading-tight text-glow-pink">
@@ -42,9 +124,7 @@ export default function HomeClient({ bestSellers, discounted }) {
               </div>
             </div>
 
-            {/* Right Image - Floating */}
             <div className="w-full md:w-1/2 relative h-[600px] flex justify-center float-fx" data-aos="fade-left">
-              {/* Decorative Elements */}
               <div className="absolute top-10 right-10 w-24 h-24 border border-neon-pink opacity-50 clip-hexa float-fx-delay"></div>
               <div className="absolute bottom-20 left-10 w-16 h-16 border border-holo-gold opacity-30 clip-angled float-fx"></div>
               
@@ -64,6 +144,12 @@ export default function HomeClient({ bestSellers, discounted }) {
           </div>
         </div>
       </section>
+    );
+  };
+
+  return (
+    <div className="overflow-hidden">
+      {renderHeroSection()}
 
       {/* 1.5 TRUSTED BRANDS MARQUEE */}
       <section className="py-8 border-y border-white/5 bg-black/50 overflow-hidden">
