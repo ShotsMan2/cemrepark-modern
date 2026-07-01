@@ -1,21 +1,26 @@
 "use client";
-import { useState, useEffect } from "react";
+import { useState, useEffect, useCallback } from "react";
 import Image from "next/image";
 import Link from "next/link";
+import { useRouter, useSearchParams, usePathname } from "next/navigation";
 import FavoriteButton from "../../components/FavoriteButton";
 import QuickViewModal from "../../components/QuickViewModal";
 import { useStore } from "../../context/StoreContext";
 import { getValidImageUrl } from "../../utils/imageHelper";
 
 export default function SearchClient({ initialResults, query, isSearch }) {
+  const router = useRouter();
+  const searchParams = useSearchParams();
+  const pathname = usePathname();
   const { formatPrice, t } = useStore();
   const [results, setResults] = useState(initialResults);
   const [quickViewProduct, setQuickViewProduct] = useState(null);
   
-  // Filter States
-  const [priceRange, setPriceRange] = useState(5000);
-  const [selectedColors, setSelectedColors] = useState([]);
-  const [selectedSizes, setSelectedSizes] = useState([]);
+  // Filter States initialized from URL
+  const [priceRange, setPriceRange] = useState(Number(searchParams.get("price")) || 5000);
+  const [selectedColors, setSelectedColors] = useState(searchParams.get("colors") ? searchParams.get("colors").split(",") : []);
+  const [selectedSizes, setSelectedSizes] = useState(searchParams.get("sizes") ? searchParams.get("sizes").split(",") : []);
+
 
   const colors = [
     { name: 'Siyah', code: '#000000' },
@@ -49,8 +54,52 @@ export default function SearchClient({ initialResults, query, isSearch }) {
     setResults(filtered);
   }, [priceRange, selectedColors, selectedSizes, initialResults]);
 
+  // Update URL when filters change
+  const updateUrl = useCallback((price, colors, sizes) => {
+    const params = new URLSearchParams(searchParams.toString());
+    if (price < 5000) params.set("price", price);
+    else params.delete("price");
+    
+    if (colors.length > 0) params.set("colors", colors.join(","));
+    else params.delete("colors");
+    
+    if (sizes.length > 0) params.set("sizes", sizes.join(","));
+    else params.delete("sizes");
+    
+    router.replace(`${pathname}?${params.toString()}`, { scroll: false });
+  }, [pathname, router, searchParams]);
+
   const handlePriceChange = (e) => {
-    setPriceRange(Number(e.target.value));
+    const newPrice = Number(e.target.value);
+    setPriceRange(newPrice);
+    updateUrl(newPrice, selectedColors, selectedSizes);
+  };
+
+  const handleColorToggle = (colorName) => {
+    const newColors = selectedColors.includes(colorName) 
+      ? selectedColors.filter(c => c !== colorName) 
+      : [...selectedColors, colorName];
+    setSelectedColors(newColors);
+    updateUrl(priceRange, newColors, selectedSizes);
+  };
+
+  const handleSizeToggle = (sizeName) => {
+    const newSizes = selectedSizes.includes(sizeName) 
+      ? selectedSizes.filter(s => s !== sizeName) 
+      : [...selectedSizes, sizeName];
+    setSelectedSizes(newSizes);
+    updateUrl(priceRange, selectedColors, newSizes);
+  };
+
+  const handleClearFilters = () => {
+    setPriceRange(5000);
+    setSelectedColors([]);
+    setSelectedSizes([]);
+    const params = new URLSearchParams(searchParams.toString());
+    params.delete("price");
+    params.delete("colors");
+    params.delete("sizes");
+    router.replace(`${pathname}?${params.toString()}`, { scroll: false });
   };
 
   return (
@@ -99,12 +148,7 @@ export default function SearchClient({ initialResults, query, isSearch }) {
                   <button 
                     type="button"
                     key={color.name}
-                    onClick={() => {
-                      setSelectedColors(prev => prev.includes(color.name) 
-                        ? prev.filter(c => c !== color.name) 
-                        : [...prev, color.name]
-                      );
-                    }}
+                    onClick={() => handleColorToggle(color.name)}
                     className={`w-8 h-8 rounded-full border-2 transition-transform hover:scale-110 ${selectedColors.includes(color.name) ? 'border-neon-pink scale-110' : 'border-transparent shadow-[0_0_0_1px_rgba(255,255,255,0.2)]'}`}
                     style={{ backgroundColor: color.code }}
                     title={color.name}
@@ -120,12 +164,7 @@ export default function SearchClient({ initialResults, query, isSearch }) {
                   <button 
                     type="button"
                     key={size}
-                    onClick={() => {
-                      setSelectedSizes(prev => prev.includes(size) 
-                        ? prev.filter(s => s !== size) 
-                        : [...prev, size]
-                      );
-                    }}
+                    onClick={() => handleSizeToggle(size)}
                     className={`py-2 text-xs font-bold uppercase tracking-wider transition-colors clip-angled border ${selectedSizes.includes(size) ? 'bg-neon-pink text-white border-neon-pink' : 'bg-transparent text-gray-400 border-white/20 hover:border-white'}`}
                   >
                     {size}
@@ -136,11 +175,7 @@ export default function SearchClient({ initialResults, query, isSearch }) {
             
             <button 
               type="button"
-              onClick={() => {
-                setPriceRange(5000);
-                setSelectedColors([]);
-                setSelectedSizes([]);
-              }}
+              onClick={handleClearFilters}
               className="w-full text-center text-xs text-gray-500 hover:text-white underline decoration-white/20 hover:decoration-white transition-colors"
             >
               {t("clear_filters")}
@@ -158,11 +193,7 @@ export default function SearchClient({ initialResults, query, isSearch }) {
               <h2 className="text-2xl font-bold text-white mb-4">{t("no_products_found")}</h2>
               <p className="text-gray-400 mb-8">{t("no_products_found_desc")}</p>
               <button 
-                onClick={() => {
-                  setPriceRange(5000);
-                  setSelectedColors([]);
-                  setSelectedSizes([]);
-                }} 
+                onClick={handleClearFilters} 
                 className="inline-block bg-transparent border border-holo-gold text-holo-gold hover:bg-holo-gold hover:text-black py-3 px-8 uppercase font-bold tracking-widest transition-all duration-300 clip-angled text-sm"
               >
                 {t("remove_filters")}
