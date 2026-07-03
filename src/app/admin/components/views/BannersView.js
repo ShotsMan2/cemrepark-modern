@@ -2,6 +2,7 @@
 
 import { useState, useEffect, useRef } from "react";
 import Swal from "sweetalert2";
+import { getValidImageUrl } from "@/utils/imageHelper";
 
 export default function BannersView() {
   const [banners, setBanners] = useState([]);
@@ -188,7 +189,7 @@ export default function BannersView() {
             {formData.imageUrl && (
               <div className="mt-4 p-2 bg-black/40 border border-white/10 rounded">
                 <p className="text-xs text-gray-500 mb-2 uppercase">Önizleme:</p>
-                <img src={formData.imageUrl} alt="Önizleme" className="max-h-32 object-contain rounded mx-auto" />
+                <img src={getValidImageUrl(formData.imageUrl)} alt="Önizleme" className="max-h-32 object-contain rounded mx-auto" />
               </div>
             )}
           </div>
@@ -224,7 +225,7 @@ export default function BannersView() {
               <div key={banner.id} className={`glass-panel p-4 clip-angled border ${banner.isActive ? 'border-white/10' : 'border-red-500/30 opacity-60'} group hover:border-white/30 transition-all`}>
                 <div className="h-40 bg-black/50 mb-4 rounded overflow-hidden flex items-center justify-center relative">
                   {banner.imageUrl ? (
-                    <img src={banner.imageUrl} alt={banner.title} className="w-full h-full object-cover" />
+                    <img src={getValidImageUrl(banner.imageUrl)} alt={banner.title} className="w-full h-full object-cover" />
                   ) : (
                     <span className="text-gray-600 text-xs">Görsel Yok</span>
                   )}
