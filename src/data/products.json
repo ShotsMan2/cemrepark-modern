@@ -1,35 +1,5 @@
 [
   {
-    "id": 27,
-    "ad": "sdsad",
-    "fiyat": 232,
-    "gorsel": "/fcds/sds",
-    "etiket": "31",
-    "kategori": "sadsadsa",
-    "renk": "",
-    "beden": ""
-  },
-  {
-    "id": 26,
-    "ad": "dsadsa",
-    "fiyat": 32323,
-    "gorsel": "/sadsad/sdsd",
-    "etiket": "",
-    "kategori": "",
-    "renk": "",
-    "beden": ""
-  },
-  {
-    "id": 25,
-    "ad": "selim",
-    "fiyat": 2323,
-    "gorsel": "31",
-    "etiket": "31",
-    "kategori": "sadsadsa",
-    "renk": "pembe, yar",
-    "beden": "s, 31"
-  },
-  {
     "id": 1,
     "ad": "Volan Detaylı Etekli Takım",
     "fiyat": 2500,

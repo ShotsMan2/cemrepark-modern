@@ -112,6 +112,7 @@ export default function BannersView() {
   };
 
   const handleDelete = (id) => {
+    console.log('Silinecek banner ID:', id);
     Swal.fire({
       title: 'Emin misiniz?',
       text: "Bu banner/slider'ı silmek istediğinize emin misiniz?",
@@ -126,13 +127,20 @@ export default function BannersView() {
     }).then(async (result) => {
       if (result.isConfirmed) {
         try {
+          console.log('Silme isteği gönderiliyor:', `/api/banners/${id}`);
           const res = await fetch(`/api/banners/${id}`, { method: 'DELETE' });
+          console.log('Silme yanıtı:', res.status, res.ok);
           if (res.ok) {
             Swal.fire("Silindi!", "Banner sistemden kaldırıldı.", "success");
             fetchBanners();
+          } else {
+            const errorData = await res.json().catch(() => ({ error: 'Bilinmeyen hata' }));
+            console.error('Silme hatası (detay):', errorData);
+            Swal.fire("Hata", `Silme işlemi başarısız: ${errorData.error || 'Bilinmeyen hata'}`, "error");
           }
         } catch (error) {
-          Swal.fire("Hata", "Silme işlemi başarısız.", "error");
+          console.error('Silme işlemi hatası:', error);
+          Swal.fire("Hata", `Silme işlemi başarısız: ${error.message}`, "error");
         }
       }
     });
