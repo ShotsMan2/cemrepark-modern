@@ -1,6 +1,7 @@
 import NextAuth from "next-auth";
 import CredentialsProvider from "next-auth/providers/credentials";
 import prisma from "@/lib/prisma";
+import bcrypt from "bcrypt";
 
 export const authOptions = {
   providers: [
@@ -23,8 +24,9 @@ export const authOptions = {
           });
 
           if (user) {
-            // Found user in DB, verify password
-            if (user.password === credentials.password) {
+            // Verify hashed password
+            const passwordMatch = await bcrypt.compare(credentials.password, user.password);
+            if (passwordMatch) {
               return {
                 id: user.id.toString(),
                 email: user.email,
@@ -32,7 +34,7 @@ export const authOptions = {
               };
             }
           } else {
-            // Mock admin user if no user is found in DB or matching this email
+            // Mock admin user for development purposes
             if (credentials.email === "admin" && credentials.password === "123456") {
               return {
                 id: "1",

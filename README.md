@@ -1,36 +1,104 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://github.com/vercel/next.js/tree/canary/packages/create-next-app).
+# Cemre Park E-Ticaret Platformu
 
-## Getting Started
+Moda ve tesettür giyim sektöründe hizmet veren Cemre Park markasının modern e-ticaret platformu.
 
-First, run the development server:
+## 🚀 Teknik Yığın
 
+- **Framework**: Next.js 16 (App Router)
+- **Veritabanı**: SQLite (Geliştirme) / PostgreSQL (Üretim)
+- **ORM**: Prisma
+- **Stil**: Tailwind CSS
+- **Kimlik Doğrulama**: NextAuth.js
+- **UI Bileşenleri**: SweetAlert2, Swiper, AOS, Recharts
+- **Güvenlik**: bcrypt (şifre hash'leme), Güvenlik Başlıkları
+
+## 📋 Özellikler
+
+### Ön Yüz
+- Ana sayfa banner yönetimi
+- Ürün listeleme ve detayları
+- Sepet yönetimi
+- Favoriler
+- Kullanıcı hesabı
+- İletişim formu
+- Kurumsal sayfalar
+
+### Admin Paneli
+- Gösterge paneli (Dashboard)
+- Ürün yönetimi (Ekle/Güncelle/Sil)
+- Sipariş yönetimi
+- Müşteri yönetimi
+- Banner/slider yönetimi
+- Sayfa yönetimi
+- Ayarlar yönetimi
+- Mesaj yönetimi
+
+## 🛠️ Kurulum
+
+1. Depoyu klonlayın
 ```bash
-npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
+git clone <repo-url>
+cd CemreParkWebSitesi
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+2. Bağımlılıkları yükleyin
+```bash
+npm install
+```
 
-You can start editing the page by modifying `app/page.js`. The page auto-updates as you edit the file.
+3. Çevre değişkenlerini ayarlayın
+```bash
+cp .env.example .env
+```
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+`.env` dosyasını düzenleyin ve gerekli değişkenleri doldurun.
 
-## Learn More
+4. Veritabanını oluşturun
+```bash
+npx prisma db push
+```
 
-To learn more about Next.js, take a look at the following resources:
+5. Geliştirme sunucusunu başlatın
+```bash
+npm run dev
+```
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+Uygulama [http://localhost:3000](http://localhost:3000) adresinde çalışacaktır.
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
+## 📝 Scriptler
 
-## Deploy on Vercel
+- `npm run dev`: Geliştirme sunucusunu başlatır
+- `npm run build`: Üretim için derler
+- `npm start`: Üretim sunucusunu başlatır
+- `npm run lint`: Kod kalitesini kontrol eder
+- `npm run lint:fix`: Lint hatalarını otomatik olarak düzeltir
+- `npm run format`: Kod formatını düzenler
+- `npm run format:check`: Formatlama kontrolü yapar
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
+## 🔐 Güvenlik
 
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+- Şifreler bcrypt ile hash'lenir
+- Tüm yönetimsel API istekleri oturum ile doğrulanır
+- XSS, Clickjacking gibi tehditlere karşı güvenlik başlıkları kullanılır
+
+## 📂 Proje Yapısı
+
+```
+CemreParkWebSitesi/
+├── prisma/                # Prisma şeması ve veritabanı
+├── public/                # Statik dosyalar (resimler, fontlar vb.)
+├── src/
+│   ├── app/               # Next.js App Router
+│   │   ├── admin/         # Admin paneli sayfaları
+│   │   └── api/           # API route'ları
+│   ├── components/        # React bileşenleri
+│   ├── context/           # Context sağlayıcıları
+│   ├── data/              # Statik veriler
+│   ├── lib/               # Yardımcı kütüphaneler
+│   └── utils/             # Yardımcı fonksiyonlar
+└── package.json
+```
+
+## 📄 Lisans
+
+Bu proje özel bir lisans altında korunmaktadır.

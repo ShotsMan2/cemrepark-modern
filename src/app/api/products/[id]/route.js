@@ -1,6 +1,8 @@
 import { NextResponse } from 'next/server';
 import fs from 'fs';
 import path from 'path';
+import { getServerSession } from "next-auth/next";
+import { authOptions } from "../../auth/[...nextauth]/route";
 
 const filePath = path.join(process.cwd(), 'src', 'data', 'products.json');
 
@@ -19,7 +21,14 @@ function writeProducts(data) {
 
 export async function PUT(request, { params }) {
   try {
-    // Next.js 15 requires awaiting params
+    const session = await getServerSession(authOptions);
+    if (!session) {
+      return NextResponse.json(
+        { error: "Unauthorized" },
+        { status: 401 }
+      );
+    }
+
     const resolvedParams = await params;
     const id = parseInt(resolvedParams.id);
     const body = await request.json();
@@ -42,7 +51,14 @@ export async function PUT(request, { params }) {
 
 export async function DELETE(request, { params }) {
   try {
-    // Next.js 15 requires awaiting params
+    const session = await getServerSession(authOptions);
+    if (!session) {
+      return NextResponse.json(
+        { error: "Unauthorized" },
+        { status: 401 }
+      );
+    }
+
     const resolvedParams = await params;
     const id = parseInt(resolvedParams.id);
     
