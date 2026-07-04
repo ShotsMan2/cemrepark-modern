@@ -217,6 +217,7 @@ export default function SearchClient({ initialResults, query, isSearch }) {
                         alt={t(product.ad)}
                         fill
                         className="object-cover group-hover:scale-110 transition-transform duration-500 opacity-90 group-hover:opacity-100"
+                        sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
                       />
                     </Link>
                     

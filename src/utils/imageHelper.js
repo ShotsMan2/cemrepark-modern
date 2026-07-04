@@ -3,7 +3,7 @@
  * Next.js requires absolute URLs (starting with http:// or https://) or relative URLs starting with /
  * This helper returns the input URL if valid, otherwise falls back to a placeholder image.
  */
-export function getValidImageUrl(src, fallback = "/images/placeholder.jpg") {
+export function getValidImageUrl(src, fallback = "/assets/img/default-150x150.png") {
   if (!src || typeof src !== 'string') return fallback;
   
   const trimmed = src.trim();

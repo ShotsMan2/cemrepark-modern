@@ -23,8 +23,10 @@ export async function generateMetadata() {
   const siteAdi = settings.siteAdi || "Cemre Park";
   const defaultTitle = `${siteAdi} - Size çok yakışacak! 💫`;
   const defaultDescription = `${siteAdi} Online Mağaza`;
+  const baseUrl = process.env.NEXT_PUBLIC_BASE_URL || 'http://localhost:3000';
 
   return {
+    metadataBase: new URL(baseUrl),
     title: {
       default: defaultTitle,
       template: `%s | ${siteAdi}`
@@ -33,11 +35,11 @@ export async function generateMetadata() {
     openGraph: {
       title: defaultTitle,
       description: defaultDescription,
-      url: process.env.NEXT_PUBLIC_BASE_URL || 'http://localhost:3000',
+      url: baseUrl,
       siteName: siteAdi,
       images: [
         {
-          url: '/images/og-image.jpg', // Default OG image
+          url: '/assets/siteimg/cemre park.png', // Default OG image
           width: 1200,
           height: 630,
         }
@@ -49,7 +51,7 @@ export async function generateMetadata() {
       card: 'summary_large_image',
       title: defaultTitle,
       description: defaultDescription,
-      images: ['/images/og-image.jpg'],
+      images: ['/assets/siteimg/cemre park.png'],
     },
   };
 }

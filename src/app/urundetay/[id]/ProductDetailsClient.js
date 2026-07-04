@@ -166,6 +166,7 @@ export default function ProductDetailsClient({ product, relatedProducts = [], in
                   fill 
                   className="object-cover hover:scale-105 transition-transform duration-700" 
                   priority 
+                  sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
                 />
               </div>
             </div>

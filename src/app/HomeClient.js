@@ -72,6 +72,7 @@ export default function HomeClient({ bestSellers, discounted, banners = [] }) {
                           fill
                           className="object-cover scale-105 hover:scale-110 transition-transform duration-700"
                           priority
+                          sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
                         />
                       </div>
                     </div>
@@ -233,7 +234,7 @@ export default function HomeClient({ bestSellers, discounted, banners = [] }) {
             
             {/* Big Feature */}
             <div className="md:col-span-2 glass-panel relative group overflow-hidden clip-angled" data-aos="fade-right">
-              <Image src={getValidImageUrl(discounted[0]?.gorsel)} alt="Giyim" fill className="object-cover opacity-60 group-hover:opacity-80 transition-opacity duration-500" />
+              <Image src={getValidImageUrl(discounted[0]?.gorsel)} alt="Giyim" fill className="object-cover opacity-60 group-hover:opacity-80 transition-opacity duration-500" sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw" />
               <div className="absolute inset-0 bg-gradient-to-t from-black/90 via-black/20 to-transparent p-10 flex flex-col justify-end">
                 <span className="text-neon-pink uppercase tracking-[0.2em] text-sm font-bold mb-2">{t("special_design")}</span>
                 <h3 className="text-4xl font-black text-white mb-4">{t("premium_coats")}</h3>
@@ -252,7 +253,7 @@ export default function HomeClient({ bestSellers, discounted, banners = [] }) {
                 </div>
               </div>
               <div className="h-1/2 glass-panel relative group overflow-hidden clip-angled">
-                <Image src={getValidImageUrl(discounted[2]?.gorsel)} alt="Tunik" fill className="object-cover opacity-50 group-hover:scale-110 transition-transform duration-700" />
+                <Image src={getValidImageUrl(discounted[2]?.gorsel)} alt="Tunik" fill className="object-cover opacity-50 group-hover:scale-110 transition-transform duration-700" sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw" />
                 <div className="absolute inset-0 flex flex-col items-center justify-center text-center z-20">
                   <h4 className="text-2xl font-bold text-white mb-2">{t("modern_tunics")}</h4>
                   <Link href="/search" className="text-xs uppercase tracking-widest text-gray-300 hover:text-white">{t("explore")}</Link>

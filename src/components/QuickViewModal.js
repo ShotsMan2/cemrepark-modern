@@ -55,7 +55,7 @@ export default function QuickViewModal({ product, onClose }) {
         </button>
         
         <div className="w-full md:w-1/2 h-[400px] md:h-[600px] relative clip-angled">
-          <Image src={getValidImageUrl(product.gorsel || product.resim1)} alt={product.ad} fill className="object-cover" />
+          <Image src={getValidImageUrl(product.gorsel || product.resim1)} alt={product.ad} fill className="object-cover" sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw" />
         </div>
         
         <div className="w-full md:w-1/2 p-8 flex flex-col justify-center">
