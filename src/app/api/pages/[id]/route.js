@@ -1,10 +1,13 @@
 import { NextResponse } from "next/server";
 import { prisma } from "@/lib/prisma";
+import { getServerSession } from "next-auth/next";
+import { authOptions } from "../../auth/[...nextauth]/route";
 
 export async function GET(req, { params }) {
   try {
+    const resolvedParams = await params;
     const page = await prisma.page.findUnique({
-      where: { id: parseInt(params.id) },
+      where: { id: parseInt(resolvedParams.id) },
     });
 
     if (!page) {
@@ -22,11 +25,20 @@ export async function GET(req, { params }) {
 
 export async function PUT(req, { params }) {
   try {
+    const session = await getServerSession(authOptions);
+    if (!session) {
+      return NextResponse.json(
+        { error: "Unauthorized" },
+        { status: 401 }
+      );
+    }
+
+    const resolvedParams = await params;
     const body = await req.json();
     const { title, slug, content } = body;
 
     const page = await prisma.page.update({
-      where: { id: parseInt(params.id) },
+      where: { id: parseInt(resolvedParams.id) },
       data: { title, slug, content },
     });
 
@@ -41,8 +53,17 @@ export async function PUT(req, { params }) {
 
 export async function DELETE(req, { params }) {
   try {
+    const session = await getServerSession(authOptions);
+    if (!session) {
+      return NextResponse.json(
+        { error: "Unauthorized" },
+        { status: 401 }
+      );
+    }
+
+    const resolvedParams = await params;
     await prisma.page.delete({
-      where: { id: parseInt(params.id) },
+      where: { id: parseInt(resolvedParams.id) },
     });
 
     return NextResponse.json({ message: "Page deleted successfully" });

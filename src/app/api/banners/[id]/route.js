@@ -1,9 +1,11 @@
 import { NextResponse } from "next/server";
 import { prisma } from "@/lib/prisma";
+import { getServerSession } from "next-auth/next";
+import { authOptions } from "../../auth/[...nextauth]/route";
 
 export async function GET(req, { params }) {
   try {
-    const resolvedParams = await params; // Params'ı await ediyoruz!
+    const resolvedParams = await params;
     const banner = await prisma.banner.findUnique({
       where: { id: parseInt(resolvedParams.id) },
     });
@@ -24,7 +26,16 @@ export async function GET(req, { params }) {
 
 export async function PUT(req, { params }) {
   try {
-    const resolvedParams = await params; // Params'ı await ediyoruz!
+    // Check authentication
+    const session = await getServerSession(authOptions);
+    if (!session) {
+      return NextResponse.json(
+        { error: "Unauthorized" },
+        { status: 401 }
+      );
+    }
+
+    const resolvedParams = await params;
     const body = await req.json();
     const { title, imageUrl, linkUrl, isActive, order } = body;
 
@@ -51,17 +62,23 @@ export async function PUT(req, { params }) {
 
 export async function DELETE(req, { params }) {
   try {
-    const resolvedParams = await params; // Params'ı await ediyoruz!
-    console.log('Silme isteği alındı, params:', resolvedParams);
+    // Check authentication
+    const session = await getServerSession(authOptions);
+    if (!session) {
+      return NextResponse.json(
+        { error: "Unauthorized" },
+        { status: 401 }
+      );
+    }
+
+    const resolvedParams = await params;
     const bannerId = parseInt(resolvedParams.id);
-    console.log('Silinecek banner ID (sayısal):', bannerId);
     
     const existingBanner = await prisma.banner.findUnique({
       where: { id: bannerId },
     });
     
     if (!existingBanner) {
-      console.log('Banner bulunamadı!');
       return NextResponse.json({ error: "Banner bulunamadı." }, { status: 404 });
     }
 
@@ -69,7 +86,6 @@ export async function DELETE(req, { params }) {
       where: { id: bannerId },
     });
 
-    console.log('Banner başarıyla silindi!');
     return NextResponse.json({ message: "Banner deleted successfully" });
   } catch (error) {
     console.error('Silme hatası (detay):', error);
