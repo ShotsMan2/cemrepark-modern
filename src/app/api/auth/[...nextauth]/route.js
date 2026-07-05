@@ -27,9 +27,21 @@ export const authOptions = {
             // Verify hashed password
             const passwordMatch = await bcrypt.compare(credentials.password, user.password);
             if (passwordMatch) {
+              await prisma.loginHistory.create({
+                data: {
+                  userId: user.id,
+                  ipAddress: req?.headers?.['x-forwarded-for'] || 'unknown',
+                  success: true
+                }
+              });
+              await prisma.user.update({
+                where: { id: user.id },
+                data: { lastLogin: new Date() }
+              });
               return {
                 id: user.id.toString(),
                 email: user.email,
+                name: user.name,
                 role: user.role
               };
             }
@@ -75,6 +87,7 @@ export const authOptions = {
       if (user) {
         token.role = user.role;
         token.id = user.id;
+        token.name = user.name;
       }
       return token;
     },
@@ -82,6 +95,7 @@ export const authOptions = {
       if (token && session.user) {
         session.user.role = token.role;
         session.user.id = token.id;
+        session.user.name = token.name;
       }
       return session;
     }

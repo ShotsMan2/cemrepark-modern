@@ -1,5 +1,6 @@
 import { NextResponse } from 'next/server';
 import prisma from '@/lib/prisma';
+import { getProductById } from '@/data/products';
 
 export async function POST(req) {
   try {
@@ -10,6 +11,35 @@ export async function POST(req) {
         { error: 'Eksik bilgi gönderildi' },
         { status: 400 }
       );
+    }
+
+    // Ensure product exists in SQLite DB before adding review to satisfy foreign key constraints
+    const productInfo = getProductById(productId);
+    if (productInfo) {
+      await prisma.product.upsert({
+        where: { id: parseInt(productId) },
+        update: {
+          ad: productInfo.ad || '',
+          fiyat: parseFloat(productInfo.fiyat) || 0,
+          kategori: productInfo.kategori || '',
+          resim: productInfo.resim || '',
+          gorsel: productInfo.gorsel || '',
+          etiket: productInfo.etiket || '',
+          renk: productInfo.renk || '',
+          beden: productInfo.beden || '',
+        },
+        create: {
+          id: parseInt(productId),
+          ad: productInfo.ad || '',
+          fiyat: parseFloat(productInfo.fiyat) || 0,
+          kategori: productInfo.kategori || '',
+          resim: productInfo.resim || '',
+          gorsel: productInfo.gorsel || '',
+          etiket: productInfo.etiket || '',
+          renk: productInfo.renk || '',
+          beden: productInfo.beden || '',
+        }
+      });
     }
 
     const review = await prisma.review.create({
@@ -44,7 +74,7 @@ export async function GET(req) {
       where: { productId: parseInt(productId) },
       include: {
         user: {
-          select: { email: true }
+          select: { name: true, email: true }
         }
       },
       orderBy: { createdAt: 'desc' }
