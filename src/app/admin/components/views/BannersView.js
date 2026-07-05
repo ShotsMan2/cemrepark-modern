@@ -7,6 +7,7 @@ import { getValidImageUrl } from "@/utils/imageHelper";
 export default function BannersView() {
   const [banners, setBanners] = useState([]);
   const [isLoading, setIsLoading] = useState(true);
+  const [error, setError] = useState(null);
   
   const [formData, setFormData] = useState({ title: "", imageUrl: "", linkUrl: "", isActive: true, order: 0 });
   const [editingId, setEditingId] = useState(null);
@@ -16,14 +17,18 @@ export default function BannersView() {
 
   const fetchBanners = async () => {
     setIsLoading(true);
+    setError(null);
     try {
       const res = await fetch("/api/banners");
       if (res.ok) {
         const data = await res.json();
         setBanners(data);
+      } else {
+        setError("Banner'lar yüklenirken bir hata oluştu.");
       }
     } catch (error) {
       console.error(error);
+      setError("Sunucu ile iletişim kurulamadı.");
     } finally {
       setIsLoading(false);
     }
@@ -224,9 +229,34 @@ export default function BannersView() {
         </h3>
         
         {isLoading ? (
-          <div className="py-12 flex justify-center"><div className="w-8 h-8 border-2 border-neon-pink border-t-transparent rounded-full animate-spin"></div></div>
+          <div className="py-16 flex flex-col items-center justify-center gap-4">
+            <div className="w-12 h-12 border-4 border-neon-pink/30 border-t-neon-pink rounded-full animate-spin"></div>
+            <p className="text-gray-400 text-sm">Banner'lar yükleniyor...</p>
+          </div>
+        ) : error ? (
+          <div className="py-16 flex flex-col items-center justify-center gap-4 text-center">
+            <div className="w-16 h-16 bg-red-500/10 rounded-full flex items-center justify-center">
+              <svg className="w-8 h-8 text-red-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-3L13.732 4c-.77-1.333-2.694-1.333-3.464 0L3.34 16c-.77 1.333.192 3 1.732 3z" />
+              </svg>
+            </div>
+            <div>
+              <p className="text-red-400 font-medium mb-2">{error}</p>
+              <button onClick={fetchBanners} className="text-neon-pink hover:text-neon-pink/80 text-sm underline transition-colors">
+                Tekrar Dene
+              </button>
+            </div>
+          </div>
         ) : banners.length === 0 ? (
-          <div className="py-12 text-center text-gray-500 border border-white/5 border-dashed bg-black/20 clip-angled"><p>Henüz eklenmiş bir banner bulunmuyor.</p></div>
+          <div className="py-16 text-center border border-white/5 border-dashed bg-black/20 clip-angled">
+            <div className="w-16 h-16 bg-neon-pink/10 rounded-full flex items-center justify-center mx-auto mb-4">
+              <svg className="w-8 h-8 text-neon-pink/60" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M4 16l4.586-4.586a2 2 0 012.828 0L16 16m-2-2l1.586-1.586a2 2 0 012.828 0L20 14m-6-6h.01M6 20h12a2 2 0 002-2V6a2 2 0 00-2-2H6a2 2 0 00-2 2v12a2 2 0 002 2z" />
+              </svg>
+            </div>
+            <p className="text-gray-400 mb-2">Henüz eklenmiş bir banner bulunmuyor.</p>
+            <p className="text-gray-500 text-sm">Yukarıdaki formdan ilk banner'ınızı ekleyin!</p>
+          </div>
         ) : (
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
             {banners.map((banner) => (

@@ -36,8 +36,8 @@ export default function ProductDetailsClient({ product, relatedProducts = [], in
         showConfirmButton: false,
         timer: 3000,
         icon: 'warning',
-        title: 'Seçim Yapmadınız!',
-        text: 'Lütfen beden ve renk seçiniz.',
+        title: t("review_warning_selection_title"),
+        text: t("review_warning_selection_desc"),
         background: 'rgba(10, 10, 10, 0.9)',
         color: '#fff',
         iconColor: '#ffd700',
@@ -55,8 +55,8 @@ export default function ProductDetailsClient({ product, relatedProducts = [], in
       showConfirmButton: false,
       timer: 3000,
       icon: 'success',
-      title: 'Sepete Eklendi!',
-      text: product.ad + ' sepetinize başarıyla eklendi.',
+      title: t("cart_added_title"),
+      text: t("cart_added_desc", { name: t(product.ad) }),
       background: 'rgba(10, 10, 10, 0.9)',
       color: '#fff',
       iconColor: '#ff007f',
@@ -71,8 +71,8 @@ export default function ProductDetailsClient({ product, relatedProducts = [], in
     if (!session) {
       Swal.fire({
         icon: 'warning',
-        title: 'Giriş Yapın',
-        text: 'Yorum yapmak için giriş yapmalısınız.',
+        title: t("review_warning_title"),
+        text: t("review_warning_desc"),
         background: '#1a1a1a',
         color: '#fff',
       });
@@ -105,8 +105,8 @@ export default function ProductDetailsClient({ product, relatedProducts = [], in
         showConfirmButton: false,
         timer: 3000,
         icon: 'success',
-        title: 'Teşekkürler!',
-        text: 'Yorumunuz başarıyla eklendi.',
+        title: t("review_success_title"),
+        text: t("review_success_desc"),
         background: 'rgba(10, 10, 10, 0.9)',
         color: '#fff',
         iconColor: '#ff007f',
@@ -187,7 +187,7 @@ export default function ProductDetailsClient({ product, relatedProducts = [], in
                   <span key={star} className={star <= avgRating ? "text-holo-gold" : "text-gray-600"}>★</span>
                 ))}
               </div>
-              <span className="text-gray-400 text-sm">({reviews.length} Değerlendirme)</span>
+              <span className="text-gray-400 text-sm">{t("reviews_count", { count: reviews.length })}</span>
             </div>
             
             <h2 className="text-3xl font-bold text-glow-gold mb-8">
@@ -248,7 +248,7 @@ export default function ProductDetailsClient({ product, relatedProducts = [], in
                 </button>
                 <div className={`overflow-hidden transition-all duration-300 ${activeTab === 'detay' ? 'max-h-40 p-4 pt-0' : 'max-h-0 px-4'}`}>
                   <p className="text-gray-400 font-light text-sm leading-relaxed">
-                    {product.ad} - {t("quick_view_desc")}
+                    {t(product.ad)} - {t("quick_view_desc")}
                   </p>
                 </div>
               </div>
@@ -301,16 +301,16 @@ export default function ProductDetailsClient({ product, relatedProducts = [], in
 
         {/* Müşteri Yorumları Section */}
         <div className="mt-24 border-t border-white/10 pt-16 relative">
-          <h3 className="text-2xl font-black text-white uppercase tracking-widest mb-10 text-center">Değerlendirmeler</h3>
+          <h3 className="text-2xl font-black text-white uppercase tracking-widest mb-10 text-center">{t("reviews_title")}</h3>
           
           <div className="grid md:grid-cols-2 gap-12">
             {/* Add Review Form */}
             <div className="glass-panel p-8 clip-angled bg-black/40 border border-white/10 backdrop-blur-md">
-              <h4 className="text-xl font-bold text-white mb-6 uppercase tracking-wider">Yorum Yap</h4>
+              <h4 className="text-xl font-bold text-white mb-6 uppercase tracking-wider">{t("write_review")}</h4>
               {session ? (
                 <form onSubmit={handleReviewSubmit} className="space-y-4">
                   <div>
-                    <label className="block text-gray-400 text-sm font-bold mb-2 uppercase">Puanınız</label>
+                    <label className="block text-gray-400 text-sm font-bold mb-2 uppercase">{t("your_rating")}</label>
                     <div className="flex gap-2">
                       {[1,2,3,4,5].map(star => (
                         <button 
@@ -325,12 +325,12 @@ export default function ProductDetailsClient({ product, relatedProducts = [], in
                     </div>
                   </div>
                   <div>
-                    <label className="block text-gray-400 text-sm font-bold mb-2 uppercase">Yorumunuz</label>
+                    <label className="block text-gray-400 text-sm font-bold mb-2 uppercase">{t("your_comment")}</label>
                     <textarea 
                       value={comment}
                       onChange={(e) => setComment(e.target.value)}
                       className="w-full bg-black/50 border border-white/10 text-white px-4 py-3 focus:outline-none focus:border-neon-pink transition-colors h-32 resize-none"
-                      placeholder="Ürün hakkındaki düşüncelerinizi paylaşın..."
+                      placeholder={t("comment_placeholder")}
                       required
                     ></textarea>
                   </div>
@@ -339,14 +339,14 @@ export default function ProductDetailsClient({ product, relatedProducts = [], in
                     disabled={isSubmittingReview}
                     className="w-full bg-neon-pink text-white font-bold py-3 uppercase tracking-widest hover:bg-white hover:text-black transition-colors clip-angled disabled:opacity-50"
                   >
-                    {isSubmittingReview ? "Gönderiliyor..." : "Yorumu Gönder"}
+                    {isSubmittingReview ? t("sending") : t("send_comment")}
                   </button>
                 </form>
               ) : (
                 <div className="text-center py-8">
-                  <p className="text-gray-400 mb-4">Yorum yapmak için giriş yapmalısınız.</p>
+                  <p className="text-gray-400 mb-4">{t("login_required_review")}</p>
                   <Link href="/hesabim" className="inline-block bg-transparent border border-neon-pink text-neon-pink hover:bg-neon-pink hover:text-white py-3 px-8 uppercase font-bold tracking-widest transition-all duration-300 clip-angled text-sm">
-                    Giriş Yap
+                    {t("login")}
                   </Link>
                 </div>
               )}
@@ -372,7 +372,7 @@ export default function ProductDetailsClient({ product, relatedProducts = [], in
                   </div>
                 ))
               ) : (
-                <p className="text-gray-500 italic">Henüz yorum yapılmamış. İlk yorumu siz yapın!</p>
+                <p className="text-gray-500 italic">{t("no_reviews_yet")}</p>
               )}
             </div>
           </div>
