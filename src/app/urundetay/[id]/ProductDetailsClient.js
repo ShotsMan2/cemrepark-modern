@@ -248,7 +248,7 @@ export default function ProductDetailsClient({ product, relatedProducts = [], in
                 </button>
                 <div className={`overflow-hidden transition-all duration-300 ${activeTab === 'detay' ? 'max-h-40 p-4 pt-0' : 'max-h-0 px-4'}`}>
                   <p className="text-gray-400 font-light text-sm leading-relaxed">
-                    {product.ad} - {t("quick_view_desc")}
+                    {t(product.ad)} - {t("quick_view_desc")}
                   </p>
                 </div>
               </div>

@@ -2,6 +2,8 @@ import { NextResponse } from 'next/server';
 import prisma from '@/lib/prisma';
 import { getServerSession } from "next-auth/next";
 import { authOptions } from "../auth/[...nextauth]/route";
+import fs from 'fs';
+import path from 'path';
 
 const defaultSettings = {
   siteAdi: "Cemre Park",
@@ -81,9 +83,18 @@ export async function POST(request) {
       updatedSettings[row.key] = value;
     });
     
+    // Write to settings.json to keep it in sync with DB for static/SSR functions
+    try {
+      const filePath = path.join(process.cwd(), 'src', 'data', 'settings.json');
+      fs.writeFileSync(filePath, JSON.stringify(updatedSettings, null, 2), 'utf8');
+    } catch (fsError) {
+      console.error("settings.json güncellenirken hata oluştu:", fsError);
+    }
+    
     return NextResponse.json(updatedSettings);
   } catch (error) {
     console.error(error);
     return NextResponse.json({ error: 'Ayarlar güncellenemedi' }, { status: 500 });
   }
 }
+

@@ -210,7 +210,18 @@ export const translations = {
     "back_to_home": "Alışverişe Dön",
     "processing": "İşleniyor...",
     "ssl_guarantee": "256-bit SSL sertifikası ile ödemeniz güvence altındadır.",
-    "search_now": "Arama Yap"
+    "search_now": "Arama Yap",
+    "about_us_p1": "Cemre Park olarak, modern tesettür giyimin zarafetini ve kalitesini bir araya getiren özgün tasarımlarımızla yıllardır sektörde öncü olmaktan gurur duyuyoruz.",
+    "about_us_p2": "Amacımız, her kadının kendi stilini bulabileceği, günün her saatine uygun, konforlu ve şık seçenekler sunmaktır. Premium kumaş kalitemiz, usta işçiliğimiz ve güncel moda trendlerini yakalayan vizyonumuzla her sezon yepyeni bir heyecanla karşınızdayız.",
+    "our_vision_title": "Vizyonumuz",
+    "our_vision_desc": "Türkiye'nin ve dünyanın dört bir yanına ulaşan, modaya yön veren en güvenilir tesettür giyim markası olmak.",
+    "contact_intro": "Soru, öneri ve görüşleriniz bizim için çok değerli. Bize aşağıdaki kanallardan ulaşabilirsiniz.",
+    "email_title": "E-Posta",
+    "phone_title": "Telefon",
+    "address_title": "Adres",
+    "distance_selling_text": "İşbu Sözleşme, Alıcı'nın, Satıcı'ya ait cemrepark.com internet sitesinden elektronik ortamda siparişini yaptığı aşağıda nitelikleri ve satış ücreti belirtilen ürünün satışı ve teslimi ile ilgili olarak yürürlükteki yasal mevzuat gereğince tarafların hak ve yükümlülüklerini saptar.",
+    "return_policy_text": "Satın almış olduğunuz ürünleri, kullanılmamış, etiketleri sökülmemiş ve tekrar satılabilir özelliğini kaybetmemiş olması şartıyla 14 gün içerisinde iade edebilir veya değiştirebilirsiniz. İade kargo bedelleri firmamız tarafından karşılanmaktadır.",
+    "privacy_policy_text": "Müşterilerimize ait kişisel bilgiler, en yüksek güvenlik standartlarında korunmakta olup, hiçbir şekilde üçüncü şahıslar veya firmalarla paylaşılmaz. SSL sertifikası ile korunan altyapımızda güvenle alışveriş yapabilirsiniz."
   },
   EN: {
     "collection": "Collection",
@@ -421,7 +432,18 @@ export const translations = {
     "search_tunic": "Tunic",
     "search_coat": "Coat & Jacket",
     "search_trousers": "Trousers",
-    "search_evening_dress": "Evening Dress"
+    "search_evening_dress": "Evening Dress",
+    "about_us_p1": "As Cemre Park, we are proud to be a pioneer in the sector for years with our unique designs that bring together the elegance and quality of modern modest clothing.",
+    "about_us_p2": "Our goal is to offer comfortable and stylish options suitable for every hour of the day, where every woman can find her own style. We are here with a brand new excitement every season with our premium fabric quality, master craftsmanship and our vision that catches the current fashion trends.",
+    "our_vision_title": "Our Vision",
+    "our_vision_desc": "To be the most reliable modest clothing brand that reaches all over Turkey and the world, and shapes fashion.",
+    "contact_intro": "Your questions, suggestions and feedback are very valuable to us. You can reach us through the channels below.",
+    "email_title": "Email",
+    "phone_title": "Phone",
+    "address_title": "Address",
+    "distance_selling_text": "This Agreement determines the rights and obligations of the parties in accordance with the current legal legislation regarding the sale and delivery of the product, whose qualities and sales price are specified below, ordered electronically by the Buyer from the Seller's website.",
+    "return_policy_text": "You can return or exchange the products you have purchased within 14 days, provided that they have not been used, their labels have not been removed and they have not lost their resalability feature. Return shipping costs are covered by our company.",
+    "privacy_policy_text": "Personal information belonging to our customers is protected at the highest security standards and is in no way shared with third parties or companies. You can shop safely in our infrastructure protected by an SSL certificate."
   },
   AR: {
     "collection": "مجموعة",
@@ -632,6 +654,17 @@ export const translations = {
     "search_tunic": "تونيك",
     "search_coat": "معاطف وجواكت",
     "search_trousers": "بنطلونات",
-    "search_evening_dress": "فستان سهرة"
+    "search_evening_dress": "فستان سهرة",
+    "about_us_p1": "بصفتنا سيمري بارك، نفخر بكوننا روادًا في هذا القطاع لسنوات من خلال تصميماتنا الفريدة التي تجمع بين الأناقة والجودة في الملابس المحتشمة الحديثة.",
+    "about_us_p2": "هدفنا هو تقديم خيارات مريحة وأنيقة مناسبة لكل ساعة من اليوم، حيث يمكن لكل امرأة أن تجد أسلوبها الخاص. نحن هنا بحماس جديد كل موسم بجودة الأقمشة الفاخرة لدينا والحرفية المتقنة ورؤيتنا التي تواكب أحدث اتجاهات الموضة.",
+    "our_vision_title": "رؤيتنا",
+    "our_vision_desc": "أن نكون العلامة التجارية الأكثر موثوقية للملابس المحتشمة التي تصل إلى جميع أنحاء تركيا والعالم، وتشكل الموضة.",
+    "contact_intro": "أسئلتك واقتراحاتك وملاحظاتك قيمة جدا بالنسبة لنا. يمكنك التواصل معنا عبر القنوات أدناه.",
+    "email_title": "البريد الإلكتروني",
+    "phone_title": "هاتف",
+    "address_title": "عنوان",
+    "distance_selling_text": "تحدد هذه الاتفاقية حقوق التزامات الأطراف وفقا للتشريعات القانونية الحالية فيما يتعلق ببيع وتسليم المنتج، الذي تم تحديد صفاته وسعر بيعه أدناه، والذي طلبه المشتري إلكترونيا من موقع البائع.",
+    "return_policy_text": "يمكنك إرجاع أو استبدال المنتجات التي اشتريتها في غضون 14 يوما، بشرط ألا تكون قد استخدمت، ولم تتم إزالة ملصقاتها ولم تفقد ميزة قابليتها لإعادة البيع. يتم تغطية تكاليف شحن الإرجاع من قبل شركتنا.",
+    "privacy_policy_text": "تتم حماية المعلومات الشخصية الخاصة بعملائنا بأعلى معايير الأمان ولا تتم مشاركتها بأي حال من الأحوال مع أطراف ثالثة أو شركات. يمكنك التسوق بأمان في بنيتنا التحتية المحمية بشهادة SSL."
   }
 };

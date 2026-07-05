@@ -65,6 +65,20 @@ npm run dev
 
 Uygulama [http://localhost:3000](http://localhost:3000) adresinde çalışacaktır.
 
+## 🐳 Docker ile Kurulum
+
+1. Docker ve Docker Compose kurulu olduğundan emin olun
+2. Aşağıdaki komutları çalıştırın:
+```bash
+# Docker imajını oluşturun
+docker-compose build
+
+# Konteynerı başlatın
+docker-compose up -d
+```
+
+Uygulama [http://localhost:3000](http://localhost:3000) adresinde çalışacaktır.
+
 ## 📝 Scriptler
 
 - `npm run dev`: Geliştirme sunucusunu başlatır
