@@ -36,10 +36,23 @@ export const authOptions = {
           } else {
             // Mock admin user for development purposes
             if (credentials.email === "admin" && credentials.password === "123456") {
+              let adminUser = await prisma.user.findUnique({
+                where: { email: "admin@example.com" }
+              });
+              if (!adminUser) {
+                const hashedPassword = await bcrypt.hash("123456", 10);
+                adminUser = await prisma.user.create({
+                  data: {
+                    email: "admin@example.com",
+                    password: hashedPassword,
+                    role: "admin"
+                  }
+                });
+              }
               return {
-                id: "1",
-                email: "admin@example.com",
-                role: "admin"
+                id: adminUser.id.toString(),
+                email: adminUser.email,
+                role: adminUser.role
               };
             }
           }
