@@ -4,9 +4,13 @@ import Image from "next/image";
 import { useState, useEffect } from "react";
 import { useStore } from "../../context/StoreContext";
 import { getValidImageUrl } from "../../utils/imageHelper";
+import { useRouter } from "next/navigation";
+import { useSession } from "next-auth/react";
 
 export default function CartPage() {
   const { cartItems, removeFromCart, isLoaded, formatPrice, t } = useStore();
+  const router = useRouter();
+  const { data: session } = useSession();
 
   const totalAmount = cartItems.reduce((acc, item) => acc + (item.fiyat * item.quantity), 0);
 
@@ -113,12 +117,18 @@ export default function CartPage() {
                   <span className="text-white font-bold text-lg">{formatPrice(totalAmount)}</span>
                 </div>
 
-                <Link 
-                  href="/checkout" 
+                <button 
+                  onClick={() => {
+                    if (session) {
+                      router.push("/checkout");
+                    } else {
+                      router.push("/login");
+                    }
+                  }}
                   className="block w-full bg-holo-gold text-black text-center py-4 font-black uppercase tracking-widest hover:bg-white transition-colors clip-angled shadow-[0_0_20px_rgba(255,215,0,0.3)]"
                 >
                   {t("checkout")}
-                </Link>
+                </button>
                 
                 <div className="mt-6 flex justify-center gap-3">
                   {/* Visa */}

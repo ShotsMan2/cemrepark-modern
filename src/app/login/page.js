@@ -28,8 +28,8 @@ export default function LoginPage() {
     if (res?.error) {
       Swal.fire({
         icon: "error",
-        title: "Giriş Başarısız",
-        text: "E-posta veya şifre hatalı.",
+        title: t("login_failed"),
+        text: t("login_invalid_credentials"),
         background: "rgba(10, 10, 10, 0.9)",
         color: "#fff",
       });
@@ -43,12 +43,12 @@ export default function LoginPage() {
     <div className="min-h-screen pt-32 pb-20 flex items-center justify-center bg-black px-4">
       <div className="max-w-md w-full glass-panel p-8 rounded-xl shadow-2xl relative overflow-hidden">
         <div className="absolute top-0 left-0 w-full h-1 bg-gradient-to-r from-neon-pink to-holo-gold"></div>
-        <h2 className="text-3xl font-black text-white mb-6 text-center">GİRİŞ YAP</h2>
+        <h2 className="text-3xl font-black text-white mb-6 text-center">{t("login_title")}</h2>
         
         <form onSubmit={handleSubmit} className="space-y-6">
           <div>
             <label className="block text-gray-400 text-sm font-bold mb-2 uppercase tracking-wider">
-              E-Posta
+              {t("email_title")}
             </label>
             <input
               type="email"
@@ -61,7 +61,7 @@ export default function LoginPage() {
           
           <div>
             <label className="block text-gray-400 text-sm font-bold mb-2 uppercase tracking-wider">
-              Şifre
+              {t("password_label")}
             </label>
             <input
               type="password"
@@ -74,7 +74,7 @@ export default function LoginPage() {
 
           <div className="flex items-center justify-between">
             <Link href="/forgot-password" className="text-sm text-gray-400 hover:text-holo-gold transition-colors">
-              Şifremi Unuttum
+              {t("forgot_password")}
             </Link>
           </div>
 
@@ -83,14 +83,14 @@ export default function LoginPage() {
             disabled={loading}
             className="w-full bg-gradient-to-r from-neon-pink to-holo-gold text-black font-bold py-3 px-4 rounded-lg hover:opacity-90 transition-opacity uppercase tracking-wider flex justify-center items-center gap-2"
           >
-            {loading ? "Giriş Yapılıyor..." : "Giriş Yap"}
+            {loading ? t("logging_in") : t("login")}
           </button>
         </form>
 
         <p className="mt-6 text-center text-gray-400">
-          Hesabınız yok mu?{" "}
+          {t("dont_have_account")}{" "}
           <Link href="/register" className="text-holo-gold hover:underline">
-            Kayıt Ol
+            {t("register")}
           </Link>
         </p>
       </div>

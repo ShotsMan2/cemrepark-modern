@@ -30,7 +30,7 @@ export const authOptions = {
               await prisma.loginHistory.create({
                 data: {
                   userId: user.id,
-                  ipAddress: req.headers?.['x-forwarded-for'] || 'unknown',
+                  ipAddress: req?.headers?.['x-forwarded-for'] || 'unknown',
                   success: true
                 }
               });

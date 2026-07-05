@@ -3,10 +3,12 @@ import { useState, useEffect } from "react";
 import Link from "next/link";
 import Image from "next/image";
 import { usePathname } from "next/navigation";
+import { useSession } from "next-auth/react";
 import { useStore } from "../context/StoreContext";
 
 export default function Header() {
   const pathname = usePathname();
+  const { data: session, status } = useSession();
   const [isSearchOpen, setIsSearchOpen] = useState(false);
   const { cartItems, favoriteItems, isLoaded, language, setLanguage, currency, setCurrency, t, settings } = useStore();
 
@@ -170,6 +172,25 @@ export default function Header() {
 
             {/* Right Actions */}
             <div className="flex items-center gap-6">
+              {/* Auth Links */}
+              <div className="hidden lg:flex items-center gap-4 text-sm font-medium">
+                {status === "loading" ? null : session ? (
+                  <Link href="/hesabim" className="text-gray-300 hover:text-neon-pink transition-colors uppercase tracking-widest border border-white/10 px-4 py-1.5 clip-angled">
+                    {t("my_account")}
+                  </Link>
+                ) : (
+                  <>
+                    <Link href="/login" className="text-gray-300 hover:text-neon-pink transition-colors uppercase tracking-widest">
+                      {t("login")}
+                    </Link>
+                    <div className="w-px h-4 bg-gray-700"></div>
+                    <Link href="/register" className="text-holo-gold hover:text-neon-pink transition-colors uppercase tracking-widest font-bold">
+                      {t("register")}
+                    </Link>
+                  </>
+                )}
+              </div>
+
               <button onClick={() => setIsSearchOpen(true)} className="text-gray-300 hover:text-holo-gold transition-colors">
                 <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><circle cx="11" cy="11" r="8"></circle><line x1="21" y1="21" x2="16.65" y2="16.65"></line></svg>
               </button>

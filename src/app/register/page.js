@@ -31,16 +31,16 @@ export default function RegisterPage() {
       if (!res.ok) {
         Swal.fire({
           icon: "error",
-          title: "Kayıt Başarısız",
-          text: data.error || "Bir hata oluştu.",
+          title: t("register_failed"),
+          text: data.error || t("error_occurred"),
           background: "rgba(10, 10, 10, 0.9)",
           color: "#fff",
         });
       } else {
         Swal.fire({
           icon: "success",
-          title: "Başarılı!",
-          text: "Kaydınız başarıyla oluşturuldu. Şimdi giriş yapabilirsiniz.",
+          title: t("success"),
+          text: t("register_success_desc"),
           background: "rgba(10, 10, 10, 0.9)",
           color: "#fff",
         }).then(() => {
@@ -50,8 +50,8 @@ export default function RegisterPage() {
     } catch (error) {
       Swal.fire({
         icon: "error",
-        title: "Hata",
-        text: "Kayıt olurken beklenmeyen bir hata oluştu.",
+        title: t("error_title"),
+        text: t("register_error_unexpected"),
         background: "rgba(10, 10, 10, 0.9)",
         color: "#fff",
       });
@@ -64,12 +64,12 @@ export default function RegisterPage() {
     <div className="min-h-screen pt-32 pb-20 flex items-center justify-center bg-black px-4">
       <div className="max-w-md w-full glass-panel p-8 rounded-xl shadow-2xl relative overflow-hidden">
         <div className="absolute top-0 left-0 w-full h-1 bg-gradient-to-r from-neon-pink to-holo-gold"></div>
-        <h2 className="text-3xl font-black text-white mb-6 text-center">KAYIT OL</h2>
+        <h2 className="text-3xl font-black text-white mb-6 text-center">{t("register_title")}</h2>
         
         <form onSubmit={handleSubmit} className="space-y-6">
           <div>
             <label className="block text-gray-400 text-sm font-bold mb-2 uppercase tracking-wider">
-              Ad Soyad
+              {t("name_surname")}
             </label>
             <input
               type="text"
@@ -82,7 +82,7 @@ export default function RegisterPage() {
           
           <div>
             <label className="block text-gray-400 text-sm font-bold mb-2 uppercase tracking-wider">
-              E-Posta
+              {t("email_title")}
             </label>
             <input
               type="email"
@@ -95,7 +95,7 @@ export default function RegisterPage() {
           
           <div>
             <label className="block text-gray-400 text-sm font-bold mb-2 uppercase tracking-wider">
-              Şifre
+              {t("password_label")}
             </label>
             <input
               type="password"
@@ -105,7 +105,7 @@ export default function RegisterPage() {
               required
               minLength={6}
             />
-            <p className="text-xs text-gray-500 mt-1">En az 6 karakter olmalıdır.</p>
+            <p className="text-xs text-gray-500 mt-1">{t("password_hint")}</p>
           </div>
 
           <button
@@ -113,14 +113,14 @@ export default function RegisterPage() {
             disabled={loading}
             className="w-full bg-gradient-to-r from-neon-pink to-holo-gold text-black font-bold py-3 px-4 rounded-lg hover:opacity-90 transition-opacity uppercase tracking-wider flex justify-center items-center gap-2"
           >
-            {loading ? "Kayıt Olunuyor..." : "Kayıt Ol"}
+            {loading ? t("registering") : t("register")}
           </button>
         </form>
 
         <p className="mt-6 text-center text-gray-400">
-          Zaten hesabınız var mı?{" "}
+          {t("already_have_account")}{" "}
           <Link href="/login" className="text-holo-gold hover:underline">
-            Giriş Yap
+            {t("login")}
           </Link>
         </p>
       </div>

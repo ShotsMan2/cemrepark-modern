@@ -6,9 +6,7 @@ export const dynamic = 'force-dynamic';
 
 export async function generateMetadata({ params }) {
   const { id } = await params;
-  const product = await prisma.product.findUnique({
-    where: { id: parseInt(id) }
-  });
+  const product = getProductById(id);
 
   if (!product) {
     return {
@@ -66,7 +64,7 @@ export default async function UrunDetay({ params }) {
     where: { productId: parseInt(id) },
     include: {
       user: {
-        select: { email: true }
+        select: { name: true, email: true }
       }
     },
     orderBy: { createdAt: 'desc' }

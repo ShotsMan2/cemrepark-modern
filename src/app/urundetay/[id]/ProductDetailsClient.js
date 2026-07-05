@@ -8,9 +8,11 @@ import Link from "next/link";
 import QuickViewModal from "../../../components/QuickViewModal";
 import { getValidImageUrl } from "../../../utils/imageHelper";
 import { useSession } from "next-auth/react";
+import { useRouter } from "next/navigation";
 
 export default function ProductDetailsClient({ product, relatedProducts = [], initialReviews = [] }) {
   const { data: session } = useSession();
+  const router = useRouter();
   const { addToCart, formatPrice, t } = useStore();
   const [beden, setBeden] = useState("");
   const [renk, setRenk] = useState("");
@@ -69,13 +71,7 @@ export default function ProductDetailsClient({ product, relatedProducts = [], in
   const handleReviewSubmit = async (e) => {
     e.preventDefault();
     if (!session) {
-      Swal.fire({
-        icon: 'warning',
-        title: t("review_warning_title"),
-        text: t("review_warning_desc"),
-        background: '#1a1a1a',
-        color: '#fff',
-      });
+      router.push("/login");
       return;
     }
     
@@ -96,7 +92,7 @@ export default function ProductDetailsClient({ product, relatedProducts = [], in
       
       if (!res.ok) throw new Error(data.error);
       
-      setReviews([{...data.review, user: { email: session.user.email }}, ...reviews]);
+      setReviews([{...data.review, user: { name: session.user.name, email: session.user.email }}, ...reviews]);
       setComment("");
       setRating(5);
       Swal.fire({
@@ -345,7 +341,7 @@ export default function ProductDetailsClient({ product, relatedProducts = [], in
               ) : (
                 <div className="text-center py-8">
                   <p className="text-gray-400 mb-4">{t("login_required_review")}</p>
-                  <Link href="/hesabim" className="inline-block bg-transparent border border-neon-pink text-neon-pink hover:bg-neon-pink hover:text-white py-3 px-8 uppercase font-bold tracking-widest transition-all duration-300 clip-angled text-sm">
+                  <Link href="/login" className="inline-block bg-transparent border border-neon-pink text-neon-pink hover:bg-neon-pink hover:text-white py-3 px-8 uppercase font-bold tracking-widest transition-all duration-300 clip-angled text-sm">
                     {t("login")}
                   </Link>
                 </div>
@@ -359,7 +355,10 @@ export default function ProductDetailsClient({ product, relatedProducts = [], in
                   <div key={review.id} className="border-b border-white/10 pb-6">
                     <div className="flex justify-between items-start mb-2">
                       <div>
-                        <p className="text-white font-bold">{review.user?.email.split('@')[0]}</p>
+                        <div className="flex flex-col">
+                          <span className="text-white font-bold">{review.user?.name || review.user?.email?.split('@')[0]}</span>
+                          <span className="text-gray-500 text-xs mt-0.5">{review.user?.email}</span>
+                        </div>
                         <div className="flex text-holo-gold text-sm mt-1">
                           {[1,2,3,4,5].map(star => (
                             <span key={star} className={star <= review.rating ? "text-holo-gold" : "text-gray-600"}>★</span>
