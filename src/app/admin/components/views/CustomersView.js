@@ -1,18 +1,46 @@
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import Swal from 'sweetalert2';
 
 export default function CustomersView() {
   const [searchTerm, setSearchTerm] = useState('');
+  const [customers, setCustomers] = useState([]);
+  const [loading, setLoading] = useState(true);
 
-  const mockCustomers = [
-    { id: 'CUS-001', isim: 'Ahmet Yılmaz', email: 'ahmet@example.com', kayit: '15 Oca 2026', harcama: 12500, segment: 'VIP', siparisSayisi: 8 },
-    { id: 'CUS-002', isim: 'Ayşe Demir', email: 'ayse@example.com', kayit: '02 Mar 2026', harcama: 4200, segment: 'Regular', siparisSayisi: 3 },
-    { id: 'CUS-003', isim: 'Mehmet Kaya', email: 'mehmet@example.com', kayit: '10 Nis 2026', harcama: 8900, segment: 'VIP', siparisSayisi: 5 },
-    { id: 'CUS-004', isim: 'Fatma Çelik', email: 'fatma@example.com', kayit: '28 Haz 2026', harcama: 850, segment: 'New', siparisSayisi: 1 },
-    { id: 'CUS-005', isim: 'Zeynep Yılmaz', email: 'zeynep@example.com', kayit: '20 May 2026', harcama: 2400, segment: 'Regular', siparisSayisi: 2 },
-  ];
+  useEffect(() => {
+    fetchUsers();
+  }, []);
 
-  const filteredCustomers = mockCustomers.filter(c => {
+  const fetchUsers = async () => {
+    try {
+      setLoading(true);
+      const res = await fetch('/api/users');
+      if (res.ok) {
+        const data = await res.json();
+        const mappedData = data.map(u => {
+          let segment = 'New';
+          if (u._count.orders >= 5) segment = 'VIP';
+          else if (u._count.orders >= 1) segment = 'Regular';
+          
+          return {
+            id: `USR-${u.id}`,
+            isim: u.name || 'İsimsiz Kullanıcı',
+            email: u.email,
+            kayit: new Date(u.createdAt).toLocaleDateString('tr-TR', { day: '2-digit', month: 'short', year: 'numeric' }),
+            harcama: 0, // Currently no order totals in user model without complex include
+            segment: segment,
+            siparisSayisi: u._count.orders
+          };
+        });
+        setCustomers(mappedData);
+      }
+    } catch (error) {
+      console.error('Kullanıcılar alınırken hata:', error);
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  const filteredCustomers = customers.filter(c => {
     return c.isim.toLowerCase().includes(searchTerm.toLowerCase()) || 
            c.email.toLowerCase().includes(searchTerm.toLowerCase());
   });
@@ -91,7 +119,22 @@ export default function CustomersView() {
             </tr>
           </thead>
           <tbody className="divide-y divide-white/5">
-            {filteredCustomers.map((c, i) => (
+            {loading ? (
+              <tr>
+                <td colSpan="6" className="p-8 text-center text-gray-400">
+                  <div className="flex justify-center mb-4">
+                    <div className="w-8 h-8 border-4 border-neon-pink border-t-transparent rounded-full animate-spin"></div>
+                  </div>
+                  Kullanıcılar Yükleniyor...
+                </td>
+              </tr>
+            ) : filteredCustomers.length === 0 ? (
+              <tr>
+                <td colSpan="6" className="p-8 text-center text-gray-400">
+                  Kayıtlı kullanıcı bulunamadı.
+                </td>
+              </tr>
+            ) : filteredCustomers.map((c, i) => (
               <tr key={i} className="hover:bg-white/5 transition-colors group cursor-pointer">
                 <td className="p-4">
                   <div className="flex items-center gap-3">
@@ -124,12 +167,12 @@ export default function CustomersView() {
                         title: c.isim,
                         html: `
                           <div class="text-left text-sm space-y-2">
-                            <p><strong>Müşteri ID:</strong> ${c.id}</p>
+                            <p><strong>Kullanıcı ID:</strong> ${c.id}</p>
                             <p><strong>E-posta:</strong> ${c.email}</p>
                             <p><strong>Segment:</strong> ${c.segment}</p>
                             <p><strong>Kayıt Tarihi:</strong> ${c.kayit}</p>
                             <p><strong>Sipariş Adedi:</strong> ${c.siparisSayisi}</p>
-                            <p><strong>Toplam Harcama:</strong> ${c.harcama.toLocaleString('tr-TR')} ₺</p>
+                            <p><strong>Toplam Harcama:</strong> Yakında...</p>
                           </div>
                         `,
                         confirmButtonColor: '#ff007f',
