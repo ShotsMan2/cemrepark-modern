@@ -110,6 +110,27 @@ export default function AdminPage() {
     );
   }
 
+  // Check if user is authenticated but not an admin
+  if (status === "authenticated" && session?.user?.role !== "admin") {
+    return (
+      <div className="min-h-screen pt-32 pb-24 flex items-center justify-center relative overflow-hidden bg-[#0a0a0a]">
+        {/* Glow */}
+        <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[600px] h-[600px] bg-red-500 opacity-[0.05] rounded-full blur-[120px] pointer-events-none"></div>
+        
+        <div className="glass-panel p-10 max-w-md w-full mx-4 clip-angled relative z-10 bg-black/40 border border-white/10 backdrop-blur-md text-center">
+          <h1 className="text-3xl font-black text-red-500 uppercase tracking-widest mb-4">Yetkisiz Erişim</h1>
+          <p className="text-gray-300 text-sm mb-8">Bu sayfaya yalnızca yöneticiler erişebilir.</p>
+          <button 
+            onClick={() => signOut({ callbackUrl: "/login" })}
+            className="w-full bg-red-600 text-white font-bold py-4 px-4 uppercase tracking-widest hover:bg-white hover:text-black transition-colors clip-angled"
+          >
+            Çıkış Yap ve Giriş Ekranına Git
+          </button>
+        </div>
+      </div>
+    );
+  }
+
   return (
     <AdminDashboard 
       onLogout={() => {

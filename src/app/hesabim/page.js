@@ -5,10 +5,12 @@ import { useRouter } from "next/navigation";
 import { useEffect } from "react";
 import Link from "next/link";
 import Image from "next/image";
+import { useStore } from "@/context/StoreContext";
 
 export default function HesabimPage() {
   const { data: session, status } = useSession();
   const router = useRouter();
+  const { t } = useStore();
 
   useEffect(() => {
     if (status === "unauthenticated") {
@@ -27,7 +29,7 @@ export default function HesabimPage() {
   return (
     <div className="min-h-screen pt-32 pb-24 bg-[#0a0a0a]">
       <div className="max-w-4xl mx-auto px-4 relative z-10">
-        <h1 className="text-4xl font-black text-white uppercase tracking-widest mb-4 text-center">Hesabım</h1>
+        <h1 className="text-4xl font-black text-white uppercase tracking-widest mb-4 text-center">{t("my_account")}</h1>
         <div className="w-24 h-1 bg-neon-pink mx-auto mb-12"></div>
         
         <div className="grid md:grid-cols-2 gap-6">
@@ -38,7 +40,7 @@ export default function HesabimPage() {
               </div>
               <div>
                 <h2 className="text-2xl font-bold text-white uppercase tracking-wider">
-                  {session?.user?.name || "Kullanıcı"}
+                  {session?.user?.name || t("user_default_name")}
                 </h2>
                 <p className="text-gray-400">{session?.user?.email}</p>
               </div>
@@ -48,24 +50,24 @@ export default function HesabimPage() {
               onClick={() => signOut({ callbackUrl: "/login" })}
               className="mt-4 bg-white/10 border border-white/20 text-white px-6 py-3 uppercase tracking-wider font-bold hover:bg-neon-pink hover:border-neon-pink transition-colors clip-angled w-full"
             >
-              Çıkış Yap
+              {t("logout")}
             </button>
           </div>
           
           <div className="glass-panel p-8 clip-angled bg-black/40 border border-white/10 backdrop-blur-md">
-            <h2 className="text-2xl font-bold text-white mb-6 uppercase tracking-wider border-b border-white/10 pb-4">Hızlı Bağlantılar</h2>
+            <h2 className="text-2xl font-bold text-white mb-6 uppercase tracking-wider border-b border-white/10 pb-4">{t("quick_links")}</h2>
             <div className="space-y-4">
               <Link href="/hesabim/siparislerim" className="flex items-center text-gray-400 hover:text-neon-pink transition-colors">
                 <span className="w-2 h-2 rounded-full bg-holo-gold mr-3"></span>
-                Siparişlerim
+                {t("my_orders")}
               </Link>
               <Link href="/favorites" className="flex items-center text-gray-400 hover:text-neon-pink transition-colors">
                 <span className="w-2 h-2 rounded-full bg-holo-gold mr-3"></span>
-                Favorilerim
+                {t("my_favorites")}
               </Link>
               <Link href="/hesabim/ayarlar" className="flex items-center text-gray-400 hover:text-neon-pink transition-colors">
                 <span className="w-2 h-2 rounded-full bg-holo-gold mr-3"></span>
-                Hesap Ayarları
+                {t("account_settings")}
               </Link>
             </div>
           </div>

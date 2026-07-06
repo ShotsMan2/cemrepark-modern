@@ -17,6 +17,9 @@ export default withAuth(
     }
 
     if (!isAuth) {
+      if (req.nextUrl.pathname.startsWith("/admin")) {
+        return null;
+      }
       let from = req.nextUrl.pathname;
       if (req.nextUrl.search) {
         from += req.nextUrl.search;
@@ -26,10 +29,8 @@ export default withAuth(
       );
     }
     
-    // Check admin role for admin pages
-    if (req.nextUrl.pathname.startsWith("/admin") && token?.role !== "admin") {
-      return NextResponse.redirect(new URL("/hesabim", req.url));
-    }
+    // Admin role check is now handled by the /admin page component directly
+    // which displays an informative "Yetkisiz Erişim" error screen.
   },
   {
     callbacks: {
