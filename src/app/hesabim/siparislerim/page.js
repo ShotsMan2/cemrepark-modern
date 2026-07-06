@@ -4,7 +4,7 @@ import prisma from "@/lib/prisma";
 import { redirect } from "next/navigation";
 import SiparislerimClient from "./SiparislerimClient";
 
-export const dynamic = 'force-dynamic';
+export const dynamic = "force-dynamic";
 
 export default async function SiparislerimPage() {
   const session = await getServerSession(authOptions);
@@ -16,15 +16,15 @@ export default async function SiparislerimPage() {
   // Find orders by user email (since older orders might not have userId)
   const orders = await prisma.order.findMany({
     where: { customer: session.user.email },
-    orderBy: { createdAt: 'desc' }
+    orderBy: { createdAt: "desc" },
   });
 
   // Serialize orders to pass safely to Client Component (Prisma dates & decimals)
-  const serializedOrders = orders.map(order => ({
+  const serializedOrders = orders.map((order) => ({
     id: order.id,
     createdAt: order.createdAt.toISOString(),
     total: Number(order.total),
-    status: order.status
+    status: order.status,
   }));
 
   return (

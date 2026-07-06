@@ -1,27 +1,21 @@
-import { NextResponse } from 'next/server';
+import { NextResponse } from "next/server";
+import { checkAdminAndLog } from "@/lib/adminAuth";
+import { apiHandler } from "@/lib/apiHandler";
+import { emailService } from "@/services/emailService";
 
-export async function POST(request) {
-  try {
-    const body = await request.json();
-    const { to, subject, message } = body;
-    
-    if (!to || !subject || !message) {
-      return NextResponse.json({ error: 'Lütfen tüm alanları doldurun' }, { status: 400 });
-    }
-
-    // Konsola gönderilen e-posta simülasyonunu yazdıralım
-    console.log("=========================================");
-    console.log("E-POSTA GÖNDERİLDİ (SİMÜLASYON)");
-    console.log(`Alıcı: ${to}`);
-    console.log(`Konu: ${subject}`);
-    console.log(`Mesaj: ${message}`);
-    console.log("=========================================");
-
-    // Simüle etmek için ufak bir bekleme ekleyelim (500ms)
-    await new Promise(resolve => setTimeout(resolve, 800));
-    
-    return NextResponse.json({ success: true, message: 'E-posta başarıyla gönderildi (Simüle edildi).' });
-  } catch (error) {
-    return NextResponse.json({ error: 'E-posta gönderilemedi' }, { status: 500 });
+export const POST = apiHandler(async (request) => {
+  const { errorResponse } = await checkAdminAndLog(request, "SEND_EMAIL", "Sent an email");
+  
+  if (errorResponse) {
+    const error = new Error("Yetkisiz Erişim");
+    error.statusCode = 403;
+    error.isOperational = true;
+    throw error;
   }
-}
+
+  const body = await request.json();
+  const { to, subject, message } = body;
+
+  const result = await emailService.sendEmail(to, subject, message);
+  return NextResponse.json(result);
+});

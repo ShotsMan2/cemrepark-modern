@@ -65,7 +65,7 @@ export default function RegisterPage() {
       <div className="max-w-md w-full glass-panel p-8 rounded-xl shadow-2xl relative overflow-hidden">
         <div className="absolute top-0 left-0 w-full h-1 bg-gradient-to-r from-neon-pink to-holo-gold"></div>
         <h2 className="text-3xl font-black text-white mb-6 text-center">{t("register_title")}</h2>
-        
+
         <form onSubmit={handleSubmit} className="space-y-6">
           <div>
             <label className="block text-gray-400 text-sm font-bold mb-2 uppercase tracking-wider">
@@ -79,7 +79,7 @@ export default function RegisterPage() {
               required
             />
           </div>
-          
+
           <div>
             <label className="block text-gray-400 text-sm font-bold mb-2 uppercase tracking-wider">
               {t("email_title")}
@@ -92,7 +92,7 @@ export default function RegisterPage() {
               required
             />
           </div>
-          
+
           <div>
             <label className="block text-gray-400 text-sm font-bold mb-2 uppercase tracking-wider">
               {t("password_label")}

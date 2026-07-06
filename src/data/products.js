@@ -1,11 +1,11 @@
-import fs from 'fs';
-import path from 'path';
+import fs from "fs";
+import path from "path";
 
 // Bu dosya Server Component'ler tarafından çağrıldığında dinamik olarak güncel JSON verisini okur.
 export function getProducts() {
-  const filePath = path.join(process.cwd(), 'src', 'data', 'products.json');
+  const filePath = path.join(process.cwd(), "src", "data", "products.json");
   try {
-    const fileContents = fs.readFileSync(filePath, 'utf8');
+    const fileContents = fs.readFileSync(filePath, "utf8");
     return JSON.parse(fileContents);
   } catch (error) {
     console.error("products.json okunamadı:", error);
@@ -18,18 +18,18 @@ export const products = new Proxy([], {
   get: (target, prop) => {
     const currentProducts = getProducts();
     return currentProducts[prop];
-  }
+  },
 });
 
 export function getProductById(id) {
   const allProducts = getProducts();
-  return allProducts.find(p => p.id === parseInt(id));
+  return allProducts.find((p) => p.id === parseInt(id));
 }
 
 export function searchProducts(query) {
   const allProducts = getProducts();
   if (!query) return allProducts;
-  
+
   let lowerQuery = query.toLowerCase();
 
   // Create a mapping from popular search english/arabic terms to their turkish counterparts
@@ -40,12 +40,12 @@ export function searchProducts(query) {
     "طقم قطعتين": "takım",
     "coat & jacket": "kaban",
     "معاطف وجواكت": "kaban",
-    "trousers": "pantolon",
-    "بنطلونات": "pantolon",
+    trousers: "pantolon",
+    بنطلونات: "pantolon",
     "evening dress": "abiye",
     "فستان سهرة": "abiye",
-    "tunic": "tunik",
-    "تونيك": "tunik"
+    tunic: "tunik",
+    تونيك: "tunik",
   };
 
   let mappedQuery = lowerQuery;
@@ -56,12 +56,8 @@ export function searchProducts(query) {
     }
   }
 
-  return allProducts.filter(p => {
-    const textToSearch = [
-      p.ad,
-      p.etiket || "",
-      p.kategori || ""
-    ].join(" ").toLowerCase();
+  return allProducts.filter((p) => {
+    const textToSearch = [p.ad, p.etiket || "", p.kategori || ""].join(" ").toLowerCase();
 
     return textToSearch.includes(lowerQuery) || textToSearch.includes(mappedQuery);
   });

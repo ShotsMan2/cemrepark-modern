@@ -1,97 +1,50 @@
 import { NextResponse } from "next/server";
-import { prisma } from "@/lib/prisma";
-import { getServerSession } from "next-auth/next";
-import { authOptions } from "../../auth/[...nextauth]/route";
+import { checkAdminAndLog } from "@/lib/adminAuth";
+import { apiHandler } from "@/lib/apiHandler";
+import { bannerService } from "@/services/bannerService";
 
-export async function GET(req, { params }) {
-  try {
-    const resolvedParams = await params;
-    const banner = await prisma.banner.findUnique({
-      where: { id: parseInt(resolvedParams.id) },
-    });
+export const GET = apiHandler(async (req, { params }) => {
+  const resolvedParams = await params;
+  const banner = await bannerService.getBannerById(resolvedParams.id);
+  return NextResponse.json(banner);
+});
 
-    if (!banner) {
-      return NextResponse.json({ error: "Banner not found" }, { status: 404 });
-    }
+export const PUT = apiHandler(async (req, { params }) => {
+  const resolvedParams = await params;
+  const { errorResponse } = await checkAdminAndLog(
+    req,
+    "UPDATE_BANNER",
+    `Updated banner with ID ${resolvedParams.id}`
+  );
 
-    return NextResponse.json(banner);
-  } catch (error) {
-    console.error('GET hatası:', error);
-    return NextResponse.json(
-      { error: "Failed to fetch banner." },
-      { status: 500 }
-    );
+  if (errorResponse) {
+    const error = new Error("Yetkisiz Erişim");
+    error.statusCode = 403;
+    error.isOperational = true;
+    throw error;
   }
-}
 
-export async function PUT(req, { params }) {
-  try {
-    // Check authentication
-    const session = await getServerSession(authOptions);
-    if (!session) {
-      return NextResponse.json(
-        { error: "Unauthorized" },
-        { status: 401 }
-      );
-    }
+  const body = await req.json();
+  const banner = await bannerService.updateBanner(resolvedParams.id, body);
+  return NextResponse.json(banner);
+});
 
-    const resolvedParams = await params;
-    const body = await req.json();
-    const { title, imageUrl, linkUrl, isActive, order } = body;
+export const DELETE = apiHandler(async (req, { params }) => {
+  const resolvedParams = await params;
+  const bannerId = parseInt(resolvedParams.id);
+  const { errorResponse } = await checkAdminAndLog(
+    req,
+    "DELETE_BANNER",
+    `Deleted banner with ID ${bannerId}`
+  );
 
-    const banner = await prisma.banner.update({
-      where: { id: parseInt(resolvedParams.id) },
-      data: {
-        title,
-        imageUrl,
-        linkUrl,
-        isActive,
-        order: parseInt(order),
-      },
-    });
-
-    return NextResponse.json(banner);
-  } catch (error) {
-    console.error('PUT hatası:', error);
-    return NextResponse.json(
-      { error: "Failed to update banner." },
-      { status: 500 }
-    );
+  if (errorResponse) {
+    const error = new Error("Yetkisiz Erişim");
+    error.statusCode = 403;
+    error.isOperational = true;
+    throw error;
   }
-}
 
-export async function DELETE(req, { params }) {
-  try {
-    // Check authentication
-    const session = await getServerSession(authOptions);
-    if (!session) {
-      return NextResponse.json(
-        { error: "Unauthorized" },
-        { status: 401 }
-      );
-    }
-
-    const resolvedParams = await params;
-    const bannerId = parseInt(resolvedParams.id);
-    
-    const existingBanner = await prisma.banner.findUnique({
-      where: { id: bannerId },
-    });
-    
-    if (!existingBanner) {
-      return NextResponse.json({ error: "Banner bulunamadı." }, { status: 404 });
-    }
-
-    await prisma.banner.delete({
-      where: { id: bannerId },
-    });
-
-    return NextResponse.json({ message: "Banner deleted successfully" });
-  } catch (error) {
-    console.error('Silme hatası (detay):', error);
-    return NextResponse.json(
-      { error: `Failed to delete banner: ${error.message}` },
-      { status: 500 }
-    );
-  }
-}
+  const result = await bannerService.deleteBanner(bannerId);
+  return NextResponse.json(result);
+});

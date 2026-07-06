@@ -2,7 +2,13 @@ import { notFound } from "next/navigation";
 import { getSettings } from "../../../data/settings";
 import KurumsalContentClient from "./KurumsalContentClient";
 
-const validSlugs = ["hakkimizda", "iletisim", "mesafeli-satis-sozlesmesi", "iade-ve-degisim-kosullari", "gizlilik-politikasi"];
+const validSlugs = [
+  "hakkimizda",
+  "iletisim",
+  "mesafeli-satis-sozlesmesi",
+  "iade-ve-degisim-kosullari",
+  "gizlilik-politikasi",
+];
 
 export default async function KurumsalPage({ params }) {
   const resolvedParams = await params;
