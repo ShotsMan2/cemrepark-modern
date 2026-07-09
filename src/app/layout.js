@@ -11,6 +11,7 @@ import AOSInitializer from "../components/AOSInitializer";
 import { StoreProvider } from "../context/StoreContext";
 import MaintenanceGuard from "../components/MaintenanceGuard";
 import AuthProvider from "../components/AuthProvider";
+import ChatWidget from "../components/ChatWidget";
 import Script from "next/script";
 
 const jost = Jost({ subsets: ["latin"], variable: "--font-jost" });
@@ -93,16 +94,7 @@ export default function RootLayout({ children }) {
         <Script src="/js/script.min.js" strategy="afterInteractive" />
 
         {/* AOS is now initialized via npm in AOSInitializer */}
-
-        {/* Chatbot Integration */}
-        <Script
-          src="http://localhost:3000/embed.js?v=10"
-          strategy="lazyOnload"
-          data-color="#ff007f"
-          data-title="Cemre Park Asistan"
-          data-model="qwen2.5-coder:latest"
-          data-welcome="Değerli Cemre Park Müşterisi, alışveriş asistanınıza hoş geldiniz! Size nasıl yardımcı olabilirim?"
-        />
+        <ChatWidget />
       </body>
     </html>
   );

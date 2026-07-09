@@ -170,7 +170,7 @@ export default function ProductDetailsClient({
 
         <div className="flex flex-col lg:flex-row gap-12 items-start">
           {/* Image Section - Floating and Clipped */}
-          <div className="w-full lg:w-1/2 relative group" data-aos="fade-right">
+          <div className="w-full lg:w-1/2 relative group" data-aos="fade-right" suppressHydrationWarning>
             <div className="absolute -inset-1 bg-gradient-to-r from-neon-pink to-holo-gold rounded-lg blur opacity-20 group-hover:opacity-40 transition duration-1000 group-hover:duration-200"></div>
             <div className="relative glass-panel p-2 clip-angled">
               <div className="relative w-full h-[600px] md:h-[800px] clip-angled overflow-hidden">
@@ -190,7 +190,7 @@ export default function ProductDetailsClient({
           </div>
 
           {/* Details Section */}
-          <div className="w-full lg:w-1/2 glass-panel p-8 md:p-12 clip-angled" data-aos="fade-left">
+          <div className="w-full lg:w-1/2 glass-panel p-8 md:p-12 clip-angled" data-aos="fade-left" suppressHydrationWarning>
             <span className="text-neon-pink tracking-[0.2em] text-xs font-bold uppercase mb-4 block">
               {product.etiket ? t(product.etiket) : t("new_season")}
             </span>
