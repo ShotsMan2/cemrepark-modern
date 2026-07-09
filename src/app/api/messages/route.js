@@ -1,56 +1,23 @@
-import { NextResponse } from 'next/server';
-import prisma from '@/lib/prisma';
+import { NextResponse } from "next/server";
+import { checkAdminAndLog } from "@/lib/adminAuth";
+import { apiHandler } from "@/lib/apiHandler";
+import { messageService } from "@/services/messageService";
 
-export async function GET() {
-  try {
-    const messages = await prisma.message.findMany({
-      orderBy: { id: 'desc' }
-    });
-    
-    // Map email back to ePosta for backward compatibility if needed,
-    // though it's better to just return as is if the UI uses email.
-    // The previous code returned ePosta. Let's keep it consistent.
-    const formattedMessages = messages.map(m => ({
-      ...m,
-      ePosta: m.email,
-    }));
-    
-    return NextResponse.json(formattedMessages);
-  } catch (error) {
-    return NextResponse.json({ error: 'Mesajlar alınamadı' }, { status: 500 });
+export const GET = apiHandler(async (req) => {
+  const { errorResponse } = await checkAdminAndLog(req, null, null);
+  if (errorResponse) {
+    const error = new Error("Yetkisiz Erişim");
+    error.statusCode = 403;
+    error.isOperational = true;
+    throw error;
   }
-}
 
-export async function POST(request) {
-  try {
-    const body = await request.json();
-    const { adSoyad, ePosta, email, telefon, mesaj } = body;
-    
-    const userEmail = ePosta || email;
+  const messages = await messageService.getMessages();
+  return NextResponse.json(messages);
+});
 
-    if (!adSoyad || !userEmail || !mesaj) {
-      return NextResponse.json({ error: 'Lütfen tüm alanları doldurun' }, { status: 400 });
-    }
-
-    const newMessage = await prisma.message.create({
-      data: {
-        adSoyad,
-        email: userEmail,
-        telefon: telefon || null,
-        mesaj,
-        tarih: new Date().toLocaleString('tr-TR')
-      }
-    });
-    
-    // format for response
-    const responseMessage = {
-      ...newMessage,
-      ePosta: newMessage.email,
-    };
-    
-    return NextResponse.json(responseMessage, { status: 201 });
-  } catch (error) {
-    console.error(error);
-    return NextResponse.json({ error: 'Mesaj gönderilemedi' }, { status: 500 });
-  }
-}
+export const POST = apiHandler(async (request) => {
+  const body = await request.json();
+  const responseMessage = await messageService.createMessage(body);
+  return NextResponse.json(responseMessage, { status: 201 });
+});

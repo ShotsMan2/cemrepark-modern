@@ -1,5 +1,4 @@
-
-const { PrismaClient } = require('@prisma/client');
+const { PrismaClient } = require("@prisma/client");
 const prisma = new PrismaClient();
 
 async function main() {
@@ -10,11 +9,11 @@ async function main() {
       title: "Size çok yakışacak! ✨",
       // Uygun bir görsel seçelim - public/assets/siteimg/hero_hijab_suit.png
       imageUrl: "/assets/siteimg/hero_hijab_suit.png",
-      linkUrl: "/search"
-    }
+      linkUrl: "/search",
+    },
   });
-  
-  console.log('Banner güncellendi:');
+
+  console.log("Banner güncellendi:");
   console.log(JSON.stringify(updatedBanner, null, 2));
 }
 
@@ -26,4 +25,3 @@ main()
   .finally(async () => {
     await prisma.$disconnect();
   });
-

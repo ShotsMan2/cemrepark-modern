@@ -1,91 +1,16 @@
-import { NextResponse } from 'next/server';
-import prisma from '@/lib/prisma';
-import { getProductById } from '@/data/products';
+import { NextResponse } from "next/server";
+import { apiHandler } from "@/lib/apiHandler";
+import { reviewService } from "@/services/reviewService";
 
-export async function POST(req) {
-  try {
-    const { productId, userId, rating, comment } = await req.json();
+export const POST = apiHandler(async (req) => {
+  const { productId, userId, rating, comment } = await req.json();
+  const review = await reviewService.addReview(productId, userId, rating, comment);
+  return NextResponse.json({ review }, { status: 201 });
+});
 
-    if (!productId || !userId || !rating) {
-      return NextResponse.json(
-        { error: 'Eksik bilgi gönderildi' },
-        { status: 400 }
-      );
-    }
-
-    // Ensure product exists in SQLite DB before adding review to satisfy foreign key constraints
-    const productInfo = getProductById(productId);
-    if (productInfo) {
-      await prisma.product.upsert({
-        where: { id: parseInt(productId) },
-        update: {
-          ad: productInfo.ad || '',
-          fiyat: parseFloat(productInfo.fiyat) || 0,
-          kategori: productInfo.kategori || '',
-          resim: productInfo.resim || '',
-          gorsel: productInfo.gorsel || '',
-          etiket: productInfo.etiket || '',
-          renk: productInfo.renk || '',
-          beden: productInfo.beden || '',
-        },
-        create: {
-          id: parseInt(productId),
-          ad: productInfo.ad || '',
-          fiyat: parseFloat(productInfo.fiyat) || 0,
-          kategori: productInfo.kategori || '',
-          resim: productInfo.resim || '',
-          gorsel: productInfo.gorsel || '',
-          etiket: productInfo.etiket || '',
-          renk: productInfo.renk || '',
-          beden: productInfo.beden || '',
-        }
-      });
-    }
-
-    const review = await prisma.review.create({
-      data: {
-        productId: parseInt(productId),
-        userId: parseInt(userId),
-        rating: parseInt(rating),
-        comment: comment || '',
-      },
-    });
-
-    return NextResponse.json({ review }, { status: 201 });
-  } catch (error) {
-    console.error('Review create error:', error);
-    return NextResponse.json(
-      { error: 'Yorum eklenirken bir hata oluştu' },
-      { status: 500 }
-    );
-  }
-}
-
-export async function GET(req) {
+export const GET = apiHandler(async (req) => {
   const { searchParams } = new URL(req.url);
-  const productId = searchParams.get('productId');
-  
-  try {
-    if (!productId) {
-      return NextResponse.json({ error: 'Ürün ID zorunludur' }, { status: 400 });
-    }
-
-    const reviews = await prisma.review.findMany({
-      where: { productId: parseInt(productId) },
-      include: {
-        user: {
-          select: { name: true, email: true }
-        }
-      },
-      orderBy: { createdAt: 'desc' }
-    });
-
-    return NextResponse.json({ reviews });
-  } catch (error) {
-    console.error('Review get error:', error);
-    return NextResponse.json(
-      { error: 'Yorumlar getirilirken bir hata oluştu' },
-      { status: 500 }
-    );
-  }
-}
+  const productId = searchParams.get("productId");
+  const reviews = await reviewService.getReviews(productId);
+  return NextResponse.json({ reviews });
+});

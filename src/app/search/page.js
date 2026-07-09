@@ -1,12 +1,12 @@
 import { searchProducts } from "../../data/products";
 import SearchClient from "./SearchClient";
 
-export const dynamic = 'force-dynamic';
+export const dynamic = "force-dynamic";
 
 export default async function SearchPage({ searchParams }) {
   const resolvedParams = await searchParams;
   const query = resolvedParams.q || "";
-  const isSearch = resolvedParams.type === 'search';
+  const isSearch = resolvedParams.type === "search";
   const results = searchProducts(query);
 
   return (

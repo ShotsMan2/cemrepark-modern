@@ -1,45 +1,24 @@
 import { NextResponse } from "next/server";
-import { prisma } from "@/lib/prisma";
-import { getServerSession } from "next-auth/next";
-import { authOptions } from "../auth/[...nextauth]/route";
+import { checkAdminAndLog } from "@/lib/adminAuth";
+import { apiHandler } from "@/lib/apiHandler";
+import { pageService } from "@/services/pageService";
 
-export async function GET() {
-  try {
-    const pages = await prisma.page.findMany({
-      orderBy: { createdAt: 'desc' },
-    });
-    return NextResponse.json(pages);
-  } catch (error) {
-    return NextResponse.json(
-      { error: "Failed to fetch pages." },
-      { status: 500 }
-    );
+export const GET = apiHandler(async () => {
+  const pages = await pageService.getPages();
+  return NextResponse.json(pages);
+});
+
+export const POST = apiHandler(async (req) => {
+  const { errorResponse } = await checkAdminAndLog(req, "CREATE_PAGE", `Created a new page`);
+  
+  if (errorResponse) {
+    const error = new Error("Yetkisiz Erişim");
+    error.statusCode = 403;
+    error.isOperational = true;
+    throw error;
   }
-}
 
-export async function POST(req) {
-  try {
-    const session = await getServerSession(authOptions);
-    if (!session) {
-      return NextResponse.json(
-        { error: "Unauthorized" },
-        { status: 401 }
-      );
-    }
-
-    const body = await req.json();
-    const { title, slug, content } = body;
-
-    const page = await prisma.page.create({
-      data: { title, slug, content },
-    });
-
-    return NextResponse.json(page, { status: 201 });
-  } catch (error) {
-    console.error(error);
-    return NextResponse.json(
-      { error: "Failed to create page." },
-      { status: 500 }
-    );
-  }
-}
+  const body = await req.json();
+  const page = await pageService.createPage(body);
+  return NextResponse.json(page, { status: 201 });
+});

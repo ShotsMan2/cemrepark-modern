@@ -2,7 +2,7 @@ import { getProducts } from "../data/products";
 import HomeClient from "./HomeClient";
 import { prisma } from "@/lib/prisma";
 
-export const dynamic = 'force-dynamic';
+export const dynamic = "force-dynamic";
 
 export default async function Home() {
   const products = getProducts();
@@ -12,13 +12,11 @@ export default async function Home() {
   let banners = [];
   try {
     banners = await prisma.banner.findMany({
-      orderBy: { order: 'asc' },
+      orderBy: { order: "asc" },
     });
   } catch (error) {
     console.error("Failed to fetch banners in page.js:", error);
   }
 
-  return (
-    <HomeClient bestSellers={bestSellers} discounted={discounted} banners={banners} />
-  );
+  return <HomeClient bestSellers={bestSellers} discounted={discounted} banners={banners} />;
 }

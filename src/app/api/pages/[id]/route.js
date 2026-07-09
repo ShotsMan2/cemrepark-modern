@@ -1,76 +1,49 @@
 import { NextResponse } from "next/server";
-import { prisma } from "@/lib/prisma";
-import { getServerSession } from "next-auth/next";
-import { authOptions } from "../../auth/[...nextauth]/route";
+import { checkAdminAndLog } from "@/lib/adminAuth";
+import { apiHandler } from "@/lib/apiHandler";
+import { pageService } from "@/services/pageService";
 
-export async function GET(req, { params }) {
-  try {
-    const resolvedParams = await params;
-    const page = await prisma.page.findUnique({
-      where: { id: parseInt(resolvedParams.id) },
-    });
+export const GET = apiHandler(async (req, { params }) => {
+  const resolvedParams = await params;
+  const page = await pageService.getPageById(resolvedParams.id);
+  return NextResponse.json(page);
+});
 
-    if (!page) {
-      return NextResponse.json({ error: "Page not found" }, { status: 404 });
-    }
+export const PUT = apiHandler(async (req, { params }) => {
+  const resolvedParams = await params;
+  const { errorResponse } = await checkAdminAndLog(
+    req,
+    "UPDATE_PAGE",
+    `Updated page with ID ${resolvedParams.id}`
+  );
 
-    return NextResponse.json(page);
-  } catch (error) {
-    return NextResponse.json(
-      { error: "Failed to fetch page." },
-      { status: 500 }
-    );
+  if (errorResponse) {
+    const error = new Error("Yetkisiz Erişim");
+    error.statusCode = 403;
+    error.isOperational = true;
+    throw error;
   }
-}
 
-export async function PUT(req, { params }) {
-  try {
-    const session = await getServerSession(authOptions);
-    if (!session) {
-      return NextResponse.json(
-        { error: "Unauthorized" },
-        { status: 401 }
-      );
-    }
+  const body = await req.json();
+  const page = await pageService.updatePage(resolvedParams.id, body);
+  return NextResponse.json(page);
+});
 
-    const resolvedParams = await params;
-    const body = await req.json();
-    const { title, slug, content } = body;
+export const DELETE = apiHandler(async (req, { params }) => {
+  const resolvedParams = await params;
+  const { errorResponse } = await checkAdminAndLog(
+    req,
+    "DELETE_PAGE",
+    `Deleted page with ID ${resolvedParams.id}`
+  );
 
-    const page = await prisma.page.update({
-      where: { id: parseInt(resolvedParams.id) },
-      data: { title, slug, content },
-    });
-
-    return NextResponse.json(page);
-  } catch (error) {
-    return NextResponse.json(
-      { error: "Failed to update page." },
-      { status: 500 }
-    );
+  if (errorResponse) {
+    const error = new Error("Yetkisiz Erişim");
+    error.statusCode = 403;
+    error.isOperational = true;
+    throw error;
   }
-}
 
-export async function DELETE(req, { params }) {
-  try {
-    const session = await getServerSession(authOptions);
-    if (!session) {
-      return NextResponse.json(
-        { error: "Unauthorized" },
-        { status: 401 }
-      );
-    }
-
-    const resolvedParams = await params;
-    await prisma.page.delete({
-      where: { id: parseInt(resolvedParams.id) },
-    });
-
-    return NextResponse.json({ message: "Page deleted successfully" });
-  } catch (error) {
-    return NextResponse.json(
-      { error: "Failed to delete page." },
-      { status: 500 }
-    );
-  }
-}
+  const result = await pageService.deletePage(resolvedParams.id);
+  return NextResponse.json(result);
+});

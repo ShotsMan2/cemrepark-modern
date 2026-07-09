@@ -8,8 +8,14 @@ html {
   }
 }
 
-.btn:focus, .btn:active:focus, .btn-link.nav-link:focus, .form-control:focus, .form-check-input:focus {
-  box-shadow: 0 0 0 0.1rem white, 0 0 0 0.25rem #258cfb;
+.btn:focus,
+.btn:active:focus,
+.btn-link.nav-link:focus,
+.form-control:focus,
+.form-check-input:focus {
+  box-shadow:
+    0 0 0 0.1rem white,
+    0 0 0 0.25rem #258cfb;
 }
 
 html {
@@ -20,18 +26,19 @@ html {
 body {
   margin-bottom: 60px;
 }
-.coksatanlar{
-    display:inline-block;
+.coksatanlar {
+  display: inline-block;
 }
-.index{
-    background-color: lightpink;
+.index {
+  background-color: lightpink;
 }
-.iletisim-form input{
-    border:none !important;
-    border-bottom: 1px solid #ccc!important;
-    box-shadow:none!important;
+.iletisim-form input {
+  border: none !important;
+  border-bottom: 1px solid #ccc !important;
+  box-shadow: none !important;
 }
-.iletisim-form input:focus .iletisim-form input:active, .iletisim-form::after{
-    border:none !important;
-    border-bottom: 1px solid red !important;
+.iletisim-form input:focus .iletisim-form input:active,
+.iletisim-form::after {
+  border: none !important;
+  border-bottom: 1px solid red !important;
 }

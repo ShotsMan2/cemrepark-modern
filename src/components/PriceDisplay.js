@@ -16,14 +16,11 @@ export default function PriceDisplay({ amount, className = "" }) {
     const numPrice = parseFloat(amount) || 0;
     return (
       <span className={className}>
-        {numPrice.toLocaleString('tr-TR', { minimumFractionDigits: 2, maximumFractionDigits: 2 })} TL
+        {numPrice.toLocaleString("tr-TR", { minimumFractionDigits: 2, maximumFractionDigits: 2 })}{" "}
+        TL
       </span>
     );
   }
 
-  return (
-    <span className={className}>
-      {formatPrice(amount)}
-    </span>
-  );
+  return <span className={className}>{formatPrice(amount)}</span>;
 }
