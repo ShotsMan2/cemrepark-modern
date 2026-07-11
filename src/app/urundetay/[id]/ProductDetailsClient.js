@@ -175,7 +175,7 @@ export default function ProductDetailsClient({
             <div className="relative glass-panel p-2 clip-angled">
               <div className="relative w-full h-[600px] md:h-[800px] clip-angled overflow-hidden">
                 <Image
-                  src={getValidImageUrl(product.gorsel)}
+                  src={getValidImageUrl(product.resim || product.gorsel?.split(',')[0])}
                   alt={product.ad}
                   fill
                   className="object-cover hover:scale-105 transition-transform duration-700"
@@ -501,7 +501,7 @@ export default function ProductDetailsClient({
                   <div className="relative h-64 md:h-80 w-full overflow-hidden clip-angled mb-3">
                     <div className="absolute inset-0 bg-black/20 group-hover:bg-transparent transition-colors z-10"></div>
                     <Image
-                      src={getValidImageUrl(rp.gorsel)}
+                      src={getValidImageUrl(rp.resim || rp.gorsel?.split(',')[0])}
                       alt={rp.ad}
                       fill
                       sizes="(max-width: 768px) 50vw, (max-width: 1200px) 25vw, 25vw"
@@ -547,7 +547,7 @@ export default function ProductDetailsClient({
         <div className="flex items-center gap-3">
           <div className="relative w-12 h-12 rounded overflow-hidden">
             <Image
-              src={getValidImageUrl(product.gorsel || product.resim1)}
+              src={getValidImageUrl(product.resim || product.gorsel?.split(',')[0])}
               alt={product.ad}
               fill
               sizes="48px"

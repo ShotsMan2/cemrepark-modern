@@ -145,7 +145,7 @@ export default function HomeClient({ bestSellers, discounted, banners = [] }) {
               <div className="relative w-4/5 h-full clip-angled glass-panel p-2">
                 <div className="relative w-full h-full clip-angled overflow-hidden">
                   <Image
-                    src={getValidImageUrl(bestSellers[0]?.gorsel)}
+                    src={getValidImageUrl(bestSellers[0]?.resim || bestSellers[0]?.gorsel?.split(',')[0])}
                     alt="Hero Image"
                     fill
                     className="object-cover scale-105 hover:scale-110 transition-transform duration-700"
@@ -226,7 +226,7 @@ export default function HomeClient({ bestSellers, discounted, banners = [] }) {
                   )}
 
                   <Image
-                    src={getValidImageUrl(product.gorsel || product.resim1)}
+                    src={getValidImageUrl(product.resim || product.gorsel?.split(',')[0])}
                     alt={product.ad}
                     fill
                     sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 25vw"
@@ -274,7 +274,7 @@ export default function HomeClient({ bestSellers, discounted, banners = [] }) {
               data-aos="fade-right"
             >
               <Image
-                src={getValidImageUrl(discounted[0]?.gorsel)}
+                src={getValidImageUrl(discounted[0]?.resim || discounted[0]?.gorsel?.split(',')[0])}
                 alt="Giyim"
                 fill
                 className="object-cover opacity-60 group-hover:opacity-80 transition-opacity duration-500"
@@ -299,7 +299,7 @@ export default function HomeClient({ bestSellers, discounted, banners = [] }) {
               <div className="h-1/2 glass-panel relative group overflow-hidden clip-angled">
                 <div className="absolute inset-0 bg-gradient-to-br from-neon-pink/20 to-transparent z-10 pointer-events-none"></div>
                 <Image
-                  src={getValidImageUrl(discounted[1]?.gorsel)}
+                  src={getValidImageUrl(discounted[1]?.resim || discounted[1]?.gorsel?.split(',')[0])}
                   alt="Elbise"
                   fill
                   sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
@@ -317,7 +317,7 @@ export default function HomeClient({ bestSellers, discounted, banners = [] }) {
               </div>
               <div className="h-1/2 glass-panel relative group overflow-hidden clip-angled">
                 <Image
-                  src={getValidImageUrl(discounted[2]?.gorsel)}
+                  src={getValidImageUrl(discounted[2]?.resim || discounted[2]?.gorsel?.split(',')[0])}
                   alt="Tunik"
                   fill
                   className="object-cover opacity-50 group-hover:scale-110 transition-transform duration-700"

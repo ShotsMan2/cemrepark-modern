@@ -70,7 +70,7 @@ export default function QuickViewModal({ product, onClose }) {
 
         <div className="w-full md:w-1/2 h-[400px] md:h-[600px] relative clip-angled">
           <Image
-            src={getValidImageUrl(product.gorsel || product.resim1)}
+            src={getValidImageUrl(product.resim || product.gorsel?.split(',')[0])}
             alt={product.ad}
             fill
             className="object-cover"

@@ -344,7 +344,7 @@ export default function SearchClient({ initialResults, query, isSearch }) {
                   <div className="relative h-96 w-full clip-angled overflow-hidden m-2 rounded-t-lg group-hover:shadow-[0_0_20px_rgba(255,0,127,0.3)] transition-shadow duration-300">
                     <Link href={`/urundetay/${product.id}`} className="block w-full h-full">
                       <Image
-                        src={getValidImageUrl(product.gorsel)}
+                        src={getValidImageUrl(product.resim || product.gorsel?.split(',')[0])}
                         alt={t(product.ad)}
                         fill
                         className="object-cover group-hover:scale-110 transition-transform duration-500 opacity-90 group-hover:opacity-100"
