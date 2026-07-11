@@ -107,7 +107,7 @@ export default function CheckoutPage() {
   if (!isLoaded || cartItems.length === 0) return null;
 
   return (
-    <div className="min-h-[70vh] pt-24 pb-12 relative overflow-hidden">
+    <div className="min-h-[70vh] pt-24 pb-12 bg-background relative overflow-hidden">
       {/* Background glow */}
       <div className="absolute top-1/3 right-0 w-96 h-96 bg-neon-pink opacity-5 rounded-full blur-[100px] mix-blend-screen pointer-events-none"></div>
 
@@ -121,14 +121,14 @@ export default function CheckoutPage() {
           <div className="w-full lg:w-2/3">
             <form onSubmit={handlePayment} className="space-y-8">
               {/* Teslimat Bilgileri */}
-              <div className="glass-panel p-6 md:p-8 rounded-xl border border-white/5">
-                <h2 className="text-xl font-bold mb-6 text-holo-gold border-b border-white/10 pb-4">
+              <div className="glass-panel p-6 md:p-8 rounded-xl border border-black/5 dark:border-white/5">
+                <h2 className="text-xl font-bold mb-6 text-holo-gold border-b border-black/10 dark:border-white/10 pb-4">
                   1. {t("shipping_info")}
                 </h2>
 
                 <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
                   <div>
-                    <label className="block text-sm text-gray-400 mb-2">{t("full_name")}</label>
+                    <label className="block text-sm text-gray-600 dark:text-gray-400 mb-2">{t("full_name")}</label>
                     <input
                       required
                       type="text"
@@ -136,12 +136,12 @@ export default function CheckoutPage() {
                       value={formData.fullName}
                       onChange={handleInputChange}
                       aria-label={t("full_name")}
-                      className="w-full bg-black/50 border border-white/10 rounded-lg p-3 text-white focus:outline-none focus:border-neon-pink transition-colors"
+                      className="w-full bg-black/5 dark:bg-black/50 border border-black/10 dark:border-white/10 rounded-lg p-3 text-gray-900 dark:text-white focus:outline-none focus:border-neon-pink transition-colors"
                       placeholder={t("full_name")}
                     />
                   </div>
                   <div>
-                    <label className="block text-sm text-gray-400 mb-2">E-mail</label>
+                    <label className="block text-sm text-gray-600 dark:text-gray-400 mb-2">E-mail</label>
                     <input
                       required
                       type="email"
@@ -149,12 +149,12 @@ export default function CheckoutPage() {
                       value={formData.email}
                       onChange={handleInputChange}
                       aria-label="E-mail"
-                      className="w-full bg-black/50 border border-white/10 rounded-lg p-3 text-white focus:outline-none focus:border-neon-pink transition-colors"
+                      className="w-full bg-black/5 dark:bg-black/50 border border-black/10 dark:border-white/10 rounded-lg p-3 text-gray-900 dark:text-white focus:outline-none focus:border-neon-pink transition-colors"
                       placeholder="ornek@email.com"
                     />
                   </div>
                   <div>
-                    <label className="block text-sm text-gray-400 mb-2">{t("phone")}</label>
+                    <label className="block text-sm text-gray-600 dark:text-gray-400 mb-2">{t("phone")}</label>
                     <input
                       required
                       type="tel"
@@ -162,12 +162,12 @@ export default function CheckoutPage() {
                       value={formData.phone}
                       onChange={handleInputChange}
                       aria-label={t("phone")}
-                      className="w-full bg-black/50 border border-white/10 rounded-lg p-3 text-white focus:outline-none focus:border-neon-pink transition-colors"
+                      className="w-full bg-black/5 dark:bg-black/50 border border-black/10 dark:border-white/10 rounded-lg p-3 text-gray-900 dark:text-white focus:outline-none focus:border-neon-pink transition-colors"
                       placeholder="0 (5XX) XXX XX XX"
                     />
                   </div>
                   <div>
-                    <label className="block text-sm text-gray-400 mb-2">
+                    <label className="block text-sm text-gray-600 dark:text-gray-400 mb-2">
                       {t("district")} / {t("city")}
                     </label>
                     <input
@@ -177,12 +177,12 @@ export default function CheckoutPage() {
                       value={formData.city}
                       onChange={handleInputChange}
                       aria-label={`${t("district")} / ${t("city")}`}
-                      className="w-full bg-black/50 border border-white/10 rounded-lg p-3 text-white focus:outline-none focus:border-neon-pink transition-colors"
+                      className="w-full bg-black/5 dark:bg-black/50 border border-black/10 dark:border-white/10 rounded-lg p-3 text-gray-900 dark:text-white focus:outline-none focus:border-neon-pink transition-colors"
                       placeholder={t("city")}
                     />
                   </div>
                   <div className="md:col-span-2">
-                    <label className="block text-sm text-gray-400 mb-2">{t("address")}</label>
+                    <label className="block text-sm text-gray-600 dark:text-gray-400 mb-2">{t("address")}</label>
                     <textarea
                       required
                       name="address"
@@ -190,7 +190,7 @@ export default function CheckoutPage() {
                       onChange={handleInputChange}
                       aria-label={t("address")}
                       rows="3"
-                      className="w-full bg-black/50 border border-white/10 rounded-lg p-3 text-white focus:outline-none focus:border-neon-pink transition-colors resize-none"
+                      className="w-full bg-black/5 dark:bg-black/50 border border-black/10 dark:border-white/10 rounded-lg p-3 text-gray-900 dark:text-white focus:outline-none focus:border-neon-pink transition-colors resize-none"
                       placeholder={t("address")}
                     ></textarea>
                   </div>
@@ -198,8 +198,8 @@ export default function CheckoutPage() {
               </div>
 
               {/* Kredi Kartı Bilgileri */}
-              <div className="glass-panel p-6 md:p-8 rounded-xl border border-white/5 relative overflow-hidden">
-                <div className="absolute top-0 right-0 p-6 opacity-10 pointer-events-none">
+              <div className="glass-panel p-6 md:p-8 rounded-xl border border-black/5 dark:border-white/5 relative overflow-hidden">
+                <div className="absolute top-0 right-0 p-6 opacity-10 pointer-events-none text-gray-900 dark:text-white">
                   <svg
                     width="100"
                     height="100"
@@ -213,7 +213,7 @@ export default function CheckoutPage() {
                   </svg>
                 </div>
 
-                <h2 className="text-xl font-bold mb-6 text-holo-gold border-b border-white/10 pb-4">
+                <h2 className="text-xl font-bold mb-6 text-holo-gold border-b border-black/10 dark:border-white/10 pb-4">
                   2. {t("payment_info")}
                 </h2>
 
@@ -267,7 +267,7 @@ export default function CheckoutPage() {
 
                 <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
                   <div className="md:col-span-2">
-                    <label className="block text-sm text-gray-400 mb-2">{t("card_number")}</label>
+                    <label className="block text-sm text-gray-600 dark:text-gray-400 mb-2">{t("card_number")}</label>
                     <input
                       required
                       type="text"
@@ -276,12 +276,12 @@ export default function CheckoutPage() {
                       onChange={handleInputChange}
                       aria-label={t("card_number")}
                       maxLength="19"
-                      className="w-full bg-black/50 border border-white/10 rounded-lg p-3 text-white font-mono focus:outline-none focus:border-neon-pink transition-colors"
+                      className="w-full bg-black/5 dark:bg-black/50 border border-black/10 dark:border-white/10 rounded-lg p-3 text-gray-900 dark:text-white font-mono focus:outline-none focus:border-neon-pink transition-colors"
                       placeholder="0000 0000 0000 0000"
                     />
                   </div>
                   <div>
-                    <label className="block text-sm text-gray-400 mb-2">{t("expiry")}</label>
+                    <label className="block text-sm text-gray-600 dark:text-gray-400 mb-2">{t("expiry")}</label>
                     <input
                       required
                       type="text"
@@ -290,12 +290,12 @@ export default function CheckoutPage() {
                       onChange={handleInputChange}
                       aria-label={t("expiry")}
                       maxLength="5"
-                      className="w-full bg-black/50 border border-white/10 rounded-lg p-3 text-white font-mono focus:outline-none focus:border-neon-pink transition-colors"
+                      className="w-full bg-black/5 dark:bg-black/50 border border-black/10 dark:border-white/10 rounded-lg p-3 text-gray-900 dark:text-white font-mono focus:outline-none focus:border-neon-pink transition-colors"
                       placeholder="MM/YY"
                     />
                   </div>
                   <div>
-                    <label className="block text-sm text-gray-400 mb-2">{t("cvv")}</label>
+                    <label className="block text-sm text-gray-600 dark:text-gray-400 mb-2">{t("cvv")}</label>
                     <input
                       required
                       type="text"
@@ -304,7 +304,7 @@ export default function CheckoutPage() {
                       onChange={handleInputChange}
                       aria-label={t("cvv")}
                       maxLength="3"
-                      className="w-full bg-black/50 border border-white/10 rounded-lg p-3 text-white font-mono focus:outline-none focus:border-neon-pink transition-colors"
+                      className="w-full bg-black/5 dark:bg-black/50 border border-black/10 dark:border-white/10 rounded-lg p-3 text-gray-900 dark:text-white font-mono focus:outline-none focus:border-neon-pink transition-colors"
                       placeholder="***"
                     />
                   </div>
@@ -358,7 +358,7 @@ export default function CheckoutPage() {
                 )}
               </button>
 
-              <div className="flex items-center justify-center gap-2 text-gray-500 text-xs">
+              <div className="flex items-center justify-center gap-2 text-gray-600 dark:text-gray-400 text-xs">
                 <svg
                   width="12"
                   height="12"
@@ -377,15 +377,15 @@ export default function CheckoutPage() {
 
           {/* RIGHT: ORDER SUMMARY */}
           <div className="w-full lg:w-1/3">
-            <div className="glass-panel p-6 md:p-8 border border-white/5 sticky top-32">
-              <h2 className="text-xl font-bold mb-6 text-white uppercase tracking-widest border-b border-white/10 pb-4">
+            <div className="glass-panel p-6 md:p-8 border border-black/5 dark:border-white/5 sticky top-32">
+              <h2 className="text-xl font-bold mb-6 text-gray-900 dark:text-white uppercase tracking-widest border-b border-black/10 dark:border-white/10 pb-4">
                 {t("order_summary")}
               </h2>
 
               <div className="space-y-4 mb-6 max-h-[300px] overflow-y-auto pr-2 custom-scrollbar">
                 {cartItems.map((item, index) => (
                   <div key={index} className="flex gap-4 items-center">
-                    <div className="relative w-16 h-20 bg-white/5 rounded overflow-hidden flex-shrink-0">
+                    <div className="relative w-16 h-20 bg-black/5 dark:bg-white/5 rounded overflow-hidden flex-shrink-0">
                       <Image
                         src={getValidImageUrl(item.gorsel)}
                         alt={item.ad}
@@ -395,8 +395,8 @@ export default function CheckoutPage() {
                       />
                     </div>
                     <div className="flex-1 min-w-0">
-                      <h4 className="text-sm font-bold text-white truncate">{t(item.ad)}</h4>
-                      <p className="text-xs text-gray-400 mt-1">
+                      <h4 className="text-sm font-bold text-gray-900 dark:text-white truncate">{t(item.ad)}</h4>
+                      <p className="text-xs text-gray-600 dark:text-gray-400 mt-1">
                         {t("size")}: {item.beden} | {t("color")}: {item.renk}
                       </p>
                       <p className="text-xs text-neon-pink font-bold mt-1">
@@ -407,19 +407,19 @@ export default function CheckoutPage() {
                 ))}
               </div>
 
-              <div className="h-px w-full bg-white/10 mb-6"></div>
+              <div className="h-px w-full bg-black/10 dark:bg-white/10 mb-6"></div>
 
               <div className="space-y-4 mb-6 text-sm">
-                <div className="flex justify-between text-gray-400">
+                <div className="flex justify-between text-gray-600 dark:text-gray-400">
                   <span>{t("subtotal")}</span>
-                  <span className="text-white">{formatPrice(cartTotal)}</span>
+                  <span className="text-gray-900 dark:text-white">{formatPrice(cartTotal)}</span>
                 </div>
-                <div className="flex justify-between text-gray-400">
+                <div className="flex justify-between text-gray-600 dark:text-gray-400">
                   <span>{t("shipping")}</span>
                   {shippingCost === 0 ? (
                     <span className="text-neon-pink font-bold">{t("free")}</span>
                   ) : (
-                    <span className="text-white">{formatPrice(shippingCost)}</span>
+                    <span className="text-gray-900 dark:text-white">{formatPrice(shippingCost)}</span>
                   )}
                 </div>
                 {shippingCost > 0 && (
@@ -430,7 +430,7 @@ export default function CheckoutPage() {
               </div>
 
               <div className="flex justify-between items-center text-lg">
-                <span className="text-white font-bold">{t("total")}</span>
+                <span className="text-gray-900 dark:text-white font-bold">{t("total")}</span>
                 <span className="text-glow-gold font-black text-2xl">
                   {formatPrice(totalAmount)}
                 </span>

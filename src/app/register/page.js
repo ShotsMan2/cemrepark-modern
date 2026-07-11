@@ -61,47 +61,47 @@ export default function RegisterPage() {
   };
 
   return (
-    <div className="min-h-screen pt-32 pb-20 flex items-center justify-center bg-black px-4">
+    <div className="min-h-screen pt-32 pb-20 flex items-center justify-center bg-background relative overflow-hidden px-4">
       <div className="max-w-md w-full glass-panel p-8 rounded-xl shadow-2xl relative overflow-hidden">
         <div className="absolute top-0 left-0 w-full h-1 bg-gradient-to-r from-neon-pink to-holo-gold"></div>
-        <h2 className="text-3xl font-black text-white mb-6 text-center">{t("register_title")}</h2>
+        <h2 className="text-3xl font-black text-gray-900 dark:text-white mb-6 text-center">{t("register_title")}</h2>
 
         <form onSubmit={handleSubmit} className="space-y-6">
           <div>
-            <label className="block text-gray-400 text-sm font-bold mb-2 uppercase tracking-wider">
+            <label className="block text-gray-600 dark:text-gray-400 text-sm font-bold mb-2 uppercase tracking-wider">
               {t("name_surname")}
             </label>
             <input
               type="text"
               value={name}
               onChange={(e) => setName(e.target.value)}
-              className="w-full bg-black/50 border border-gray-700 text-white px-4 py-3 rounded-lg focus:outline-none focus:border-neon-pink transition-colors"
+              className="w-full bg-black/5 dark:bg-black/50 border border-black/10 dark:border-gray-700 text-gray-900 dark:text-white px-4 py-3 rounded-lg focus:outline-none focus:border-neon-pink transition-colors font-medium"
               required
             />
           </div>
 
           <div>
-            <label className="block text-gray-400 text-sm font-bold mb-2 uppercase tracking-wider">
+            <label className="block text-gray-600 dark:text-gray-400 text-sm font-bold mb-2 uppercase tracking-wider">
               {t("email_title")}
             </label>
             <input
               type="email"
               value={email}
               onChange={(e) => setEmail(e.target.value)}
-              className="w-full bg-black/50 border border-gray-700 text-white px-4 py-3 rounded-lg focus:outline-none focus:border-neon-pink transition-colors"
+              className="w-full bg-black/5 dark:bg-black/50 border border-black/10 dark:border-gray-700 text-gray-900 dark:text-white px-4 py-3 rounded-lg focus:outline-none focus:border-neon-pink transition-colors font-medium"
               required
             />
           </div>
 
           <div>
-            <label className="block text-gray-400 text-sm font-bold mb-2 uppercase tracking-wider">
+            <label className="block text-gray-600 dark:text-gray-400 text-sm font-bold mb-2 uppercase tracking-wider">
               {t("password_label")}
             </label>
             <input
               type="password"
               value={password}
               onChange={(e) => setPassword(e.target.value)}
-              className="w-full bg-black/50 border border-gray-700 text-white px-4 py-3 rounded-lg focus:outline-none focus:border-neon-pink transition-colors"
+              className="w-full bg-black/5 dark:bg-black/50 border border-black/10 dark:border-gray-700 text-gray-900 dark:text-white px-4 py-3 rounded-lg focus:outline-none focus:border-neon-pink transition-colors font-medium"
               required
               minLength={6}
             />
@@ -111,15 +111,15 @@ export default function RegisterPage() {
           <button
             type="submit"
             disabled={loading}
-            className="w-full bg-gradient-to-r from-neon-pink to-holo-gold text-black font-bold py-3 px-4 rounded-lg hover:opacity-90 transition-opacity uppercase tracking-wider flex justify-center items-center gap-2"
+            className="w-full bg-gradient-to-r from-neon-pink to-holo-gold text-black font-bold py-3 px-4 rounded-lg hover:opacity-90 transition-opacity uppercase tracking-wider flex justify-center items-center gap-2 cursor-pointer"
           >
             {loading ? t("registering") : t("register")}
           </button>
         </form>
 
-        <p className="mt-6 text-center text-gray-400">
+        <p className="mt-6 text-center text-gray-600 dark:text-gray-400 font-medium">
           {t("already_have_account")}{" "}
-          <Link href="/login" className="text-holo-gold hover:underline">
+          <Link href="/login" className="text-holo-gold hover:underline font-bold">
             {t("login")}
           </Link>
         </p>

@@ -28,7 +28,7 @@ export default async function SiparislerimPage() {
   }));
 
   return (
-    <div className="min-h-screen pt-32 pb-24 bg-[#0a0a0a]">
+    <div className="min-h-screen pt-32 pb-24 bg-background relative overflow-hidden">
       <SiparislerimClient orders={serializedOrders} />
     </div>
   );
