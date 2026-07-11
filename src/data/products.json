@@ -3,7 +3,7 @@
     "id": 1,
     "ad": "Volan Detaylı Etekli Takım",
     "fiyat": 2500,
-    "gorsel": "/assets/siteimg/yeni1.jpg",
+    "gorsel": "https://cdn.shopier.app/pictures_large/CEMREPARKK_028f9034414ee9e5d17645d49e2ba0af.jpeg",
     "kategori": "Takım",
     "beden": "S, M, L, XL",
     "renk": "Siyah, Bej, Haki"
@@ -12,7 +12,7 @@
     "id": 2,
     "ad": "Büyük Beden Jakarlı Tunik",
     "fiyat": 1400,
-    "gorsel": "/assets/siteimg/yeni2.jpg",
+    "gorsel": "https://cdn.shopier.app/pictures_large/CEMREPARKK_4d99cd715a64549f85f3435c782578b8.JPG",
     "kategori": "Tunik",
     "beden": "S, M, L, XL",
     "renk": "Siyah, Bej, Haki"

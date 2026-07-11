@@ -35,7 +35,13 @@ export default function ProductDetailsClient({
       : 0;
 
   const bedenList = product.beden ? product.beden.split(",").map((s) => s.trim()) : ["Standart"];
-  const renkList = product.renk ? product.renk.split(",").map((s) => s.trim()) : ["Standart"];
+  const hasColors = product.colors && product.colors.length > 0;
+  const renkList = hasColors 
+    ? product.colors.map(c => c.renkAdi) 
+    : (product.renk ? product.renk.split(",").map((s) => s.trim()) : ["Standart"]);
+
+  const selectedColorObj = hasColors ? product.colors.find(c => c.renkAdi === (renk || renkList[0])) : null;
+  const activeImageUrl = selectedColorObj?.gorselUrl || product.resim || product.gorsel?.split(',')[0];
 
   const handleAddToCart = () => {
     if (!beden || !renk) {
@@ -175,7 +181,7 @@ export default function ProductDetailsClient({
             <div className="relative glass-panel p-2 clip-angled">
               <div className="relative w-full h-[450px] md:h-[600px] clip-angled overflow-hidden">
                 <Image
-                  src={getValidImageUrl(product.resim || product.gorsel?.split(',')[0])}
+                  src={getValidImageUrl(activeImageUrl)}
                   alt={product.ad}
                   fill
                   className="object-cover hover:scale-105 transition-transform duration-700"
@@ -254,34 +260,27 @@ export default function ProductDetailsClient({
               </div>
 
               <div>
-                <label className="block text-gray-400 text-sm font-bold mb-2 uppercase tracking-wider">
+                <label className="block text-gray-400 text-sm font-bold mb-3 uppercase tracking-wider">
                   {t("color")}
                 </label>
-                <div className="relative">
-                  <select
-                    value={renk}
-                    onChange={(e) => setRenk(e.target.value)}
-                    aria-label={t("select_color")}
-                    className="block appearance-none w-full bg-black border border-gray-700 text-white py-3 px-4 pr-8 rounded-none leading-tight focus:outline-none focus:border-holo-gold transition-colors"
-                  >
-                    <option value="" disabled>
-                      {t("select_color")}
-                    </option>
-                    {renkList.map((r) => (
-                      <option key={r} value={r}>
+                <div className="flex flex-wrap gap-3">
+                  {renkList.map((r) => {
+                    const isSelected = renk === r;
+                    return (
+                      <button
+                        key={r}
+                        onClick={() => setRenk(r)}
+                        className={`px-4 py-2 text-sm font-semibold uppercase tracking-wider transition-all duration-300 clip-angled border ${
+                          isSelected 
+                            ? "bg-neon-pink text-white border-neon-pink" 
+                            : "bg-black/50 text-gray-400 border-gray-700 hover:border-holo-gold hover:text-white"
+                        }`}
+                        aria-label={t("select_color")}
+                      >
                         {t(r) || r}
-                      </option>
-                    ))}
-                  </select>
-                  <div className="pointer-events-none absolute inset-y-0 right-0 flex items-center px-4 text-gray-500">
-                    <svg
-                      className="fill-current h-4 w-4"
-                      xmlns="http://www.w3.org/2000/svg"
-                      viewBox="0 0 20 20"
-                    >
-                      <path d="M9.293 12.95l.707.707L15.657 8l-1.414-1.414L10 10.828 5.757 6.586 4.343 8z" />
-                    </svg>
-                  </div>
+                      </button>
+                    );
+                  })}
                 </div>
               </div>
             </div>
@@ -547,7 +546,7 @@ export default function ProductDetailsClient({
         <div className="flex items-center gap-3">
           <div className="relative w-12 h-12 rounded overflow-hidden">
             <Image
-              src={getValidImageUrl(product.resim || product.gorsel?.split(',')[0])}
+              src={getValidImageUrl(activeImageUrl)}
               alt={product.ad}
               fill
               sizes="48px"

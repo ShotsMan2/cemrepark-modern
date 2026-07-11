@@ -44,7 +44,10 @@ export async function generateMetadata({ params }) {
 
 export default async function UrunDetay({ params }) {
   const { id } = await params;
-  const product = await prisma.product.findUnique({ where: { id: parseInt(id) } });
+  const product = await prisma.product.findUnique({ 
+    where: { id: parseInt(id) },
+    include: { colors: true }
+  });
 
   if (!product) {
     return (
