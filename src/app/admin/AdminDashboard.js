@@ -11,6 +11,7 @@ import SettingsView from "./components/views/SettingsView";
 import MessagesView from "./components/views/MessagesView";
 import PagesView from "./components/views/PagesView";
 import BannersView from "./components/views/BannersView";
+import AISupportView from "./components/views/AISupportView";
 
 export default function AdminDashboard({ onLogout }) {
   const [activeTab, setActiveTab] = useState("dashboard");
@@ -190,6 +191,8 @@ export default function AdminDashboard({ onLogout }) {
         return <PagesView />;
       case "banners":
         return <BannersView />;
+      case "ai-support":
+        return <AISupportView />;
       default:
         return <DashboardView products={products} />;
     }
@@ -285,7 +288,9 @@ export default function AdminDashboard({ onLogout }) {
                           ? "Sayfa Yönetimi"
                           : activeTab === "banners"
                             ? "Banner / Slider Yönetimi"
-                            : "Ayarlar"}
+                            : activeTab === "ai-support"
+                              ? "AI Destek Paneli"
+                              : "Ayarlar"}
             </h1>
           </div>
           <div className="flex items-center gap-4">

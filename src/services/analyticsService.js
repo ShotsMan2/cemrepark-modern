@@ -1,7 +1,19 @@
 import prisma from "@/lib/prisma";
+import redis from "@/lib/redis";
 
 class AnalyticsService {
   async getAnalytics() {
+    const cacheKey = "admin:analytics:dashboard";
+    const cachedData = await redis.get(cacheKey);
+
+    if (cachedData) {
+      try {
+        return JSON.parse(cachedData);
+      } catch (error) {
+        console.error("Redis parse error:", error);
+      }
+    }
+
     const productsCount = await prisma.product.count();
     const ordersCount = await prisma.order.count();
     const usersCount = await prisma.user.count();
@@ -75,7 +87,7 @@ class AnalyticsService {
       value: o._count._all
     }));
 
-    return {
+    const result = {
       products: productsCount,
       orders: ordersCount,
       users: usersCount,
@@ -87,6 +99,11 @@ class AnalyticsService {
       loginStats,
       orderStats
     };
+
+    // Cache the result for 5 minutes (300 seconds)
+    await redis.set(cacheKey, JSON.stringify(result), "EX", 300);
+
+    return result;
   }
 }
 

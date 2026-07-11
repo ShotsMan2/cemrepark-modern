@@ -69,6 +69,7 @@ model Product {
 
   @@index([kategori])
   @@index([ad])
+  @@index([fiyat])
 }
 
 model Category {
@@ -91,6 +92,7 @@ model Order {
   @@index([userId])
   @@index([status])
   @@index([createdAt])
+  @@index([total])
 }
 
 model OrderItem {

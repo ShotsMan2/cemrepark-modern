@@ -64,6 +64,11 @@ export default function OrdersView() {
     return matchesTab && matchesSearch;
   });
 
+  const [currentPage, setCurrentPage] = useState(1);
+  const itemsPerPage = 10;
+  const totalPages = Math.ceil(filteredOrders.length / itemsPerPage);
+  const paginatedOrders = filteredOrders.slice((currentPage - 1) * itemsPerPage, currentPage * itemsPerPage);
+
   const handleExport = () => {
     const headers = ["Sipariş No", "Müşteri", "Tarih", "Tutar", "Durum"];
     const rows = filteredOrders.map((order) => [
@@ -144,7 +149,7 @@ export default function OrdersView() {
             </tr>
           </thead>
           <tbody className="divide-y divide-white/5">
-            {filteredOrders.map((order, i) => (
+            {paginatedOrders.map((order, i) => (
               <tr key={i} className="hover:bg-white/5 transition-colors group cursor-pointer">
                 <td className="p-4 font-bold text-white text-sm group-hover:text-neon-pink transition-colors">
                   {order.id}
@@ -173,21 +178,26 @@ export default function OrdersView() {
         </table>
 
         {/* Pagination */}
-        <div className="border-t border-white/5 p-4 flex justify-between items-center text-gray-400 text-xs uppercase tracking-wider bg-black/20">
-          <span>{filteredOrders.length} Sipariş Listeleniyor</span>
-          <div className="flex gap-2">
-            <button className="px-3 py-1 border border-white/10 hover:border-neon-pink hover:text-white transition-colors">
-              &lt; Önceki
-            </button>
-            <button className="px-3 py-1 bg-neon-pink text-white border border-neon-pink">1</button>
-            <button className="px-3 py-1 border border-white/10 hover:border-neon-pink hover:text-white transition-colors">
-              2
-            </button>
-            <button className="px-3 py-1 border border-white/10 hover:border-neon-pink hover:text-white transition-colors">
-              Sonraki &gt;
-            </button>
+        {totalPages > 1 && (
+          <div className="border-t border-white/5 p-4 flex justify-between items-center text-gray-400 text-xs uppercase tracking-wider bg-black/20">
+            <span>{filteredOrders.length} Sipariş Listeleniyor</span>
+            <div className="flex gap-2">
+              <button 
+                onClick={() => setCurrentPage(prev => Math.max(prev - 1, 1))}
+                disabled={currentPage === 1}
+                className="px-3 py-1 border border-white/10 hover:border-neon-pink hover:text-white transition-colors disabled:opacity-50 disabled:cursor-not-allowed">
+                &lt; Önceki
+              </button>
+              <span className="px-3 py-1 text-white">Sayfa {currentPage} / {totalPages}</span>
+              <button 
+                onClick={() => setCurrentPage(prev => Math.min(prev + 1, totalPages))}
+                disabled={currentPage === totalPages}
+                className="px-3 py-1 border border-white/10 hover:border-neon-pink hover:text-white transition-colors disabled:opacity-50 disabled:cursor-not-allowed">
+                Sonraki &gt;
+              </button>
+            </div>
           </div>
-        </div>
+        )}
       </div>
 
       {/* INVOICE MODAL */}
