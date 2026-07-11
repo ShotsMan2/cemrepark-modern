@@ -13,23 +13,7 @@ import {
 } from "recharts";
 import DashboardAnalytics from "../DashboardAnalytics";
 
-const data = [
-  { name: "Pzt", satis: 4000, ziyaret: 2400 },
-  { name: "Sal", satis: 3000, ziyaret: 1398 },
-  { name: "Çar", satis: 2000, ziyaret: 9800 },
-  { name: "Per", satis: 2780, ziyaret: 3908 },
-  { name: "Cum", satis: 1890, ziyaret: 4800 },
-  { name: "Cmt", satis: 2390, ziyaret: 3800 },
-  { name: "Paz", satis: 3490, ziyaret: 4300 },
-];
-
-const categoryData = [
-  { name: "Elbise", value: 400 },
-  { name: "Tunik", value: 300 },
-  { name: "Takım", value: 300 },
-  { name: "Ceket", value: 200 },
-];
-const COLORS = ["#ff007f", "#ffd700", "#a855f7", "#3b82f6"];
+const COLORS = ["#ff007f", "#ffd700", "#a855f7", "#3b82f6", "#22c55e", "#ef4444"];
 
 export default function DashboardView({ products }) {
   const [stats, setStats] = useState(null);
@@ -42,13 +26,15 @@ export default function DashboardView({ products }) {
   }, []);
 
   const totalProducts = stats ? stats.products : products.length;
-  const activeCategories = stats
-    ? stats.categories
-    : [...new Set(products.map((p) => p.kategori))].filter(Boolean).length;
+  const activeCategories = stats ? stats.categories : [...new Set(products.map((p) => p.kategori))].filter(Boolean).length;
   const totalRevenue = stats ? stats.revenue : 0;
   const totalOrders = stats ? stats.orders : 0;
 
-  const totalCategoryValue = categoryData.reduce((sum, item) => sum + item.value, 0);
+  const chartData = stats?.salesOverTime || [];
+  const catData = stats?.categoryData || [];
+  const totalCategoryValue = catData.reduce((sum, item) => sum + item.value, 0);
+  const loginData = stats?.loginStats || [];
+  const orderData = stats?.orderStats || [];
 
   const [activities, setActivities] = useState([
     { text: "Yeni sipariş alındı #1042", time: "2 dk önce", color: "neon-pink" },
@@ -87,8 +73,7 @@ export default function DashboardView({ products }) {
       return (
         <div className="bg-black/90 border border-white/10 p-4 clip-angled backdrop-blur-md">
           <p className="text-white font-bold mb-2">{label}</p>
-          <p className="text-neon-pink text-sm">Satış: {payload[0].value} ₺</p>
-          <p className="text-holo-gold text-sm">Ziyaret: {payload[1].value}</p>
+          <p className="text-neon-pink text-sm">Satış Tutarı: {payload[0]?.value} ₺</p>
         </div>
       );
     }
@@ -152,15 +137,11 @@ export default function DashboardView({ products }) {
           </div>
           <div className="w-full h-72">
             <ResponsiveContainer width="100%" height="100%">
-              <AreaChart data={data} margin={{ top: 10, right: 10, left: 0, bottom: 0 }}>
+              <AreaChart data={chartData} margin={{ top: 10, right: 10, left: 0, bottom: 0 }}>
                 <defs>
                   <linearGradient id="colorSatis" x1="0" y1="0" x2="0" y2="1">
                     <stop offset="5%" stopColor="#ff007f" stopOpacity={0.8} />
                     <stop offset="95%" stopColor="#ff007f" stopOpacity={0} />
-                  </linearGradient>
-                  <linearGradient id="colorZiyaret" x1="0" y1="0" x2="0" y2="1">
-                    <stop offset="5%" stopColor="#ffd700" stopOpacity={0.8} />
-                    <stop offset="95%" stopColor="#ffd700" stopOpacity={0} />
                   </linearGradient>
                 </defs>
                 <CartesianGrid
@@ -180,24 +161,16 @@ export default function DashboardView({ products }) {
                   tick={{ fill: "rgba(255,255,255,0.5)", fontSize: 12 }}
                   tickLine={false}
                   axisLine={false}
-                  tickFormatter={(val) => `₺${val / 1000}k`}
+                  tickFormatter={(val) => `₺${val}`}
                 />
                 <Tooltip content={<CustomTooltip />} />
                 <Area
                   type="monotone"
-                  dataKey="satis"
+                  dataKey="total"
                   stroke="#ff007f"
                   strokeWidth={3}
                   fillOpacity={1}
                   fill="url(#colorSatis)"
-                />
-                <Area
-                  type="monotone"
-                  dataKey="ziyaret"
-                  stroke="#ffd700"
-                  strokeWidth={3}
-                  fillOpacity={1}
-                  fill="url(#colorZiyaret)"
                 />
               </AreaChart>
             </ResponsiveContainer>
@@ -237,7 +210,7 @@ export default function DashboardView({ products }) {
             <ResponsiveContainer width="100%" height="100%">
               <PieChart>
                 <Pie
-                  data={categoryData}
+                  data={catData}
                   cx="50%"
                   cy="50%"
                   innerRadius={60}
@@ -246,7 +219,7 @@ export default function DashboardView({ products }) {
                   dataKey="value"
                   stroke="none"
                 >
-                  {categoryData.map((entry, index) => (
+                  {catData.map((entry, index) => (
                     <Cell key={`cell-${index}`} fill={COLORS[index % COLORS.length]} />
                   ))}
                 </Pie>
@@ -266,7 +239,7 @@ export default function DashboardView({ products }) {
             </ResponsiveContainer>
           </div>
           <div className="flex justify-center gap-4 mt-4 flex-wrap">
-            {categoryData.map((entry, index) => (
+            {catData.map((entry, index) => (
               <div key={entry.name} className="flex items-center gap-2">
                 <div
                   className="w-3 h-3 rounded-full"

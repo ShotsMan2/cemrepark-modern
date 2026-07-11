@@ -30,7 +30,11 @@ export default function CheckoutPage() {
     }
   }, [cartItems, router]);
 
-  const totalAmount = cartItems.reduce((acc, item) => acc + item.fiyat * item.quantity, 0);
+  const cartTotal = cartItems.reduce((acc, item) => acc + item.fiyat * item.quantity, 0);
+  const FREE_SHIPPING_THRESHOLD = 500;
+  const SHIPPING_FEE = 49.90;
+  const shippingCost = cartTotal >= FREE_SHIPPING_THRESHOLD ? 0 : SHIPPING_FEE;
+  const totalAmount = cartTotal + shippingCost;
 
   const getCardType = (number) => {
     const num = number.replace(/\s/g, "");
@@ -408,12 +412,21 @@ export default function CheckoutPage() {
               <div className="space-y-4 mb-6 text-sm">
                 <div className="flex justify-between text-gray-400">
                   <span>{t("subtotal")}</span>
-                  <span className="text-white">{formatPrice(totalAmount)}</span>
+                  <span className="text-white">{formatPrice(cartTotal)}</span>
                 </div>
                 <div className="flex justify-between text-gray-400">
                   <span>{t("shipping")}</span>
-                  <span className="text-neon-pink font-bold">{t("free")}</span>
+                  {shippingCost === 0 ? (
+                    <span className="text-neon-pink font-bold">{t("free")}</span>
+                  ) : (
+                    <span className="text-white">{formatPrice(shippingCost)}</span>
+                  )}
                 </div>
+                {shippingCost > 0 && (
+                  <div className="text-xs text-neon-pink mt-1 italic">
+                    {formatPrice(FREE_SHIPPING_THRESHOLD - cartTotal)} tutarında daha ürün ekleyin, kargo bedava olsun!
+                  </div>
+                )}
               </div>
 
               <div className="flex justify-between items-center text-lg">

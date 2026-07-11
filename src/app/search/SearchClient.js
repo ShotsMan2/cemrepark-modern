@@ -17,6 +17,8 @@ export default function SearchClient({ initialResults, query, isSearch }) {
   const { formatPrice, t } = useStore();
   const [results, setResults] = useState(initialResults);
   const [quickViewProduct, setQuickViewProduct] = useState(null);
+  const [localQuery, setLocalQuery] = useState(query);
+  const [inStockOnly, setInStockOnly] = useState(searchParams.get("inStock") === "true");
 
   // Pagination states
   const PAGE_SIZE = 12;
@@ -46,6 +48,15 @@ export default function SearchClient({ initialResults, query, isSearch }) {
   useEffect(() => {
     let filtered = initialResults.filter((p) => p.fiyat <= priceRange);
 
+    if (localQuery.trim().length > 0) {
+      const q = localQuery.toLowerCase();
+      filtered = filtered.filter(p => p.ad.toLowerCase().includes(q) || (p.kategori && p.kategori.toLowerCase().includes(q)));
+    }
+
+    if (inStockOnly) {
+      filtered = filtered.filter((p) => p.stok > 0);
+    }
+
     if (selectedColors.length > 0) {
       filtered = filtered.filter((p) => {
         if (!p.renk) return false;
@@ -64,7 +75,7 @@ export default function SearchClient({ initialResults, query, isSearch }) {
 
     setResults(filtered);
     setVisibleCount(PAGE_SIZE); // Reset pagination on filter change
-  }, [priceRange, selectedColors, selectedSizes, initialResults]);
+  }, [priceRange, selectedColors, selectedSizes, initialResults, localQuery, inStockOnly]);
 
   // Infinite scroll observer
   useEffect(() => {
@@ -96,7 +107,7 @@ export default function SearchClient({ initialResults, query, isSearch }) {
 
   // Update URL when filters change
   const updateUrl = useCallback(
-    (price, colors, sizes) => {
+    (price, colors, sizes, queryText, inStock) => {
       const params = new URLSearchParams(searchParams.toString());
       if (price < 5000) params.set("price", price);
       else params.delete("price");
@@ -107,6 +118,12 @@ export default function SearchClient({ initialResults, query, isSearch }) {
       if (sizes.length > 0) params.set("sizes", sizes.join(","));
       else params.delete("sizes");
 
+      if (queryText) params.set("q", queryText);
+      else params.delete("q");
+
+      if (inStock) params.set("inStock", "true");
+      else params.delete("inStock");
+
       router.replace(`${pathname}?${params.toString()}`, { scroll: false });
     },
     [pathname, router, searchParams]
@@ -115,7 +132,7 @@ export default function SearchClient({ initialResults, query, isSearch }) {
   const handlePriceChange = (e) => {
     const newPrice = Number(e.target.value);
     setPriceRange(newPrice);
-    updateUrl(newPrice, selectedColors, selectedSizes);
+    updateUrl(newPrice, selectedColors, selectedSizes, localQuery, inStockOnly);
   };
 
   const handleColorToggle = (colorName) => {
@@ -123,7 +140,7 @@ export default function SearchClient({ initialResults, query, isSearch }) {
       ? selectedColors.filter((c) => c !== colorName)
       : [...selectedColors, colorName];
     setSelectedColors(newColors);
-    updateUrl(priceRange, newColors, selectedSizes);
+    updateUrl(priceRange, newColors, selectedSizes, localQuery, inStockOnly);
   };
 
   const handleSizeToggle = (sizeName) => {
@@ -131,17 +148,36 @@ export default function SearchClient({ initialResults, query, isSearch }) {
       ? selectedSizes.filter((s) => s !== sizeName)
       : [...selectedSizes, sizeName];
     setSelectedSizes(newSizes);
-    updateUrl(priceRange, selectedColors, newSizes);
+    updateUrl(priceRange, selectedColors, newSizes, localQuery, inStockOnly);
+  };
+
+  const handleQueryChange = (e) => {
+    const text = e.target.value;
+    setLocalQuery(text);
+    // basic debounce
+    setTimeout(() => {
+      updateUrl(priceRange, selectedColors, selectedSizes, text, inStockOnly);
+    }, 500);
+  };
+
+  const handleInStockToggle = () => {
+    const nextVal = !inStockOnly;
+    setInStockOnly(nextVal);
+    updateUrl(priceRange, selectedColors, selectedSizes, localQuery, nextVal);
   };
 
   const handleClearFilters = () => {
     setPriceRange(5000);
     setSelectedColors([]);
     setSelectedSizes([]);
+    setInStockOnly(false);
+    setLocalQuery("");
     const params = new URLSearchParams(searchParams.toString());
     params.delete("price");
     params.delete("colors");
     params.delete("sizes");
+    params.delete("inStock");
+    params.delete("q");
     router.replace(`${pathname}?${params.toString()}`, { scroll: false });
   };
 
@@ -164,6 +200,34 @@ export default function SearchClient({ initialResults, query, isSearch }) {
             <h3 className="text-white font-bold uppercase tracking-widest mb-6 border-b border-white/10 pb-4">
               {t("filters")}
             </h3>
+
+            {/* Instant Search Box */}
+            <div className="mb-8">
+              <h4 className="text-gray-400 text-sm font-bold uppercase tracking-widest mb-4">
+                Anlık Arama
+              </h4>
+              <input 
+                type="text"
+                placeholder="Ürün Ara..."
+                value={localQuery}
+                onChange={handleQueryChange}
+                className="w-full bg-transparent border-b border-white/20 text-white p-2 focus:outline-none focus:border-neon-pink transition-colors"
+              />
+            </div>
+
+            {/* In Stock Toggle */}
+            <div className="mb-8 flex items-center gap-3">
+              <label className="text-gray-400 text-sm font-bold uppercase tracking-widest cursor-pointer flex-1">
+                Sadece Stokta Olanlar
+              </label>
+              <button
+                type="button"
+                onClick={handleInStockToggle}
+                className={`w-10 h-5 rounded-full relative transition-colors ${inStockOnly ? "bg-neon-pink" : "bg-gray-700"}`}
+              >
+                <div className={`w-4 h-4 bg-white rounded-full absolute top-0.5 transition-all ${inStockOnly ? "left-5" : "left-1"}`}></div>
+              </button>
+            </div>
 
             <div className="mb-8">
               <h4 className="text-gray-400 text-sm font-bold uppercase tracking-widest mb-4">

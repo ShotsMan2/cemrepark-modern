@@ -2,10 +2,16 @@
 
 import { useEffect, useRef, useState } from "react";
 import ChatWidgetMessage from "./ChatWidgetMessage";
+import { useSession } from "next-auth/react";
+import { useStore } from "../context/StoreContext";
 
 const DEFAULT_WIDGET_COLOR = "#ff007f";
 
 export default function ChatWidget() {
+  const sessionData = useSession() || {};
+  const session = sessionData.data;
+  const storeData = useStore() || {};
+  const cartItems = storeData.cartItems || [];
   const [isOpen, setIsOpen] = useState(false);
   const [messages, setMessages] = useState([]);
   const [input, setInput] = useState("");
@@ -47,7 +53,7 @@ export default function ChatWidget() {
       const response = await fetch("/api/widget/chat", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ message: trimmed, sessionId }),
+        body: JSON.stringify({ message: trimmed, sessionId, cartItems, user: session?.user }),
         signal: abortControllerRef.current.signal,
       });
 
@@ -118,7 +124,7 @@ export default function ChatWidget() {
           <div className="chat-widget-body">
             {messages.length === 0 && (
               <div className="chat-widget-welcome">
-                <strong>Merhaba!</strong>
+                <strong>Merhaba {session?.user?.name || ""}!</strong>
                 <p>Herhangi bir ürün, sipariş ya da teslimat sorusu sorabilirsiniz.</p>
               </div>
             )}
