@@ -10,6 +10,8 @@ import {
   PieChart,
   Pie,
   Cell,
+  BarChart,
+  Bar
 } from "recharts";
 import DashboardAnalytics from "../DashboardAnalytics";
 
@@ -251,62 +253,30 @@ export default function DashboardView({ products }) {
           </div>
         </div>
 
-        {/* Top Selling Products Mock */}
-        <div className="glass-panel p-6 clip-angled relative border border-white/5 h-[400px]">
+        {/* Top Selling Products Bar Chart */}
+        <div className="glass-panel p-6 clip-angled relative border border-white/5 h-[400px]" data-aos="fade-up" data-aos-delay="200">
           <h3 className="text-white font-bold uppercase tracking-widest mb-1">En Çok Satanlar</h3>
-          <p className="text-gray-500 text-xs mb-4">Bu ayın en popüler ürünleri</p>
+          <p className="text-gray-500 text-xs mb-4">Bu ayın en popüler ürün satışları</p>
 
-          <div className="space-y-3 overflow-y-auto max-h-[280px] pr-1 custom-scrollbar">
-            {[
-              {
-                name: "Premium Kadın Takım Siyah",
-                sales: 124,
-                rev: "310.000 ₺",
-                progress: 85,
-                color: "neon-pink",
-              },
-              {
-                name: "Yeni Sezon Tunik Bej",
-                sales: 98,
-                rev: "147.000 ₺",
-                progress: 65,
-                color: "holo-gold",
-              },
-              {
-                name: "Klasik Ceket Ekru",
-                sales: 75,
-                rev: "187.500 ₺",
-                progress: 45,
-                color: "purple-500",
-              },
-              {
-                name: "Günlük Elbise Desenli",
-                sales: 42,
-                rev: "63.000 ₺",
-                progress: 25,
-                color: "blue-400",
-              },
-            ].map((prod, i) => (
-              <div key={i} className="bg-black/30 p-2.5 border border-white/5 clip-angled">
-                <div className="flex justify-between text-sm mb-1.5">
-                  <span className="text-white font-bold truncate pr-4 text-xs md:text-sm">
-                    {prod.name}
-                  </span>
-                  <span className="text-holo-gold font-bold whitespace-nowrap text-xs md:text-sm">
-                    {prod.rev}
-                  </span>
-                </div>
-                <div className="flex justify-between text-[10px] text-gray-500 mb-1">
-                  <span>{prod.sales} Adet satıldı</span>
-                </div>
-                <div className="w-full h-1 bg-gray-800 rounded-full overflow-hidden">
-                  <div
-                    className={`h-full bg-${prod.color}`}
-                    style={{ width: `${prod.progress}%` }}
-                  ></div>
-                </div>
-              </div>
-            ))}
+          <div className="w-full h-72">
+            <ResponsiveContainer width="100%" height="100%">
+              <BarChart
+                data={[
+                  { name: "Premium Kadın Takım Siyah", value: 124 },
+                  { name: "Yeni Sezon Tunik Bej", value: 98 },
+                  { name: "Klasik Ceket Ekru", value: 75 },
+                  { name: "Günlük Elbise Desenli", value: 42 }
+                ]}
+                margin={{ top: 5, right: 10, left: -20, bottom: 5 }}
+                layout="vertical"
+              >
+                <CartesianGrid strokeDasharray="3 3" stroke="rgba(255,255,255,0.05)" horizontal={false} />
+                <XAxis type="number" stroke="rgba(255,255,255,0.3)" tick={{ fill: "rgba(255,255,255,0.5)", fontSize: 12 }} />
+                <YAxis dataKey="name" type="category" stroke="rgba(255,255,255,0.3)" tick={{ fill: "rgba(255,255,255,0.5)", fontSize: 10 }} width={120} />
+                <Tooltip contentStyle={{ backgroundColor: "rgba(0,0,0,0.9)", border: "1px solid rgba(255,255,255,0.1)" }} itemStyle={{ color: "#fff", fontWeight: "bold" }} />
+                <Bar dataKey="value" fill="#ffd700" radius={[0, 4, 4, 0]} barSize={20} />
+              </BarChart>
+            </ResponsiveContainer>
           </div>
         </div>
       </div>

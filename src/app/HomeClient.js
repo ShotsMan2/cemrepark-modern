@@ -51,14 +51,14 @@ export default function HomeClient({ bestSellers, discounted, banners = [] }) {
                     <h1 className="text-5xl md:text-7xl font-black mb-6 leading-tight text-glow-pink">
                       <span>{slide.title}</span>
                     </h1>
-                    <p className="text-gray-400 text-lg md:text-xl mb-10 max-w-lg font-light leading-relaxed">
+                    <p className="text-gray-600 dark:text-gray-400 text-lg md:text-xl mb-10 max-w-lg font-light leading-relaxed">
                       {t("hero_desc")}
                     </p>
 
                     <div className="flex gap-6">
                       <Link
                         href={slide.linkUrl || "/search"}
-                        className="glass-panel px-8 py-4 text-white font-medium uppercase tracking-wider hover:bg-neon-pink hover:border-neon-pink transition-all duration-300 clip-angled text-center inline-block"
+                        className="glass-panel px-8 py-4 text-gray-900 dark:text-white font-medium uppercase tracking-wider hover:bg-neon-pink hover:border-neon-pink transition-all duration-300 clip-angled text-center inline-block"
                       >
                         {t("explore_collection")}
                       </Link>
@@ -120,14 +120,14 @@ export default function HomeClient({ bestSellers, discounted, banners = [] }) {
               <h1 className="text-5xl md:text-7xl font-black mb-6 leading-tight text-glow-pink">
                 <span dangerouslySetInnerHTML={{ __html: t("hero_title") }}></span>
               </h1>
-              <p className="text-gray-400 text-lg md:text-xl mb-10 max-w-lg font-light leading-relaxed">
+              <p className="text-gray-600 dark:text-gray-400 text-lg md:text-xl mb-10 max-w-lg font-light leading-relaxed">
                 {t("hero_desc")}
               </p>
 
               <div className="flex gap-6">
                 <Link
                   href="/search"
-                  className="glass-panel px-8 py-4 text-white font-medium uppercase tracking-wider hover:bg-neon-pink hover:border-neon-pink transition-all duration-300 clip-angled text-center inline-block"
+                  className="glass-panel px-8 py-4 text-gray-900 dark:text-white font-medium uppercase tracking-wider hover:bg-neon-pink hover:border-neon-pink transition-all duration-300 clip-angled text-center inline-block"
                 >
                   {t("explore_collection")}
                 </Link>
@@ -145,7 +145,7 @@ export default function HomeClient({ bestSellers, discounted, banners = [] }) {
               <div className="relative w-4/5 h-full clip-angled glass-panel p-2">
                 <div className="relative w-full h-full clip-angled overflow-hidden">
                   <Image
-                    src={getValidImageUrl(bestSellers[0]?.gorsel)}
+                    src={getValidImageUrl(bestSellers[0]?.resim || bestSellers[0]?.gorsel?.split(',')[0])}
                     alt="Hero Image"
                     fill
                     className="object-cover scale-105 hover:scale-110 transition-transform duration-700"
@@ -166,26 +166,26 @@ export default function HomeClient({ bestSellers, discounted, banners = [] }) {
       {renderHeroSection()}
 
       {/* 1.5 TRUSTED BRANDS MARQUEE */}
-      <section className="py-8 border-y border-white/5 bg-black/50 overflow-hidden">
+      <section className="py-8 border-y border-white/5 bg-white/50 dark:bg-black/50 overflow-hidden">
         <div className="w-full whitespace-nowrap animate-marquee flex gap-16 md:gap-32 items-center opacity-40">
-          <h4 className="text-xl font-black text-white uppercase tracking-[0.3em]">Shopier</h4>
-          <h4 className="text-xl font-black text-white uppercase tracking-[0.3em]">
+          <h4 className="text-xl font-black text-gray-900 dark:text-white uppercase tracking-[0.3em]">Shopier</h4>
+          <h4 className="text-xl font-black text-gray-900 dark:text-white uppercase tracking-[0.3em]">
             Yurtiçi Kargo
           </h4>
-          <h4 className="text-xl font-black text-white uppercase tracking-[0.3em]">Visa</h4>
-          <h4 className="text-xl font-black text-white uppercase tracking-[0.3em]">Mastercard</h4>
-          <h4 className="text-xl font-black text-white uppercase tracking-[0.3em]">Shopier</h4>
-          <h4 className="text-xl font-black text-white uppercase tracking-[0.3em]">
+          <h4 className="text-xl font-black text-gray-900 dark:text-white uppercase tracking-[0.3em]">Visa</h4>
+          <h4 className="text-xl font-black text-gray-900 dark:text-white uppercase tracking-[0.3em]">Mastercard</h4>
+          <h4 className="text-xl font-black text-gray-900 dark:text-white uppercase tracking-[0.3em]">Shopier</h4>
+          <h4 className="text-xl font-black text-gray-900 dark:text-white uppercase tracking-[0.3em]">
             Yurtiçi Kargo
           </h4>
-          <h4 className="text-xl font-black text-white uppercase tracking-[0.3em]">Visa</h4>
-          <h4 className="text-xl font-black text-white uppercase tracking-[0.3em]">Mastercard</h4>
-          <h4 className="text-xl font-black text-white uppercase tracking-[0.3em]">Shopier</h4>
-          <h4 className="text-xl font-black text-white uppercase tracking-[0.3em]">
+          <h4 className="text-xl font-black text-gray-900 dark:text-white uppercase tracking-[0.3em]">Visa</h4>
+          <h4 className="text-xl font-black text-gray-900 dark:text-white uppercase tracking-[0.3em]">Mastercard</h4>
+          <h4 className="text-xl font-black text-gray-900 dark:text-white uppercase tracking-[0.3em]">Shopier</h4>
+          <h4 className="text-xl font-black text-gray-900 dark:text-white uppercase tracking-[0.3em]">
             Yurtiçi Kargo
           </h4>
-          <h4 className="text-xl font-black text-white uppercase tracking-[0.3em]">Visa</h4>
-          <h4 className="text-xl font-black text-white uppercase tracking-[0.3em]">Mastercard</h4>
+          <h4 className="text-xl font-black text-gray-900 dark:text-white uppercase tracking-[0.3em]">Visa</h4>
+          <h4 className="text-xl font-black text-gray-900 dark:text-white uppercase tracking-[0.3em]">Mastercard</h4>
         </div>
       </section>
 
@@ -197,12 +197,12 @@ export default function HomeClient({ bestSellers, discounted, banners = [] }) {
             data-aos="fade-up"
           >
             <div>
-              <h2 className="text-4xl md:text-5xl font-black text-white mb-2">{t("trending")}</h2>
+              <h2 className="text-4xl md:text-5xl font-black text-gray-900 dark:text-white mb-2">{t("trending")}</h2>
               <div className="w-24 h-1 bg-neon-pink"></div>
             </div>
             <Link
               href="/search"
-              className="text-gray-400 hover:text-holo-gold mt-4 md:mt-0 tracking-widest text-sm uppercase transition-colors"
+              className="text-gray-600 dark:text-gray-400 hover:text-holo-gold mt-4 md:mt-0 tracking-widest text-sm uppercase transition-colors"
             >
               {t("view_all")} ↗
             </Link>
@@ -216,17 +216,17 @@ export default function HomeClient({ bestSellers, discounted, banners = [] }) {
                 data-aos="fade-up"
                 data-aos-delay={index * 150}
               >
-                <div className="relative aspect-[3/4] mb-4 overflow-hidden clip-angled">
+                <div className="relative aspect-[3/4] mb-4 overflow-hidden clip-angled transform-gpu">
                   {product.etiket && (
                     <div className="absolute top-2 left-2 z-20">
-                      <span className="text-xs font-bold uppercase tracking-widest bg-neon-pink text-white px-3 py-1 clip-angled shadow-lg">
+                      <span className="text-xs font-bold uppercase tracking-widest bg-neon-pink text-gray-900 dark:text-white px-3 py-1 clip-angled shadow-lg">
                         {t(product.etiket)}
                       </span>
                     </div>
                   )}
 
                   <Image
-                    src={getValidImageUrl(product.gorsel || product.resim1)}
+                    src={getValidImageUrl(product.resim || product.gorsel?.split(',')[0])}
                     alt={product.ad}
                     fill
                     sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 25vw"
@@ -241,7 +241,7 @@ export default function HomeClient({ bestSellers, discounted, banners = [] }) {
                   <div className="absolute bottom-4 left-0 w-full px-4 flex justify-center opacity-0 group-hover:opacity-100 transition-all duration-300 translate-y-4 group-hover:translate-y-0 z-30">
                     <button
                       onClick={() => setQuickViewProduct(product)}
-                      className="text-xs uppercase tracking-widest font-bold border-b border-gray-500 pb-1 text-white hover:text-neon-pink hover:border-neon-pink transition-colors mt-1 bg-black/50 px-4 py-2 rounded-full backdrop-blur-sm"
+                      className="text-xs uppercase tracking-widest font-bold border-b border-gray-500 pb-1 text-gray-900 dark:text-white hover:text-neon-pink hover:border-neon-pink transition-colors mt-1 bg-white/50 dark:bg-black/50 px-4 py-2 rounded-full backdrop-blur-sm"
                     >
                       {t("quick_view")}
                     </button>
@@ -249,12 +249,12 @@ export default function HomeClient({ bestSellers, discounted, banners = [] }) {
                 </div>
 
                 <div className="p-4 relative">
-                  <p className="text-gray-400 text-xs uppercase tracking-widest mb-1">
+                  <p className="text-gray-600 dark:text-gray-400 text-xs uppercase tracking-widest mb-1">
                     {t(product.kategori)}
                   </p>
-                  <h3 className="text-white font-bold text-lg truncate mb-2">{t(product.ad)}</h3>
+                  <h3 className="text-gray-900 dark:text-white font-bold text-lg truncate mb-2">{t(product.ad)}</h3>
                   <div className="flex justify-between items-center">
-                    <PriceDisplay amount={product.fiyat} className="text-white font-bold" />
+                    <PriceDisplay amount={product.fiyat} className="text-gray-900 dark:text-white font-bold" />
                     <FavoriteButton product={product} className="relative z-30" />
                   </div>
                 </div>
@@ -265,7 +265,7 @@ export default function HomeClient({ bestSellers, discounted, banners = [] }) {
       </section>
 
       {/* 3. BENTO BOX SHOWCASE */}
-      <section className="py-24 bg-black/50 border-y border-white/5">
+      <section className="py-24 bg-white/50 dark:bg-black/50 border-y border-white/5">
         <div className="w-full max-w-6xl mx-auto px-4">
           <div className="grid grid-cols-1 md:grid-cols-3 gap-6 h-auto md:h-[600px]">
             {/* Big Feature */}
@@ -274,7 +274,7 @@ export default function HomeClient({ bestSellers, discounted, banners = [] }) {
               data-aos="fade-right"
             >
               <Image
-                src={getValidImageUrl(discounted[0]?.gorsel)}
+                src={getValidImageUrl(discounted[0]?.resim || discounted[0]?.gorsel?.split(',')[0])}
                 alt="Giyim"
                 fill
                 className="object-cover opacity-60 group-hover:opacity-80 transition-opacity duration-500"
@@ -284,10 +284,10 @@ export default function HomeClient({ bestSellers, discounted, banners = [] }) {
                 <span className="text-neon-pink uppercase tracking-[0.2em] text-sm font-bold mb-2">
                   {t("special_design")}
                 </span>
-                <h3 className="text-4xl font-black text-white mb-4">{t("premium_coats")}</h3>
+                <h3 className="text-4xl font-black text-gray-900 dark:text-white mb-4">{t("premium_coats")}</h3>
                 <Link
                   href="/search"
-                  className="text-white border-b border-white pb-1 w-max hover:text-holo-gold hover:border-holo-gold transition-colors"
+                  className="text-gray-900 dark:text-white border-b border-white pb-1 w-max hover:text-holo-gold hover:border-holo-gold transition-colors"
                 >
                   {t("explore_collection_btn")}
                 </Link>
@@ -296,38 +296,38 @@ export default function HomeClient({ bestSellers, discounted, banners = [] }) {
 
             {/* Stacked Small Features */}
             <div className="flex flex-col gap-6" data-aos="fade-left">
-              <div className="h-1/2 glass-panel relative group overflow-hidden clip-angled">
+              <div className="h-1/2 glass-panel relative group overflow-hidden clip-angled transform-gpu">
                 <div className="absolute inset-0 bg-gradient-to-br from-neon-pink/20 to-transparent z-10 pointer-events-none"></div>
                 <Image
-                  src={getValidImageUrl(discounted[1]?.gorsel)}
+                  src={getValidImageUrl(discounted[1]?.resim || discounted[1]?.gorsel?.split(',')[0])}
                   alt="Elbise"
                   fill
                   sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
                   className="object-cover opacity-50 group-hover:scale-110 transition-transform duration-700"
                 />
                 <div className="absolute inset-0 flex flex-col items-center justify-center text-center z-20">
-                  <h4 className="text-2xl font-bold text-white mb-2">{t("minimalist_dresses")}</h4>
+                  <h4 className="text-2xl font-bold text-gray-900 dark:text-white mb-2">{t("minimalist_dresses")}</h4>
                   <Link
                     href="/search"
-                    className="text-xs uppercase tracking-widest text-gray-300 hover:text-white"
+                    className="text-xs uppercase tracking-widest text-gray-700 dark:text-gray-300 hover:text-white"
                   >
                     {t("explore")}
                   </Link>
                 </div>
               </div>
-              <div className="h-1/2 glass-panel relative group overflow-hidden clip-angled">
+              <div className="h-1/2 glass-panel relative group overflow-hidden clip-angled transform-gpu">
                 <Image
-                  src={getValidImageUrl(discounted[2]?.gorsel)}
+                  src={getValidImageUrl(discounted[2]?.resim || discounted[2]?.gorsel?.split(',')[0])}
                   alt="Tunik"
                   fill
                   className="object-cover opacity-50 group-hover:scale-110 transition-transform duration-700"
                   sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
                 />
                 <div className="absolute inset-0 flex flex-col items-center justify-center text-center z-20">
-                  <h4 className="text-2xl font-bold text-white mb-2">{t("modern_tunics")}</h4>
+                  <h4 className="text-2xl font-bold text-gray-900 dark:text-white mb-2">{t("modern_tunics")}</h4>
                   <Link
                     href="/search"
-                    className="text-xs uppercase tracking-widest text-gray-300 hover:text-white"
+                    className="text-xs uppercase tracking-widest text-gray-700 dark:text-gray-300 hover:text-white"
                   >
                     {t("explore")}
                   </Link>
@@ -343,11 +343,11 @@ export default function HomeClient({ bestSellers, discounted, banners = [] }) {
         <div className="absolute top-1/2 left-0 w-96 h-96 bg-neon-pink opacity-10 rounded-full blur-[120px] pointer-events-none"></div>
         <div className="w-full max-w-6xl mx-auto px-4 relative z-10">
           <div className="text-center mb-16" data-aos="fade-up">
-            <h2 className="text-4xl md:text-5xl font-black text-white mb-4">
+            <h2 className="text-4xl md:text-5xl font-black text-gray-900 dark:text-white mb-4">
               {t("testimonials_title")}
             </h2>
             <div className="w-24 h-1 bg-holo-gold mx-auto mb-4"></div>
-            <p className="text-gray-400">{t("testimonials_desc")}</p>
+            <p className="text-gray-600 dark:text-gray-400">{t("testimonials_desc")}</p>
           </div>
 
           <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
@@ -363,14 +363,14 @@ export default function HomeClient({ bestSellers, discounted, banners = [] }) {
                 data-aos-delay={i * 150}
               >
                 <div className="text-holo-gold mb-4 text-2xl">{"★".repeat(review.stars)}</div>
-                <p className="text-gray-300 italic mb-6 leading-relaxed">
+                <p className="text-gray-700 dark:text-gray-300 italic mb-6 leading-relaxed">
                   &quot;{review.text}&quot;
                 </p>
                 <div className="flex items-center gap-4">
-                  <div className="w-10 h-10 rounded-full bg-gradient-to-br from-neon-pink to-holo-gold flex items-center justify-center text-white font-bold">
+                  <div className="w-10 h-10 rounded-full bg-gradient-to-br from-neon-pink to-holo-gold flex items-center justify-center text-gray-900 dark:text-white font-bold">
                     {review.name.charAt(0)}
                   </div>
-                  <h4 className="text-white font-bold">{review.name}</h4>
+                  <h4 className="text-gray-900 dark:text-white font-bold">{review.name}</h4>
                 </div>
               </div>
             ))}
@@ -424,7 +424,7 @@ export default function HomeClient({ bestSellers, discounted, banners = [] }) {
                     <path d={badge.icon}></path>
                   </svg>
                 </div>
-                <h4 className="text-white font-bold mb-2 uppercase tracking-wider">
+                <h4 className="text-gray-900 dark:text-white font-bold mb-2 uppercase tracking-wider">
                   {badge.title}
                 </h4>
                 <p className="text-gray-500 text-sm">{badge.desc}</p>

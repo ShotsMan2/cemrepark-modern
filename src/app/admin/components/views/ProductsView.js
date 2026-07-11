@@ -30,6 +30,11 @@ export default function ProductsView({
     return matchesSearch && matchesCategory;
   });
 
+  const [currentPage, setCurrentPage] = useState(1);
+  const itemsPerPage = 8;
+  const totalPages = Math.ceil(filteredProducts.length / itemsPerPage);
+  const paginatedProducts = filteredProducts.slice((currentPage - 1) * itemsPerPage, currentPage * itemsPerPage);
+
   return (
     <div className="grid grid-cols-1 lg:grid-cols-3 gap-8 animate-fade-in">
       {/* Form */}
@@ -193,7 +198,7 @@ export default function ProductsView({
             </div>
           ) : (
             <div className="space-y-4">
-              {filteredProducts.map((product) => (
+              {paginatedProducts.map((product) => (
                 <div
                   key={product.id}
                   className="bg-black/30 border border-white/5 p-4 flex items-center justify-between hover:border-white/20 transition-colors clip-angled group"
@@ -286,6 +291,28 @@ export default function ProductsView({
                   </div>
                 </div>
               ))}
+            </div>
+          )}
+
+          {/* Pagination Controls */}
+          {!isLoading && totalPages > 1 && (
+            <div className="border-t border-white/5 p-4 flex justify-between items-center text-gray-400 text-xs uppercase tracking-wider bg-black/20 mt-4">
+              <span>{filteredProducts.length} Ürün Listeleniyor</span>
+              <div className="flex gap-2">
+                <button 
+                  onClick={() => setCurrentPage(prev => Math.max(prev - 1, 1))}
+                  disabled={currentPage === 1}
+                  className="px-3 py-1 border border-white/10 hover:border-neon-pink hover:text-white transition-colors disabled:opacity-50 disabled:cursor-not-allowed">
+                  &lt; Önceki
+                </button>
+                <span className="px-3 py-1 text-white">Sayfa {currentPage} / {totalPages}</span>
+                <button 
+                  onClick={() => setCurrentPage(prev => Math.min(prev + 1, totalPages))}
+                  disabled={currentPage === totalPages}
+                  className="px-3 py-1 border border-white/10 hover:border-neon-pink hover:text-white transition-colors disabled:opacity-50 disabled:cursor-not-allowed">
+                  Sonraki &gt;
+                </button>
+              </div>
             </div>
           )}
         </div>

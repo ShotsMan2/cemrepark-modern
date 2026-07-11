@@ -35,7 +35,13 @@ export default function ProductDetailsClient({
       : 0;
 
   const bedenList = product.beden ? product.beden.split(",").map((s) => s.trim()) : ["Standart"];
-  const renkList = product.renk ? product.renk.split(",").map((s) => s.trim()) : ["Standart"];
+  const hasColors = product.colors && product.colors.length > 0;
+  const renkList = hasColors 
+    ? product.colors.map(c => c.renkAdi) 
+    : (product.renk ? product.renk.split(",").map((s) => s.trim()) : ["Standart"]);
+
+  const selectedColorObj = hasColors ? product.colors.find(c => c.renkAdi === (renk || renkList[0])) : null;
+  const activeImageUrl = selectedColorObj?.gorselUrl || product.resim || product.gorsel?.split(',')[0];
 
   const handleAddToCart = () => {
     if (!beden || !renk) {
@@ -131,12 +137,12 @@ export default function ProductDetailsClient({
   };
 
   return (
-    <div className="min-h-screen pt-32 pb-24 relative overflow-hidden">
+    <div className="min-h-screen pt-24 pb-16 relative overflow-hidden">
       {/* Background Glow */}
       <div className="absolute top-1/3 left-1/4 w-[500px] h-[500px] bg-neon-pink opacity-[0.05] rounded-full blur-[120px] pointer-events-none"></div>
       <div className="absolute bottom-1/4 right-1/4 w-[400px] h-[400px] bg-holo-gold opacity-[0.03] rounded-full blur-[100px] pointer-events-none"></div>
 
-      <div className="container mx-auto px-4 relative z-10">
+      <div className="container mx-auto px-4 relative z-10 max-w-6xl">
         {/* Breadcrumb */}
         <nav
           className="flex text-gray-500 text-xs tracking-widest uppercase mb-8"
@@ -160,7 +166,7 @@ export default function ProductDetailsClient({
               </div>
             </li>
             <li aria-current="page">
-              <div className="flex items-center text-white">
+              <div className="flex items-center text-gray-900 dark:text-white">
                 <span className="mx-2 text-gray-500">/</span>
                 <span className="truncate max-w-[200px] sm:max-w-xs">{t(product.ad)}</span>
               </div>
@@ -168,14 +174,14 @@ export default function ProductDetailsClient({
           </ol>
         </nav>
 
-        <div className="flex flex-col lg:flex-row gap-12 items-start">
+        <div className="flex flex-col lg:flex-row gap-8 items-start">
           {/* Image Section - Floating and Clipped */}
           <div className="w-full lg:w-1/2 relative group" data-aos="fade-right" suppressHydrationWarning>
             <div className="absolute -inset-1 bg-gradient-to-r from-neon-pink to-holo-gold rounded-lg blur opacity-20 group-hover:opacity-40 transition duration-1000 group-hover:duration-200"></div>
             <div className="relative glass-panel p-2 clip-angled">
-              <div className="relative w-full h-[600px] md:h-[800px] clip-angled overflow-hidden">
+              <div className="relative w-full h-[450px] md:h-[600px] clip-angled overflow-hidden">
                 <Image
-                  src={getValidImageUrl(product.gorsel)}
+                  src={getValidImageUrl(activeImageUrl)}
                   alt={product.ad}
                   fill
                   className="object-cover hover:scale-105 transition-transform duration-700"
@@ -190,11 +196,11 @@ export default function ProductDetailsClient({
           </div>
 
           {/* Details Section */}
-          <div className="w-full lg:w-1/2 glass-panel p-8 md:p-12 clip-angled" data-aos="fade-left" suppressHydrationWarning>
+          <div className="w-full lg:w-1/2 glass-panel p-6 md:p-9 clip-angled" data-aos="fade-left" suppressHydrationWarning>
             <span className="text-neon-pink tracking-[0.2em] text-xs font-bold uppercase mb-4 block">
               {product.etiket ? t(product.etiket) : t("new_season")}
             </span>
-            <h1 className="text-4xl md:text-5xl font-black text-white mb-2 leading-tight">
+            <h1 className="text-3xl md:text-4xl font-black text-gray-900 dark:text-white mb-2 leading-tight">
               {t(product.ad)}
             </h1>
 
@@ -215,12 +221,12 @@ export default function ProductDetailsClient({
               </span>
             </div>
 
-            <h2 className="text-3xl font-bold text-glow-gold mb-8">{formatPrice(product.fiyat)}</h2>
+            <h2 className="text-2xl font-bold text-glow-gold mb-6">{formatPrice(product.fiyat)}</h2>
 
-            <div className="h-px w-full bg-white/10 mb-8"></div>
+            <div className="h-px w-full bg-white/10 mb-6"></div>
 
             {/* Select Options */}
-            <div className="grid grid-cols-1 md:grid-cols-2 gap-6 mb-8">
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-4 mb-6">
               <div>
                 <label className="block text-gray-400 text-sm font-bold mb-2 uppercase tracking-wider">
                   {t("size")}
@@ -230,7 +236,7 @@ export default function ProductDetailsClient({
                     value={beden}
                     onChange={(e) => setBeden(e.target.value)}
                     aria-label={t("select_size")}
-                    className="block appearance-none w-full bg-black border border-gray-700 text-white py-3 px-4 pr-8 rounded-none leading-tight focus:outline-none focus:border-neon-pink transition-colors"
+                    className="block appearance-none w-full bg-white dark:bg-black border border-gray-300 dark:border-gray-700 text-gray-900 dark:text-white py-3 px-4 pr-8 rounded-none leading-tight focus:outline-none focus:border-neon-pink transition-colors"
                   >
                     <option value="" disabled>
                       {t("select_size")}
@@ -254,39 +260,32 @@ export default function ProductDetailsClient({
               </div>
 
               <div>
-                <label className="block text-gray-400 text-sm font-bold mb-2 uppercase tracking-wider">
+                <label className="block text-gray-400 text-sm font-bold mb-3 uppercase tracking-wider">
                   {t("color")}
                 </label>
-                <div className="relative">
-                  <select
-                    value={renk}
-                    onChange={(e) => setRenk(e.target.value)}
-                    aria-label={t("select_color")}
-                    className="block appearance-none w-full bg-black border border-gray-700 text-white py-3 px-4 pr-8 rounded-none leading-tight focus:outline-none focus:border-holo-gold transition-colors"
-                  >
-                    <option value="" disabled>
-                      {t("select_color")}
-                    </option>
-                    {renkList.map((r) => (
-                      <option key={r} value={r}>
+                <div className="flex flex-wrap gap-3">
+                  {renkList.map((r) => {
+                    const isSelected = renk === r;
+                    return (
+                      <button
+                        key={r}
+                        onClick={() => setRenk(r)}
+                        className={`px-4 py-2 text-sm font-semibold uppercase tracking-wider transition-all duration-300 clip-angled border ${
+                          isSelected 
+                            ? "bg-neon-pink text-white border-neon-pink" 
+                            : "bg-white/50 dark:bg-black/50 text-gray-700 dark:text-gray-400 border-gray-300 dark:border-gray-700 hover:border-holo-gold hover:text-gray-900 dark:hover:text-white"
+                        }`}
+                        aria-label={t("select_color")}
+                      >
                         {t(r) || r}
-                      </option>
-                    ))}
-                  </select>
-                  <div className="pointer-events-none absolute inset-y-0 right-0 flex items-center px-4 text-gray-500">
-                    <svg
-                      className="fill-current h-4 w-4"
-                      xmlns="http://www.w3.org/2000/svg"
-                      viewBox="0 0 20 20"
-                    >
-                      <path d="M9.293 12.95l.707.707L15.657 8l-1.414-1.414L10 10.828 5.757 6.586 4.343 8z" />
-                    </svg>
-                  </div>
+                      </button>
+                    );
+                  })}
                 </div>
               </div>
             </div>
 
-            <div className="flex gap-4 mb-10">
+            <div className="flex gap-3 mb-8">
               <button
                 onClick={handleAddToCart}
                 className="flex-1 bg-transparent border border-neon-pink text-neon-pink hover:bg-neon-pink hover:text-white py-4 px-8 uppercase font-bold tracking-widest transition-all duration-300 clip-angled text-sm"
@@ -295,19 +294,19 @@ export default function ProductDetailsClient({
               </button>
               <FavoriteButton
                 product={product}
-                className="w-16 flex items-center justify-center border border-gray-700 hover:border-neon-pink transition-all duration-300 clip-angled"
+                className="w-16 flex items-center justify-center border border-gray-300 dark:border-gray-700 hover:border-neon-pink transition-all duration-300 clip-angled"
               />
             </div>
 
-            <div className="h-px w-full bg-white/10 mb-8"></div>
+            <div className="h-px w-full bg-white/10 mb-6"></div>
 
             {/* ACCORDION TABS */}
             <div className="space-y-4">
               {/* Detay Tab */}
-              <div className="border border-gray-800 bg-black/30">
+              <div className="border border-gray-200 dark:border-gray-800 bg-black/5 dark:bg-black/30">
                 <button
                   onClick={() => setActiveTab(activeTab === "detay" ? "" : "detay")}
-                  className="w-full flex justify-between items-center p-4 text-white hover:text-neon-pink transition-colors uppercase tracking-widest text-sm font-bold"
+                  className="w-full flex justify-between items-center p-4 text-gray-900 dark:text-white hover:text-neon-pink transition-colors uppercase tracking-widest text-sm font-bold"
                 >
                   <span>{t("product_specs")}</span>
                   <span>{activeTab === "detay" ? "−" : "+"}</span>
@@ -315,17 +314,17 @@ export default function ProductDetailsClient({
                 <div
                   className={`overflow-hidden transition-all duration-300 ${activeTab === "detay" ? "max-h-40 p-4 pt-0" : "max-h-0 px-4"}`}
                 >
-                  <p className="text-gray-400 font-light text-sm leading-relaxed">
+                  <p className="text-gray-600 dark:text-gray-400 font-light text-sm leading-relaxed">
                     {t(product.ad)} - {t("quick_view_desc")}
                   </p>
                 </div>
               </div>
 
               {/* Kumaş Tab */}
-              <div className="border border-gray-800 bg-black/30">
+              <div className="border border-gray-200 dark:border-gray-800 bg-black/5 dark:bg-black/30">
                 <button
                   onClick={() => setActiveTab(activeTab === "kumas" ? "" : "kumas")}
-                  className="w-full flex justify-between items-center p-4 text-white hover:text-neon-pink transition-colors uppercase tracking-widest text-sm font-bold"
+                  className="w-full flex justify-between items-center p-4 text-gray-900 dark:text-white hover:text-neon-pink transition-colors uppercase tracking-widest text-sm font-bold"
                 >
                   <span>
                     {t("fabric")} & {t("washing")}
@@ -335,7 +334,7 @@ export default function ProductDetailsClient({
                 <div
                   className={`overflow-hidden transition-all duration-300 ${activeTab === "kumas" ? "max-h-40 p-4 pt-0" : "max-h-0 px-4"}`}
                 >
-                  <ul className="text-gray-400 font-light text-sm leading-relaxed list-disc list-inside">
+                  <ul className="text-gray-600 dark:text-gray-400 font-light text-sm leading-relaxed list-disc list-inside">
                     <li>{t("fabric_type")}</li>
                     <li>{t("washing_instruction")}</li>
                   </ul>
@@ -343,10 +342,10 @@ export default function ProductDetailsClient({
               </div>
 
               {/* Teslimat Tab */}
-              <div className="border border-gray-800 bg-black/30">
+              <div className="border border-gray-200 dark:border-gray-800 bg-black/5 dark:bg-black/30">
                 <button
                   onClick={() => setActiveTab(activeTab === "teslimat" ? "" : "teslimat")}
-                  className="w-full flex justify-between items-center p-4 text-white hover:text-neon-pink transition-colors uppercase tracking-widest text-sm font-bold"
+                  className="w-full flex justify-between items-center p-4 text-gray-900 dark:text-white hover:text-neon-pink transition-colors uppercase tracking-widest text-sm font-bold"
                 >
                   <span>{t("fast_shipping")}</span>
                   <span>{activeTab === "teslimat" ? "−" : "+"}</span>
@@ -354,10 +353,10 @@ export default function ProductDetailsClient({
                 <div
                   className={`overflow-hidden transition-all duration-300 ${activeTab === "teslimat" ? "max-h-40 p-4 pt-0" : "max-h-0 px-4"}`}
                 >
-                  <p className="text-gray-400 font-light text-sm leading-relaxed mb-2">
+                  <p className="text-gray-600 dark:text-gray-400 font-light text-sm leading-relaxed mb-2">
                     📦 {t("fast_shipping_desc")}
                   </p>
-                  <p className="text-gray-400 font-light text-sm leading-relaxed">
+                  <p className="text-gray-600 dark:text-gray-400 font-light text-sm leading-relaxed">
                     🔄 {t("return_policy")}
                   </p>
                 </div>
@@ -372,28 +371,28 @@ export default function ProductDetailsClient({
                 <div className="w-1.5 h-1.5 bg-holo-gold rounded-full"></div> {t("installment")}
               </li>
               <li className="flex items-center gap-3">
-                <div className="w-1.5 h-1.5 bg-white/30 rounded-full"></div> {t("secure_shopping")}
+                <div className="w-1.5 h-1.5 bg-gray-300 dark:bg-white/30 rounded-full"></div> {t("secure_shopping")}
               </li>
             </ul>
           </div>
         </div>
 
         {/* Müşteri Yorumları Section */}
-        <div className="mt-24 border-t border-white/10 pt-16 relative">
-          <h3 className="text-2xl font-black text-white uppercase tracking-widest mb-10 text-center">
+        <div className="mt-16 border-t border-gray-200 dark:border-white/10 pt-12 relative">
+          <h3 className="text-xl font-black text-gray-900 dark:text-white uppercase tracking-widest mb-8 text-center">
             {t("reviews_title")}
           </h3>
 
-          <div className="grid md:grid-cols-2 gap-12">
+          <div className="grid md:grid-cols-2 gap-8">
             {/* Add Review Form */}
-            <div className="glass-panel p-8 clip-angled bg-black/40 border border-white/10 backdrop-blur-md">
-              <h4 className="text-xl font-bold text-white mb-6 uppercase tracking-wider">
+            <div className="glass-panel p-6 clip-angled bg-white/40 dark:bg-black/40 border border-black/5 dark:border-white/10 backdrop-blur-md">
+              <h4 className="text-lg font-bold text-gray-900 dark:text-white mb-4 uppercase tracking-wider">
                 {t("write_review")}
               </h4>
               {session ? (
                 <form onSubmit={handleReviewSubmit} className="space-y-4">
                   <div>
-                    <label className="block text-gray-400 text-sm font-bold mb-2 uppercase">
+                    <label className="block text-gray-700 dark:text-gray-400 text-sm font-bold mb-2 uppercase">
                       {t("your_rating")}
                     </label>
                     <div className="flex gap-2">
@@ -411,14 +410,14 @@ export default function ProductDetailsClient({
                     </div>
                   </div>
                   <div>
-                    <label className="block text-gray-400 text-sm font-bold mb-2 uppercase">
+                    <label className="block text-gray-700 dark:text-gray-400 text-sm font-bold mb-2 uppercase">
                       {t("your_comment")}
                     </label>
                     <textarea
                       value={comment}
                       onChange={(e) => setComment(e.target.value)}
                       aria-label={t("your_comment")}
-                      className="w-full bg-black/50 border border-white/10 text-white px-4 py-3 focus:outline-none focus:border-neon-pink transition-colors h-32 resize-none"
+                      className="w-full bg-white/50 dark:bg-black/50 border border-gray-300 dark:border-white/10 text-gray-900 dark:text-white px-4 py-3 focus:outline-none focus:border-neon-pink transition-colors h-32 resize-none"
                       placeholder={t("comment_placeholder")}
                       required
                     ></textarea>
@@ -426,14 +425,14 @@ export default function ProductDetailsClient({
                   <button
                     type="submit"
                     disabled={isSubmittingReview}
-                    className="w-full bg-neon-pink text-white font-bold py-3 uppercase tracking-widest hover:bg-white hover:text-black transition-colors clip-angled disabled:opacity-50"
+                    className="w-full bg-neon-pink text-white font-bold py-3 uppercase tracking-widest hover:bg-black dark:hover:bg-white hover:text-white dark:hover:text-black transition-colors clip-angled disabled:opacity-50"
                   >
                     {isSubmittingReview ? t("sending") : t("send_comment")}
                   </button>
                 </form>
               ) : (
                 <div className="text-center py-8">
-                  <p className="text-gray-400 mb-4">{t("login_required_review")}</p>
+                  <p className="text-gray-600 dark:text-gray-400 mb-4">{t("login_required_review")}</p>
                   <Link
                     href="/login"
                     className="inline-block bg-transparent border border-neon-pink text-neon-pink hover:bg-neon-pink hover:text-white py-3 px-8 uppercase font-bold tracking-widest transition-all duration-300 clip-angled text-sm"
@@ -445,14 +444,14 @@ export default function ProductDetailsClient({
             </div>
 
             {/* Reviews List */}
-            <div className="space-y-6">
+            <div className="space-y-4">
               {reviews.length > 0 ? (
                 reviews.map((review) => (
-                  <div key={review.id} className="border-b border-white/10 pb-6">
+                  <div key={review.id} className="border-b border-gray-200 dark:border-white/10 pb-4">
                     <div className="flex justify-between items-start mb-2">
                       <div>
                         <div className="flex flex-col">
-                          <span className="text-white font-bold">
+                          <span className="text-gray-900 dark:text-white font-bold">
                             {review.user?.name || review.user?.email?.split("@")[0]}
                           </span>
                           <span className="text-gray-500 text-xs mt-0.5">{review.user?.email}</span>
@@ -472,11 +471,11 @@ export default function ProductDetailsClient({
                         {new Date(review.createdAt).toLocaleDateString("tr-TR")}
                       </span>
                     </div>
-                    <p className="text-gray-400 text-sm mt-2">{review.comment}</p>
+                    <p className="text-gray-600 dark:text-gray-400 text-sm mt-2">{review.comment}</p>
                   </div>
                 ))
               ) : (
-                <p className="text-gray-500 italic">{t("no_reviews_yet")}</p>
+                <p className="text-gray-500 dark:text-gray-400 italic">{t("no_reviews_yet")}</p>
               )}
             </div>
           </div>
@@ -484,24 +483,24 @@ export default function ProductDetailsClient({
 
         {/* Benzer Ürünler (Related Products) */}
         {relatedProducts.length > 0 && (
-          <div className="mt-24 border-t border-white/10 pt-16 relative">
+          <div className="mt-16 border-t border-gray-200 dark:border-white/10 pt-12 relative">
             <div className="absolute top-0 right-1/4 w-[300px] h-[300px] bg-holo-gold opacity-[0.02] rounded-full blur-[100px] pointer-events-none"></div>
 
-            <h3 className="text-2xl font-black text-white uppercase tracking-widest mb-10 text-center">
+            <h3 className="text-xl font-black text-gray-900 dark:text-white uppercase tracking-widest mb-8 text-center">
               {t("similar_products")}
             </h3>
 
-            <div className="grid grid-cols-2 md:grid-cols-4 gap-6">
+            <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
               {relatedProducts.map((rp) => (
                 <Link
                   href={`/urundetay/${rp.id}`}
                   key={rp.id}
-                  className="group relative block glass-panel p-2 clip-angled transition-all hover:border-white/20"
+                  className="group relative block glass-panel p-2 clip-angled transition-all hover:border-black/20 dark:hover:border-white/20"
                 >
-                  <div className="relative h-64 md:h-80 w-full overflow-hidden clip-angled mb-3">
+                  <div className="relative h-48 md:h-60 w-full overflow-hidden clip-angled mb-3 transform-gpu">
                     <div className="absolute inset-0 bg-black/20 group-hover:bg-transparent transition-colors z-10"></div>
                     <Image
-                      src={getValidImageUrl(rp.gorsel)}
+                      src={getValidImageUrl(rp.resim || rp.gorsel?.split(',')[0])}
                       alt={rp.ad}
                       fill
                       sizes="(max-width: 768px) 50vw, (max-width: 1200px) 25vw, 25vw"
@@ -529,10 +528,10 @@ export default function ProductDetailsClient({
                     </div>
                   </div>
                   <div className="p-2">
-                    <p className="text-gray-400 text-[10px] uppercase tracking-widest mb-1">
+                    <p className="text-gray-500 dark:text-gray-400 text-[10px] uppercase tracking-widest mb-1">
                       {t(rp.kategori)}
                     </p>
-                    <h4 className="text-white font-bold text-sm truncate mb-2">{t(rp.ad)}</h4>
+                    <h4 className="text-gray-900 dark:text-white font-bold text-sm truncate mb-2">{t(rp.ad)}</h4>
                     <p className="text-neon-pink font-bold text-sm">{formatPrice(rp.fiyat)}</p>
                   </div>
                 </Link>
@@ -543,11 +542,11 @@ export default function ProductDetailsClient({
       </div>
 
       {/* STICKY ADD TO CART BAR (Mobile mostly, but useful everywhere on scroll down) */}
-      <div className="fixed bottom-0 left-0 w-full z-40 bg-black/80 backdrop-blur-md border-t border-white/10 py-3 px-4 flex items-center justify-between md:hidden translate-y-0 transition-transform duration-300">
+      <div className="fixed bottom-0 left-0 w-full z-40 bg-white/90 dark:bg-black/80 backdrop-blur-md border-t border-gray-200 dark:border-white/10 py-3 px-4 flex items-center justify-between md:hidden translate-y-0 transition-transform duration-300">
         <div className="flex items-center gap-3">
           <div className="relative w-12 h-12 rounded overflow-hidden">
             <Image
-              src={getValidImageUrl(product.gorsel || product.resim1)}
+              src={getValidImageUrl(activeImageUrl)}
               alt={product.ad}
               fill
               sizes="48px"
@@ -555,13 +554,13 @@ export default function ProductDetailsClient({
             />
           </div>
           <div>
-            <h4 className="text-white font-bold text-xs truncate w-32">{product.ad}</h4>
+            <h4 className="text-gray-900 dark:text-white font-bold text-xs truncate w-32">{product.ad}</h4>
             <span className="text-neon-pink text-xs font-bold">{formatPrice(product.fiyat)}</span>
           </div>
         </div>
         <button
           onClick={handleAddToCart}
-          className="bg-neon-pink text-white uppercase tracking-widest font-bold px-6 py-3 text-xs clip-angled hover:bg-white hover:text-black transition-colors"
+          className="bg-neon-pink text-white uppercase tracking-widest font-bold px-6 py-3 text-xs clip-angled hover:bg-black dark:hover:bg-white hover:text-white dark:hover:text-black transition-colors"
         >
           {t("add_to_cart")}
         </button>

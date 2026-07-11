@@ -70,7 +70,7 @@ export default function QuickViewModal({ product, onClose }) {
 
         <div className="w-full md:w-1/2 h-[400px] md:h-[600px] relative clip-angled">
           <Image
-            src={getValidImageUrl(product.gorsel || product.resim1)}
+            src={getValidImageUrl(product.resim || product.gorsel?.split(',')[0])}
             alt={product.ad}
             fill
             className="object-cover"
@@ -82,12 +82,12 @@ export default function QuickViewModal({ product, onClose }) {
           <span className="text-neon-pink text-xs font-bold uppercase tracking-widest mb-2 block">
             {t(product.kategori) || t("collection")}
           </span>
-          <h2 className="text-3xl font-black text-white uppercase tracking-widest mb-4">
+          <h2 className="text-3xl font-black text-gray-900 dark:text-white uppercase tracking-widest mb-4">
             {t(product.ad)}
           </h2>
           <div className="text-3xl font-bold text-holo-gold mb-8">{formatPrice(product.fiyat)}</div>
 
-          <p className="text-gray-400 text-sm mb-8 leading-relaxed">{t("quick_view_desc")}</p>
+          <p className="text-gray-600 dark:text-gray-400 text-sm mb-8 leading-relaxed">{t("quick_view_desc")}</p>
 
           <div className="flex gap-4">
             <Link
@@ -100,8 +100,8 @@ export default function QuickViewModal({ product, onClose }) {
               onClick={toggleFavorite}
               className={`flex-1 flex items-center justify-center gap-2 py-4 uppercase font-bold tracking-widest transition-all duration-300 clip-angled text-sm ${
                 isFavorite
-                  ? "bg-white text-black hover:bg-gray-200"
-                  : "bg-neon-pink text-white hover:bg-white hover:text-black"
+                  ? "bg-gray-900 dark:bg-white text-white dark:text-black hover:bg-gray-800 dark:hover:bg-gray-200"
+                  : "bg-neon-pink text-white hover:bg-black dark:hover:bg-white hover:text-white dark:hover:text-black"
               }`}
             >
               <svg

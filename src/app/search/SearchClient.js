@@ -10,6 +10,8 @@ const QuickViewModal = dynamic(() => import("../../components/QuickViewModal"), 
 import { useStore } from "../../context/StoreContext";
 import { getValidImageUrl } from "../../utils/imageHelper";
 
+import enDict from "../../utils/locales/en.json";
+
 export default function SearchClient({ initialResults, query, isSearch }) {
   const router = useRouter();
   const searchParams = useSearchParams();
@@ -50,7 +52,21 @@ export default function SearchClient({ initialResults, query, isSearch }) {
 
     if (localQuery.trim().length > 0) {
       const q = localQuery.toLowerCase();
-      filtered = filtered.filter(p => p.ad.toLowerCase().includes(q) || (p.kategori && p.kategori.toLowerCase().includes(q)));
+      filtered = filtered.filter(p => {
+        const adTurkish = p.ad ? p.ad.toLowerCase() : "";
+        const kategoriTurkish = p.kategori ? p.kategori.toLowerCase() : "";
+        const adTranslated = t(p.ad) ? t(p.ad).toLowerCase() : "";
+        const kategoriTranslated = p.kategori ? t(p.kategori).toLowerCase() : "";
+        const adEnglish = (p.ad && enDict[p.ad.trim()]) ? enDict[p.ad.trim()].toLowerCase() : "";
+        const kategoriEnglish = (p.kategori && enDict[p.kategori.trim()]) ? enDict[p.kategori.trim()].toLowerCase() : "";
+
+        return adTurkish.includes(q) || 
+               kategoriTurkish.includes(q) || 
+               adTranslated.includes(q) || 
+               kategoriTranslated.includes(q) ||
+               adEnglish.includes(q) ||
+               kategoriEnglish.includes(q);
+      });
     }
 
     if (inStockOnly) {
@@ -185,11 +201,11 @@ export default function SearchClient({ initialResults, query, isSearch }) {
     <div className="container mx-auto px-4 relative z-10">
       {/* Search Header */}
       <div className="glass-panel p-8 clip-angled mb-12 text-center">
-        <h1 className="text-3xl md:text-5xl font-black mb-4 uppercase tracking-widest text-white">
+        <h1 className="text-3xl md:text-5xl font-black mb-4 uppercase tracking-widest text-gray-900 dark:text-white">
           {isSearch ? `${t("search_results")}: "${query}"` : t("collection")}
         </h1>
         {isSearch && (
-          <p className="text-gray-400">{t("total_products_listed", { count: results.length })}</p>
+          <p className="text-gray-600 dark:text-gray-400">{t("total_products_listed", { count: results.length })}</p>
         )}
       </div>
 
@@ -197,40 +213,40 @@ export default function SearchClient({ initialResults, query, isSearch }) {
         {/* SIDEBAR FILTER */}
         <div className="w-full lg:w-1/4">
           <div className="glass-panel p-6 clip-angled sticky top-32">
-            <h3 className="text-white font-bold uppercase tracking-widest mb-6 border-b border-white/10 pb-4">
+            <h3 className="text-gray-900 dark:text-white font-bold uppercase tracking-widest mb-6 border-b border-gray-200 dark:border-white/10 pb-4">
               {t("filters")}
             </h3>
 
             {/* Instant Search Box */}
             <div className="mb-8">
-              <h4 className="text-gray-400 text-sm font-bold uppercase tracking-widest mb-4">
-                Anlık Arama
+              <h4 className="text-gray-700 dark:text-gray-400 text-sm font-bold uppercase tracking-widest mb-4">
+                {t("instant_search")}
               </h4>
               <input 
                 type="text"
-                placeholder="Ürün Ara..."
+                placeholder={t("search_product_placeholder")}
                 value={localQuery}
                 onChange={handleQueryChange}
-                className="w-full bg-transparent border-b border-white/20 text-white p-2 focus:outline-none focus:border-neon-pink transition-colors"
+                className="w-full bg-transparent border-b border-gray-300 dark:border-white/20 text-gray-900 dark:text-white p-2 focus:outline-none focus:border-neon-pink transition-colors"
               />
             </div>
 
             {/* In Stock Toggle */}
             <div className="mb-8 flex items-center gap-3">
-              <label className="text-gray-400 text-sm font-bold uppercase tracking-widest cursor-pointer flex-1">
-                Sadece Stokta Olanlar
+              <label className="text-gray-700 dark:text-gray-400 text-sm font-bold uppercase tracking-widest cursor-pointer flex-1">
+                {t("only_in_stock")}
               </label>
               <button
                 type="button"
                 onClick={handleInStockToggle}
-                className={`w-10 h-5 rounded-full relative transition-colors ${inStockOnly ? "bg-neon-pink" : "bg-gray-700"}`}
+                className={`w-10 h-5 rounded-full relative transition-colors ${inStockOnly ? "bg-neon-pink" : "bg-gray-300 dark:bg-gray-700"}`}
               >
                 <div className={`w-4 h-4 bg-white rounded-full absolute top-0.5 transition-all ${inStockOnly ? "left-5" : "left-1"}`}></div>
               </button>
             </div>
 
             <div className="mb-8">
-              <h4 className="text-gray-400 text-sm font-bold uppercase tracking-widest mb-4">
+              <h4 className="text-gray-700 dark:text-gray-400 text-sm font-bold uppercase tracking-widest mb-4">
                 {t("price_range")}
               </h4>
               <input
@@ -243,14 +259,14 @@ export default function SearchClient({ initialResults, query, isSearch }) {
                 aria-label={t("price_range")}
                 className="w-full accent-neon-pink mb-2"
               />
-              <div className="flex justify-between text-xs text-gray-500 font-bold">
+              <div className="flex justify-between text-xs text-gray-600 dark:text-gray-500 font-bold">
                 <span>{formatPrice(0)}</span>
                 <span>{formatPrice(priceRange)}</span>
               </div>
             </div>
 
             <div className="mb-8">
-              <h4 className="text-gray-400 text-sm font-bold uppercase tracking-widest mb-4">
+              <h4 className="text-gray-700 dark:text-gray-400 text-sm font-bold uppercase tracking-widest mb-4">
                 {t("color")}
               </h4>
               <div className="flex flex-wrap gap-2">
@@ -260,7 +276,7 @@ export default function SearchClient({ initialResults, query, isSearch }) {
                     key={color.name}
                     onClick={() => handleColorToggle(color.name)}
                     aria-label={`Color ${color.name}`}
-                    className={`w-8 h-8 rounded-full border-2 transition-transform hover:scale-110 ${selectedColors.includes(color.name) ? "border-neon-pink scale-110" : "border-transparent shadow-[0_0_0_1px_rgba(255,255,255,0.2)]"}`}
+                    className={`w-8 h-8 rounded-full border-2 transition-transform hover:scale-110 ${selectedColors.includes(color.name) ? "border-neon-pink scale-110" : "border-transparent shadow-[0_0_0_1px_rgba(0,0,0,0.15)] dark:shadow-[0_0_0_1px_rgba(255,255,255,0.2)]"}`}
                     style={{ backgroundColor: color.code }}
                     title={color.name}
                   ></button>
@@ -269,7 +285,7 @@ export default function SearchClient({ initialResults, query, isSearch }) {
             </div>
 
             <div className="mb-8">
-              <h4 className="text-gray-400 text-sm font-bold uppercase tracking-widest mb-4">
+              <h4 className="text-gray-700 dark:text-gray-400 text-sm font-bold uppercase tracking-widest mb-4">
                 {t("size")}
               </h4>
               <div className="grid grid-cols-3 gap-2">
@@ -278,7 +294,7 @@ export default function SearchClient({ initialResults, query, isSearch }) {
                     type="button"
                     key={size}
                     onClick={() => handleSizeToggle(size)}
-                    className={`py-2 text-xs font-bold uppercase tracking-wider transition-colors clip-angled border ${selectedSizes.includes(size) ? "bg-neon-pink text-white border-neon-pink" : "bg-transparent text-gray-400 border-white/20 hover:border-white"}`}
+                    className={`py-2 text-xs font-bold uppercase tracking-wider transition-colors clip-angled border ${selectedSizes.includes(size) ? "bg-neon-pink text-white border-neon-pink" : "bg-transparent text-gray-700 dark:text-gray-400 border-gray-300 dark:border-white/20 hover:border-gray-900 dark:hover:border-white"}`}
                   >
                     {size}
                   </button>
@@ -289,7 +305,7 @@ export default function SearchClient({ initialResults, query, isSearch }) {
             <button
               type="button"
               onClick={handleClearFilters}
-              className="w-full text-center text-xs text-gray-500 hover:text-white underline decoration-white/20 hover:decoration-white transition-colors"
+              className="w-full text-center text-xs text-gray-500 hover:text-gray-900 dark:hover:text-white underline decoration-black/20 dark:decoration-white/20 hover:decoration-black dark:hover:decoration-white transition-colors"
             >
               {t("clear_filters")}
             </button>
@@ -315,8 +331,8 @@ export default function SearchClient({ initialResults, query, isSearch }) {
                   <line x1="21" y1="21" x2="16.65" y2="16.65"></line>
                 </svg>
               </div>
-              <h2 className="text-2xl font-bold text-white mb-4">{t("no_products_found")}</h2>
-              <p className="text-gray-400 mb-8">{t("no_products_found_desc")}</p>
+              <h2 className="text-2xl font-bold text-gray-900 dark:text-white mb-4">{t("no_products_found")}</h2>
+              <p className="text-gray-600 dark:text-gray-400 mb-8">{t("no_products_found_desc")}</p>
               <button
                 onClick={handleClearFilters}
                 className="inline-block bg-transparent border border-holo-gold text-holo-gold hover:bg-holo-gold hover:text-black py-3 px-8 uppercase font-bold tracking-widest transition-all duration-300 clip-angled text-sm"
@@ -336,15 +352,15 @@ export default function SearchClient({ initialResults, query, isSearch }) {
                   >
                   {/* Floating Tags */}
                   <div className="absolute top-4 left-4 z-20">
-                    <span className="glass-panel px-3 py-1 text-xs text-white uppercase tracking-wider clip-angled">
+                    <span className="glass-panel px-3 py-1 text-xs text-gray-900 dark:text-white uppercase tracking-wider clip-angled">
                       {t("new_season")}
                     </span>
                   </div>
 
-                  <div className="relative h-96 w-full clip-angled overflow-hidden m-2 rounded-t-lg group-hover:shadow-[0_0_20px_rgba(255,0,127,0.3)] transition-shadow duration-300">
+                  <div className="relative h-96 w-full clip-angled overflow-hidden m-2 rounded-t-lg group-hover:drop-shadow-[0_0_20px_rgba(255,0,127,0.3)] transition-all duration-300 transform-gpu">
                     <Link href={`/urundetay/${product.id}`} className="block w-full h-full">
                       <Image
-                        src={getValidImageUrl(product.gorsel)}
+                        src={getValidImageUrl(product.resim || product.gorsel?.split(',')[0])}
                         alt={t(product.ad)}
                         fill
                         className="object-cover group-hover:scale-110 transition-transform duration-500 opacity-90 group-hover:opacity-100"
@@ -356,7 +372,7 @@ export default function SearchClient({ initialResults, query, isSearch }) {
                     <div className="absolute bottom-4 left-0 w-full px-4 flex justify-center opacity-0 group-hover:opacity-100 transition-all duration-300 translate-y-4 group-hover:translate-y-0 z-30">
                       <button
                         onClick={() => setQuickViewProduct(product)}
-                        className="text-xs uppercase tracking-widest font-bold border-b border-gray-500 pb-1 text-gray-400 hover:text-white hover:border-white transition-colors mt-1"
+                        className="text-xs uppercase tracking-widest font-bold border-b border-gray-500 pb-1 text-gray-200 dark:text-gray-400 hover:text-white hover:border-white transition-colors mt-1"
                       >
                         {t("quick_view")}
                       </button>
@@ -365,7 +381,7 @@ export default function SearchClient({ initialResults, query, isSearch }) {
 
                   <div className="p-6">
                     <Link href={`/urundetay/${product.id}`}>
-                      <h3 className="text-gray-300 font-medium text-lg mb-2 truncate group-hover:text-neon-pink transition-colors">
+                      <h3 className="text-gray-900 dark:text-gray-300 font-medium text-lg mb-2 truncate group-hover:text-neon-pink transition-colors">
                         {t(product.ad)}
                       </h3>
                     </Link>
@@ -398,7 +414,7 @@ export default function SearchClient({ initialResults, query, isSearch }) {
                   ) : (
                     <button 
                       onClick={() => startTransition(() => setVisibleCount(prev => prev + PAGE_SIZE))}
-                      className="glass-panel px-8 py-3 text-sm text-gray-300 font-bold tracking-widest uppercase hover:text-white hover:border-neon-pink transition-all clip-angled flex items-center gap-2"
+                      className="glass-panel px-8 py-3 text-sm text-gray-700 dark:text-gray-300 font-bold tracking-widest uppercase hover:text-gray-950 dark:hover:text-white hover:border-neon-pink transition-all clip-angled flex items-center gap-2"
                     >
                       <span>{t("load_more")}</span>
                       <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">

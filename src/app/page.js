@@ -5,7 +5,17 @@ import { prisma } from "@/lib/prisma";
 export const dynamic = "force-dynamic";
 
 export default async function Home() {
-  const products = getProducts();
+  // Statik JSON yerine doğrudan güncel veritabanından veri çekiyoruz (Cursor & Trae entegrasyonu)
+  let products = [];
+  try {
+    products = await prisma.product.findMany({
+      take: 8,
+      orderBy: { id: "desc" } // En son eklenen (Shopier) ürünler
+    });
+  } catch (error) {
+    console.error("Ürünler çekilirken hata:", error);
+  }
+
   const bestSellers = products.slice(0, 4);
   const discounted = products.slice(4, 8);
 

@@ -68,7 +68,7 @@ export default function FavoriteButton({ product, className }) {
   return (
     <button
       onClick={toggleFavorite}
-      className={`transition-colors relative z-20 ${isFavorite ? "text-neon-pink" : "text-gray-500 hover:text-white"} ${className || ""}`}
+      className={`transition-colors relative z-20 ${isFavorite ? "text-neon-pink" : "text-gray-500 hover:text-black dark:hover:text-white"} ${className || ""}`}
       title={isFavorite ? t("favorite_remove_title") : t("favorite_add_title")}
       aria-label={isFavorite ? t("favorite_remove_title") : t("favorite_add_title")}
     >

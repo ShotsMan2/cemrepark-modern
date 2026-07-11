@@ -1,12 +1,11 @@
-import { getProductById, getProducts } from "../../../data/products";
 import ProductDetailsClient from "./ProductDetailsClient";
-import prisma from "@/lib/prisma";
+import { prisma } from "@/lib/prisma";
 
 export const dynamic = "force-dynamic";
 
 export async function generateMetadata({ params }) {
   const { id } = await params;
-  const product = getProductById(id);
+  const product = await prisma.product.findUnique({ where: { id: parseInt(id) } });
 
   if (!product) {
     return {
@@ -15,7 +14,7 @@ export async function generateMetadata({ params }) {
   }
 
   const baseUrl = process.env.NEXT_PUBLIC_BASE_URL || "http://localhost:3000";
-  const imageUrl = product.gorsel || product.resim || "/images/og-image.jpg";
+  const imageUrl = product.resim || (product.gorsel ? product.gorsel.split(',')[0] : "") || "/images/og-image.jpg";
   const ogImage = imageUrl.startsWith("http") ? imageUrl : `${baseUrl}${imageUrl}`;
 
   return {
@@ -45,20 +44,26 @@ export async function generateMetadata({ params }) {
 
 export default async function UrunDetay({ params }) {
   const { id } = await params;
-  const product = getProductById(id);
+  const product = await prisma.product.findUnique({ 
+    where: { id: parseInt(id) },
+    include: { colors: true }
+  });
 
   if (!product) {
     return (
       <div className="min-h-screen flex items-center justify-center pt-32 pb-24">
-        <h2 className="text-white text-3xl font-bold">Ürün Bulunamadı</h2>
+        <h2 className="text-gray-900 dark:text-white text-3xl font-bold">Ürün Bulunamadı</h2>
       </div>
     );
   }
 
-  const allProducts = getProducts();
-  const relatedProducts = allProducts
-    .filter((p) => p.kategori === product.kategori && p.id !== product.id)
-    .slice(0, 4);
+  const relatedProducts = await prisma.product.findMany({
+    where: { 
+      kategori: product.kategori,
+      id: { not: product.id }
+    },
+    take: 4,
+  });
 
   const reviews = await prisma.review.findMany({
     where: { productId: parseInt(id) },
@@ -71,7 +76,7 @@ export default async function UrunDetay({ params }) {
   });
 
   const baseUrl = process.env.NEXT_PUBLIC_BASE_URL || "http://localhost:3000";
-  const imageUrl = product.gorsel || product.resim || "";
+  const imageUrl = product.resim || (product.gorsel ? product.gorsel.split(',')[0] : "");
 
   const jsonLd = {
     "@context": "https://schema.org",
