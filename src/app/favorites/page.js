@@ -8,7 +8,7 @@ import { useState } from "react";
 import { getValidImageUrl } from "../../utils/imageHelper";
 
 export default function FavoritesPage() {
-  const { favoriteItems, removeFromFavorites, isLoaded, t } = useStore();
+  const { favoriteItems, removeFromFavorites, isLoaded, t, formatPrice } = useStore();
   const [quickViewProduct, setQuickViewProduct] = useState(null);
 
   if (!isLoaded) return null; // Wait for localStorage
@@ -39,8 +39,8 @@ export default function FavoritesPage() {
                 <path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"></path>
               </svg>
             </div>
-            <h2 className="text-2xl font-bold text-white mb-2">{t("no_favorites")}</h2>
-            <p className="text-gray-400 mb-8">{t("no_favorites_desc")}</p>
+            <h2 className="text-2xl font-bold text-gray-900 dark:text-white mb-2">{t("no_favorites")}</h2>
+            <p className="text-gray-600 dark:text-gray-400 mb-8">{t("no_favorites_desc")}</p>
             <Link
               href="/search"
               className="inline-block bg-transparent border border-holo-gold text-holo-gold hover:bg-holo-gold hover:text-black py-3 px-8 uppercase font-bold tracking-widest transition-all duration-300 clip-angled text-sm"
@@ -59,7 +59,7 @@ export default function FavoritesPage() {
               >
                 <Link
                   href={`/urundetay/${product.id}`}
-                  className="block relative h-96 w-full clip-angled overflow-hidden m-2 rounded-t-lg group-hover:drop-shadow-[0_0_20px_rgba(255,215,0,0.3)] transition-all duration-300 transform-gpu"
+                  className="block relative h-96 w-full clip-angled overflow-hidden m-2 rounded-t-lg group-hover:drop-shadow-[0_0_20px_rgba(255,0,127,0.3)] transition-all duration-300 transform-gpu"
                 >
                   <Image
                     src={getValidImageUrl(product.gorsel)}
@@ -83,12 +83,12 @@ export default function FavoritesPage() {
                 </Link>
 
                 <div className="p-6">
-                  <h3 className="text-gray-300 font-medium text-lg mb-2 truncate group-hover:text-holo-gold transition-colors">
+                  <h3 className="text-gray-900 dark:text-gray-300 font-medium text-lg mb-2 truncate group-hover:text-neon-pink transition-colors">
                     {t(product.ad)}
                   </h3>
                   <div className="flex justify-between items-center">
-                    <span className="text-white font-bold text-xl">
-                      {product.fiyat.toLocaleString("tr-TR", { minimumFractionDigits: 2 })} TL
+                    <span className="text-glow-gold font-bold text-xl">
+                      {formatPrice(product.fiyat)}
                     </span>
                     <button
                       onClick={(e) => {

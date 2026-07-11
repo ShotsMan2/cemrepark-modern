@@ -576,7 +576,7 @@ export default function Header() {
                     document.getElementById("search-form").value = t(item.label);
                   }}
                   type="button"
-                  className="inline-block px-4 py-2 border border-gray-300 dark:border-gray-800 text-gray-600 dark:text-gray-400 text-sm hover:border-neon-pink hover:text-white clip-angled transition-all duration-300"
+                  className="inline-block px-4 py-2 border border-gray-300 dark:border-gray-800 text-gray-600 dark:text-gray-400 text-sm hover:border-neon-pink hover:text-neon-pink clip-angled transition-all duration-300 cursor-pointer"
                 >
                   {t(item.label)}
                 </button>
