@@ -17,6 +17,7 @@
     "@sinonjs/fake-timers": "^15.4.0",
     "aos": "^2.3.4",
     "bcrypt": "^6.0.0",
+    "ioredis": "^5.11.1",
     "lru-cache": "^11.5.1",
     "next": "16.2.9",
     "next-auth": "^4.24.14",

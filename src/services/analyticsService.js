@@ -45,6 +45,36 @@ class AnalyticsService {
       total: salesMap[date]
     }));
 
+    // Category distribution
+    const categoriesGroup = await prisma.product.groupBy({
+      by: ['kategori'],
+      _count: { _all: true }
+    });
+    const categoryData = categoriesGroup.map(c => ({
+      name: c.kategori || "Bilinmeyen",
+      value: c._count._all
+    }));
+
+    // User Behavior (LoginHistory)
+    const logins = await prisma.loginHistory.groupBy({
+      by: ['success'],
+      _count: { _all: true }
+    });
+    const loginStats = logins.map(l => ({
+      name: l.success ? "Başarılı" : "Başarısız",
+      value: l._count._all
+    }));
+
+    // Order status (to find cancelled/returned)
+    const orderStatuses = await prisma.order.groupBy({
+      by: ['status'],
+      _count: { _all: true }
+    });
+    const orderStats = orderStatuses.map(o => ({
+      name: o.status,
+      value: o._count._all
+    }));
+
     return {
       products: productsCount,
       orders: ordersCount,
@@ -52,7 +82,10 @@ class AnalyticsService {
       categories: categoriesCount,
       revenue: totalRevenue,
       usersByRole,
-      salesOverTime
+      salesOverTime,
+      categoryData,
+      loginStats,
+      orderStats
     };
   }
 }

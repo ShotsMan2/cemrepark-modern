@@ -47,13 +47,32 @@ async function fetchAiResponse(model, messages) {
   );
 }
 
+function corsHeaders(origin) {
+  return {
+    "Access-Control-Allow-Origin": "*", // Herhangi bir siteden gelen isteklere izin ver veya kendi domaininizi yazın
+    "Access-Control-Allow-Methods": "POST, OPTIONS",
+    "Access-Control-Allow-Headers": "Content-Type",
+    "Access-Control-Expose-Headers": "X-Session-Id",
+  };
+}
+
+export async function OPTIONS(request) {
+  return new NextResponse(null, {
+    status: 200,
+    headers: corsHeaders(request.headers.get("origin")),
+  });
+}
+
 export async function POST(request) {
   try {
     const body = await request.json();
-    const { message, sessionId, model, context } = body || {};
+    const { message, sessionId, model, context, cartItems, user } = body || {};
 
     if (!message || typeof message !== "string") {
-      return NextResponse.json({ error: "Mesaj alanı zorunludur." }, { status: 400 });
+      return NextResponse.json({ error: "Mesaj alanı zorunludur." }, { 
+        status: 400,
+        headers: corsHeaders(request.headers.get("origin"))
+      });
     }
 
     const selectedModel = (model || DEFAULT_MODEL).trim();
@@ -91,6 +110,21 @@ export async function POST(request) {
       });
     }
 
+    if (user && user.name) {
+      promptMessages.push({
+        role: "system",
+        content: `Müşteri sisteme giriş yapmış durumda. Adı: ${user.name}. Lütfen ona ismiyle (veya uygun şekilde) hitap et ve sıcak bir deneyim sun.`
+      });
+    }
+
+    if (cartItems && cartItems.length > 0) {
+      const cartDesc = cartItems.map(item => `${item.quantity} adet ${item.ad} (Beden: ${item.beden || "Belirtilmemiş"}, Renk: ${item.renk || "Belirtilmemiş"})`).join(", ");
+      promptMessages.push({
+        role: "system",
+        content: `Müşterinin sepetinde anlık olarak şu ürün(ler) var: ${cartDesc}. Gerekirse "Sepetinizdeki bu şalı tamamlayacak..." veya "Sepetinizde harika parçalar var" şeklinde satış artırıcı (cross-sell) ve bağlama uygun proaktif yönlendirmelerde bulun.`
+      });
+    }
+
     history.slice(-8).forEach((entry) => {
       promptMessages.push({ role: entry.role, content: entry.content });
     });
@@ -111,10 +145,16 @@ export async function POST(request) {
 
     await chatService.createMessage(conversationId, "assistant", assistantContent, assistantStatus);
 
-    return NextResponse.json({ sessionId: conversationId, content: assistantContent });
+    return NextResponse.json(
+      { sessionId: conversationId, content: assistantContent },
+      { headers: corsHeaders(request.headers.get("origin")) }
+    );
   } catch (error) {
     console.error("[Chat Widget] POST hata:", error);
-    return NextResponse.json({ error: "Sunucu hatası oluştu." }, { status: 500 });
+    return NextResponse.json({ error: "Sunucu hatası oluştu." }, { 
+      status: 500,
+      headers: corsHeaders(request.headers?.get?.("origin") || "*")
+    });
   }
 }
 

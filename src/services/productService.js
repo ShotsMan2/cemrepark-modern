@@ -1,15 +1,10 @@
 import fs from "fs";
 import path from "path";
 import prisma from "@/lib/prisma";
-import { LRUCache } from "lru-cache";
 import logger from "@/lib/logger";
+import redis from "@/lib/redis";
 
 const filePath = path.join(process.cwd(), "src", "data", "products.json");
-
-const cache = new LRUCache({
-  max: 100, // Maximum items in cache
-  ttl: 1000 * 60 * 5, // 5 minutes cache
-});
 
 const CACHE_KEY = "all_products";
 
@@ -29,14 +24,22 @@ class ProductService {
   }
 
   async getProducts() {
-    const cachedProducts = cache.get(CACHE_KEY);
-    if (cachedProducts) {
-      return cachedProducts;
+    try {
+      const cachedProducts = await redis.get(CACHE_KEY);
+      if (cachedProducts) {
+        return JSON.parse(cachedProducts);
+      }
+    } catch (err) {
+      logger.error("Redis get error:", { error: err.message });
     }
 
     const products = await this._readProductsFromJson();
 
-    cache.set(CACHE_KEY, products);
+    try {
+      await redis.set(CACHE_KEY, JSON.stringify(products), 'EX', 300); // 5 minutes cache
+    } catch (err) {
+      logger.error("Redis set error:", { error: err.message });
+    }
     return products;
   }
 
@@ -52,7 +55,11 @@ class ProductService {
     products.unshift(newProduct);
     await this._writeProductsToJson(products);
 
-    cache.delete(CACHE_KEY);
+    try {
+      await redis.del(CACHE_KEY);
+    } catch (err) {
+      logger.error("Redis del error:", { error: err.message });
+    }
 
     try {
       await prisma.product.create({
@@ -88,7 +95,11 @@ class ProductService {
     products[index] = { ...products[index], ...productData, id };
     await this._writeProductsToJson(products);
 
-    cache.delete(CACHE_KEY);
+    try {
+      await redis.del(CACHE_KEY);
+    } catch (err) {
+      logger.error("Redis del error:", { error: err.message });
+    }
 
     try {
       await prisma.product.upsert({
@@ -134,7 +145,11 @@ class ProductService {
 
     await this._writeProductsToJson(filteredProducts);
 
-    cache.delete(CACHE_KEY);
+    try {
+      await redis.del(CACHE_KEY);
+    } catch (err) {
+      logger.error("Redis del error:", { error: err.message });
+    }
 
     try {
       await prisma.review.deleteMany({ where: { productId: id } });
