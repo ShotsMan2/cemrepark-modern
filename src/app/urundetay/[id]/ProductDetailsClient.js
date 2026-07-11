@@ -131,12 +131,12 @@ export default function ProductDetailsClient({
   };
 
   return (
-    <div className="min-h-screen pt-32 pb-24 relative overflow-hidden">
+    <div className="min-h-screen pt-24 pb-16 relative overflow-hidden">
       {/* Background Glow */}
       <div className="absolute top-1/3 left-1/4 w-[500px] h-[500px] bg-neon-pink opacity-[0.05] rounded-full blur-[120px] pointer-events-none"></div>
       <div className="absolute bottom-1/4 right-1/4 w-[400px] h-[400px] bg-holo-gold opacity-[0.03] rounded-full blur-[100px] pointer-events-none"></div>
 
-      <div className="container mx-auto px-4 relative z-10">
+      <div className="container mx-auto px-4 relative z-10 max-w-6xl">
         {/* Breadcrumb */}
         <nav
           className="flex text-gray-500 text-xs tracking-widest uppercase mb-8"
@@ -168,12 +168,12 @@ export default function ProductDetailsClient({
           </ol>
         </nav>
 
-        <div className="flex flex-col lg:flex-row gap-12 items-start">
+        <div className="flex flex-col lg:flex-row gap-8 items-start">
           {/* Image Section - Floating and Clipped */}
           <div className="w-full lg:w-1/2 relative group" data-aos="fade-right" suppressHydrationWarning>
             <div className="absolute -inset-1 bg-gradient-to-r from-neon-pink to-holo-gold rounded-lg blur opacity-20 group-hover:opacity-40 transition duration-1000 group-hover:duration-200"></div>
             <div className="relative glass-panel p-2 clip-angled">
-              <div className="relative w-full h-[600px] md:h-[800px] clip-angled overflow-hidden">
+              <div className="relative w-full h-[450px] md:h-[600px] clip-angled overflow-hidden">
                 <Image
                   src={getValidImageUrl(product.resim || product.gorsel?.split(',')[0])}
                   alt={product.ad}
@@ -190,11 +190,11 @@ export default function ProductDetailsClient({
           </div>
 
           {/* Details Section */}
-          <div className="w-full lg:w-1/2 glass-panel p-8 md:p-12 clip-angled" data-aos="fade-left" suppressHydrationWarning>
+          <div className="w-full lg:w-1/2 glass-panel p-6 md:p-9 clip-angled" data-aos="fade-left" suppressHydrationWarning>
             <span className="text-neon-pink tracking-[0.2em] text-xs font-bold uppercase mb-4 block">
               {product.etiket ? t(product.etiket) : t("new_season")}
             </span>
-            <h1 className="text-4xl md:text-5xl font-black text-white mb-2 leading-tight">
+            <h1 className="text-3xl md:text-4xl font-black text-white mb-2 leading-tight">
               {t(product.ad)}
             </h1>
 
@@ -215,12 +215,12 @@ export default function ProductDetailsClient({
               </span>
             </div>
 
-            <h2 className="text-3xl font-bold text-glow-gold mb-8">{formatPrice(product.fiyat)}</h2>
+            <h2 className="text-2xl font-bold text-glow-gold mb-6">{formatPrice(product.fiyat)}</h2>
 
-            <div className="h-px w-full bg-white/10 mb-8"></div>
+            <div className="h-px w-full bg-white/10 mb-6"></div>
 
             {/* Select Options */}
-            <div className="grid grid-cols-1 md:grid-cols-2 gap-6 mb-8">
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-4 mb-6">
               <div>
                 <label className="block text-gray-400 text-sm font-bold mb-2 uppercase tracking-wider">
                   {t("size")}
@@ -286,7 +286,7 @@ export default function ProductDetailsClient({
               </div>
             </div>
 
-            <div className="flex gap-4 mb-10">
+            <div className="flex gap-3 mb-8">
               <button
                 onClick={handleAddToCart}
                 className="flex-1 bg-transparent border border-neon-pink text-neon-pink hover:bg-neon-pink hover:text-white py-4 px-8 uppercase font-bold tracking-widest transition-all duration-300 clip-angled text-sm"
@@ -299,7 +299,7 @@ export default function ProductDetailsClient({
               />
             </div>
 
-            <div className="h-px w-full bg-white/10 mb-8"></div>
+            <div className="h-px w-full bg-white/10 mb-6"></div>
 
             {/* ACCORDION TABS */}
             <div className="space-y-4">
@@ -379,15 +379,15 @@ export default function ProductDetailsClient({
         </div>
 
         {/* Müşteri Yorumları Section */}
-        <div className="mt-24 border-t border-white/10 pt-16 relative">
-          <h3 className="text-2xl font-black text-white uppercase tracking-widest mb-10 text-center">
+        <div className="mt-16 border-t border-white/10 pt-12 relative">
+          <h3 className="text-xl font-black text-white uppercase tracking-widest mb-8 text-center">
             {t("reviews_title")}
           </h3>
 
-          <div className="grid md:grid-cols-2 gap-12">
+          <div className="grid md:grid-cols-2 gap-8">
             {/* Add Review Form */}
-            <div className="glass-panel p-8 clip-angled bg-black/40 border border-white/10 backdrop-blur-md">
-              <h4 className="text-xl font-bold text-white mb-6 uppercase tracking-wider">
+            <div className="glass-panel p-6 clip-angled bg-black/40 border border-white/10 backdrop-blur-md">
+              <h4 className="text-lg font-bold text-white mb-4 uppercase tracking-wider">
                 {t("write_review")}
               </h4>
               {session ? (
@@ -445,10 +445,10 @@ export default function ProductDetailsClient({
             </div>
 
             {/* Reviews List */}
-            <div className="space-y-6">
+            <div className="space-y-4">
               {reviews.length > 0 ? (
                 reviews.map((review) => (
-                  <div key={review.id} className="border-b border-white/10 pb-6">
+                  <div key={review.id} className="border-b border-white/10 pb-4">
                     <div className="flex justify-between items-start mb-2">
                       <div>
                         <div className="flex flex-col">
@@ -484,21 +484,21 @@ export default function ProductDetailsClient({
 
         {/* Benzer Ürünler (Related Products) */}
         {relatedProducts.length > 0 && (
-          <div className="mt-24 border-t border-white/10 pt-16 relative">
+          <div className="mt-16 border-t border-white/10 pt-12 relative">
             <div className="absolute top-0 right-1/4 w-[300px] h-[300px] bg-holo-gold opacity-[0.02] rounded-full blur-[100px] pointer-events-none"></div>
 
-            <h3 className="text-2xl font-black text-white uppercase tracking-widest mb-10 text-center">
+            <h3 className="text-xl font-black text-white uppercase tracking-widest mb-8 text-center">
               {t("similar_products")}
             </h3>
 
-            <div className="grid grid-cols-2 md:grid-cols-4 gap-6">
+            <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
               {relatedProducts.map((rp) => (
                 <Link
                   href={`/urundetay/${rp.id}`}
                   key={rp.id}
                   className="group relative block glass-panel p-2 clip-angled transition-all hover:border-white/20"
                 >
-                  <div className="relative h-64 md:h-80 w-full overflow-hidden clip-angled mb-3">
+                  <div className="relative h-48 md:h-60 w-full overflow-hidden clip-angled mb-3">
                     <div className="absolute inset-0 bg-black/20 group-hover:bg-transparent transition-colors z-10"></div>
                     <Image
                       src={getValidImageUrl(rp.resim || rp.gorsel?.split(',')[0])}
