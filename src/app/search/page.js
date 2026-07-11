@@ -33,21 +33,52 @@ export default async function SearchPage({ searchParams }) {
     }
   }
 
+  // Find all Turkish product names from translations that contain the query
+  let matchedTurkishNames = [];
+  if (query.trim().length > 0) {
+    try {
+      const enDict = require("@/utils/locales/en.json");
+      const arDict = require("@/utils/locales/ar.json");
+      
+      const allDicts = [enDict, arDict];
+      
+      for (const dict of allDicts) {
+        for (const [trName, translatedName] of Object.entries(dict)) {
+          if (translatedName && typeof translatedName === 'string' && translatedName.toLowerCase().includes(lowerQuery)) {
+            matchedTurkishNames.push(trName);
+          }
+        }
+      }
+    } catch (e) {
+      console.error("Error loading dictionaries in search page", e);
+    }
+  }
+
+  // Deduplicate matched names
+  matchedTurkishNames = [...new Set(matchedTurkishNames)];
+
   let results = [];
   if (!query) {
     results = await prisma.product.findMany();
   } else {
     // Prisma SQLite'da contains default olarak ASCII case-insensitive'dir
+    const orConditions = [
+      { ad: { contains: mappedQuery } },
+      { kategori: { contains: mappedQuery } },
+      { etiket: { contains: mappedQuery } },
+      { ad: { contains: lowerQuery } },
+      { kategori: { contains: lowerQuery } },
+      { etiket: { contains: lowerQuery } }
+    ];
+
+    if (matchedTurkishNames.length > 0) {
+      orConditions.push({ ad: { in: matchedTurkishNames } });
+      orConditions.push({ kategori: { in: matchedTurkishNames } }); // just in case category matches
+    }
+
     results = await prisma.product.findMany({
       where: {
-        OR: [
-          { ad: { contains: mappedQuery } },
-          { kategori: { contains: mappedQuery } },
-          { etiket: { contains: mappedQuery } },
-          { ad: { contains: lowerQuery } },
-          { kategori: { contains: lowerQuery } },
-          { etiket: { contains: lowerQuery } }
-        ]
+        OR: orConditions
       }
     });
   }

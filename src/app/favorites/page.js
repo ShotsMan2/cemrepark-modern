@@ -59,7 +59,7 @@ export default function FavoritesPage() {
               >
                 <Link
                   href={`/urundetay/${product.id}`}
-                  className="block relative h-96 w-full clip-angled overflow-hidden m-2 rounded-t-lg group-hover:shadow-[0_0_20px_rgba(255,215,0,0.3)] transition-shadow duration-300"
+                  className="block relative h-96 w-full clip-angled overflow-hidden m-2 rounded-t-lg group-hover:drop-shadow-[0_0_20px_rgba(255,215,0,0.3)] transition-all duration-300 transform-gpu"
                 >
                   <Image
                     src={getValidImageUrl(product.gorsel)}

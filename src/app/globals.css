@@ -1,12 +1,26 @@
 @import "tailwindcss";
+@custom-variant dark (&:where(.dark, .dark *));
 
 :root {
+  --background: #fdfdfd;
+  --foreground: #0a0a0a;
+  --neon-pink: #ff007f;
+  --holographic-gold: #d4af37;
+  --glass-bg: rgba(255, 255, 255, 0.65);
+  --glass-border: rgba(0, 0, 0, 0.1);
+  --glass-card-grad1: rgba(245, 245, 245, 0.8);
+  --glass-card-grad2: rgba(255, 255, 255, 0.9);
+}
+
+.dark {
   --background: #0a0a0a;
   --foreground: #ededed;
   --neon-pink: #ff007f;
   --holographic-gold: #ffd700;
   --glass-bg: rgba(20, 20, 20, 0.6);
   --glass-border: rgba(255, 255, 255, 0.1);
+  --glass-card-grad1: rgba(25, 25, 25, 0.8);
+  --glass-card-grad2: rgba(10, 10, 10, 0.9);
 }
 
 @theme inline {
@@ -40,7 +54,7 @@ body {
 }
 
 .glass-card {
-  background: linear-gradient(135deg, rgba(25, 25, 25, 0.8), rgba(10, 10, 10, 0.9));
+  background: linear-gradient(135deg, var(--glass-card-grad1), var(--glass-card-grad2));
   backdrop-filter: blur(10px);
   border: 1px solid rgba(255, 0, 127, 0.15);
   border-radius: 12px;
@@ -114,7 +128,7 @@ body {
 
 /* Neon Text */
 .text-glow-pink {
-  color: #fff;
+  color: var(--foreground);
   text-shadow:
     0 0 10px rgba(255, 0, 127, 0.8),
     0 0 20px rgba(255, 0, 127, 0.5);

@@ -52,7 +52,7 @@ export default async function UrunDetay({ params }) {
   if (!product) {
     return (
       <div className="min-h-screen flex items-center justify-center pt-32 pb-24">
-        <h2 className="text-white text-3xl font-bold">Ürün Bulunamadı</h2>
+        <h2 className="text-gray-900 dark:text-white text-3xl font-bold">Ürün Bulunamadı</h2>
       </div>
     );
   }

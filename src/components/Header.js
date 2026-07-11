@@ -5,6 +5,7 @@ import Image from "next/image";
 import { usePathname } from "next/navigation";
 import { useSession } from "next-auth/react";
 import { useStore } from "../context/StoreContext";
+import ThemeToggle from "./ThemeToggle";
 
 export default function Header() {
   const pathname = usePathname();
@@ -76,7 +77,7 @@ export default function Header() {
         </div>
 
         {/* TOP BAR */}
-        <div className="bg-[#111] border-b border-neon-pink text-gray-400 text-[11px] md:text-xs py-2 hidden md:block">
+        <div className="bg-gray-100 dark:bg-[#111] border-b border-neon-pink text-gray-600 dark:text-gray-400 text-[11px] md:text-xs py-2 hidden md:block">
           <div className="w-full px-4 md:px-6 flex justify-between items-center">
             <div className="flex gap-4 items-center">
               <a
@@ -125,7 +126,7 @@ export default function Header() {
                 <select
                   value={language}
                   onChange={(e) => setLanguage(e.target.value)}
-                  className="bg-transparent border-none text-gray-400 text-[11px] focus:outline-none cursor-pointer uppercase font-bold hover:text-white transition-colors"
+                  className="bg-transparent border-none text-gray-600 dark:text-gray-400 text-[11px] focus:outline-none cursor-pointer uppercase font-bold hover:text-black dark:hover:text-white transition-colors"
                   aria-label="Language"
                 >
                   <option className="bg-[#111]" value="TR">
@@ -141,7 +142,7 @@ export default function Header() {
                 <select
                   value={currency}
                   onChange={(e) => setCurrency(e.target.value)}
-                  className="bg-transparent border-none text-gray-400 text-[11px] focus:outline-none cursor-pointer uppercase font-bold hover:text-white transition-colors"
+                  className="bg-transparent border-none text-gray-600 dark:text-gray-400 text-[11px] focus:outline-none cursor-pointer uppercase font-bold hover:text-black dark:hover:text-white transition-colors"
                   aria-label="Currency"
                 >
                   <option className="bg-[#111]" value="TL">
@@ -161,7 +162,7 @@ export default function Header() {
                 href="https://www.shopier.com/CEMREPARKK"
                 target="_blank"
                 rel="noopener noreferrer"
-                className="flex items-center gap-1.5 hover:text-white transition-colors"
+                className="flex items-center gap-1.5 hover:text-black dark:hover:text-white transition-colors"
                 aria-label="Shopier Store"
               >
                 <svg
@@ -187,7 +188,7 @@ export default function Header() {
         </div>
 
         {/* LOGO ROW */}
-        <div className="bg-[#1a1a1a]/98 border-b border-neon-pink/30 flex justify-center py-4 md:py-6">
+        <div className="bg-white/98 dark:bg-[#1a1a1a]/98 border-b border-neon-pink/30 flex justify-center py-4 md:py-6">
           <Link href="/" className="flex items-center group">
             <div className="relative w-[220px] h-[75px] md:w-[360px] md:h-[120px] group-hover:opacity-80 transition-opacity duration-300">
               <Image
@@ -212,7 +213,7 @@ export default function Header() {
             <div className="group py-3">
               <Link
                 href="/search"
-                className="text-gray-300 hover:text-neon-pink text-sm uppercase tracking-widest transition-colors font-medium flex items-center gap-1"
+                className="text-gray-900 dark:text-gray-300 hover:text-neon-pink dark:hover:text-neon-pink text-sm uppercase tracking-widest transition-colors font-medium flex items-center gap-1"
               >
                 {t("collections_menu")}
                 <svg
@@ -231,18 +232,18 @@ export default function Header() {
               </Link>
 
               {/* Mega Menu Dropdown */}
-              <div className="absolute top-full left-0 w-full bg-black/95 backdrop-blur-xl border-t border-white/10 opacity-0 invisible group-hover:opacity-100 group-hover:visible transition-all duration-300 shadow-2xl z-50">
+              <div className="absolute top-full left-0 w-full bg-white/95 dark:bg-black/95 backdrop-blur-xl border-t border-gray-200 dark:border-white/10 opacity-0 invisible group-hover:opacity-100 group-hover:visible transition-all duration-300 shadow-2xl z-50">
                 <div className="container mx-auto px-4 py-12">
                   <div className="grid grid-cols-4 gap-8">
                     <div>
-                      <h3 className="text-white font-bold tracking-widest uppercase mb-6 border-b border-white/10 pb-2">
+                      <h3 className="text-gray-900 dark:text-white font-bold tracking-widest uppercase mb-6 border-b border-gray-200 dark:border-white/10 pb-2">
                         {t("menu_clothing")}
                       </h3>
                       <ul className="space-y-4">
                         <li>
                           <Link
                             href="/search?q=Takım"
-                            className="text-gray-400 hover:text-neon-pink transition-colors text-sm block"
+                            className="text-gray-600 dark:text-gray-400 hover:text-neon-pink transition-colors text-sm block"
                           >
                             {t("menu_two_piece")}
                           </Link>
@@ -250,7 +251,7 @@ export default function Header() {
                         <li>
                           <Link
                             href="/search?q=Elbise"
-                            className="text-gray-400 hover:text-neon-pink transition-colors text-sm block"
+                            className="text-gray-600 dark:text-gray-400 hover:text-neon-pink transition-colors text-sm block"
                           >
                             {t("menu_dresses")}
                           </Link>
@@ -258,7 +259,7 @@ export default function Header() {
                         <li>
                           <Link
                             href="/search?q=Tunik"
-                            className="text-gray-400 hover:text-neon-pink transition-colors text-sm block"
+                            className="text-gray-600 dark:text-gray-400 hover:text-neon-pink transition-colors text-sm block"
                           >
                             {t("menu_tunics")}
                           </Link>
@@ -266,7 +267,7 @@ export default function Header() {
                         <li>
                           <Link
                             href="/search?q=Pantolon"
-                            className="text-gray-400 hover:text-neon-pink transition-colors text-sm block"
+                            className="text-gray-600 dark:text-gray-400 hover:text-neon-pink transition-colors text-sm block"
                           >
                             {t("menu_trousers")}
                           </Link>
@@ -275,14 +276,14 @@ export default function Header() {
                     </div>
 
                     <div>
-                      <h3 className="text-white font-bold tracking-widest uppercase mb-6 border-b border-white/10 pb-2">
+                      <h3 className="text-gray-900 dark:text-white font-bold tracking-widest uppercase mb-6 border-b border-gray-200 dark:border-white/10 pb-2">
                         {t("menu_outerwear")}
                       </h3>
                       <ul className="space-y-4">
                         <li>
                           <Link
                             href="/search?q=Ceket"
-                            className="text-gray-400 hover:text-holo-gold transition-colors text-sm block"
+                            className="text-gray-600 dark:text-gray-400 hover:text-holo-gold transition-colors text-sm block"
                           >
                             {t("menu_jacket_blazer")}
                           </Link>
@@ -290,7 +291,7 @@ export default function Header() {
                         <li>
                           <Link
                             href="/search?q=Trenç"
-                            className="text-gray-400 hover:text-holo-gold transition-colors text-sm block"
+                            className="text-gray-600 dark:text-gray-400 hover:text-holo-gold transition-colors text-sm block"
                           >
                             {t("menu_trench")}
                           </Link>
@@ -298,7 +299,7 @@ export default function Header() {
                         <li>
                           <Link
                             href="/search?q=Kaban"
-                            className="text-gray-400 hover:text-holo-gold transition-colors text-sm block"
+                            className="text-gray-600 dark:text-gray-400 hover:text-holo-gold transition-colors text-sm block"
                           >
                             {t("menu_coat_jacket")}
                           </Link>
@@ -334,31 +335,31 @@ export default function Header() {
 
             <Link
               href="/search?q=Takım"
-              className="text-gray-300 hover:text-neon-pink text-sm uppercase tracking-widest transition-colors font-medium"
+              className="text-gray-900 dark:text-gray-300 hover:text-neon-pink text-sm uppercase tracking-widest transition-colors font-medium"
             >
               {t("sets")}
             </Link>
             <Link
               href="/search?q=Tunik"
-              className="text-gray-300 hover:text-neon-pink text-sm uppercase tracking-widest transition-colors font-medium"
+              className="text-gray-900 dark:text-gray-300 hover:text-neon-pink text-sm uppercase tracking-widest transition-colors font-medium"
             >
               {t("tunics")}
             </Link>
             <Link
               href="/search?q=Ceket"
-              className="text-gray-300 hover:text-neon-pink text-sm uppercase tracking-widest transition-colors font-medium"
+              className="text-gray-900 dark:text-gray-300 hover:text-neon-pink text-sm uppercase tracking-widest transition-colors font-medium"
             >
               {t("jackets")}
             </Link>
             <Link
               href="/search?q=Elbise"
-              className="text-gray-300 hover:text-neon-pink text-sm uppercase tracking-widest transition-colors font-medium"
+              className="text-gray-900 dark:text-gray-300 hover:text-neon-pink text-sm uppercase tracking-widest transition-colors font-medium"
             >
               {t("dresses")}
             </Link>
             <Link
               href="/search?q=Pantolon"
-              className="text-gray-300 hover:text-neon-pink text-sm uppercase tracking-widest transition-colors font-medium"
+              className="text-gray-900 dark:text-gray-300 hover:text-neon-pink text-sm uppercase tracking-widest transition-colors font-medium"
             >
               {t("trousers")}
             </Link>
@@ -366,12 +367,13 @@ export default function Header() {
 
           {/* Right Actions */}
           <div className="flex items-center gap-6">
+            <ThemeToggle />
             {/* Auth Links */}
             <div className="hidden lg:flex items-center gap-4 text-sm font-medium">
               {status === "loading" ? null : session ? (
                 <Link
                   href="/hesabim"
-                  className="text-gray-300 hover:text-neon-pink transition-colors uppercase tracking-widest border border-white/10 px-4 py-1.5 clip-angled"
+                  className="text-gray-900 dark:text-gray-300 hover:text-neon-pink transition-colors uppercase tracking-widest border border-gray-300 dark:border-white/10 px-4 py-1.5 clip-angled"
                 >
                   {t("my_account")}
                 </Link>
@@ -379,7 +381,7 @@ export default function Header() {
                 <>
                   <Link
                     href="/login"
-                    className="text-gray-300 hover:text-neon-pink transition-colors uppercase tracking-widest"
+                    className="text-gray-900 dark:text-gray-300 hover:text-neon-pink transition-colors uppercase tracking-widest"
                   >
                     {t("login")}
                   </Link>
@@ -396,7 +398,7 @@ export default function Header() {
 
             <button
               onClick={() => setIsSearchOpen(true)}
-              className="text-gray-300 hover:text-holo-gold transition-colors"
+              className="text-gray-900 dark:text-gray-300 hover:text-holo-gold transition-colors"
               aria-label="Open Search"
             >
               <svg
@@ -416,7 +418,7 @@ export default function Header() {
 
             <Link
               href="/favorites"
-              className="relative text-gray-300 hover:text-neon-pink transition-colors"
+              className="relative text-gray-900 dark:text-gray-300 hover:text-neon-pink transition-colors"
               aria-label="Favorites"
             >
               <svg
@@ -440,7 +442,7 @@ export default function Header() {
 
             <Link
               href="/cart"
-              className="relative text-gray-300 hover:text-holo-gold transition-colors"
+              className="relative text-gray-900 dark:text-gray-300 hover:text-holo-gold transition-colors"
               aria-label="Cart"
             >
               <svg
@@ -466,7 +468,7 @@ export default function Header() {
 
             {/* Mobile Menu Toggle */}
             <button
-              className="lg:hidden text-white"
+              className="lg:hidden text-gray-900 dark:text-white"
               type="button"
               aria-label="Toggle Mobile Menu"
               data-bs-toggle="offcanvas"
@@ -493,7 +495,7 @@ export default function Header() {
 
       {/* Search Popup Area */}
       <div
-        className={`fixed inset-0 bg-black/95 backdrop-blur-xl z-[100] flex items-center justify-center transition-all duration-500 ${isSearchOpen ? "opacity-100 pointer-events-auto" : "opacity-0 pointer-events-none"}`}
+        className={`fixed inset-0 bg-white/95 dark:bg-black/95 backdrop-blur-xl z-[100] flex items-center justify-center transition-all duration-500 ${isSearchOpen ? "opacity-100 pointer-events-auto" : "opacity-0 pointer-events-none"}`}
       >
         <div
           className={`w-full max-w-2xl px-4 relative transition-transform duration-500 ${isSearchOpen ? "scale-100 translate-y-0" : "scale-95 translate-y-4"}`}
@@ -528,7 +530,7 @@ export default function Header() {
               type="search"
               id="search-form"
               autoFocus={isSearchOpen}
-              className="w-full bg-transparent border-b border-gray-800 py-4 text-2xl text-white focus:outline-none placeholder-gray-700 transition-colors"
+              className="w-full bg-transparent border-b border-gray-300 dark:border-gray-800 py-4 text-2xl text-gray-900 dark:text-white focus:outline-none placeholder-gray-400 dark:placeholder-gray-700 transition-colors"
               placeholder={t("search_placeholder")}
               aria-label="Search"
               defaultValue=""
@@ -574,7 +576,7 @@ export default function Header() {
                     document.getElementById("search-form").value = t(item.label);
                   }}
                   type="button"
-                  className="inline-block px-4 py-2 border border-gray-800 text-gray-400 text-sm hover:border-neon-pink hover:text-white clip-angled transition-all duration-300"
+                  className="inline-block px-4 py-2 border border-gray-300 dark:border-gray-800 text-gray-600 dark:text-gray-400 text-sm hover:border-neon-pink hover:text-white clip-angled transition-all duration-300"
                 >
                   {t(item.label)}
                 </button>

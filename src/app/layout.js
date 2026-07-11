@@ -12,6 +12,7 @@ import { StoreProvider } from "../context/StoreContext";
 import MaintenanceGuard from "../components/MaintenanceGuard";
 import AuthProvider from "../components/AuthProvider";
 import ChatWidget from "../components/ChatWidget";
+import ThemeProvider from "../components/ThemeProvider";
 import Script from "next/script";
 
 const jost = Jost({ subsets: ["latin"], variable: "--font-jost" });
@@ -60,23 +61,25 @@ export async function generateMetadata() {
 export default function RootLayout({ children }) {
   const settings = getSettings();
   return (
-    <html lang="tr">
+    <html lang="tr" suppressHydrationWarning>
       <body className={`${jost.variable} ${marcellus.variable} homepage`}>
         {settings.ozelCss ? <style dangerouslySetInnerHTML={{ __html: settings.ozelCss }} /> : null}
         <Script src="https://code.jquery.com/jquery-3.7.1.min.js" strategy="beforeInteractive" />
         <Script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js" strategy="afterInteractive" />
         <AuthProvider>
           <StoreProvider>
-            <MaintenanceGuard>
-              <AOSInitializer />
-              <SvgDefs />
-              <Header />
+            <ThemeProvider attribute="class" defaultTheme="dark" enableSystem={false}>
+              <MaintenanceGuard>
+                <AOSInitializer />
+                <SvgDefs />
+                <Header />
 
-              {children}
+                {children}
 
-              <Footer />
-              <ChatWidget />
-            </MaintenanceGuard>
+                <Footer />
+                <ChatWidget />
+              </MaintenanceGuard>
+            </ThemeProvider>
           </StoreProvider>
         </AuthProvider>
 
