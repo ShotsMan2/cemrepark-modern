@@ -373,7 +373,7 @@ export default function Header() {
               {status === "loading" ? null : session ? (
                 <Link
                   href="/hesabim"
-                  className="text-gray-900 dark:text-gray-300 hover:text-neon-pink transition-colors uppercase tracking-widest border border-gray-300 dark:border-white/10 px-4 py-1.5 clip-angled"
+                  className="text-gray-900 dark:text-gray-300 hover:text-neon-pink transition-colors uppercase tracking-widest"
                 >
                   {t("my_account")}
                 </Link>

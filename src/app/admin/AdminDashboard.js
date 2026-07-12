@@ -12,6 +12,7 @@ import MessagesView from "./components/views/MessagesView";
 import PagesView from "./components/views/PagesView";
 import BannersView from "./components/views/BannersView";
 import AISupportView from "./components/views/AISupportView";
+import ThemeToggle from "@/components/ThemeToggle";
 
 export default function AdminDashboard({ onLogout }) {
   const [activeTab, setActiveTab] = useState("dashboard");
@@ -294,6 +295,7 @@ export default function AdminDashboard({ onLogout }) {
             </h1>
           </div>
           <div className="flex items-center gap-4">
+            <ThemeToggle />
             <div className="relative" ref={notificationRef}>
               <button
                 onClick={() => {

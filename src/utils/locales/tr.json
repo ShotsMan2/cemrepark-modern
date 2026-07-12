@@ -274,5 +274,17 @@
   "back_to_account": "Hesabıma Dön",
   "name": "Ad Soyad",
   "email": "E-posta Adresi",
-  "phone": "Telefon Numarası"
+  "phone": "Telefon Numarası",
+  "reset_password_title": "ŞİFREYİ SIFIRLA",
+  "forgot_password_desc": "E-posta adresinizi girin, size şifre sıfırlama bağlantısı gönderelim.",
+  "send_reset_link": "Sıfırlama Linki Gönder",
+  "sending_link": "Gönderiliyor...",
+  "reset_link_sent_title": "Link Gönderildi",
+  "reset_link_sent_desc": "Şifre sıfırlama linki e-posta adresinize gönderildi.",
+  "reset_password_desc": "Yeni şifrenizi aşağıdan belirleyebilirsiniz.",
+  "reset_password_success_title": "Başarılı",
+  "reset_password_success_desc": "Şifreniz başarıyla sıfırlandı. Şimdi yeni şifrenizle giriş yapabilirsiniz.",
+  "reset_password_error_title": "Hata",
+  "reset_password_error_desc": "Şifre sıfırlama işlemi başarısız oldu. Link süresi dolmuş olabilir.",
+  "back_to_login": "Giriş Ekranına Dön"
 }

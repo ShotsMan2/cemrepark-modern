@@ -27,10 +27,10 @@ export default function DashboardView({ products }) {
       .catch((err) => console.error("Analytics fetch error:", err));
   }, []);
 
-  const totalProducts = stats ? stats.products : products.length;
-  const activeCategories = stats ? stats.categories : [...new Set(products.map((p) => p.kategori))].filter(Boolean).length;
-  const totalRevenue = stats ? stats.revenue : 0;
-  const totalOrders = stats ? stats.orders : 0;
+  const totalProducts = stats && typeof stats.products === 'number' ? stats.products : products.length;
+  const activeCategories = stats && typeof stats.categories === 'number' ? stats.categories : [...new Set(products.map((p) => p.kategori))].filter(Boolean).length;
+  const totalRevenue = stats && typeof stats.revenue === 'number' ? stats.revenue : 0;
+  const totalOrders = stats && typeof stats.orders === 'number' ? stats.orders : 0;
 
   const chartData = stats?.salesOverTime || [];
   const catData = stats?.categoryData || [];

@@ -98,6 +98,18 @@ export const authOptions = {
       }
       return token;
     },
+    async redirect({ url, baseUrl }) {
+      if (url.startsWith("/")) return `${baseUrl}${url}`;
+      // Allow any localhost URL to support different development ports
+      try {
+        const urlOrigin = new URL(url).origin;
+        if (urlOrigin.startsWith("http://localhost:")) return url;
+        if (urlOrigin === baseUrl) return url;
+      } catch (e) {
+        return baseUrl;
+      }
+      return baseUrl;
+    },
     async session({ session, token }) {
       if (token && session.user) {
         session.user.role = token.role;
