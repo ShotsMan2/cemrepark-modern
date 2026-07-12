@@ -129,13 +129,13 @@ export default function Header() {
                   className="bg-transparent border-none text-gray-600 dark:text-gray-400 text-[11px] focus:outline-none cursor-pointer uppercase font-bold hover:text-black dark:hover:text-white transition-colors"
                   aria-label="Language"
                 >
-                  <option className="bg-[#111]" value="TR">
+                  <option className="bg-background text-foreground" value="TR">
                     TR
                   </option>
-                  <option className="bg-[#111]" value="EN">
+                  <option className="bg-background text-foreground" value="EN">
                     EN
                   </option>
-                  <option className="bg-[#111]" value="AR">
+                  <option className="bg-background text-foreground" value="AR">
                     AR
                   </option>
                 </select>
@@ -145,13 +145,13 @@ export default function Header() {
                   className="bg-transparent border-none text-gray-600 dark:text-gray-400 text-[11px] focus:outline-none cursor-pointer uppercase font-bold hover:text-black dark:hover:text-white transition-colors"
                   aria-label="Currency"
                 >
-                  <option className="bg-[#111]" value="TL">
+                  <option className="bg-background text-foreground" value="TL">
                     ₺ TRY
                   </option>
-                  <option className="bg-[#111]" value="USD">
+                  <option className="bg-background text-foreground" value="USD">
                     $ USD
                   </option>
-                  <option className="bg-[#111]" value="EUR">
+                  <option className="bg-background text-foreground" value="EUR">
                     € EUR
                   </option>
                 </select>

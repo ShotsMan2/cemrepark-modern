@@ -96,7 +96,7 @@ export default function CartPage() {
                               {t("size")}: <strong className="text-gray-900 dark:text-white">{item.beden}</strong>
                             </span>
                             <span className="bg-black/5 dark:bg-white/5 px-2 py-1 rounded">
-                              {t("color")}: <strong className="text-gray-900 dark:text-white">{item.renk}</strong>
+                              {t("color")}: <strong className="text-gray-900 dark:text-white">{t(item.renk)}</strong>
                             </span>
                           </div>
                         </div>
@@ -117,9 +117,16 @@ export default function CartPage() {
                         <span className="md:hidden text-gray-600 dark:text-gray-400 text-xs uppercase tracking-wider mr-2">
                           {t("price_col")}:
                         </span>
-                        <span className="text-gray-900 dark:text-white font-bold whitespace-nowrap">
-                          {formatPrice(item.fiyat * item.quantity)}
-                        </span>
+                        <div className="flex flex-col items-start md:items-center text-sm md:text-base">
+                          {item.quantity > 1 && (
+                            <span className="text-gray-500 dark:text-gray-400 mb-1">
+                              {item.quantity} x {formatPrice(item.fiyat)}
+                            </span>
+                          )}
+                          <span className="text-gray-900 dark:text-white font-bold whitespace-nowrap">
+                            {formatPrice(item.fiyat * item.quantity)}
+                          </span>
+                        </div>
                       </div>
 
                       {/* Remove Button */}
