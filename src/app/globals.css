@@ -212,6 +212,7 @@ body {
   border-radius: 28px;
   overflow: hidden;
   box-shadow: 0 25px 55px rgba(0, 0, 0, 0.28);
+  color: #ffffff;
 }
 
 .chat-widget-header {
@@ -260,6 +261,12 @@ body {
   border-radius: 22px;
   background: rgba(255, 255, 255, 0.03);
   border: 1px dashed rgba(255, 255, 255, 0.08);
+  color: #ffffff;
+}
+
+.chat-widget-welcome p {
+  color: rgba(255, 255, 255, 0.7);
+  margin-top: 6px;
 }
 
 .chat-widget-message {
@@ -299,6 +306,10 @@ body {
   padding: 14px 16px;
   min-height: 52px;
   font-size: 0.95rem;
+}
+
+.chat-widget-input::placeholder {
+  color: rgba(255, 255, 255, 0.45);
 }
 
 .chat-widget-send {
