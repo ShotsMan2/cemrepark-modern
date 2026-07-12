@@ -4,7 +4,12 @@ import redis from "@/lib/redis";
 class AnalyticsService {
   async getAnalytics() {
     const cacheKey = "admin:analytics:dashboard";
-    const cachedData = await redis.get(cacheKey);
+    let cachedData = null;
+    try {
+      cachedData = await redis.get(cacheKey);
+    } catch (err) {
+      console.error("Redis get error in analytics:", err.message);
+    }
 
     if (cachedData) {
       try {
@@ -101,7 +106,11 @@ class AnalyticsService {
     };
 
     // Cache the result for 5 minutes (300 seconds)
-    await redis.set(cacheKey, JSON.stringify(result), "EX", 300);
+    try {
+      await redis.set(cacheKey, JSON.stringify(result), "EX", 300);
+    } catch (err) {
+      console.error("Redis set error in analytics:", err.message);
+    }
 
     return result;
   }
