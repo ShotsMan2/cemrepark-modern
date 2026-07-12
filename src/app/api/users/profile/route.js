@@ -1,0 +1,72 @@
+import { NextResponse } from "next/server";
+import { getServerSession } from "next-auth/next";
+import { authOptions } from "@/lib/authOptions";
+import { apiHandler } from "@/lib/apiHandler";
+import { userService } from "@/services/userService";
+import prisma from "@/lib/prisma";
+
+export const GET = apiHandler(async (req) => {
+  const session = await getServerSession(authOptions);
+
+  if (!session || !session.user?.email) {
+    const error = new Error("Oturum açmanız gerekiyor.");
+    error.statusCode = 401;
+    error.isOperational = true;
+    throw error;
+  }
+
+  const user = await prisma.user.findUnique({
+    where: { email: session.user.email },
+    select: {
+      id: true,
+      name: true,
+      email: true,
+      phoneNumber: true,
+      role: true,
+    },
+  });
+
+  if (!user) {
+    const error = new Error("Kullanıcı bulunamadı.");
+    error.statusCode = 404;
+    error.isOperational = true;
+    throw error;
+  }
+
+  return NextResponse.json({ user });
+});
+
+export const PUT = apiHandler(async (req) => {
+  const session = await getServerSession(authOptions);
+
+  if (!session || !session.user?.email) {
+    const error = new Error("Oturum açmanız gerekiyor.");
+    error.statusCode = 401;
+    error.isOperational = true;
+    throw error;
+  }
+
+  // Get the user from db to get their ID, since session.user might only have email/name
+  const currentUser = await prisma.user.findUnique({
+    where: { email: session.user.email }
+  });
+
+  if (!currentUser) {
+    const error = new Error("Kullanıcı bulunamadı.");
+    error.statusCode = 404;
+    error.isOperational = true;
+    throw error;
+  }
+
+  const body = await req.json();
+  const { name, email, phoneNumber, password } = body;
+
+  const result = await userService.updateProfile(currentUser.id, {
+    name,
+    email,
+    phoneNumber,
+    password
+  });
+
+  return NextResponse.json(result);
+});

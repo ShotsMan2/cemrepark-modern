@@ -82,6 +82,7 @@
   "vip_desc": "Yeni sezon koleksiyonlarından, özel indirimlerden ve kampanyalardan ilk siz haberdar olun.",
   "my_cart": "Sepetim",
   "cart_empty": "Sepetiniz boş.",
+  "clear_cart": "Sepeti Temizle",
   "continue_shopping": "Alışverişe Devam Et",
   "product_col": "Ürün",
   "quantity_col": "Adet",
@@ -261,5 +262,17 @@
   "status_cancelled": "İptal Edildi",
   "status_preparing": "Hazırlanıyor",
   "status_shipped": "Kargolandı",
-  "status_delivered": "Teslim Edildi"
+  "status_delivered": "Teslim Edildi",
+  "change_password": "Şifre Değiştir",
+  "change_password_info": "Şifrenizi değiştirmek istemiyorsanız bu alanları boş bırakın.",
+  "new_password": "Yeni Şifre",
+  "new_password_placeholder": "En az 6 karakter",
+  "confirm_password": "Yeni Şifre (Tekrar)",
+  "confirm_password_placeholder": "Şifrenizi tekrar girin",
+  "save_changes": "Değişiklikleri Kaydet",
+  "updating": "GÜNCELLENİYOR...",
+  "back_to_account": "Hesabıma Dön",
+  "name": "Ad Soyad",
+  "email": "E-posta Adresi",
+  "phone": "Telefon Numarası"
 }

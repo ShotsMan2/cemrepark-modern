@@ -8,7 +8,7 @@ import { useRouter } from "next/navigation";
 import { useSession } from "next-auth/react";
 
 export default function CartPage() {
-  const { cartItems, removeFromCart, isLoaded, formatPrice, t } = useStore();
+  const { cartItems, removeFromCart, updateQuantity, clearCart, isLoaded, formatPrice, t } = useStore();
   const router = useRouter();
   const { data: session } = useSession();
 
@@ -54,14 +54,14 @@ export default function CartPage() {
             </Link>
           </div>
         ) : (
-          <div className="flex flex-col lg:flex-row gap-12 max-w-4xl mx-auto">
+          <div className="flex flex-col lg:flex-row gap-12 max-w-6xl mx-auto">
             <div className="w-full lg:w-2/3">
               <div className="glass-panel clip-angled p-6 mb-6">
                 <div className="hidden md:grid grid-cols-12 gap-4 text-gray-600 dark:text-gray-400 text-xs font-bold uppercase tracking-wider mb-4 border-b border-black/10 dark:border-white/10 pb-4">
-                  <div className="col-span-6">{t("product_col")}</div>
-                  <div className="col-span-2 text-center">{t("quantity_col")}</div>
-                  <div className="col-span-2 text-center">{t("price_col")}</div>
-                  <div className="col-span-2 text-center">{t("explore")}</div>
+                  <div className="col-span-5">{t("product_col")}</div>
+                  <div className="col-span-3 text-center">{t("quantity_col")}</div>
+                  <div className="col-span-3 text-center">{t("price_col")}</div>
+                  <div className="col-span-1 text-center">{t("remove")}</div>
                 </div>
 
                 <div className="flex flex-col gap-6">
@@ -71,7 +71,7 @@ export default function CartPage() {
                       className="grid grid-cols-1 md:grid-cols-12 gap-4 items-center group"
                     >
                       {/* Product Info */}
-                      <div className="col-span-1 md:col-span-6 flex gap-4 items-center">
+                      <div className="col-span-1 md:col-span-5 flex gap-4 items-center">
                         <Link
                           href={`/urundetay/${item.id}`}
                           className="relative w-24 h-32 shrink-0 clip-angled overflow-hidden"
@@ -103,17 +103,33 @@ export default function CartPage() {
                       </div>
 
                       {/* Quantity */}
-                      <div className="col-span-1 md:col-span-2 flex justify-start md:justify-center items-center">
+                      <div className="col-span-1 md:col-span-3 flex justify-start md:justify-center items-center">
                         <span className="md:hidden text-gray-600 dark:text-gray-400 text-xs uppercase tracking-wider mr-2">
                           {t("quantity_col")}:
                         </span>
-                        <div className="text-gray-900 dark:text-white font-bold bg-black/5 dark:bg-white/10 border border-black/10 dark:border-white/20 px-4 py-2 clip-angled">
-                          {item.quantity}
+                        <div className="flex items-center bg-black/5 dark:bg-white/10 border border-black/10 dark:border-white/20 clip-angled">
+                          <button
+                            onClick={() => updateQuantity(item.id, item.beden, item.renk, item.quantity - 1)}
+                            className="px-3 py-2 text-gray-900 dark:text-white hover:text-neon-pink transition-colors font-bold"
+                            aria-label="Azalt"
+                          >
+                            -
+                          </button>
+                          <span className="text-gray-900 dark:text-white font-bold px-2 w-8 text-center">
+                            {item.quantity}
+                          </span>
+                          <button
+                            onClick={() => updateQuantity(item.id, item.beden, item.renk, item.quantity + 1)}
+                            className="px-3 py-2 text-gray-900 dark:text-white hover:text-neon-pink transition-colors font-bold"
+                            aria-label="Artır"
+                          >
+                            +
+                          </button>
                         </div>
                       </div>
 
                       {/* Price */}
-                      <div className="col-span-1 md:col-span-2 flex justify-start md:justify-center items-center">
+                      <div className="col-span-1 md:col-span-3 flex justify-start md:justify-center items-center">
                         <span className="md:hidden text-gray-600 dark:text-gray-400 text-xs uppercase tracking-wider mr-2">
                           {t("price_col")}:
                         </span>
@@ -130,7 +146,7 @@ export default function CartPage() {
                       </div>
 
                       {/* Remove Button */}
-                      <div className="col-span-1 md:col-span-2 flex justify-start md:justify-center items-center">
+                      <div className="col-span-1 md:col-span-1 flex justify-start md:justify-center items-center">
                         <button
                           onClick={() => removeFromCart(item.id, item.beden, item.renk)}
                           className="text-gray-600 dark:text-gray-400 hover:text-neon-pink dark:hover:text-neon-pink transition-colors p-2"
@@ -158,6 +174,20 @@ export default function CartPage() {
                     </div>
                   ))}
                 </div>
+                {cartItems.length > 0 && (
+                  <div className="mt-6 flex justify-end">
+                    <button
+                      onClick={() => clearCart()}
+                      className="text-xs uppercase tracking-widest font-bold text-gray-500 hover:text-neon-pink transition-colors flex items-center gap-2 border border-gray-300 dark:border-gray-700 px-4 py-2 clip-angled"
+                    >
+                      <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+                        <polyline points="3 6 5 6 21 6"></polyline>
+                        <path d="M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6m3 0V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2"></path>
+                      </svg>
+                      {t("clear_cart") || "Sepeti Temizle"}
+                    </button>
+                  </div>
+                )}
               </div>
             </div>
 

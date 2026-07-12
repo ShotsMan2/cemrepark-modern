@@ -69,6 +69,49 @@ class UserService {
     };
   }
 
+  async updateProfile(userId, data) {
+    const updateData = {};
+
+    if (data.name !== undefined) updateData.name = data.name;
+    if (data.phoneNumber !== undefined) updateData.phoneNumber = data.phoneNumber;
+
+    if (data.email) {
+      const existingUser = await prisma.user.findUnique({ where: { email: data.email } });
+      if (existingUser && existingUser.id !== userId) {
+        const error = new Error("Bu e-posta adresi başka bir kullanıcı tarafından kullanılıyor.");
+        error.statusCode = 409;
+        error.isOperational = true;
+        throw error;
+      }
+      updateData.email = data.email;
+    }
+
+    if (data.password) {
+      if (data.password.length < 6) {
+        const error = new Error("Şifre en az 6 karakter olmalıdır.");
+        error.statusCode = 400;
+        error.isOperational = true;
+        throw error;
+      }
+      updateData.password = await bcrypt.hash(data.password, 10);
+    }
+
+    const updatedUser = await prisma.user.update({
+      where: { id: parseInt(userId) },
+      data: updateData,
+    });
+
+    return {
+      message: "Profil başarıyla güncellendi.",
+      user: {
+        id: updatedUser.id,
+        name: updatedUser.name,
+        email: updatedUser.email,
+        phoneNumber: updatedUser.phoneNumber
+      }
+    };
+  }
+
   async deleteUser(id) {
     return await prisma.user.delete({
       where: { id: parseInt(id) }

@@ -82,6 +82,7 @@
   "vip_desc": "كن أول من يسمع عن مجموعات الموسم الجديد والخصومات والحملات الخاصة.",
   "my_cart": "عربة التسوق الخاصة بي",
   "cart_empty": "عربة التسوق فارغة.",
+  "clear_cart": "تفريغ العربة",
   "continue_shopping": "مواصلة التسوق",
   "product_col": "المنتج",
   "quantity_col": "الكمية",
@@ -261,5 +262,17 @@
   "status_cancelled": "ملغي",
   "status_preparing": "قيد التحضير",
   "status_shipped": "تم الشحن",
-  "status_delivered": "تم التوصيل"
+  "status_delivered": "تم التوصيل",
+  "change_password": "تغيير كلمة المرور",
+  "change_password_info": "اترك هذه الحقول فارغة إذا كنت لا ترغب في تغيير كلمة المرور.",
+  "new_password": "كلمة المرور الجديدة",
+  "new_password_placeholder": "6 أحرف على الأقل",
+  "confirm_password": "تأكيد كلمة المرور الجديدة",
+  "confirm_password_placeholder": "أدخل كلمة المرور مرة أخرى",
+  "save_changes": "حفظ التغييرات",
+  "updating": "جاري التحديث...",
+  "back_to_account": "العودة إلى حسابي",
+  "name": "الاسم الكامل",
+  "email": "البريد الإلكتروني",
+  "phone": "رقم الهاتف"
 }

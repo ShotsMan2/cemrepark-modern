@@ -45,11 +45,14 @@ export default function HesabimPage() {
                   {session?.user?.name || t("user_default_name")}
                 </h2>
                 <p className="text-gray-600 dark:text-gray-400 font-medium">{session?.user?.email}</p>
+                {session?.user?.phoneNumber && (
+                  <p className="text-gray-600 dark:text-gray-400 font-medium">{session.user.phoneNumber}</p>
+                )}
               </div>
             </div>
 
             <button
-              onClick={() => signOut({ callbackUrl: "/login" })}
+              onClick={() => signOut({ callbackUrl: `${window.location.origin}/login` })}
               className="mt-4 bg-black/5 dark:bg-white/10 border border-black/10 dark:border-white/20 text-gray-900 dark:text-white px-6 py-3 uppercase tracking-wider font-bold hover:bg-neon-pink hover:text-white hover:border-neon-pink transition-all duration-300 clip-angled w-full cursor-pointer"
             >
               {t("logout")}

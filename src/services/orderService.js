@@ -56,7 +56,26 @@ export const orderService = {
         }
       });
 
-      return newOrder;
+      // Create order items
+      for (const item of items) {
+        const product = await tx.product.findUnique({
+          where: { id: item.productId }
+        });
+        await tx.orderItem.create({
+          data: {
+            orderId: newOrder.id,
+            productId: item.productId,
+            quantity: item.quantity,
+            price: product.fiyat,
+          }
+        });
+      }
+
+      // Return order with items
+      return tx.order.findUnique({
+        where: { id: newOrder.id },
+        include: { items: true }
+      });
     });
   },
 

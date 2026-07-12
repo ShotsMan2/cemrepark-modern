@@ -530,7 +530,7 @@ export default function Header() {
               type="search"
               id="search-form"
               autoFocus={isSearchOpen}
-              className="w-full bg-transparent border-b border-gray-300 dark:border-gray-800 py-4 text-2xl text-gray-900 dark:text-white focus:outline-none placeholder-gray-400 dark:placeholder-gray-700 transition-colors"
+              className="w-full bg-transparent border-b border-gray-300 dark:border-gray-800 py-4 pr-12 text-2xl text-gray-900 dark:text-white focus:outline-none placeholder-gray-400 dark:placeholder-gray-700 transition-colors [&::-webkit-search-cancel-button]:cursor-pointer"
               placeholder={t("search_placeholder")}
               aria-label="Search"
               defaultValue=""

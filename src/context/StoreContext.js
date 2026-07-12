@@ -171,6 +171,27 @@ export function StoreProvider({ children }) {
     setFavoriteItems((prev) => prev.filter((item) => item.id !== productId));
   };
 
+  const clearCart = () => {
+    setCartItems([]);
+    if (typeof window !== 'undefined') {
+      localStorage.removeItem('cemrepark_cart');
+    }
+  };
+
+  const updateQuantity = (productId, beden, renk, newQuantity) => {
+    if (newQuantity <= 0) {
+      removeFromCart(productId, beden, renk);
+      return;
+    }
+    setCartItems((prev) =>
+      prev.map((item) =>
+        item.id === productId && item.beden === beden && item.renk === renk
+          ? { ...item, quantity: newQuantity }
+          : item
+      )
+    );
+  };
+
   return (
     <StoreContext.Provider
       value={{
@@ -180,6 +201,8 @@ export function StoreProvider({ children }) {
         removeFromCart,
         addToFavorites,
         removeFromFavorites,
+        clearCart,
+        updateQuantity,
         isLoaded,
         language,
         setLanguage,

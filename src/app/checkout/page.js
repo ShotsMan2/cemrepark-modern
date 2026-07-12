@@ -4,10 +4,12 @@ import { useStore } from "../../context/StoreContext";
 import { useRouter } from "next/navigation";
 import Image from "next/image";
 import { getValidImageUrl } from "../../utils/imageHelper";
+import { useSession } from "next-auth/react";
 
 export default function CheckoutPage() {
   const router = useRouter();
   const { cartItems, clearCart, formatPrice, t } = useStore();
+  const { data: session } = useSession();
   const [isLoaded, setIsLoaded] = useState(false);
 
   const [formData, setFormData] = useState({
@@ -80,28 +82,60 @@ export default function CheckoutPage() {
     setFormData({ ...formData, [name]: value });
   };
 
-  const handlePayment = (e) => {
+  const handlePayment = async (e) => {
     e.preventDefault();
     setIsProcessing(true);
 
-    // Simulate payment API call
-    setTimeout(() => {
-      setIsProcessing(false);
+    try {
+      const orderPayload = {
+        customer: formData.fullName,
+        userId: session?.user?.id ? parseInt(session.user.id) : null,
+        total: totalAmount,
+        items: cartItems.map(item => ({
+          productId: item.id,
+          quantity: item.quantity
+        }))
+      };
+
+      const response = await fetch("/api/orders", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify(orderPayload)
+      });
+
+      if (!response.ok) {
+        const errorData = await response.json().catch(() => null);
+        throw new Error(errorData?.error || "Sipariş oluşturulamadı.");
+      }
+
       if (typeof window !== "undefined" && window.Swal) {
         window.Swal.fire({
-          title: t("order_success"),
-          text: t("order_success_desc"),
+          title: t("order_success") || "Siparişiniz Alındı!",
+          text: t("order_success_desc") || "Siparişiniz başarıyla oluşturuldu. En kısa sürede kargoya verilecektir.",
           icon: "success",
           background: "#1a1a1a",
           color: "#fff",
           confirmButtonColor: "#ff007f",
-          confirmButtonText: t("back_to_home"),
+          confirmButtonText: t("back_to_home") || "Ana Sayfaya Dön",
         }).then(() => {
-          if (clearCart) clearCart(); // Clear the cart context
+          if (clearCart) clearCart();
           router.push("/");
         });
       }
-    }, 2000);
+    } catch (error) {
+      if (typeof window !== "undefined" && window.Swal) {
+        window.Swal.fire({
+          title: "Hata",
+          text: error.message || "Siparişiniz oluşturulurken bir hata oluştu.",
+          icon: "error",
+          background: "#1a1a1a",
+          color: "#fff",
+          confirmButtonColor: "#ff007f",
+        });
+      }
+    } finally {
+      setIsProcessing(false);
+    }
   };
 
   if (!isLoaded || cartItems.length === 0) return null;
