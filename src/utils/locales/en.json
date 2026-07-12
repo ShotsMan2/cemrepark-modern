@@ -82,6 +82,7 @@
   "vip_desc": "Be the first to hear about new season collections, special discounts and campaigns.",
   "my_cart": "My Cart",
   "cart_empty": "Your cart is empty.",
+  "clear_cart": "Clear Cart",
   "continue_shopping": "Continue Shopping",
   "product_col": "Product",
   "quantity_col": "Quantity",
@@ -261,5 +262,17 @@
   "status_cancelled": "Cancelled",
   "status_preparing": "Preparing",
   "status_shipped": "Shipped",
-  "status_delivered": "Delivered"
+  "status_delivered": "Delivered",
+  "change_password": "Change Password",
+  "change_password_info": "Leave these fields blank if you do not want to change your password.",
+  "new_password": "New Password",
+  "new_password_placeholder": "At least 6 characters",
+  "confirm_password": "Confirm New Password",
+  "confirm_password_placeholder": "Re-enter your password",
+  "save_changes": "Save Changes",
+  "updating": "UPDATING...",
+  "back_to_account": "Back to My Account",
+  "name": "Full Name",
+  "email": "Email Address",
+  "phone": "Phone Number"
 }

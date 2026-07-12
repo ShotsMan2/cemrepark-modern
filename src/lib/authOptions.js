@@ -42,6 +42,7 @@ export const authOptions = {
                 email: user.email,
                 name: user.name,
                 role: user.role,
+                phoneNumber: user.phoneNumber,
               };
             }
           } else {
@@ -82,11 +83,18 @@ export const authOptions = {
     signIn: "/admin",
   },
   callbacks: {
-    async jwt({ token, user }) {
+    async jwt({ token, user, trigger, session: updateData }) {
       if (user) {
         token.role = user.role;
         token.id = user.id;
         token.name = user.name;
+        token.phoneNumber = user.phoneNumber;
+      }
+      // Handle session updates from client-side update() calls
+      if (trigger === "update" && updateData) {
+        if (updateData.name !== undefined) token.name = updateData.name;
+        if (updateData.email !== undefined) token.email = updateData.email;
+        if (updateData.phoneNumber !== undefined) token.phoneNumber = updateData.phoneNumber;
       }
       return token;
     },
@@ -95,6 +103,7 @@ export const authOptions = {
         session.user.role = token.role;
         session.user.id = token.id;
         session.user.name = token.name;
+        session.user.phoneNumber = token.phoneNumber;
       }
       return session;
     },

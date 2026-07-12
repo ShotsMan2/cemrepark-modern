@@ -1,6 +1,7 @@
 import { NextResponse } from "next/server";
 import { chatService } from "@/services/chatService";
 import { productService } from "@/services/productService";
+import prisma from "@/lib/prisma";
 
 const CHATBOT_API_URL = process.env.CHATBOT_API_URL || "http://localhost:11434/api/chat";
 const DEFAULT_MODEL = process.env.CHATBOT_DEFAULT_MODEL || "qwen2.5-coder:latest";
@@ -123,6 +124,50 @@ export async function POST(request) {
         role: "system",
         content: `Müşterinin sepetinde anlık olarak şu ürün(ler) var: ${cartDesc}. Gerekirse "Sepetinizdeki bu şalı tamamlayacak..." veya "Sepetinizde harika parçalar var" şeklinde satış artırıcı (cross-sell) ve bağlama uygun proaktif yönlendirmelerde bulun.`
       });
+    }
+
+    // Add order history context for logged-in users
+    if (user && user.id) {
+      try {
+        const { orderService } = await import('@/services/orderService');
+        const orders = await prisma.order.findMany({
+          where: { userId: parseInt(user.id) },
+          orderBy: { createdAt: 'desc' },
+          take: 5,
+          include: { items: { include: { product: true } } }
+        });
+        
+        if (orders.length > 0) {
+          const orderSummary = orders.map(o => {
+            const itemList = o.items.map(i => `${i.quantity}x ${i.product?.ad || 'Ürün'}`).join(', ');
+            return `Sipariş #${o.id} (${o.createdAt.toLocaleDateString('tr-TR')}): ${itemList} - Toplam: ${o.total} TL - Durum: ${o.status}`;
+          }).join('\n');
+          
+          promptMessages.push({
+            role: 'system',
+            content: `Müşterinin son sipariş geçmişi:\n${orderSummary}\nMüşteri sipariş durumunu sorarsa bu bilgileri kullanarak yanıtla.`
+          });
+        }
+      } catch (err) {
+        console.error('[Chat API] Order history fetch failed:', err);
+      }
+    }
+
+    // Add product recommendations context
+    if (user && user.id) {
+      try {
+        const { recommendationService } = await import('@/services/recommendationService');
+        const recommendations = await recommendationService.getRecommendationsForUser(parseInt(user.id), 4);
+        if (recommendations.length > 0) {
+          const recList = recommendations.map(p => `${p.ad} (${p.fiyat} TL, Kategori: ${p.kategori || 'Genel'})`).join(', ');
+          promptMessages.push({
+            role: 'system',
+            content: `Bu müşteriye önerebileceğin ürünler: ${recList}. Müşteri ürün önerisi isterse bu listeyi kullan.`
+          });
+        }
+      } catch (err) {
+        console.error('[Chat API] Recommendation fetch failed:', err);
+      }
     }
 
     history.slice(-8).forEach((entry) => {
