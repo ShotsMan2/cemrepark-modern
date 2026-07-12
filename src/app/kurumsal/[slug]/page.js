@@ -20,7 +20,7 @@ export default async function KurumsalPage({ params }) {
   }
 
   return (
-    <div className="min-h-screen pt-32 pb-24 relative overflow-hidden">
+    <div className="min-h-screen pt-32 pb-24 bg-background relative overflow-hidden">
       {/* Background glow */}
       <div className="absolute top-1/4 left-1/4 w-[500px] h-[500px] bg-neon-pink opacity-[0.03] rounded-full blur-[120px] pointer-events-none"></div>
 

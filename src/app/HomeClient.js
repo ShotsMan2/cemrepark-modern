@@ -40,8 +40,8 @@ export default function HomeClient({ bestSellers, discounted, banners = [] }) {
                   key={slide.id}
                   className={`absolute inset-0 transition-all duration-1000 flex flex-col md:flex-row items-center gap-12 ${
                     isActive
-                      ? "opacity-100 translate-x-0 z-10"
-                      : "opacity-0 translate-x-8 z-0 pointer-events-none"
+                      ? "opacity-100 translate-x-0 z-10 visible"
+                      : "opacity-0 translate-x-8 z-0 pointer-events-none invisible"
                   }`}
                 >
                   <div className="w-full md:w-1/2 text-left">
@@ -95,7 +95,9 @@ export default function HomeClient({ bestSellers, discounted, banners = [] }) {
                   key={index}
                   onClick={() => setCurrentSlide(index)}
                   className={`w-3 h-3 rounded-full transition-all duration-300 ${
-                    index === currentSlide ? "bg-neon-pink w-8" : "bg-white/30 hover:bg-white/50"
+                    index === currentSlide 
+                      ? "bg-neon-pink w-8" 
+                      : "bg-black/25 dark:bg-white/25 hover:bg-neon-pink/60 dark:hover:bg-neon-pink/60"
                   }`}
                   aria-label={`Slayt ${index + 1}`}
                 />

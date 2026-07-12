@@ -57,7 +57,7 @@ export default function ContactForm() {
   return (
     <form className="space-y-4" onSubmit={handleSubmit}>
       <div>
-        <label className="block text-gray-400 text-xs font-bold mb-2 uppercase tracking-wider">
+        <label className="block text-gray-600 dark:text-gray-400 text-xs font-bold mb-2 uppercase tracking-wider">
           Ad Soyad
         </label>
         <input
@@ -65,11 +65,11 @@ export default function ContactForm() {
           type="text"
           value={adSoyad}
           onChange={(e) => setAdSoyad(e.target.value)}
-          className="w-full bg-black/50 border border-white/10 text-white px-4 py-3 text-sm focus:border-neon-pink outline-none transition-colors"
+          className="w-full bg-black/5 dark:bg-black/50 border border-black/10 dark:border-white/10 text-gray-900 dark:text-white px-4 py-3 text-sm focus:border-neon-pink outline-none transition-colors"
         />
       </div>
       <div>
-        <label className="block text-gray-400 text-xs font-bold mb-2 uppercase tracking-wider">
+        <label className="block text-gray-600 dark:text-gray-400 text-xs font-bold mb-2 uppercase tracking-wider">
           E-Posta
         </label>
         <input
@@ -77,11 +77,11 @@ export default function ContactForm() {
           type="email"
           value={ePosta}
           onChange={(e) => setEPosta(e.target.value)}
-          className="w-full bg-black/50 border border-white/10 text-white px-4 py-3 text-sm focus:border-neon-pink outline-none transition-colors"
+          className="w-full bg-black/5 dark:bg-black/50 border border-black/10 dark:border-white/10 text-gray-900 dark:text-white px-4 py-3 text-sm focus:border-neon-pink outline-none transition-colors"
         />
       </div>
       <div>
-        <label className="block text-gray-400 text-xs font-bold mb-2 uppercase tracking-wider">
+        <label className="block text-gray-600 dark:text-gray-400 text-xs font-bold mb-2 uppercase tracking-wider">
           Mesajınız
         </label>
         <textarea
@@ -89,13 +89,13 @@ export default function ContactForm() {
           rows="4"
           value={mesaj}
           onChange={(e) => setMesaj(e.target.value)}
-          className="w-full bg-black/50 border border-white/10 text-white px-4 py-3 text-sm focus:border-neon-pink outline-none transition-colors"
+          className="w-full bg-black/5 dark:bg-black/50 border border-black/10 dark:border-white/10 text-gray-900 dark:text-white px-4 py-3 text-sm focus:border-neon-pink outline-none transition-colors"
         ></textarea>
       </div>
       <button
         type="submit"
         disabled={isSubmitting}
-        className="w-full bg-neon-pink text-white font-bold py-3 uppercase tracking-widest text-sm hover:bg-white hover:text-neon-pink transition-colors clip-angled disabled:opacity-50"
+        className="w-full bg-neon-pink text-white font-bold py-3 uppercase tracking-widest text-sm hover:bg-black hover:text-white dark:hover:bg-white dark:hover:text-neon-pink transition-colors clip-angled disabled:opacity-50"
       >
         {isSubmitting ? "Gönderiliyor..." : "Gönder"}
       </button>
