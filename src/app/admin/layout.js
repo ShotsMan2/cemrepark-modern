@@ -20,7 +20,7 @@ export default async function AdminLayout({ children }) {
           background-color: #f9fafb !important;
           color: #1f2937 !important;
         }
-        html:not(.dark) .admin-wrapper .clip-angled {
+        .admin-wrapper .clip-angled {
           clip-path: none !important;
           border-radius: 8px !important;
         }
