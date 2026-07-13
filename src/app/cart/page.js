@@ -55,7 +55,7 @@ export default function CartPage() {
           </div>
         ) : (
           <div className="flex flex-col lg:flex-row gap-12 max-w-6xl mx-auto">
-            <div className="w-full lg:w-2/3">
+            <div className="w-full lg:w-2/3" data-aos="fade-up" data-aos-duration="800">
               <div className="glass-panel clip-angled p-6 mb-6">
                 <div className="hidden md:grid grid-cols-12 gap-4 text-gray-600 dark:text-gray-400 text-xs font-bold uppercase tracking-wider mb-4 border-b border-black/10 dark:border-white/10 pb-4">
                   <div className="col-span-5">{t("product_col")}</div>
@@ -192,7 +192,7 @@ export default function CartPage() {
             </div>
 
             {/* Order Summary */}
-            <div className="w-full lg:w-1/3">
+            <div className="w-full lg:w-1/3" data-aos="fade-left" data-aos-duration="800" data-aos-delay="200">
               <div className="glass-panel clip-angled p-8 sticky top-32">
                 <h3 className="text-xl font-bold text-gray-900 dark:text-white mb-6 uppercase tracking-wider">
                   {t("order_summary")}

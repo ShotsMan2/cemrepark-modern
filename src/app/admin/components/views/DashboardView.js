@@ -280,6 +280,66 @@ export default function DashboardView({ products }) {
           </div>
         </div>
       </div>
+
+      {/* Security & Orders Analytics Row */}
+      <div className="grid grid-cols-1 lg:grid-cols-2 gap-6 mt-8 animate-fade-in" data-aos="fade-up" data-aos-delay="300">
+        {/* Order Status Distribution */}
+        <div className="glass-panel p-6 clip-angled relative border border-white/5 h-[350px]">
+          <h3 className="text-white font-bold uppercase tracking-widest mb-1">Sipariş Durumları</h3>
+          <p className="text-gray-500 text-xs mb-4">Mevcut siparişlerin anlık durum dağılımı</p>
+          <div className="w-full h-64">
+            <ResponsiveContainer width="100%" height="100%">
+              <BarChart data={orderData} margin={{ top: 5, right: 10, left: -20, bottom: 5 }}>
+                <CartesianGrid strokeDasharray="3 3" stroke="rgba(255,255,255,0.05)" vertical={false} />
+                <XAxis dataKey="name" stroke="rgba(255,255,255,0.3)" tick={{ fill: "rgba(255,255,255,0.5)", fontSize: 12 }} />
+                <YAxis stroke="rgba(255,255,255,0.3)" tick={{ fill: "rgba(255,255,255,0.5)", fontSize: 12 }} />
+                <Tooltip contentStyle={{ backgroundColor: "rgba(0,0,0,0.9)", border: "1px solid rgba(255,255,255,0.1)" }} itemStyle={{ color: "#fff", fontWeight: "bold" }} />
+                <Bar dataKey="value" fill="#a855f7" radius={[4, 4, 0, 0]} barSize={40} />
+              </BarChart>
+            </ResponsiveContainer>
+          </div>
+        </div>
+
+        {/* Login History Pie Chart */}
+        <div className="glass-panel p-6 md:p-8 clip-angled relative border border-white/5 h-[350px] flex flex-col">
+          <h3 className="text-white font-bold uppercase tracking-widest mb-2">Giriş İstatistikleri</h3>
+          <p className="text-gray-500 text-xs mb-4">Başarılı ve başarısız yönetici/kullanıcı giriş oranları</p>
+          <div className="flex-1 w-full">
+            <ResponsiveContainer width="100%" height="100%">
+              <PieChart>
+                <Pie
+                  data={loginData}
+                  cx="50%"
+                  cy="50%"
+                  innerRadius={50}
+                  outerRadius={80}
+                  paddingAngle={5}
+                  dataKey="value"
+                  stroke="none"
+                >
+                  {loginData.map((entry, index) => (
+                    <Cell key={`cell-${index}`} fill={entry.name === "Başarılı" ? "#22c55e" : "#ef4444"} />
+                  ))}
+                </Pie>
+                <Tooltip
+                  contentStyle={{ backgroundColor: "rgba(0,0,0,0.9)", border: "1px solid rgba(255,255,255,0.1)", borderRadius: 0 }}
+                  itemStyle={{ color: "#fff", fontWeight: "bold" }}
+                />
+              </PieChart>
+            </ResponsiveContainer>
+          </div>
+          <div className="flex justify-center gap-6 mt-2">
+            <div className="flex items-center gap-2">
+              <div className="w-3 h-3 rounded-full bg-green-500"></div>
+              <span className="text-gray-400 text-xs font-bold uppercase">Başarılı</span>
+            </div>
+            <div className="flex items-center gap-2">
+              <div className="w-3 h-3 rounded-full bg-red-500"></div>
+              <span className="text-gray-400 text-xs font-bold uppercase">Başarısız</span>
+            </div>
+          </div>
+        </div>
+      </div>
     </div>
   );
 }

@@ -152,7 +152,7 @@ export default function CheckoutPage() {
 
         <div className="flex flex-col lg:flex-row gap-12 max-w-5xl mx-auto">
           {/* LEFT: PAYMENT FORM */}
-          <div className="w-full lg:w-2/3">
+          <div className="w-full lg:w-2/3" data-aos="fade-right" data-aos-duration="800">
             <form onSubmit={handlePayment} className="space-y-8">
               {/* Teslimat Bilgileri */}
               <div className="glass-panel p-6 md:p-8 rounded-xl border border-black/5 dark:border-white/5">
@@ -410,7 +410,7 @@ export default function CheckoutPage() {
           </div>
 
           {/* RIGHT: ORDER SUMMARY */}
-          <div className="w-full lg:w-1/3">
+          <div className="w-full lg:w-1/3" data-aos="fade-left" data-aos-duration="800" data-aos-delay="200">
             <div className="glass-panel p-6 md:p-8 border border-black/5 dark:border-white/5 sticky top-32">
               <h2 className="text-xl font-bold mb-6 text-gray-900 dark:text-white uppercase tracking-widest border-b border-black/10 dark:border-white/10 pb-4">
                 {t("order_summary")}

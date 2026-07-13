@@ -28,3 +28,16 @@ Cemre Park is a modern e-commerce platform serving the fashion and hijab clothin
 1. Always refer to this summary when making architectural or feature-level decisions.
 2. Maintain this file and update the summary whenever significant architectural changes or new core features are added.
 3. Prioritize aesthetic, modern web design principles (vibrant colors, smooth gradients, responsive layouts, micro-animations) in all frontend modifications.
+
+## Multi-Agent Development Protocol
+This project utilizes a collaborative five-agent workflow to maximize efficiency and code quality. The participating agents are:
+- **Pi**: Strategic planning, architecture design, and workflow orchestration.
+- **Devin.ai**: Complex feature implementation, full-stack development, and bug fixing.
+- **OpenCode**: Codebase analysis, refactoring, and ensuring code quality/standards.
+- **Copilot**: Rapid code generation, boilerplate creation, and inline assistance.
+- **Cursor**: Context-aware code editing, UI/UX refinement, and real-time pair programming.
+
+**Collaboration Guidelines for Agents:**
+- Acknowledge your specific role within this multi-agent system when taking on tasks.
+- Ensure clear communication and handoffs; document your changes, thoughts, and reasoning clearly so other agents can seamlessly continue the work.
+- Focus on the current high-priority features: AI-driven ChatWidget, one-step checkout, Recharts-based Admin Analytics, and robust security/logging (AuditLog/LoginHistory).
