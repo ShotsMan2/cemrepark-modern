@@ -5,6 +5,7 @@ import { useRouter } from "next/navigation";
 import Image from "next/image";
 import { getValidImageUrl } from "../../utils/imageHelper";
 import { useSession } from "next-auth/react";
+import Swal from "sweetalert2";
 
 export default function CheckoutPage() {
   const router = useRouter();
@@ -108,8 +109,8 @@ export default function CheckoutPage() {
         throw new Error(errorData?.error || "Sipariş oluşturulamadı.");
       }
 
-      if (typeof window !== "undefined" && window.Swal) {
-        window.Swal.fire({
+      if (Swal) {
+        Swal.fire({
           title: t("order_success") || "Siparişiniz Alındı!",
           text: t("order_success_desc") || "Siparişiniz başarıyla oluşturuldu. En kısa sürede kargoya verilecektir.",
           icon: "success",
@@ -123,8 +124,8 @@ export default function CheckoutPage() {
         });
       }
     } catch (error) {
-      if (typeof window !== "undefined" && window.Swal) {
-        window.Swal.fire({
+      if (Swal) {
+        Swal.fire({
           title: "Hata",
           text: error.message || "Siparişiniz oluşturulurken bir hata oluştu.",
           icon: "error",

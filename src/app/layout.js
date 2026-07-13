@@ -82,13 +82,6 @@ export default function RootLayout({ children }) {
         </AuthProvider>
 
         {/* AOS is now initialized via npm in AOSInitializer */}
-        <Script 
-          src="https://chatbot-api.siteniz.com/embed.js" 
-          data-color="#FF6000" 
-          data-title="Asistan" 
-          data-welcome="Merhaba, size nasıl yardımcı olabilirim?"
-          strategy="afterInteractive"
-        />
       </body>
     </html>
   );
