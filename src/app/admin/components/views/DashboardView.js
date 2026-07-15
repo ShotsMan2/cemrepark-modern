@@ -32,11 +32,26 @@ export default function DashboardView({ products }) {
   const totalRevenue = stats && typeof stats.revenue === 'number' ? stats.revenue : 0;
   const totalOrders = stats && typeof stats.orders === 'number' ? stats.orders : 0;
 
-  const chartData = stats?.salesOverTime || [];
+  const chartData = stats?.salesOverTime?.length > 0 ? stats.salesOverTime : [
+    { name: "Pzt", total: 0 },
+    { name: "Sal", total: 0 },
+    { name: "Çar", total: 0 },
+    { name: "Per", total: 0 },
+    { name: "Cum", total: 0 },
+    { name: "Cmt", total: 0 },
+    { name: "Paz", total: 0 }
+  ];
   const catData = stats?.categoryData || [];
   const totalCategoryValue = catData.reduce((sum, item) => sum + item.value, 0);
   const loginData = stats?.loginStats || [];
-  const orderData = stats?.orderStats || [];
+  const orderData = stats?.orderStats?.length > 0 ? stats.orderStats : [
+    { name: "Beklemede", value: 0 },
+    { name: "Onaylandı", value: 0 },
+    { name: "Hazırlanıyor", value: 0 },
+    { name: "Kargolandı", value: 0 },
+    { name: "Teslim Edildi", value: 0 },
+    { name: "İptal", value: 0 }
+  ];
 
   const [activities, setActivities] = useState([
     { text: "Yeni sipariş alındı #1042", time: "2 dk önce", color: "neon-pink" },

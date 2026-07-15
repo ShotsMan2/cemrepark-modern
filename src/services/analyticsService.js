@@ -23,13 +23,12 @@ class AnalyticsService {
     const ordersCount = await prisma.order.count();
     const usersCount = await prisma.user.count();
 
-    const orders = await prisma.order.findMany({
-      select: { total: true },
-    });
-
     const categoriesCount = await prisma.category.count();
 
-    const totalRevenue = orders.reduce((sum, order) => sum + order.total, 0);
+    const revenueAggregation = await prisma.order.aggregate({
+      _sum: { total: true },
+    });
+    const totalRevenue = revenueAggregation._sum.total || 0;
 
     // Users by Role
     const users = await prisma.user.groupBy({

@@ -2,35 +2,25 @@
 
 import React, { useState, useEffect } from "react";
 import {
-  AreaChart,
-  Area,
   PieChart,
   Pie,
   Cell,
-  XAxis,
-  YAxis,
-  CartesianGrid,
   Tooltip,
   ResponsiveContainer,
 } from "recharts";
 
 const COLORS = ["#ff007f", "#ffd700", "#00ffff", "#ff00ff", "#a200ff"];
 
-const CustomTooltip = ({ active, payload, label }) => {
-  if (active && payload && payload.length) {
-    return (
-      <div className="bg-black/90 border border-white/10 p-3 shadow-xl backdrop-blur-md">
-        <p className="text-white font-bold mb-1">{label}</p>
-        {payload.map((entry, index) => (
-          <p key={`item-${index}`} style={{ color: entry.color }} className="text-sm font-medium">
-            {entry.name === "total" ? "Satış:" : `${entry.name}:`} {entry.value.toLocaleString("tr-TR")} ₺
-          </p>
-        ))}
+const CustomLegend = ({ data }) => (
+  <div className="flex justify-center gap-4 mt-4 flex-wrap">
+    {data.map((entry, index) => (
+      <div key={entry.name} className="flex items-center gap-2">
+        <div className="w-3 h-3 rounded-full" style={{ backgroundColor: COLORS[index % COLORS.length] }}></div>
+        <span className="text-gray-400 text-xs font-bold uppercase">{entry.name}</span>
       </div>
-    );
-  }
-  return null;
-};
+    ))}
+  </div>
+);
 
 export default function DashboardAnalytics() {
   const [data, setData] = useState({
@@ -38,6 +28,7 @@ export default function DashboardAnalytics() {
     orderStats: [],
   });
   const [loading, setLoading] = useState(true);
+  const [error, setError] = useState(null);
 
   useEffect(() => {
     const fetchData = async () => {
@@ -49,9 +40,12 @@ export default function DashboardAnalytics() {
             loginStats: json.loginStats || [],
             orderStats: json.orderStats || [],
           });
+        } else {
+          throw new Error("Failed to fetch");
         }
       } catch (error) {
         console.error("Failed to fetch analytics", error);
+        setError("Veriler yüklenirken bir hata oluştu.");
       } finally {
         setLoading(false);
       }
@@ -61,6 +55,10 @@ export default function DashboardAnalytics() {
 
   if (loading) {
     return <div className="text-white p-4">Yükleniyor...</div>;
+  }
+
+  if (error) {
+    return <div className="text-red-500 p-4">{error}</div>;
   }
 
   return (
@@ -96,14 +94,7 @@ export default function DashboardAnalytics() {
             </PieChart>
           </ResponsiveContainer>
         </div>
-        <div className="flex justify-center gap-4 mt-4 flex-wrap">
-          {data.loginStats.map((entry, index) => (
-            <div key={entry.name} className="flex items-center gap-2">
-              <div className="w-3 h-3 rounded-full" style={{ backgroundColor: COLORS[index % COLORS.length] }}></div>
-              <span className="text-gray-400 text-xs font-bold uppercase">{entry.name}</span>
-            </div>
-          ))}
-        </div>
+        <CustomLegend data={data.loginStats} />
       </div>
 
       {/* Order Stats Pie Chart */}
@@ -137,14 +128,7 @@ export default function DashboardAnalytics() {
             </PieChart>
           </ResponsiveContainer>
         </div>
-        <div className="flex justify-center gap-4 mt-4 flex-wrap">
-          {data.orderStats.map((entry, index) => (
-            <div key={entry.name} className="flex items-center gap-2">
-              <div className="w-3 h-3 rounded-full" style={{ backgroundColor: COLORS[index % COLORS.length] }}></div>
-              <span className="text-gray-400 text-xs font-bold uppercase">{entry.name}</span>
-            </div>
-          ))}
-        </div>
+        <CustomLegend data={data.orderStats} />
       </div>
     </div>
   );
