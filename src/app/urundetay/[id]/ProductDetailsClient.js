@@ -10,7 +10,12 @@ const QuickViewModal = dynamic(() => import("../../../components/QuickViewModal"
 import { getValidImageUrl } from "../../../utils/imageHelper";
 import { useSession } from "next-auth/react";
 import { useRouter } from "next/navigation";
-
+import { Swiper, SwiperSlide } from 'swiper/react';
+import { Navigation, Pagination, EffectFade, Autoplay } from 'swiper/modules';
+import 'swiper/css';
+import 'swiper/css/navigation';
+import 'swiper/css/pagination';
+import 'swiper/css/effect-fade';
 export default function ProductDetailsClient({
   product,
   relatedProducts = [],
@@ -43,6 +48,21 @@ export default function ProductDetailsClient({
   const selectedColorObj = hasColors ? product.colors.find(c => c.renkAdi === (renk || renkList[0])) : null;
   const activeImageUrl = selectedColorObj?.gorselUrl || product.resim || product.gorsel?.split(',')[0];
 
+  // Prepare images for Swiper
+  let swiperImages = [];
+  if (product.gorsel) {
+    swiperImages = product.gorsel.split(',').map(url => url.trim()).filter(Boolean);
+  } else if (product.resim) {
+    swiperImages = [product.resim];
+  }
+  
+  if (selectedColorObj && selectedColorObj.gorselUrl) {
+    // If a color is selected, put its image first
+    swiperImages = [selectedColorObj.gorselUrl, ...swiperImages.filter(img => img !== selectedColorObj.gorselUrl)];
+  }
+
+  // Ensure there's at least one image
+  if (swiperImages.length === 0) swiperImages = ["/images/placeholder.jpg"];
   const handleAddToCart = () => {
     if (!beden || !renk) {
       Swal.fire({
@@ -179,15 +199,28 @@ export default function ProductDetailsClient({
           <div className="w-full lg:w-1/2 relative group" data-aos="fade-right" suppressHydrationWarning>
             <div className="absolute -inset-1 bg-gradient-to-r from-neon-pink to-holo-gold rounded-lg blur opacity-20 group-hover:opacity-40 transition duration-1000 group-hover:duration-200"></div>
             <div className="relative glass-panel p-2 clip-angled">
-              <div className="relative w-full h-[450px] md:h-[600px] clip-angled overflow-hidden">
-                <Image
-                  src={getValidImageUrl(activeImageUrl)}
-                  alt={product.ad}
-                  fill
-                  className="object-cover hover:scale-105 transition-transform duration-700"
-                  priority
-                  sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
-                />
+              <div className="relative w-full h-[450px] md:h-[600px] clip-angled overflow-hidden group-hover:shadow-[0_0_30px_rgba(255,0,127,0.3)] transition-shadow">
+                <Swiper
+                  modules={[Navigation, Pagination, EffectFade, Autoplay]}
+                  effect="fade"
+                  navigation
+                  pagination={{ clickable: true, dynamicBullets: true }}
+                  autoplay={{ delay: 5000, disableOnInteraction: true }}
+                  className="w-full h-full"
+                >
+                  {swiperImages.map((imgSrc, idx) => (
+                    <SwiperSlide key={idx}>
+                      <Image
+                        src={getValidImageUrl(imgSrc)}
+                        alt={`${product.ad} - Görsel ${idx + 1}`}
+                        fill
+                        className="object-cover hover:scale-105 transition-transform duration-700"
+                        priority={idx === 0}
+                        sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
+                      />
+                    </SwiperSlide>
+                  ))}
+                </Swiper>
               </div>
             </div>
 

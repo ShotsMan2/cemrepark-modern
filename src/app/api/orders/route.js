@@ -20,7 +20,7 @@ export const GET = apiHandler(async (req) => {
 export const POST = apiHandler(async (req) => {
   // Normally you might not require admin to create an order, but let's parse body
   const body = await req.json();
-  const { customer, userId, total, items } = body;
+  const { customer, userId, total, items, discountCode } = body;
   
   if (!customer) {
     const error = new Error("Customer name is required");
@@ -29,6 +29,6 @@ export const POST = apiHandler(async (req) => {
     throw error;
   }
 
-  const newOrder = await orderService.createOrder({ customer, userId, total }, items || []);
+  const newOrder = await orderService.createOrder({ customer, userId, total, discountCode }, items || []);
   return NextResponse.json(newOrder, { status: 201 });
 });
