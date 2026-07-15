@@ -63,26 +63,26 @@ export default function HesabimPage() {
             <h2 className="text-2xl font-bold text-gray-900 dark:text-white mb-6 uppercase tracking-wider border-b border-black/10 dark:border-white/10 pb-4">
               {t("quick_links")}
             </h2>
-            <div className="space-y-4">
+            <div className="flex flex-col">
               <Link
                 href="/hesabim/siparislerim"
-                className="flex items-center text-gray-600 dark:text-gray-400 hover:text-neon-pink dark:hover:text-neon-pink transition-colors font-medium"
+                className="flex items-center text-gray-600 dark:text-gray-400 hover:text-neon-pink dark:hover:text-neon-pink transition-colors font-medium py-4 border-b border-black/5 dark:border-white/5 touch-manipulation"
               >
-                <span className="w-2 h-2 rounded-full bg-holo-gold mr-3"></span>
+                <span className="w-2 h-2 rounded-full bg-holo-gold mr-3 shadow-[0_0_8px_rgba(255,215,0,0.5)]"></span>
                 {t("my_orders")}
               </Link>
               <Link
                 href="/favorites"
-                className="flex items-center text-gray-600 dark:text-gray-400 hover:text-neon-pink dark:hover:text-neon-pink transition-colors font-medium"
+                className="flex items-center text-gray-600 dark:text-gray-400 hover:text-neon-pink dark:hover:text-neon-pink transition-colors font-medium py-4 border-b border-black/5 dark:border-white/5 touch-manipulation"
               >
-                <span className="w-2 h-2 rounded-full bg-holo-gold mr-3"></span>
+                <span className="w-2 h-2 rounded-full bg-holo-gold mr-3 shadow-[0_0_8px_rgba(255,215,0,0.5)]"></span>
                 {t("my_favorites")}
               </Link>
               <Link
                 href="/hesabim/ayarlar"
-                className="flex items-center text-gray-600 dark:text-gray-400 hover:text-neon-pink dark:hover:text-neon-pink transition-colors font-medium"
+                className="flex items-center text-gray-600 dark:text-gray-400 hover:text-neon-pink dark:hover:text-neon-pink transition-colors font-medium py-4 touch-manipulation"
               >
-                <span className="w-2 h-2 rounded-full bg-holo-gold mr-3"></span>
+                <span className="w-2 h-2 rounded-full bg-holo-gold mr-3 shadow-[0_0_8px_rgba(255,215,0,0.5)]"></span>
                 {t("account_settings")}
               </Link>
             </div>

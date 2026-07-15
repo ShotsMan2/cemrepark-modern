@@ -75,7 +75,7 @@ export default function FavoritesPage() {
                         e.preventDefault(); // Prevent navigating
                         setQuickViewProduct(product);
                       }}
-                      className="text-xs uppercase tracking-widest font-bold border-b border-gray-500 pb-1 text-white hover:text-neon-pink hover:border-neon-pink transition-colors mt-1 bg-black/50 px-4 py-2 rounded-full backdrop-blur-sm"
+                      className="text-xs uppercase tracking-widest font-bold text-white hover:text-neon-pink transition-colors mt-1 bg-black/60 px-6 py-3 rounded-full backdrop-blur-md touch-manipulation shadow-lg border border-white/10"
                     >
                       {t("quick_view")}
                     </button>
@@ -95,7 +95,7 @@ export default function FavoritesPage() {
                         e.preventDefault();
                         removeFromFavorites(product.id);
                       }}
-                      className="relative z-30 text-neon-pink hover:text-gray-400 transition-colors"
+                      className="relative z-30 text-neon-pink hover:text-gray-400 transition-colors w-12 h-12 flex items-center justify-center touch-manipulation"
                       title={t("favorite_remove_title") || "Favorilerden Çıkar"}
                       aria-label={t("favorite_remove_title") || "Favorilerden Çıkar"}
                     >

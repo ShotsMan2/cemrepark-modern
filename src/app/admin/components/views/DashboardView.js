@@ -14,6 +14,7 @@ import {
   Bar
 } from "recharts";
 import DashboardAnalytics from "../DashboardAnalytics";
+import { transformCategoryPopularity } from "@/utils/rechartsHelpers";
 
 const COLORS = ["#ff007f", "#ffd700", "#a855f7", "#3b82f6", "#22c55e", "#ef4444"];
 
@@ -27,8 +28,9 @@ export default function DashboardView({ products }) {
       .catch((err) => console.error("Analytics fetch error:", err));
   }, []);
 
-  const totalProducts = stats && typeof stats.products === 'number' ? stats.products : products.length;
-  const activeCategories = stats && typeof stats.categories === 'number' ? stats.categories : [...new Set(products.map((p) => p.kategori))].filter(Boolean).length;
+  const safeProducts = Array.isArray(products) ? products : [];
+  const totalProducts = stats && typeof stats.products === 'number' ? stats.products : safeProducts.length;
+  const activeCategories = stats && typeof stats.categories === 'number' ? stats.categories : [...new Set(safeProducts.map((p) => p.kategori))].filter(Boolean).length;
   const totalRevenue = stats && typeof stats.revenue === 'number' ? stats.revenue : 0;
   const totalOrders = stats && typeof stats.orders === 'number' ? stats.orders : 0;
 
@@ -41,7 +43,7 @@ export default function DashboardView({ products }) {
     { name: "Cmt", total: 0 },
     { name: "Paz", total: 0 }
   ];
-  const catData = stats?.categoryData || [];
+  const catData = stats?.categoryData?.length > 0 ? stats.categoryData : transformCategoryPopularity(safeProducts);
   const totalCategoryValue = catData.reduce((sum, item) => sum + item.value, 0);
   const loginData = stats?.loginStats || [];
   const orderData = stats?.orderStats?.length > 0 ? stats.orderStats : [

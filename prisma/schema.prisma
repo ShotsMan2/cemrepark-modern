@@ -29,7 +29,6 @@ model User {
   favorites       Favorite[]
   notifications   Notification[]
 
-  @@index([email])
   @@index([role])
   @@index([createdAt])
 }
@@ -95,9 +94,11 @@ model Order {
   customer   String
   userId     Int?
   user       User?    @relation(fields: [userId], references: [id], onDelete: SetNull)
-  total      Float
-  status     String
-  createdAt  DateTime @default(now())
+  total          Float
+  couponCode     String?
+  discountAmount Float?   @default(0)
+  status         String
+  createdAt      DateTime @default(now())
 
   items      OrderItem[]
 
@@ -105,7 +106,7 @@ model Order {
   @@index([userId])
   @@index([status])
   @@index([createdAt])
-  @@index([total])
+  @@index([userId, status])
 }
 
 model OrderItem {
@@ -129,7 +130,6 @@ model Page {
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
 
-  @@index([slug])
 }
 
 model Banner {
@@ -230,26 +230,7 @@ model AuditLog {
   @@index([createdAt])
 }
 
-model ChatConversation {
-  id           String        @id
-  title        String
-  model        String
-  systemPrompt String
-  createdAt    DateTime      @default(now())
-  updatedAt    DateTime      @updatedAt
-  messages     ChatMessage[]
-}
 
-model ChatMessage {
-  id             String           @id
-  conversationId String
-  role           String
-  content        String
-  status         String
-  createdAt      DateTime         @default(now())
-  updatedAt      DateTime         @updatedAt
-  conversation   ChatConversation  @relation(fields: [conversationId], references: [id], onDelete: Cascade)
-}
 
 model Favorite {
   id        Int      @id @default(autoincrement())
@@ -276,4 +257,20 @@ model Notification {
 
   @@index([userId])
   @@index([isRead])
+}
+
+model Coupon {
+  id            Int      @id @default(autoincrement())
+  code          String   @unique
+  discountType  String   // "PERCENTAGE" or "FIXED"
+  discountValue Float
+  minCartValue  Float?
+  maxUses       Int?     // null means unlimited
+  usedCount     Int      @default(0)
+  expiresAt     DateTime?
+  isActive      Boolean  @default(true)
+  createdAt     DateTime @default(now())
+
+  @@index([code])
+  @@index([isActive])
 }

@@ -110,7 +110,7 @@ export default function CartPage() {
                         <div className="flex items-center bg-black/5 dark:bg-white/10 border border-black/10 dark:border-white/20 clip-angled">
                           <button
                             onClick={() => updateQuantity(item.id, item.beden, item.renk, item.quantity - 1)}
-                            className="px-3 py-2 text-gray-900 dark:text-white hover:text-neon-pink transition-colors font-bold"
+                            className="w-10 h-10 flex items-center justify-center text-gray-900 dark:text-white hover:text-neon-pink transition-colors font-bold text-lg touch-manipulation"
                             aria-label="Azalt"
                           >
                             -
@@ -120,7 +120,7 @@ export default function CartPage() {
                           </span>
                           <button
                             onClick={() => updateQuantity(item.id, item.beden, item.renk, item.quantity + 1)}
-                            className="px-3 py-2 text-gray-900 dark:text-white hover:text-neon-pink transition-colors font-bold"
+                            className="w-10 h-10 flex items-center justify-center text-gray-900 dark:text-white hover:text-neon-pink transition-colors font-bold text-lg touch-manipulation"
                             aria-label="Artır"
                           >
                             +
@@ -149,7 +149,7 @@ export default function CartPage() {
                       <div className="col-span-1 md:col-span-1 flex justify-start md:justify-center items-center">
                         <button
                           onClick={() => removeFromCart(item.id, item.beden, item.renk)}
-                          className="text-gray-600 dark:text-gray-400 hover:text-neon-pink dark:hover:text-neon-pink transition-colors p-2"
+                          className="w-12 h-12 flex items-center justify-center text-gray-600 dark:text-gray-400 hover:text-neon-pink dark:hover:text-neon-pink transition-colors touch-manipulation"
                           title={t("remove")}
                           aria-label={t("remove")}
                         >
@@ -248,6 +248,28 @@ export default function CartPage() {
           </div>
         )}
       </div>
+
+      {/* Mobile Sticky Checkout Bar */}
+      {cartItems.length > 0 && (
+        <div className="fixed bottom-0 left-0 w-full z-40 bg-white/90 dark:bg-black/90 backdrop-blur-lg border-t border-black/10 dark:border-white/10 py-4 px-4 flex flex-col sm:flex-row items-center justify-between lg:hidden translate-y-0 transition-transform duration-300 shadow-[0_-10px_30px_rgba(0,0,0,0.1)] dark:shadow-[0_-10px_30px_rgba(0,0,0,0.5)]">
+          <div className="flex justify-between w-full sm:w-auto items-center mb-3 sm:mb-0 gap-4">
+            <span className="text-sm text-gray-500 uppercase font-bold tracking-widest">{t("total")}</span>
+            <span className="text-xl font-black text-glow-pink">{formatPrice(totalAmount)}</span>
+          </div>
+          <button
+            onClick={() => {
+              if (session) {
+                router.push("/checkout");
+              } else {
+                router.push("/login");
+              }
+            }}
+            className="w-full sm:w-auto bg-holo-gold text-black px-8 py-4 font-black uppercase tracking-widest hover:bg-black dark:hover:bg-white hover:text-white dark:hover:text-black transition-colors clip-angled shadow-[0_0_15px_rgba(255,215,0,0.4)] touch-manipulation"
+          >
+            {t("checkout")}
+          </button>
+        </div>
+      )}
     </div>
   );
 }

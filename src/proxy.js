@@ -16,6 +16,9 @@ export default withAuth(
     }
 
     if (!isAuth) {
+      if (req.nextUrl.pathname.startsWith("/api/admin")) {
+        return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
+      }
       if (req.nextUrl.pathname.startsWith("/admin")) {
         return null;
       }
@@ -27,8 +30,11 @@ export default withAuth(
     }
 
     // Robust Role-based Access Control (RBAC)
-    if (req.nextUrl.pathname.startsWith("/admin")) {
+    if (req.nextUrl.pathname.startsWith("/admin") || req.nextUrl.pathname.startsWith("/api/admin")) {
       if (token.role !== "admin") {
+        if (req.nextUrl.pathname.startsWith("/api/admin")) {
+          return NextResponse.json({ error: "Forbidden: Admin access required" }, { status: 403 });
+        }
         return NextResponse.redirect(new URL("/yetkisiz-erisim", req.url));
       }
     }
@@ -53,5 +59,5 @@ export default withAuth(
 );
 
 export const config = {
-  matcher: ["/admin/:path*", "/hesabim/:path*", "/login", "/register"],
+  matcher: ["/admin/:path*", "/api/admin/:path*", "/hesabim/:path*", "/login", "/register"],
 };

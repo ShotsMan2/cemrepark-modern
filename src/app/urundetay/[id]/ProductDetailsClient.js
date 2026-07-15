@@ -269,7 +269,7 @@ export default function ProductDetailsClient({
                     value={beden}
                     onChange={(e) => setBeden(e.target.value)}
                     aria-label={t("select_size")}
-                    className="block appearance-none w-full bg-white dark:bg-black border border-gray-300 dark:border-gray-700 text-gray-900 dark:text-white py-3 px-4 pr-8 rounded-none leading-tight focus:outline-none focus:border-neon-pink transition-colors"
+                    className="block appearance-none w-full bg-white dark:bg-black border border-gray-300 dark:border-gray-700 text-gray-900 dark:text-white py-4 px-4 pr-8 rounded-none leading-tight focus:outline-none focus:border-neon-pink transition-colors touch-manipulation"
                   >
                     <option value="" disabled>
                       {t("select_size")}
@@ -303,9 +303,9 @@ export default function ProductDetailsClient({
                       <button
                         key={r}
                         onClick={() => setRenk(r)}
-                        className={`px-4 py-2 text-sm font-semibold uppercase tracking-wider transition-all duration-300 clip-angled border ${
+                        className={`px-6 py-3 text-sm font-semibold uppercase tracking-wider transition-all duration-300 clip-angled border touch-manipulation ${
                           isSelected 
-                            ? "bg-neon-pink text-white border-neon-pink" 
+                            ? "bg-neon-pink text-white border-neon-pink shadow-[0_0_15px_rgba(255,0,127,0.4)]" 
                             : "bg-white/50 dark:bg-black/50 text-gray-700 dark:text-gray-400 border-gray-300 dark:border-gray-700 hover:border-holo-gold hover:text-gray-900 dark:hover:text-white"
                         }`}
                         aria-label={t("select_color")}
@@ -554,7 +554,7 @@ export default function ProductDetailsClient({
                           e.preventDefault(); // Prevent navigating to product details page
                           setQuickViewProduct(rp);
                         }}
-                        className="text-xs uppercase tracking-widest font-bold border-b border-gray-500 pb-1 text-white hover:text-neon-pink hover:border-neon-pink transition-colors mt-1 bg-black/50 px-4 py-2 rounded-full backdrop-blur-sm"
+                        className="text-xs uppercase tracking-widest font-bold text-white hover:text-neon-pink transition-colors mt-1 bg-black/60 px-6 py-3 rounded-full backdrop-blur-md touch-manipulation shadow-lg border border-white/10"
                       >
                         {t("quick_view")}
                       </button>
@@ -575,9 +575,9 @@ export default function ProductDetailsClient({
       </div>
 
       {/* STICKY ADD TO CART BAR (Mobile mostly, but useful everywhere on scroll down) */}
-      <div className="fixed bottom-0 left-0 w-full z-40 bg-white/90 dark:bg-black/80 backdrop-blur-md border-t border-gray-200 dark:border-white/10 py-3 px-4 flex items-center justify-between md:hidden translate-y-0 transition-transform duration-300">
-        <div className="flex items-center gap-3">
-          <div className="relative w-12 h-12 rounded overflow-hidden">
+      <div className="fixed bottom-0 left-0 w-full z-40 bg-white/90 dark:bg-black/90 backdrop-blur-lg border-t border-black/10 dark:border-white/10 py-4 px-4 flex items-center justify-between md:hidden translate-y-0 transition-transform duration-300 shadow-[0_-10px_30px_rgba(0,0,0,0.1)] dark:shadow-[0_-10px_30px_rgba(0,0,0,0.5)]">
+        <div className="flex items-center gap-3 flex-1 min-w-0 mr-4">
+          <div className="relative w-12 h-12 rounded overflow-hidden flex-shrink-0">
             <Image
               src={getValidImageUrl(activeImageUrl)}
               alt={product.ad}
@@ -586,14 +586,14 @@ export default function ProductDetailsClient({
               className="object-cover"
             />
           </div>
-          <div>
-            <h4 className="text-gray-900 dark:text-white font-bold text-xs truncate w-32">{product.ad}</h4>
-            <span className="text-neon-pink text-xs font-bold">{formatPrice(product.fiyat)}</span>
+          <div className="flex-1 min-w-0">
+            <h4 className="text-gray-900 dark:text-white font-bold text-sm truncate">{product.ad}</h4>
+            <span className="text-neon-pink text-sm font-bold">{formatPrice(product.fiyat)}</span>
           </div>
         </div>
         <button
           onClick={handleAddToCart}
-          className="bg-neon-pink text-white uppercase tracking-widest font-bold px-6 py-3 text-xs clip-angled hover:bg-black dark:hover:bg-white hover:text-white dark:hover:text-black transition-colors"
+          className="bg-neon-pink text-white uppercase tracking-widest font-bold px-6 py-4 text-xs clip-angled hover:bg-black dark:hover:bg-white hover:text-white dark:hover:text-black transition-colors touch-manipulation shadow-[0_0_15px_rgba(255,0,127,0.4)] flex-shrink-0"
         >
           {t("add_to_cart")}
         </button>

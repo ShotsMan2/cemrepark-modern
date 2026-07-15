@@ -11,7 +11,6 @@ import AOSInitializer from "../components/AOSInitializer";
 import { StoreProvider } from "../context/StoreContext";
 import MaintenanceGuard from "../components/MaintenanceGuard";
 import AuthProvider from "../components/AuthProvider";
-import ChatWidget from "../components/ChatWidget";
 import ThemeProvider from "../components/ThemeProvider";
 import Script from "next/script";
 
@@ -75,7 +74,6 @@ export default function RootLayout({ children }) {
                 {children}
 
                 <Footer />
-                <ChatWidget />
               </MaintenanceGuard>
             </ThemeProvider>
           </StoreProvider>

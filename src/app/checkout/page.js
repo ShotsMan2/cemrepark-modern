@@ -25,6 +25,10 @@ export default function CheckoutPage() {
   });
 
   const [isProcessing, setIsProcessing] = useState(false);
+  const [couponCode, setCouponCode] = useState("");
+  const [appliedCoupon, setAppliedCoupon] = useState(null);
+  const [couponError, setCouponError] = useState("");
+  const [isApplyingCoupon, setIsApplyingCoupon] = useState(false);
 
   useEffect(() => {
     setIsLoaded(true);
@@ -34,10 +38,22 @@ export default function CheckoutPage() {
   }, [cartItems, router]);
 
   const cartTotal = cartItems.reduce((acc, item) => acc + item.fiyat * item.quantity, 0);
+  
+  let discountAmount = 0;
+  if (appliedCoupon) {
+    if (appliedCoupon.discountType === "PERCENTAGE") {
+      discountAmount = (cartTotal * appliedCoupon.discountValue) / 100;
+    } else {
+      discountAmount = appliedCoupon.discountValue;
+    }
+    if (discountAmount > cartTotal) discountAmount = cartTotal;
+  }
+
   const FREE_SHIPPING_THRESHOLD = 500;
   const SHIPPING_FEE = 49.90;
-  const shippingCost = cartTotal >= FREE_SHIPPING_THRESHOLD ? 0 : SHIPPING_FEE;
-  const totalAmount = cartTotal + shippingCost;
+  const subtotalAfterDiscount = cartTotal - discountAmount;
+  const shippingCost = subtotalAfterDiscount >= FREE_SHIPPING_THRESHOLD ? 0 : SHIPPING_FEE;
+  const totalAmount = subtotalAfterDiscount + shippingCost;
 
   const getCardType = (number) => {
     const num = number.replace(/\s/g, "");
@@ -83,6 +99,48 @@ export default function CheckoutPage() {
     setFormData({ ...formData, [name]: value });
   };
 
+  const applyCoupon = async () => {
+    if (!couponCode.trim()) return;
+    setIsApplyingCoupon(true);
+    setCouponError("");
+
+    try {
+      const res = await fetch("/api/coupons/validate", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ code: couponCode, cartTotal }),
+      });
+      const data = await res.json();
+      
+      if (res.ok && data.success) {
+        setAppliedCoupon(data.coupon);
+        setCouponCode("");
+        if (Swal) {
+          Swal.fire({
+            toast: true,
+            position: "bottom-end",
+            icon: "success",
+            title: "Kupon uygulandı!",
+            showConfirmButton: false,
+            timer: 3000,
+            background: "#1a1a1a",
+            color: "#fff",
+          });
+        }
+      } else {
+        setCouponError(data.error || "Geçersiz kupon kodu.");
+      }
+    } catch (err) {
+      setCouponError("Kupon doğrulanırken hata oluştu.");
+    } finally {
+      setIsApplyingCoupon(false);
+    }
+  };
+
+  const removeCoupon = () => {
+    setAppliedCoupon(null);
+  };
+
   const handlePayment = async (e) => {
     e.preventDefault();
     setIsProcessing(true);
@@ -95,7 +153,9 @@ export default function CheckoutPage() {
         items: cartItems.map(item => ({
           productId: item.id,
           quantity: item.quantity
-        }))
+        })),
+        couponCode: appliedCoupon ? appliedCoupon.code : null,
+        discountAmount: discountAmount
       };
 
       const response = await fetch("/api/orders", {
@@ -154,7 +214,7 @@ export default function CheckoutPage() {
         <div className="flex flex-col lg:flex-row gap-12 max-w-5xl mx-auto">
           {/* LEFT: PAYMENT FORM */}
           <div className="w-full lg:w-2/3" data-aos="fade-right" data-aos-duration="800">
-            <form onSubmit={handlePayment} className="space-y-8">
+            <form id="checkout-form" onSubmit={handlePayment} className="space-y-8">
               {/* Teslimat Bilgileri */}
               <div className="glass-panel p-6 md:p-8 rounded-xl border border-black/5 dark:border-white/5">
                 <h2 className="text-xl font-bold mb-6 text-holo-gold border-b border-black/10 dark:border-white/10 pb-4">
@@ -349,7 +409,7 @@ export default function CheckoutPage() {
               <button
                 type="submit"
                 disabled={isProcessing}
-                className="w-full bg-neon-pink text-white hover:bg-white hover:text-neon-pink py-4 rounded-lg uppercase font-bold tracking-widest transition-all duration-300 flex items-center justify-center gap-2 disabled:opacity-50 disabled:cursor-not-allowed"
+                className="hidden lg:flex w-full bg-neon-pink text-white hover:bg-white hover:text-neon-pink py-4 rounded-lg uppercase font-bold tracking-widest transition-all duration-300 items-center justify-center gap-2 disabled:opacity-50 disabled:cursor-not-allowed touch-manipulation"
               >
                 {isProcessing ? (
                   <>
@@ -449,6 +509,54 @@ export default function CheckoutPage() {
                   <span>{t("subtotal")}</span>
                   <span className="text-gray-900 dark:text-white">{formatPrice(cartTotal)}</span>
                 </div>
+
+                {/* COUPON SECTION */}
+                <div className="my-4">
+                  {!appliedCoupon ? (
+                    <div>
+                      <div className="flex gap-2">
+                        <input
+                          type="text"
+                          placeholder="Kupon Kodu"
+                          value={couponCode}
+                          onChange={(e) => setCouponCode(e.target.value)}
+                          className="flex-1 bg-black/5 dark:bg-black/50 border border-black/10 dark:border-white/10 rounded-lg p-2 text-gray-900 dark:text-white focus:outline-none focus:border-neon-pink transition-colors uppercase text-sm"
+                        />
+                        <button
+                          type="button"
+                          onClick={applyCoupon}
+                          disabled={isApplyingCoupon || !couponCode.trim()}
+                          className="bg-black dark:bg-white text-white dark:text-black px-4 py-2 rounded-lg font-bold uppercase text-xs tracking-widest disabled:opacity-50"
+                        >
+                          {isApplyingCoupon ? "..." : "Uygula"}
+                        </button>
+                      </div>
+                      {couponError && <p className="text-red-500 text-xs mt-1">{couponError}</p>}
+                    </div>
+                  ) : (
+                    <div className="bg-neon-pink/10 border border-neon-pink/20 rounded-lg p-3 flex justify-between items-center">
+                      <div>
+                        <p className="text-neon-pink font-bold text-sm">{appliedCoupon.code}</p>
+                        <p className="text-gray-500 text-xs mt-0.5">İndirim uygulandı</p>
+                      </div>
+                      <button
+                        type="button"
+                        onClick={removeCoupon}
+                        className="text-gray-400 hover:text-red-500 text-xs uppercase font-bold"
+                      >
+                        Kaldır
+                      </button>
+                    </div>
+                  )}
+                </div>
+
+                {appliedCoupon && (
+                  <div className="flex justify-between text-neon-pink font-bold">
+                    <span>İndirim ({appliedCoupon.code})</span>
+                    <span>-{formatPrice(discountAmount)}</span>
+                  </div>
+                )}
+
                 <div className="flex justify-between text-gray-600 dark:text-gray-400">
                   <span>{t("shipping")}</span>
                   {shippingCost === 0 ? (
@@ -473,6 +581,32 @@ export default function CheckoutPage() {
             </div>
           </div>
         </div>
+      </div>
+
+      {/* Mobile Sticky Complete Order Bar */}
+      <div className="fixed bottom-0 left-0 w-full z-40 bg-white/90 dark:bg-black/90 backdrop-blur-lg border-t border-black/10 dark:border-white/10 py-4 px-4 flex lg:hidden translate-y-0 transition-transform duration-300 shadow-[0_-10px_30px_rgba(0,0,0,0.1)] dark:shadow-[0_-10px_30px_rgba(0,0,0,0.5)]">
+        <button
+          form="checkout-form"
+          type="submit"
+          disabled={isProcessing}
+          className="w-full bg-neon-pink text-white hover:bg-black dark:hover:bg-white hover:text-white dark:hover:text-black py-4 rounded-lg uppercase font-bold tracking-widest transition-all duration-300 flex items-center justify-center gap-2 disabled:opacity-50 disabled:cursor-not-allowed touch-manipulation shadow-[0_0_15px_rgba(255,0,127,0.4)]"
+        >
+          {isProcessing ? (
+            <span className="flex items-center gap-2">
+              <svg className="animate-spin h-5 w-5 text-current" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
+                <circle className="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="4"></circle>
+                <path className="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path>
+              </svg>
+              {t("processing")}
+            </span>
+          ) : (
+            <>
+              <span>{formatPrice(totalAmount)}</span> 
+              <span className="mx-2">•</span>
+              <span>{t("complete_order")}</span>
+            </>
+          )}
+        </button>
       </div>
     </div>
   );

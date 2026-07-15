@@ -46,16 +46,9 @@ export const orderService = {
 
       const total = orderData.total !== undefined ? orderData.total : calculatedTotal;
 
-      // Handle discount
-      let finalTotal = total;
-      let discountAmount = 0;
-      if (orderData.discountCode === 'INDIRIM10') {
-          discountAmount = total * 0.10;
-          finalTotal = total - discountAmount;
-      } else if (orderData.discountCode === 'HOSGELDIN50') {
-          discountAmount = 50;
-          finalTotal = Math.max(0, total - discountAmount);
-      }
+      // Final total is already calculated from the frontend, but we can verify it if needed.
+      // We'll trust orderData.total, orderData.couponCode, orderData.discountAmount
+      const finalTotal = total;
 
       // Create the order
       const newOrder = await tx.order.create({
@@ -63,6 +56,8 @@ export const orderService = {
           customer: orderData.customer,
           userId: orderData.userId || null,
           total: finalTotal,
+          couponCode: orderData.couponCode || null,
+          discountAmount: orderData.discountAmount || 0,
           status: OrderStatus.PENDING,
         }
       });
