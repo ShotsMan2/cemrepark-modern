@@ -46,12 +46,23 @@ export const orderService = {
 
       const total = orderData.total !== undefined ? orderData.total : calculatedTotal;
 
+      // Handle discount
+      let finalTotal = total;
+      let discountAmount = 0;
+      if (orderData.discountCode === 'INDIRIM10') {
+          discountAmount = total * 0.10;
+          finalTotal = total - discountAmount;
+      } else if (orderData.discountCode === 'HOSGELDIN50') {
+          discountAmount = 50;
+          finalTotal = Math.max(0, total - discountAmount);
+      }
+
       // Create the order
       const newOrder = await tx.order.create({
         data: {
           customer: orderData.customer,
           userId: orderData.userId || null,
-          total: total,
+          total: finalTotal,
           status: OrderStatus.PENDING,
         }
       });

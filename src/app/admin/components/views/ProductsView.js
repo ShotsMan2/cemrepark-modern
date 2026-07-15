@@ -33,7 +33,10 @@ export default function ProductsView({
   const [currentPage, setCurrentPage] = useState(1);
   const itemsPerPage = 8;
   const totalPages = Math.ceil(filteredProducts.length / itemsPerPage);
-  const paginatedProducts = filteredProducts.slice((currentPage - 1) * itemsPerPage, currentPage * itemsPerPage);
+  const paginatedProducts = filteredProducts.slice(
+    (currentPage - 1) * itemsPerPage,
+    currentPage * itemsPerPage
+  );
 
   return (
     <div className="grid grid-cols-1 lg:grid-cols-3 gap-8 animate-fade-in">
@@ -197,100 +200,112 @@ export default function ProductsView({
               <div className="w-12 h-12 border-4 border-neon-pink/20 border-t-neon-pink rounded-full animate-spin"></div>
             </div>
           ) : (
-            <div className="space-y-4">
-              {paginatedProducts.map((product) => (
-                <div
-                  key={product.id}
-                  className="bg-black/30 border border-white/5 p-4 flex items-center justify-between hover:border-white/20 transition-colors clip-angled group"
-                >
-                  <div className="flex items-center gap-4">
-                    <div className="w-16 h-20 bg-black overflow-hidden clip-angled relative">
-                      {/* eslint-disable-next-line @next/next/no-img-element */}
-                      <img
-                        src={product.gorsel || product.resim1}
-                        alt={product.ad}
-                        className="w-full h-full object-cover group-hover:scale-110 transition-transform"
-                      />
-                    </div>
-                    <div>
-                      <h3 className="text-white font-bold text-lg">{product.ad}</h3>
-                      <p className="text-neon-pink font-bold">
+            <div className="overflow-x-auto">
+              <table className="w-full text-left border-collapse">
+                <thead>
+                  <tr className="border-b border-white/10 bg-black/40 text-gray-400 text-xs uppercase tracking-wider">
+                    <th className="p-3 font-bold text-center w-20">Görsel</th>
+                    <th className="p-3 font-bold">Ürün Adı</th>
+                    <th className="p-3 font-bold">Kategori</th>
+                    <th className="p-3 font-bold">Fiyat</th>
+                    <th className="p-3 font-bold">Etiket</th>
+                    <th className="p-3 font-bold">Seçenekler</th>
+                    <th className="p-3 font-bold text-right">İşlem</th>
+                  </tr>
+                </thead>
+                <tbody className="divide-y divide-white/5">
+                  {paginatedProducts.map((product) => (
+                    <tr key={product.id} className="hover:bg-white/5 transition-colors group">
+                      <td className="p-3">
+                        <div className="w-12 h-16 bg-black overflow-hidden rounded relative mx-auto">
+                          {/* eslint-disable-next-line @next/next/no-img-element */}
+                          <img
+                            src={product.gorsel || product.resim1}
+                            alt={product.ad}
+                            className="w-full h-full object-cover group-hover:scale-110 transition-transform"
+                          />
+                        </div>
+                      </td>
+                      <td className="p-3 font-bold text-white text-sm">{product.ad}</td>
+                      <td className="p-3 text-gray-300 text-sm">{product.kategori || "-"}</td>
+                      <td className="p-3 text-neon-pink font-bold text-sm">
                         {parseFloat(product.fiyat).toLocaleString("tr-TR", {
                           minimumFractionDigits: 2,
                         })}{" "}
                         TL
-                      </p>
-                      <div className="flex gap-2 mt-1">
-                        {product.etiket && (
-                          <span className="text-[10px] uppercase bg-white/10 px-2 py-0.5 text-gray-300">
+                      </td>
+                      <td className="p-3">
+                        {product.etiket ? (
+                          <span className="text-[10px] uppercase bg-white/10 px-2 py-0.5 text-gray-300 rounded font-semibold">
                             {product.etiket}
                           </span>
+                        ) : (
+                          "-"
                         )}
-                        {product.kategori && (
-                          <span className="text-[10px] uppercase bg-white/10 px-2 py-0.5 text-gray-300">
-                            {product.kategori}
-                          </span>
-                        )}
-                      </div>
-                      <div className="flex gap-2 mt-1">
-                        {product.renk && (
-                          <span className="text-[10px] uppercase text-gray-400 border border-gray-700 px-1">
-                            Renk: {product.renk}
-                          </span>
-                        )}
-                        {product.beden && (
-                          <span className="text-[10px] uppercase text-gray-400 border border-gray-700 px-1">
-                            Beden: {product.beden}
-                          </span>
-                        )}
-                      </div>
-                    </div>
-                  </div>
-
-                  <div className="flex gap-3">
-                    <button
-                      onClick={() => handleEdit(product)}
-                      className="text-gray-400 hover:text-white transition-colors"
-                      title="Düzenle"
-                    >
-                      <svg
-                        width="20"
-                        height="20"
-                        viewBox="0 0 24 24"
-                        fill="none"
-                        stroke="currentColor"
-                        strokeWidth="2"
-                        strokeLinecap="round"
-                        strokeLinejoin="round"
-                      >
-                        <path d="M11 4H4a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-7"></path>
-                        <path d="M18.5 2.5a2.121 2.121 0 0 1 3 3L12 15l-4 1 1-4 9.5-9.5z"></path>
-                      </svg>
-                    </button>
-                    <button
-                      onClick={() => handleDelete(product.id)}
-                      className="text-gray-400 hover:text-red-500 transition-colors"
-                      title="Sil"
-                    >
-                      <svg
-                        width="20"
-                        height="20"
-                        viewBox="0 0 24 24"
-                        fill="none"
-                        stroke="currentColor"
-                        strokeWidth="2"
-                        strokeLinecap="round"
-                        strokeLinejoin="round"
-                      >
-                        <polyline points="3 6 5 6 21 6"></polyline>
-                        <path d="M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6m3 0V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2"></path>
-                        <line x1="10" y1="11" x2="10" y2="17"></line>
-                        <line x1="14" y1="11" x2="14" y2="17"></line>
-                      </svg>
-                    </button>
-                  </div>
-                </div>
-              ))}
+                      </td>
+                      <td className="p-3">
+                        <div className="flex flex-col gap-1">
+                          {product.renk && (
+                            <span className="text-[10px] uppercase text-gray-400 border border-white/10 px-1.5 py-0.5 rounded w-fit">
+                              Renk: {product.renk}
+                            </span>
+                          )}
+                          {product.beden && (
+                            <span className="text-[10px] uppercase text-gray-400 border border-white/10 px-1.5 py-0.5 rounded w-fit">
+                              Beden: {product.beden}
+                            </span>
+                          )}
+                          {!product.renk && !product.beden && "-"}
+                        </div>
+                      </td>
+                      <td className="p-3 text-right">
+                        <div className="flex justify-end gap-3">
+                          <button
+                            onClick={() => handleEdit(product)}
+                            className="text-gray-400 hover:text-white transition-colors"
+                            title="Düzenle"
+                          >
+                            <svg
+                              width="18"
+                              height="18"
+                              viewBox="0 0 24 24"
+                              fill="none"
+                              stroke="currentColor"
+                              strokeWidth="2"
+                              strokeLinecap="round"
+                              strokeLinejoin="round"
+                            >
+                              <path d="M11 4H4a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-7"></path>
+                              <path d="M18.5 2.5a2.121 2.121 0 0 1 3 3L12 15l-4 1 1-4 9.5-9.5z"></path>
+                            </svg>
+                          </button>
+                          <button
+                            onClick={() => handleDelete(product.id)}
+                            className="text-gray-400 hover:text-red-500 transition-colors"
+                            title="Sil"
+                          >
+                            <svg
+                              width="18"
+                              height="18"
+                              viewBox="0 0 24 24"
+                              fill="none"
+                              stroke="currentColor"
+                              strokeWidth="2"
+                              strokeLinecap="round"
+                              strokeLinejoin="round"
+                            >
+                              <polyline points="3 6 5 6 21 6"></polyline>
+                              <path d="M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6m3 0V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2"></path>
+                              <line x1="10" y1="11" x2="10" y2="17"></line>
+                              <line x1="14" y1="11" x2="14" y2="17"></line>
+                            </svg>
+                          </button>
+                        </div>
+                      </td>
+                    </tr>
+                  ))}
+                </tbody>
+              </table>
             </div>
           )}
 
@@ -299,17 +314,21 @@ export default function ProductsView({
             <div className="border-t border-white/5 p-4 flex justify-between items-center text-gray-400 text-xs uppercase tracking-wider bg-black/20 mt-4">
               <span>{filteredProducts.length} Ürün Listeleniyor</span>
               <div className="flex gap-2">
-                <button 
-                  onClick={() => setCurrentPage(prev => Math.max(prev - 1, 1))}
+                <button
+                  onClick={() => setCurrentPage((prev) => Math.max(prev - 1, 1))}
                   disabled={currentPage === 1}
-                  className="px-3 py-1 border border-white/10 hover:border-neon-pink hover:text-white transition-colors disabled:opacity-50 disabled:cursor-not-allowed">
+                  className="px-3 py-1 border border-white/10 hover:border-neon-pink hover:text-white transition-colors disabled:opacity-50 disabled:cursor-not-allowed"
+                >
                   &lt; Önceki
                 </button>
-                <span className="px-3 py-1 text-white">Sayfa {currentPage} / {totalPages}</span>
-                <button 
-                  onClick={() => setCurrentPage(prev => Math.min(prev + 1, totalPages))}
+                <span className="px-3 py-1 text-white">
+                  Sayfa {currentPage} / {totalPages}
+                </span>
+                <button
+                  onClick={() => setCurrentPage((prev) => Math.min(prev + 1, totalPages))}
                   disabled={currentPage === totalPages}
-                  className="px-3 py-1 border border-white/10 hover:border-neon-pink hover:text-white transition-colors disabled:opacity-50 disabled:cursor-not-allowed">
+                  className="px-3 py-1 border border-white/10 hover:border-neon-pink hover:text-white transition-colors disabled:opacity-50 disabled:cursor-not-allowed"
+                >
                   Sonraki &gt;
                 </button>
               </div>

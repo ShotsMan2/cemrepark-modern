@@ -564,3 +564,53 @@ body {
   margin-bottom: 8px;
   text-align: center;
 }
+
+/* Swiper Customizations */
+.swiper {
+  --swiper-theme-color: var(--neon-pink) !important;
+  --swiper-navigation-color: var(--neon-pink) !important;
+  --swiper-pagination-color: var(--neon-pink) !important;
+}
+
+.swiper-button-next,
+.swiper-button-prev {
+  color: var(--neon-pink) !important;
+  background: var(--glass-bg) !important;
+  backdrop-filter: blur(8px);
+  -webkit-backdrop-filter: blur(8px);
+  border: 1px solid rgba(255, 0, 127, 0.25);
+  width: 40px !important;
+  height: 40px !important;
+  border-radius: 50%;
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1) !important;
+}
+
+.swiper-button-next::after,
+.swiper-button-prev::after {
+  font-size: 1.1rem !important;
+  font-weight: bold;
+}
+
+.swiper-button-next:hover,
+.swiper-button-prev:hover {
+  background: var(--neon-pink) !important;
+  color: white !important;
+  border-color: var(--neon-pink) !important;
+  transform: scale(1.1);
+  box-shadow: 0 0 15px rgba(255, 0, 127, 0.6);
+}
+
+.swiper-pagination-bullet {
+  background: var(--foreground) !important;
+  opacity: 0.35 !important;
+  transition: all 0.3s ease !important;
+}
+
+.swiper-pagination-bullet-active {
+  background: var(--neon-pink) !important;
+  opacity: 1 !important;
+  box-shadow: 0 0 10px rgba(255, 0, 127, 0.8);
+  transform: scale(1.2);
+}
+
+

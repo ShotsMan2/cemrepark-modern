@@ -5,17 +5,17 @@ import { useMemo } from "react";
 function parseMarkdown(text) {
   if (!text) return "";
   let html = text
-    .replace(/\*\*(.+?)\*\*/g, '<strong>$1</strong>')
-    .replace(/\*(.+?)\*/g, '<em>$1</em>')
-    .replace(/`(.+?)`/g, '<code class="chat-inline-code">$1</code>')
-    .replace(/^[\-\•]\s+(.+)$/gm, '<li>$1</li>')
+    .replace(/\*\*(.+?)\*\*/g, '<strong class="font-bold text-pink-700 dark:text-pink-300">$1</strong>')
+    .replace(/\*(.+?)\*/g, '<em class="italic text-zinc-800 dark:text-zinc-200">$1</em>')
+    .replace(/`(.+?)`/g, '<code class="px-1.5 py-0.5 bg-zinc-100 dark:bg-zinc-800 rounded-md font-mono text-sm text-pink-600 dark:text-pink-400">$1</code>')
+    .replace(/^[\-\•]\s+(.+)$/gm, '<li class="ml-4 mb-1 list-disc">$1</li>')
     .replace(/\n/g, '<br/>');
   
   // Wrap consecutive <li> elements in <ul>
-  html = html.replace(/((?:<li>.*?<\/li>(?:<br\/>)?)+)/g, '<ul class="chat-list">$1</ul>');
+  html = html.replace(/((?:<li class="ml-4 mb-1 list-disc">.*?<\/li>(?:<br\/>)?)+)/g, '<ul class="my-2 space-y-1">$1</ul>');
   // Clean up <br/> inside <ul>
-  html = html.replace(/<ul class="chat-list">(.*?)<\/ul>/gs, (match, inner) => {
-    return '<ul class="chat-list">' + inner.replace(/<br\/>/g, '') + '</ul>';
+  html = html.replace(/<ul class="my-2 space-y-1">(.*?)<\/ul>/gs, (match, inner) => {
+    return '<ul class="my-2 space-y-1">' + inner.replace(/<br\/>/g, '') + '</ul>';
   });
   
   return html;
@@ -37,9 +37,13 @@ export default function ChatWidgetMessage({ message }) {
   }, [message.content, isTyping, isUser]);
 
   return (
-    <div className={`chat-widget-message ${isUser ? "user" : "assistant"}`}>
+    <div className={`flex w-full mt-4 space-x-3 max-w-full ${isUser ? "flex-row-reverse space-x-reverse" : "flex-row"}`}>
       {/* Avatar */}
-      <div className={`chat-widget-avatar ${isUser ? "user" : "assistant"}`}>
+      <div className={`flex-shrink-0 w-8 h-8 rounded-full flex items-center justify-center shadow-sm ${
+        isUser 
+          ? "bg-zinc-100 dark:bg-zinc-800 text-zinc-500 dark:text-zinc-400" 
+          : "bg-gradient-to-br from-pink-500 to-rose-600 text-white"
+      }`}>
         {isUser ? (
           <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
             <path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"></path>
@@ -54,23 +58,32 @@ export default function ChatWidgetMessage({ message }) {
         )}
       </div>
 
-      <div className="chat-widget-message-content">
-        {isTyping ? (
-          <div className="chat-widget-typing">
-            <span className="chat-typing-dot"></span>
-            <span className="chat-typing-dot"></span>
-            <span className="chat-typing-dot"></span>
-          </div>
-        ) : isUser ? (
-          <div className="chat-widget-message-text">{message.content}</div>
-        ) : (
-          <div
-            className="chat-widget-message-text"
-            dangerouslySetInnerHTML={{ __html: renderedContent }}
-          />
-        )}
+      {/* Content */}
+      <div className={`flex flex-col max-w-[85%] ${isUser ? "items-end" : "items-start"}`}>
+        <div className={`relative px-4 py-2.5 text-[0.9rem] leading-relaxed shadow-sm ${
+          isTyping ? "bg-zinc-100 dark:bg-zinc-800 rounded-2xl rounded-tl-sm text-zinc-500" :
+          isUser ? "bg-pink-600 text-white rounded-2xl rounded-tr-sm" : 
+          "bg-white dark:bg-zinc-800 text-zinc-800 dark:text-zinc-200 rounded-2xl rounded-tl-sm border border-zinc-100 dark:border-zinc-700/50"
+        }`}>
+          {isTyping ? (
+            <div className="flex space-x-1.5 items-center h-5 px-1">
+              <span className="w-1.5 h-1.5 bg-zinc-400 rounded-full animate-bounce" style={{ animationDelay: '0ms' }}></span>
+              <span className="w-1.5 h-1.5 bg-zinc-400 rounded-full animate-bounce" style={{ animationDelay: '150ms' }}></span>
+              <span className="w-1.5 h-1.5 bg-zinc-400 rounded-full animate-bounce" style={{ animationDelay: '300ms' }}></span>
+            </div>
+          ) : isUser ? (
+            <div className="break-words">{message.content}</div>
+          ) : (
+            <div
+              className="break-words"
+              dangerouslySetInnerHTML={{ __html: renderedContent }}
+            />
+          )}
+        </div>
         {message.timestamp && (
-          <div className="chat-widget-timestamp">{formatTime(message.timestamp)}</div>
+          <div className="text-[0.65rem] text-zinc-400 dark:text-zinc-500 mt-1 mx-1">
+            {formatTime(message.timestamp)}
+          </div>
         )}
       </div>
     </div>

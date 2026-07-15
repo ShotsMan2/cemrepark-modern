@@ -44,6 +44,15 @@ export const authOptions = {
                 role: user.role,
                 phoneNumber: user.phoneNumber,
               };
+            } else {
+              await prisma.loginHistory.create({
+                data: {
+                  userId: user.id,
+                  ipAddress: req?.headers?.["x-forwarded-for"] || "unknown",
+                  success: false,
+                },
+              });
+              return null;
             }
           } else {
             // Mock admin user for development purposes
