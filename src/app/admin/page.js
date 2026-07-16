@@ -129,7 +129,10 @@ export default function AdminPage() {
           </h1>
           <p className="text-gray-300 text-sm mb-8">Bu sayfaya yalnızca yöneticiler erişebilir.</p>
           <button
-            onClick={() => signOut({ callbackUrl: `${window.location.origin}/login` })}
+            onClick={async () => {
+              await signOut({ redirect: false });
+              window.location.href = "/login";
+            }}
             className="w-full bg-red-600 text-white font-bold py-4 px-4 uppercase tracking-widest hover:bg-white hover:text-black transition-colors clip-angled"
           >
             Çıkış Yap ve Giriş Ekranına Git

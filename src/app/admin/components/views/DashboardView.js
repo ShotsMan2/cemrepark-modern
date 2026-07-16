@@ -148,7 +148,7 @@ export default function DashboardView({ products }) {
 
       {/* Stock Warning Component */}
       <div className="mt-8 animate-fade-in" data-aos="fade-up">
-        <StockWarning items={safeProducts.filter(p => typeof p.stok === 'number' && p.stok < 3).map(p => ({id: p.id, ad: p.ad, resim: p.gorsel || p.resim, stok: p.stok, renk: p.renk, beden: p.beden}))} />
+        <StockWarning items={safeProducts.filter(p => typeof p.stok === 'number' && p.stok < 5).map(p => ({id: p.id, ad: p.ad, resim: p.gorsel || p.resim, stok: p.stok, renk: p.renk, beden: p.beden}))} />
       </div>
 
       {/* Chart Area */}

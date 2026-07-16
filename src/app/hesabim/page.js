@@ -52,8 +52,24 @@ export default function HesabimPage() {
             </div>
 
             <button
-              onClick={() => signOut({ callbackUrl: `${window.location.origin}/login` })}
-              className="mt-4 bg-black/5 dark:bg-white/10 border border-black/10 dark:border-white/20 text-gray-900 dark:text-white px-6 py-3 uppercase tracking-wider font-bold hover:bg-neon-pink hover:text-white hover:border-neon-pink transition-all duration-300 clip-angled w-full cursor-pointer"
+              type="button"
+              onClick={async (e) => {
+                e.preventDefault();
+                try {
+                  // Attempt to sign out using NextAuth
+                  await signOut({ redirect: false });
+                } catch (error) {
+                  console.error("Logout error:", error);
+                } finally {
+                  // Fallback: Clear any local storage that might be keeping them logged in and reload
+                  if (typeof window !== "undefined") {
+                    localStorage.clear();
+                    sessionStorage.clear();
+                    window.location.href = "/login";
+                  }
+                }
+              }}
+              className="mt-4 bg-black/5 dark:bg-white/10 border border-black/10 dark:border-white/20 text-gray-900 dark:text-white px-6 py-3 uppercase tracking-wider font-bold hover:bg-neon-pink hover:text-white hover:border-neon-pink transition-all duration-300 clip-angled w-full cursor-pointer relative z-20"
             >
               {t("logout")}
             </button>

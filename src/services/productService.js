@@ -2,11 +2,13 @@ import fs from "fs";
 import path from "path";
 import prisma from "@/lib/prisma";
 import logger from "@/lib/logger";
-import redis from "@/lib/redis";
+import redis, { cacheGet, cacheSet, cacheDel } from "@/lib/redis";
 
 const filePath = path.join(process.cwd(), "src", "data", "products.json");
 
-const CACHE_KEY = "all_products";
+const CACHE_KEY_PRODUCTS = "all_products";
+const CACHE_KEY_CATEGORIES = "all_categories";
+const CACHE_KEY_BANNERS = "all_banners";
 
 class ProductService {
   async _readProductsFromJson() {
@@ -24,22 +26,13 @@ class ProductService {
   }
 
   async getProducts() {
-    try {
-      const cachedProducts = await redis.get(CACHE_KEY);
-      if (cachedProducts) {
-        return JSON.parse(cachedProducts);
-      }
-    } catch (err) {
-      logger.error("Redis get error:", { error: err.message });
-    }
+    const cached = await cacheGet(CACHE_KEY_PRODUCTS);
+    if (cached) return cached;
 
     const products = await this._readProductsFromJson();
 
-    try {
-      await redis.set(CACHE_KEY, JSON.stringify(products), 'EX', 300); // 5 minutes cache
-    } catch (err) {
-      logger.error("Redis set error:", { error: err.message });
-    }
+    // Cache for 5 minutes
+    await cacheSet(CACHE_KEY_PRODUCTS, products, 300);
     return products;
   }
 
@@ -54,12 +47,8 @@ class ProductService {
 
     products.unshift(newProduct);
     await this._writeProductsToJson(products);
-
-    try {
-      await redis.del(CACHE_KEY);
-    } catch (err) {
-      logger.error("Redis del error:", { error: err.message });
-    }
+    await cacheDel(CACHE_KEY_PRODUCTS);
+    await cacheDel(CACHE_KEY_CATEGORIES);
 
     try {
       await prisma.product.create({
@@ -94,12 +83,8 @@ class ProductService {
 
     products[index] = { ...products[index], ...productData, id };
     await this._writeProductsToJson(products);
-
-    try {
-      await redis.del(CACHE_KEY);
-    } catch (err) {
-      logger.error("Redis del error:", { error: err.message });
-    }
+    await cacheDel(CACHE_KEY_PRODUCTS);
+    await cacheDel(CACHE_KEY_CATEGORIES);
 
     try {
       await prisma.product.upsert({
@@ -144,12 +129,8 @@ class ProductService {
     }
 
     await this._writeProductsToJson(filteredProducts);
-
-    try {
-      await redis.del(CACHE_KEY);
-    } catch (err) {
-      logger.error("Redis del error:", { error: err.message });
-    }
+    await cacheDel(CACHE_KEY_PRODUCTS);
+    await cacheDel(CACHE_KEY_CATEGORIES);
 
     try {
       await prisma.review.deleteMany({ where: { productId: id } });
@@ -159,6 +140,38 @@ class ProductService {
     }
 
     return { success: true };
+  }
+
+  async getCategories() {
+    const cached = await cacheGet(CACHE_KEY_CATEGORIES);
+    if (cached) return cached;
+
+    // Optional: Get categories based on products.json since productService works heavily with it, 
+    // or fetch from prisma.category. Given prisma.category exists:
+    try {
+      const categories = await prisma.category.findMany();
+      await cacheSet(CACHE_KEY_CATEGORIES, categories, 600); // 10 minutes cache
+      return categories;
+    } catch (dbErr) {
+      logger.error("DB getCategories error:", { error: dbErr.message });
+      return [];
+    }
+  }
+
+  async getBanners() {
+    const cached = await cacheGet(CACHE_KEY_BANNERS);
+    if (cached) return cached;
+
+    try {
+      const banners = await prisma.banner.findMany({
+        orderBy: { order: "asc" },
+      });
+      await cacheSet(CACHE_KEY_BANNERS, banners, 600); // 10 minutes cache
+      return banners;
+    } catch (dbErr) {
+      logger.error("DB getBanners error:", { error: dbErr.message });
+      return [];
+    }
   }
 }
 

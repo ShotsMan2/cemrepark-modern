@@ -94,45 +94,55 @@ export default function SearchClient({ initialResults, query, isSearch }: { init
 
         <div className="w-full lg:w-3/4 min-h-screen">
           {results.length === 0 ? (
-            <div className="bg-white dark:bg-zinc-900/50 p-12 rounded-3xl flex flex-col items-center justify-center text-center shadow-sm border border-gray-100 dark:border-white/10">
-              <h2 className="text-2xl font-bold text-gray-900 dark:text-white mb-4">{t('no_products_found')}</h2>
-              <p className="text-gray-500 dark:text-gray-400">{t('no_products_found_desc')}</p>
+            <div className="bg-white/60 dark:bg-zinc-900/40 backdrop-blur-xl p-12 rounded-[2.5rem] flex flex-col items-center justify-center text-center shadow-2xl border border-white/50 dark:border-white/10 relative overflow-hidden group">
+              <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-64 h-64 bg-neon-pink/20 rounded-full blur-[80px] pointer-events-none group-hover:bg-neon-pink/30 transition-colors duration-1000"></div>
+              <h2 className="text-3xl font-black text-gray-900 dark:text-white mb-4 relative z-10">{t('no_products_found')}</h2>
+              <p className="text-gray-500 dark:text-gray-400 relative z-10 text-lg font-medium">{t('no_products_found_desc')}</p>
             </div>
           ) : (
             <>
-              <div className="grid grid-cols-1 sm:grid-cols-2 xl:grid-cols-3 gap-6">
+              <div className="grid grid-cols-1 sm:grid-cols-2 xl:grid-cols-3 gap-8">
                 {results.slice(0, visibleCount).map((product, index) => (
-                  <div key={product.id} className="bg-white dark:bg-zinc-900/50 rounded-3xl shadow-sm hover:shadow-xl transition-all duration-300 border border-gray-100 dark:border-white/10 overflow-hidden group flex flex-col" data-aos="fade-up" data-aos-delay={(index % 3) * 100}>
-                    <div className="relative h-80 w-full overflow-hidden">
+                  <div key={product.id} className="glass-panel p-4 clip-angled group hover:border-neon-pink hover:shadow-2xl hover:shadow-neon-pink/20 transition-all duration-500 relative transform hover:-translate-y-2 flex flex-col" data-aos="fade-up" data-aos-delay={(index % 3) * 100}>
+                    <div className="relative aspect-[3/4] mb-4 overflow-hidden clip-angled transform-gpu">
+                      {product.etiket && (
+                        <div className="absolute top-2 left-2 z-20">
+                          <span className="text-xs font-bold uppercase tracking-widest bg-neon-pink text-gray-900 dark:text-white px-3 py-1 clip-angled shadow-lg">
+                            {t(product.etiket)}
+                          </span>
+                        </div>
+                      )}
+                      
                       <Image
                         src={getValidImageUrl(product.resim || product.gorsel?.split(',')[0])}
                         alt={t(product.ad)}
                         fill
-                        className="object-cover group-hover:scale-110 transition-transform duration-700 ease-in-out"
+                        className="object-cover group-hover:scale-110 transition-transform duration-1000 ease-out"
                         sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
                       />
-                      <div className="absolute inset-0 bg-black/0 group-hover:bg-black/20 transition-colors duration-300"></div>
                       
-                      <div className="absolute top-4 right-4 z-20">
-                         <FavoriteButton product={product} className="" />
-                      </div>
-
-                      <div className="absolute bottom-4 left-0 w-full px-4 flex justify-center opacity-0 group-hover:opacity-100 transition-all duration-300 translate-y-4 group-hover:translate-y-0 z-20">
+                      <div className="absolute inset-0 bg-gradient-to-t from-black/60 via-black/20 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex items-center justify-center pointer-events-none z-10"></div>
+                      
+                      <div className="absolute bottom-4 left-0 w-full px-4 flex justify-center opacity-0 group-hover:opacity-100 transition-all duration-500 translate-y-8 group-hover:translate-y-0 z-30">
                         <button
                           onClick={(e) => { e.preventDefault(); setQuickViewProduct(product); }}
-                          className="bg-white/90 dark:bg-zinc-900/90 text-gray-900 dark:text-white px-6 py-2.5 rounded-full font-bold text-sm tracking-wider uppercase backdrop-blur-md shadow-lg hover:bg-neon-pink hover:text-white transition-colors w-full mx-4"
+                          className="text-xs uppercase tracking-widest font-black text-gray-900 dark:text-white hover:text-white hover:bg-neon-pink transition-colors bg-white/90 dark:bg-black/80 px-6 py-3 rounded-full backdrop-blur-md shadow-xl w-full active:scale-95"
                         >
                           {t('quick_view')}
                         </button>
                       </div>
                     </div>
 
-                    <div className="p-6 flex-1 flex flex-col">
-                      <Link href={`/urundetay/${product.id}`} className="block relative z-10">
-                        <h3 className="text-gray-900 dark:text-white font-bold text-lg mb-2 truncate group-hover:text-neon-pink transition-colors">{t(product.ad)}</h3>
+                    <div className="p-4 flex-1 flex flex-col relative">
+                      <p className="text-gray-500 dark:text-gray-400 text-xs uppercase tracking-widest mb-1 group-hover:text-holo-gold transition-colors">
+                        {t(product.kategori)}
+                      </p>
+                      <Link href={`/urundetay/${product.id}`} className="block before:absolute before:inset-0 before:z-10">
+                        <h3 className="text-gray-900 dark:text-white font-black text-lg mb-2 truncate group-hover:text-neon-pink transition-colors">{t(product.ad)}</h3>
                       </Link>
-                      <div className="mt-auto pt-4 flex items-center justify-between border-t border-gray-100 dark:border-white/10">
+                      <div className="mt-auto pt-4 flex items-center justify-between">
                         <span className="text-gray-900 dark:text-white font-black text-xl">{formatPrice(product.fiyat)}</span>
+                        <FavoriteButton product={product} className="relative z-30 transform hover:scale-110 active:scale-90" />
                       </div>
                     </div>
                   </div>
@@ -141,7 +151,7 @@ export default function SearchClient({ initialResults, query, isSearch }: { init
               
               {visibleCount < results.length && (
                 <div ref={loaderRef} className="w-full py-12 flex justify-center">
-                  <div className="w-8 h-8 rounded-full border-4 border-neon-pink border-t-transparent animate-spin"></div>
+                  <div className="w-12 h-12 rounded-full border-4 border-neon-pink border-t-transparent shadow-lg shadow-neon-pink/50 animate-spin"></div>
                 </div>
               )}
             </>

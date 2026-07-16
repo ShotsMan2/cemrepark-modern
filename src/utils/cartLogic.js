@@ -33,3 +33,89 @@ export const validateCartStock = (cartItem, requestedQuantity, product) => {
 
   return { isValid: true, message: 'Stok uygun', availableStock };
 };
+
+/**
+ * Calculates discounts based on active promotions and coupons.
+ * @param {Array} cartItems - Array of cart items
+ * @param {Array} promotions - Array of active promotions
+ * @param {Object} coupon - Applied coupon object (optional)
+ * @returns {Object} Discount details
+ */
+export const calculateCartDiscounts = (cartItems, promotions = [], coupon = null) => {
+  let subtotal = 0;
+  let totalItemCount = 0;
+  
+  cartItems.forEach(item => {
+    subtotal += (item.indirimliFiyat || item.fiyat || 0) * item.quantity;
+    totalItemCount += item.quantity;
+  });
+  
+  let discountAmount = 0;
+  let appliedPromotions = [];
+  let isFreeShipping = false;
+
+  // Apply automatic promotions
+  if (promotions && promotions.length > 0) {
+    promotions.forEach(promo => {
+      if (!promo.isActive) return;
+      if (promo.startDate && new Date() < new Date(promo.startDate)) return;
+      if (promo.endDate && new Date() > new Date(promo.endDate)) return;
+
+      let conditionMet = false;
+      if (promo.conditionType === 'MIN_CART_VALUE' && subtotal >= (promo.conditionValue || 0)) {
+        conditionMet = true;
+      } else if (promo.conditionType === 'MIN_ITEM_COUNT' && totalItemCount >= (promo.conditionValue || 0)) {
+        conditionMet = true;
+      } else if (!promo.conditionType) {
+        conditionMet = true;
+      }
+
+      if (conditionMet) {
+        if (promo.type === 'FREE_SHIPPING') {
+          isFreeShipping = true;
+          appliedPromotions.push(promo.name);
+        } else if (promo.type === 'PERCENTAGE_DISCOUNT') {
+          const discount = subtotal * ((promo.discountValue || 0) / 100);
+          discountAmount += discount;
+          appliedPromotions.push(promo.name);
+        } else if (promo.type === 'FIXED_DISCOUNT') {
+          discountAmount += (promo.discountValue || 0);
+          appliedPromotions.push(promo.name);
+        } else if (promo.type === 'BUY_X_GET_Y') {
+          // BUY_X_GET_Y requires conditionValue (X) and discountValue (Y)
+          // Simple logic: If you have X items, you get a discount equivalent to Y items
+          // Assuming conditionValue is X, and it applies a percentage off or fixed.
+          if (totalItemCount >= (promo.conditionValue || 0)) {
+             discountAmount += (promo.discountValue || 0);
+             appliedPromotions.push(promo.name);
+          }
+        }
+      }
+    });
+  }
+
+  // Apply Coupon
+  if (coupon && coupon.isActive) {
+    let couponMet = true;
+    if (coupon.minCartValue && subtotal < coupon.minCartValue) {
+      couponMet = false;
+    }
+    if (couponMet) {
+      if (coupon.discountType === 'PERCENTAGE') {
+        discountAmount += subtotal * (coupon.discountValue / 100);
+      } else if (coupon.discountType === 'FIXED') {
+        discountAmount += coupon.discountValue;
+      }
+    }
+  }
+
+  if (discountAmount > subtotal) discountAmount = subtotal;
+
+  return {
+    subtotal,
+    discountAmount,
+    total: subtotal - discountAmount,
+    isFreeShipping,
+    appliedPromotions
+  };
+};

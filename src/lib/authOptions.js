@@ -1,6 +1,7 @@
 import CredentialsProvider from "next-auth/providers/credentials";
 import prisma from "@/lib/prisma";
 import bcrypt from "bcrypt";
+import { rateLimit } from "@/lib/rate-limit";
 
 export const authOptions = {
   providers: [
@@ -16,6 +17,13 @@ export const authOptions = {
         }
 
         try {
+          const ip = req?.headers?.["x-forwarded-for"] || "127.0.0.1";
+          const { success } = await rateLimit(`auth:${ip}`, 5, 60 * 5);
+          if (!success) {
+            console.warn(`Rate limit exceeded for login attempt from ${ip}`);
+            throw new Error("Too Many Attempts");
+          }
+
           const user = await prisma.user.findUnique({
             where: {
               email: credentials.email,
@@ -87,7 +95,9 @@ export const authOptions = {
   ],
   session: {
     strategy: "jwt",
+    maxAge: 24 * 60 * 60, // 1 günlük JWT süresi (tarayıcı kapanmasa bile 1 günde expire olur)
   },
+  trustHost: true,
   pages: {
     signIn: "/admin",
   },
