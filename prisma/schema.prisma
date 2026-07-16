@@ -62,6 +62,8 @@ model Product {
   renk     String?
   beden    String?
   stok     Int     @default(0)
+  createdAt DateTime @default(now())
+  updatedAt DateTime @default(now()) @updatedAt
   
   colors   ProductColor[]
   
@@ -70,8 +72,10 @@ model Product {
   favorites Favorite[]
 
   @@index([kategori])
+  @@index([kategori, fiyat])
   @@index([ad])
   @@index([fiyat])
+  @@index([createdAt])
 }
 
 model ProductColor {
@@ -87,6 +91,8 @@ model ProductColor {
 model Category {
   id   Int    @id @default(autoincrement())
   name String @unique
+
+  @@index([name])
 }
 
 model Order {
@@ -101,7 +107,7 @@ model Order {
   trackingNumber String?
   carrier        String?
   createdAt      DateTime @default(now())
-  updatedAt      DateTime @updatedAt
+  updatedAt      DateTime @default(now()) @updatedAt
 
   items      OrderItem[]
 
@@ -110,6 +116,7 @@ model Order {
   @@index([status])
   @@index([createdAt])
   @@index([userId, status])
+  @@index([createdAt, status])
 }
 
 model OrderItem {

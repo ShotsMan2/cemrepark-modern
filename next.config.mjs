@@ -1,4 +1,5 @@
 /** @type {import('next').NextConfig} */
+// Force reload to clear middleware cache
 const nextConfig = {
   images: {
     formats: ["image/avif", "image/webp"],
