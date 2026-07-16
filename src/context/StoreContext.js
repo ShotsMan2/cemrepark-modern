@@ -1,6 +1,21 @@
 "use client";
 import { createContext, useContext, useState, useEffect } from "react";
 import { loadTranslation } from "../utils/translations";
+import Swal from "sweetalert2";
+
+const Toast = Swal.mixin({
+  toast: true,
+  position: "bottom-end",
+  showConfirmButton: false,
+  timer: 3000,
+  timerProgressBar: true,
+  background: "rgba(15, 15, 15, 0.95)",
+  color: "#fff",
+  iconColor: "#ff007f",
+  customClass: {
+    popup: "border border-[rgba(255,0,127,0.2)] rounded-xl backdrop-blur-md",
+  },
+});
 
 const StoreContext = createContext();
 
@@ -151,6 +166,11 @@ export function StoreProvider({ children }) {
       }
       return [...prev, { ...product, beden, renk, quantity: 1 }];
     });
+
+    Toast.fire({
+      icon: "success",
+      title: `${product.ad} sepete eklendi!`,
+    });
   };
 
   const removeFromCart = (productId, beden, renk) => {
@@ -164,6 +184,11 @@ export function StoreProvider({ children }) {
       const existing = prev.find((item) => item.id === product.id);
       if (existing) return prev; // Already in favorites
       return [...prev, product];
+    });
+
+    Toast.fire({
+      icon: "success",
+      title: `${product.ad} favorilere eklendi!`,
     });
   };
 

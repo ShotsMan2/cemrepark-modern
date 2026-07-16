@@ -24,9 +24,14 @@ export default function AdminPage() {
     setIsSubmitting(false);
 
     if (result?.error) {
+      let errorMessage = "Kullanıcı adı veya şifre hatalı!";
+      if (result.error === "Too Many Attempts") {
+        errorMessage = "Çok fazla başarısız deneme yaptınız. Lütfen daha sonra tekrar deneyin.";
+      }
+      
       Swal.fire({
         title: "Hata",
-        text: "Kullanıcı adı veya şifre hatalı!",
+        text: errorMessage,
         icon: "error",
         confirmButtonColor: "#ff007f",
         background: "#1a1a1a",
@@ -129,7 +134,10 @@ export default function AdminPage() {
           </h1>
           <p className="text-gray-300 text-sm mb-8">Bu sayfaya yalnızca yöneticiler erişebilir.</p>
           <button
-            onClick={() => signOut({ callbackUrl: `${window.location.origin}/login` })}
+            onClick={async () => {
+              await signOut({ redirect: false });
+              window.location.href = "/login";
+            }}
             className="w-full bg-red-600 text-white font-bold py-4 px-4 uppercase tracking-widest hover:bg-white hover:text-black transition-colors clip-angled"
           >
             Çıkış Yap ve Giriş Ekranına Git

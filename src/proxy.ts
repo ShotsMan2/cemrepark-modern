@@ -1,0 +1,106 @@
+import { withAuth } from "next-auth/middleware";
+import { NextResponse } from "next/server";
+import type { NextRequest } from "next/server";
+import { rateLimit } from '@/lib/rate-limit';
+
+// NextAuth middleware'ini sadece korunması gereken rotalar için tanımlıyoruz
+const authMiddleware = withAuth(
+  function middleware(req) {
+    const token = req.nextauth.token;
+    const isAuth = !!token;
+    const path = req.nextUrl.pathname;
+    const isAuthPage = path === "/login" || path.startsWith("/login/") || path === "/register" || path.startsWith("/register/");
+
+    if (isAuthPage) {
+      if (isAuth) {
+        return NextResponse.redirect(new URL("/hesabim", req.url));
+      }
+      return NextResponse.next();
+    }
+
+    if (!isAuth) {
+      if (path.startsWith("/api/admin")) {
+        return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
+      }
+      if (path.startsWith("/admin")) {
+        let from = path;
+        if (req.nextUrl.search) {
+          from += req.nextUrl.search;
+        }
+        return NextResponse.redirect(new URL(`/login?from=${encodeURIComponent(from)}`, req.url));
+      }
+      
+      let from = path;
+      if (req.nextUrl.search) {
+        from += req.nextUrl.search;
+      }
+      return NextResponse.redirect(new URL(`/login?from=${encodeURIComponent(from)}`, req.url));
+    }
+
+    // Robust Role-based Access Control (RBAC)
+    if (path.startsWith("/admin") || path.startsWith("/api/admin")) {
+      if (token?.role !== "admin") {
+        if (path.startsWith("/api/admin")) {
+          return NextResponse.json({ error: "Forbidden: Admin access required" }, { status: 403 });
+        }
+        return NextResponse.redirect(new URL("/yetkisiz-erisim", req.url));
+      }
+    }
+    
+    // Add Edge Security Headers
+    const response = NextResponse.next();
+    response.headers.set('X-Edge-Secured', 'true');
+    response.headers.set('X-RateLimit-Limit', '100');
+    return response;
+  },
+  {
+    callbacks: {
+      authorized() {
+        return true;
+      },
+    },
+  }
+);
+
+export default async function middleware(req: NextRequest, event: any) {
+  const path = req.nextUrl.pathname;
+  
+  // 1. Rate Limit Check (Runs for /api/auth non-GET requests and /api/orders, excludes signout, register, and callback)
+  if ((path.startsWith('/api/auth') && req.method !== 'GET' && !path.includes('/signout') && !path.includes('/register') && !path.includes('/callback')) || path.startsWith('/api/orders')) {
+    const ip = req.headers.get('x-forwarded-for') || (req as any).ip || '127.0.0.1';
+    try {
+      const { success } = await rateLimit(ip, 20, 60);
+      if (!success) {
+        return new NextResponse(
+          JSON.stringify({ error: 'Too Many Requests', message: 'Hız limiti aşıldı.' }),
+          { status: 429, headers: { 'content-type': 'application/json' } }
+        );
+      }
+    } catch (e) {
+      console.warn("Rate limit middleware error:", e);
+    }
+  }
+
+  // 2. Sadece yetki gerektiren rotalarda NextAuth middleware'ini çalıştır
+  const authRoutes = ["/admin", "/api/admin", "/hesabim", "/login", "/register"];
+  const isAuthRoute = authRoutes.some(route => path === route || path.startsWith(`${route}/`));
+
+  if (isAuthRoute) {
+    return authMiddleware(req as any, event);
+  }
+
+  // NextAuth rotası değilse yola devam et (örneğin /api/auth/session)
+  return NextResponse.next();
+}
+
+export const config = {
+  matcher: [
+    "/admin/:path*", 
+    "/api/admin/:path*", 
+    "/hesabim/:path*", 
+    "/login", 
+    "/register",
+    "/api/auth/:path*", 
+    "/api/orders/:path*"
+  ],
+};

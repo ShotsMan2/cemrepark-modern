@@ -3,7 +3,7 @@ import redis from "@/lib/redis";
 
 class AnalyticsService {
   async getAnalytics() {
-    const cacheKey = "admin:analytics:dashboard";
+    const cacheKey = "admin:analytics:dashboard:v2";
     let cachedData = null;
     try {
       cachedData = await redis.get(cacheKey);
@@ -43,17 +43,38 @@ class AnalyticsService {
       value: u._count._all
     }));
 
-    // Sales over Time (Mocking a bit since SQLite doesn't easily format dates in groupBy out-of-the-box via Prisma without raw queries)
+    // Sales over Time (Last 7 days)
+    const sevenDaysAgo = new Date();
+    sevenDaysAgo.setDate(sevenDaysAgo.getDate() - 6);
+    sevenDaysAgo.setHours(0, 0, 0, 0);
+
     const recentOrders = await prisma.order.findMany({
+      where: {
+        createdAt: {
+          gte: sevenDaysAgo
+        }
+      },
       orderBy: { createdAt: 'asc' },
-      take: 100,
     });
     
-    // Group by day
+    // Initialize last 7 days
     const salesMap = {};
+    for (let i = 6; i >= 0; i--) {
+      const d = new Date();
+      d.setDate(d.getDate() - i);
+      const dateStr = d.toLocaleDateString('tr-TR', { month: 'short', day: 'numeric' });
+      salesMap[dateStr] = 0;
+    }
+    
     recentOrders.forEach(o => {
-      const date = new Date(o.createdAt).toLocaleDateString('tr-TR', { month: 'short', day: 'numeric' });
-      salesMap[date] = (salesMap[date] || 0) + o.total;
+      const dateStr = new Date(o.createdAt).toLocaleDateString('tr-TR', { month: 'short', day: 'numeric' });
+      if (salesMap[dateStr] !== undefined) {
+        salesMap[dateStr] += o.total;
+      } else {
+        // Fallback for orders that might have different timezone or edge case, 
+        // though `gte` filter should catch them within 7 days.
+        salesMap[dateStr] = o.total;
+      }
     });
     
     const salesOverTime = Object.keys(salesMap).map(date => ({

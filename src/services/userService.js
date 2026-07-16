@@ -24,12 +24,14 @@ class UserService {
     if (!email || !password) {
       const error = new Error("Email ve şifre zorunludur.");
       error.statusCode = 400;
+      error.isOperational = true;
       throw error;
     }
 
     if (password.length < 6) {
       const error = new Error("Şifre en az 6 karakter olmalıdır.");
       error.statusCode = 400;
+      error.isOperational = true;
       throw error;
     }
 
@@ -40,6 +42,7 @@ class UserService {
     if (existingUser) {
       const error = new Error("Bu e-posta adresiyle kayıtlı bir kullanıcı zaten var.");
       error.statusCode = 409;
+      error.isOperational = true;
       throw error;
     }
 

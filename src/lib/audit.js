@@ -23,3 +23,27 @@ export async function logAdminAction({ userId, action, details, ipAddress }) {
     console.error('Failed to write audit log:', error);
   }
 }
+
+/**
+ * Logs a login attempt into the LoginHistory table.
+ *
+ * @param {Object} params
+ * @param {number} params.userId - The ID of the user logging in.
+ * @param {string} [params.ipAddress] - IP Address of the user (if available).
+ * @param {string} [params.userAgent] - User agent string.
+ * @param {boolean} params.success - Whether the login was successful.
+ */
+export async function logLoginHistory({ userId, ipAddress, userAgent, success }) {
+  try {
+    await prisma.loginHistory.create({
+      data: {
+        userId,
+        ipAddress,
+        userAgent,
+        success,
+      },
+    });
+  } catch (error) {
+    console.error('Failed to write login history:', error);
+  }
+}

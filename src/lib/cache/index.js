@@ -1,7 +1,7 @@
-import memoryCache from './memoryCache';
+import redisCache from './redisCache';
 
-// This is the cache strategy. In the future, you can swap memoryCache with redisCache easily.
-const cacheStrategy = memoryCache;
+// This is the cache strategy. It now uses Redis caching as per Phase 1.
+const cacheStrategy = redisCache;
 
 export const getCache = async (key) => {
   return await cacheStrategy.get(key);

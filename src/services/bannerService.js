@@ -1,10 +1,19 @@
 import { prisma } from "@/lib/prisma";
+import { cacheGet, cacheSet, cacheDel } from "@/lib/redis";
+
+const CACHE_KEY_BANNERS = "all_banners";
 
 class BannerService {
   async getBanners() {
-    return await prisma.banner.findMany({
+    const cached = await cacheGet(CACHE_KEY_BANNERS);
+    if (cached) return cached;
+
+    const banners = await prisma.banner.findMany({
       orderBy: { order: "asc" },
     });
+
+    await cacheSet(CACHE_KEY_BANNERS, banners, 600); // 10 mins cache
+    return banners;
   }
 
   async getBannerById(id) {
@@ -23,7 +32,7 @@ class BannerService {
 
   async createBanner(data) {
     const { title, imageUrl, linkUrl, isActive, order } = data;
-    return await prisma.banner.create({
+    const newBanner = await prisma.banner.create({
       data: {
         title,
         imageUrl,
@@ -32,11 +41,14 @@ class BannerService {
         order: parseInt(order) || 0,
       },
     });
+
+    await cacheDel(CACHE_KEY_BANNERS);
+    return newBanner;
   }
 
   async updateBanner(id, data) {
     const { title, imageUrl, linkUrl, isActive, order } = data;
-    return await prisma.banner.update({
+    const updatedBanner = await prisma.banner.update({
       where: { id: parseInt(id) },
       data: {
         title,
@@ -46,6 +58,9 @@ class BannerService {
         order: parseInt(order),
       },
     });
+
+    await cacheDel(CACHE_KEY_BANNERS);
+    return updatedBanner;
   }
 
   async deleteBanner(id) {
@@ -63,6 +78,7 @@ class BannerService {
       where: { id: parseInt(id) },
     });
 
+    await cacheDel(CACHE_KEY_BANNERS);
     return { message: "Banner deleted successfully" };
   }
 }

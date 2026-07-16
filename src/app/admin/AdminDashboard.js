@@ -11,6 +11,7 @@ import SettingsView from "./components/views/SettingsView";
 import MessagesView from "./components/views/MessagesView";
 import PagesView from "./components/views/PagesView";
 import BannersView from "./components/views/BannersView";
+import CouponsView from "./components/views/CouponsView";
 import AISupportView from "./components/views/AISupportView";
 import SecurityView from "./components/views/SecurityView";
 import ThemeToggle from "@/components/ThemeToggle";
@@ -40,7 +41,7 @@ export default function AdminDashboard({ onLogout }) {
     try {
       const res = await fetch("/api/products");
       const data = await res.json();
-      setProducts(data);
+      setProducts(Array.isArray(data) ? data : []);
     } catch (error) {
       console.error("Ürünler çekilirken hata:", error);
     } finally {
@@ -193,6 +194,8 @@ export default function AdminDashboard({ onLogout }) {
         return <PagesView />;
       case "banners":
         return <BannersView />;
+      case "coupons":
+        return <CouponsView />;
       case "ai-support":
         return <AISupportView />;
       case "security":
@@ -292,7 +295,9 @@ export default function AdminDashboard({ onLogout }) {
                           ? "Sayfa Yönetimi"
                           : activeTab === "banners"
                             ? "Banner / Slider Yönetimi"
-                            : activeTab === "ai-support"
+                            : activeTab === "coupons"
+                              ? "Kupon / Promosyon Yönetimi"
+                              : activeTab === "ai-support"
                               ? "AI Destek Paneli"
                               : activeTab === "security"
                                 ? "Güvenlik & Log Yönetimi"

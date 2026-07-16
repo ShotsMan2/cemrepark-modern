@@ -4,7 +4,7 @@ generator client {
 
 datasource db {
   provider = "sqlite"
-  url      = "file:./dev.db"
+  url      = env("DATABASE_URL")
 }
 
 model User {
@@ -29,7 +29,6 @@ model User {
   favorites       Favorite[]
   notifications   Notification[]
 
-  @@index([email])
   @@index([role])
   @@index([createdAt])
 }
@@ -95,9 +94,14 @@ model Order {
   customer   String
   userId     Int?
   user       User?    @relation(fields: [userId], references: [id], onDelete: SetNull)
-  total      Float
-  status     String
-  createdAt  DateTime @default(now())
+  total          Float
+  couponCode     String?
+  discountAmount Float?   @default(0)
+  status         String
+  trackingNumber String?
+  carrier        String?
+  createdAt      DateTime @default(now())
+  updatedAt      DateTime @updatedAt
 
   items      OrderItem[]
 
@@ -105,7 +109,7 @@ model Order {
   @@index([userId])
   @@index([status])
   @@index([createdAt])
-  @@index([total])
+  @@index([userId, status])
 }
 
 model OrderItem {
@@ -129,7 +133,6 @@ model Page {
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
 
-  @@index([slug])
 }
 
 model Banner {
@@ -141,6 +144,7 @@ model Banner {
   order     Int      @default(0)
 
   @@index([isActive])
+  @@index([order])
 }
 
 model Review {
@@ -230,26 +234,7 @@ model AuditLog {
   @@index([createdAt])
 }
 
-model ChatConversation {
-  id           String        @id
-  title        String
-  model        String
-  systemPrompt String
-  createdAt    DateTime      @default(now())
-  updatedAt    DateTime      @updatedAt
-  messages     ChatMessage[]
-}
 
-model ChatMessage {
-  id             String           @id
-  conversationId String
-  role           String
-  content        String
-  status         String
-  createdAt      DateTime         @default(now())
-  updatedAt      DateTime         @updatedAt
-  conversation   ChatConversation  @relation(fields: [conversationId], references: [id], onDelete: Cascade)
-}
 
 model Favorite {
   id        Int      @id @default(autoincrement())
@@ -276,4 +261,37 @@ model Notification {
 
   @@index([userId])
   @@index([isRead])
+}
+
+model Coupon {
+  id            Int      @id @default(autoincrement())
+  code          String   @unique
+  discountType  String   // "PERCENTAGE" or "FIXED"
+  discountValue Float
+  minCartValue  Float?
+  maxUses       Int?     // null means unlimited
+  usedCount     Int      @default(0)
+  expiresAt     DateTime?
+  isActive      Boolean  @default(true)
+  createdAt     DateTime @default(now())
+
+  @@index([code])
+  @@index([isActive])
+}
+
+model Promotion {
+  id            Int      @id @default(autoincrement())
+  name          String
+  description   String?
+  type          String   // e.g. "BUY_X_GET_Y", "FREE_SHIPPING", "PERCENTAGE_DISCOUNT"
+  conditionType String?  // e.g. "MIN_CART_VALUE", "MIN_ITEM_COUNT"
+  conditionValue Float?
+  discountValue Float?
+  isActive      Boolean  @default(true)
+  startDate     DateTime?
+  endDate       DateTime?
+  createdAt     DateTime @default(now())
+  updatedAt     DateTime @updatedAt
+
+  @@index([isActive])
 }

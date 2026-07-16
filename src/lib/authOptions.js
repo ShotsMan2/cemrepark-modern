@@ -1,6 +1,7 @@
 import CredentialsProvider from "next-auth/providers/credentials";
 import prisma from "@/lib/prisma";
 import bcrypt from "bcrypt";
+import { rateLimit } from "@/lib/rate-limit";
 
 export const authOptions = {
   providers: [
@@ -16,6 +17,15 @@ export const authOptions = {
         }
 
         try {
+          const ip = req?.headers?.["x-forwarded-for"] || "127.0.0.1";
+          if (process.env.NODE_ENV !== 'development') {
+            const { success } = await rateLimit(`auth:${ip}`, 5, 60 * 5);
+            if (!success) {
+              console.warn(`Rate limit exceeded for login attempt from ${ip}`);
+              throw new Error("Too Many Attempts");
+            }
+          }
+
           const user = await prisma.user.findUnique({
             where: {
               email: credentials.email,
@@ -25,18 +35,24 @@ export const authOptions = {
           if (user) {
             // Verify hashed password
             const passwordMatch = await bcrypt.compare(credentials.password, user.password);
+            
             if (passwordMatch) {
-              await prisma.loginHistory.create({
-                data: {
-                  userId: user.id,
-                  ipAddress: req?.headers?.["x-forwarded-for"] || "unknown",
-                  success: true,
-                },
-              });
-              await prisma.user.update({
-                where: { id: user.id },
-                data: { lastLogin: new Date() },
-              });
+              try {
+                await prisma.loginHistory.create({
+                  data: {
+                    userId: user.id,
+                    ipAddress: req?.headers?.["x-forwarded-for"] || "unknown",
+                    success: true,
+                  },
+                });
+                await prisma.user.update({
+                  where: { id: user.id },
+                  data: { lastLogin: new Date() },
+                });
+              } catch (historyError) {
+                console.error("Failed to save login history:", historyError);
+              }
+
               return {
                 id: user.id.toString(),
                 email: user.email,
@@ -45,13 +61,17 @@ export const authOptions = {
                 phoneNumber: user.phoneNumber,
               };
             } else {
-              await prisma.loginHistory.create({
-                data: {
-                  userId: user.id,
-                  ipAddress: req?.headers?.["x-forwarded-for"] || "unknown",
-                  success: false,
-                },
-              });
+              try {
+                await prisma.loginHistory.create({
+                  data: {
+                    userId: user.id,
+                    ipAddress: req?.headers?.["x-forwarded-for"] || "unknown",
+                    success: false,
+                  },
+                });
+              } catch (historyError) {
+                console.error("Failed to save login history:", historyError);
+              }
               return null;
             }
           } else {
@@ -79,6 +99,9 @@ export const authOptions = {
           }
         } catch (error) {
           console.error("Auth error:", error);
+          if (error.message === "Too Many Attempts") {
+            throw error;
+          }
         }
 
         return null;
@@ -87,7 +110,9 @@ export const authOptions = {
   ],
   session: {
     strategy: "jwt",
+    maxAge: 24 * 60 * 60, // 1 günlük JWT süresi (tarayıcı kapanmasa bile 1 günde expire olur)
   },
+  trustHost: true,
   pages: {
     signIn: "/admin",
   },
