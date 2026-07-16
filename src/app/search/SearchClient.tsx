@@ -9,7 +9,14 @@ import FavoriteButton from '../../components/FavoriteButton';
 import InstantFilter from '../../components/InstantFilter';
 import { useStore } from '../../context/StoreContext';
 import { getValidImageUrl } from '../../utils/imageHelper';
-import enDict from '../../utils/locales/en.json';
+import AOS from 'aos';
+import 'aos/dist/aos.css';
+
+import { Swiper, SwiperSlide } from 'swiper/react';
+import { EffectFade, Pagination, Autoplay } from 'swiper/modules';
+import 'swiper/css';
+import 'swiper/css/effect-fade';
+import 'swiper/css/pagination';
 
 const QuickViewModal = dynamic(() => import('../../components/QuickViewModal'), { ssr: false });
 
@@ -27,8 +34,8 @@ export default function SearchClient({ initialResults, query, isSearch }: { init
   const [isPending, startTransition] = useTransition();
   const loaderRef = useRef(null);
 
-  const colors = ['Siyah', 'Beyaz', 'Kırmızı', 'Lacivert', 'Bej'];
-  const sizes = ['XS', 'S', 'M', 'L', 'XL'];
+  const colors = ['Siyah', 'Beyaz', 'Kırmızı', 'Lacivert', 'Bej', 'Pembe', 'Yeşil', 'Mavi'];
+  const sizes = ['XS', 'S', 'M', 'L', 'XL', 'XXL', '3XL', '4XL'];
   const categories = [...new Set(initialResults.map(p => p.kategori).filter(Boolean))] as string[];
 
   const handleFilterChange = (filters: any) => {
@@ -64,6 +71,10 @@ export default function SearchClient({ initialResults, query, isSearch }: { init
   };
 
   useEffect(() => {
+    AOS.init({ duration: 800, once: true });
+  }, []);
+
+  useEffect(() => {
     const observer = new IntersectionObserver(
       (entries) => {
         if (entries[0].isIntersecting && visibleCount < results.length && !isPending) {
@@ -78,14 +89,15 @@ export default function SearchClient({ initialResults, query, isSearch }: { init
 
   return (
     <div className="container mx-auto px-4 relative z-10">
-      <div className="bg-white dark:bg-zinc-900/50 p-8 rounded-3xl shadow-sm mb-12 text-center border border-gray-100 dark:border-white/10" data-aos="fade-down">
-        <h1 className="text-3xl md:text-5xl font-black mb-4 uppercase tracking-widest text-gray-900 dark:text-white">
+      <div className="bg-white/40 dark:bg-zinc-900/40 backdrop-blur-3xl p-10 rounded-[2.5rem] shadow-2xl mb-12 text-center border border-white/50 dark:border-white/10 relative overflow-hidden group" data-aos="fade-down">
+        <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-96 h-96 bg-neon-pink/10 rounded-full blur-[100px] pointer-events-none group-hover:scale-150 transition-transform duration-1000"></div>
+        <h1 className="text-4xl md:text-6xl font-black mb-4 uppercase tracking-widest text-transparent bg-clip-text bg-gradient-to-r from-neon-pink to-holo-gold relative z-10">
           {isSearch ? `${t('search_results')}: "${query}"` : t('collection')}
         </h1>
-        {isSearch && <p className="text-gray-500 dark:text-gray-400">{t('total_products_listed', { count: results.length })}</p>}
+        {isSearch && <p className="text-gray-600 dark:text-gray-300 font-medium text-lg relative z-10">{t('total_products_listed', { count: results.length })}</p>}
       </div>
 
-      <div className="flex flex-col lg:flex-row gap-8">
+      <div className="flex flex-col lg:flex-row gap-10">
         <div className="w-full lg:w-1/4">
           <div className="sticky top-32">
              <InstantFilter categories={categories} colors={colors} sizes={sizes} onFilterChange={handleFilterChange} />
@@ -94,64 +106,100 @@ export default function SearchClient({ initialResults, query, isSearch }: { init
 
         <div className="w-full lg:w-3/4 min-h-screen">
           {results.length === 0 ? (
-            <div className="bg-white/60 dark:bg-zinc-900/40 backdrop-blur-xl p-12 rounded-[2.5rem] flex flex-col items-center justify-center text-center shadow-2xl border border-white/50 dark:border-white/10 relative overflow-hidden group">
-              <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-64 h-64 bg-neon-pink/20 rounded-full blur-[80px] pointer-events-none group-hover:bg-neon-pink/30 transition-colors duration-1000"></div>
-              <h2 className="text-3xl font-black text-gray-900 dark:text-white mb-4 relative z-10">{t('no_products_found')}</h2>
-              <p className="text-gray-500 dark:text-gray-400 relative z-10 text-lg font-medium">{t('no_products_found_desc')}</p>
+            <div className="bg-white/40 dark:bg-zinc-900/40 backdrop-blur-3xl p-16 rounded-[3rem] flex flex-col items-center justify-center text-center shadow-2xl border border-white/50 dark:border-white/10 relative overflow-hidden group" data-aos="zoom-in">
+              <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-64 h-64 bg-gradient-to-tr from-neon-pink/20 to-holo-gold/20 rounded-full blur-[80px] pointer-events-none group-hover:scale-150 transition-transform duration-1000"></div>
+              <div className="w-32 h-32 mb-8 bg-white/50 dark:bg-zinc-800/50 rounded-full flex items-center justify-center shadow-inner relative z-10">
+                <svg className="w-16 h-16 text-neon-pink opacity-80" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="1.5" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"></path></svg>
+              </div>
+              <h2 className="text-4xl font-black text-gray-900 dark:text-white mb-4 relative z-10">{t('no_products_found')}</h2>
+              <p className="text-gray-500 dark:text-gray-400 relative z-10 text-xl font-medium max-w-md">{t('no_products_found_desc')}</p>
             </div>
           ) : (
             <>
               <div className="grid grid-cols-1 sm:grid-cols-2 xl:grid-cols-3 gap-8">
-                {results.slice(0, visibleCount).map((product, index) => (
-                  <div key={product.id} className="glass-panel p-4 clip-angled group hover:border-neon-pink hover:shadow-2xl hover:shadow-neon-pink/20 transition-all duration-500 relative transform hover:-translate-y-2 flex flex-col" data-aos="fade-up" data-aos-delay={(index % 3) * 100}>
-                    <div className="relative aspect-[3/4] mb-4 overflow-hidden clip-angled transform-gpu">
-                      {product.etiket && (
-                        <div className="absolute top-2 left-2 z-20">
-                          <span className="text-xs font-bold uppercase tracking-widest bg-neon-pink text-gray-900 dark:text-white px-3 py-1 clip-angled shadow-lg">
-                            {t(product.etiket)}
-                          </span>
+                {results.slice(0, visibleCount).map((product, index) => {
+                  const images = product.resim ? product.resim.split(',') : (product.gorsel ? product.gorsel.split(',') : []);
+                  return (
+                    <div key={product.id} className="bg-white/60 dark:bg-zinc-900/40 backdrop-blur-xl p-4 rounded-[2rem] group hover:shadow-2xl hover:shadow-neon-pink/20 transition-all duration-500 relative transform hover:-translate-y-2 flex flex-col border border-white/50 dark:border-white/10" data-aos="fade-up" data-aos-delay={(index % 3) * 100}>
+                      <div className="relative aspect-[3/4] mb-4 overflow-hidden rounded-2xl transform-gpu">
+                        {product.etiket && (
+                          <div className="absolute top-3 left-3 z-20">
+                            <span className="text-[10px] font-black uppercase tracking-widest bg-gradient-to-r from-neon-pink to-holo-gold text-white px-4 py-1.5 rounded-full shadow-lg">
+                              {t(product.etiket)}
+                            </span>
+                          </div>
+                        )}
+                        
+                        {images.length > 1 ? (
+                          <Swiper
+                            modules={[EffectFade, Pagination, Autoplay]}
+                            effect="fade"
+                            pagination={{ clickable: true, dynamicBullets: true }}
+                            autoplay={{ delay: 3000, disableOnInteraction: false, pauseOnMouseEnter: true }}
+                            className="w-full h-full group-hover:scale-105 transition-transform duration-1000"
+                          >
+                            {images.map((img: string, i: number) => (
+                              <SwiperSlide key={i}>
+                                <Image
+                                  src={getValidImageUrl(img)}
+                                  alt={`${t(product.ad)} - Image ${i + 1}`}
+                                  fill
+                                  className="object-cover"
+                                  sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
+                                />
+                              </SwiperSlide>
+                            ))}
+                          </Swiper>
+                        ) : (
+                          <Image
+                            src={getValidImageUrl(images[0])}
+                            alt={t(product.ad)}
+                            fill
+                            className="object-cover group-hover:scale-110 transition-transform duration-1000 ease-out"
+                            sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
+                          />
+                        )}
+                        
+                        <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-black/20 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500 flex items-center justify-center pointer-events-none z-10"></div>
+                        
+                        <div className="absolute bottom-6 left-0 w-full px-6 flex justify-center opacity-0 group-hover:opacity-100 transition-all duration-500 translate-y-8 group-hover:translate-y-0 z-30">
+                          <button
+                            onClick={(e) => { e.preventDefault(); setQuickViewProduct(product); }}
+                            className="text-xs uppercase tracking-[0.2em] font-black text-gray-900 dark:text-white hover:text-white hover:bg-neon-pink transition-all duration-300 bg-white/95 dark:bg-black/95 px-8 py-3.5 rounded-full backdrop-blur-xl shadow-xl w-full active:scale-95 transform hover:-translate-y-1"
+                          >
+                            {t('quick_view')}
+                          </button>
                         </div>
-                      )}
-                      
-                      <Image
-                        src={getValidImageUrl(product.resim || product.gorsel?.split(',')[0])}
-                        alt={t(product.ad)}
-                        fill
-                        className="object-cover group-hover:scale-110 transition-transform duration-1000 ease-out"
-                        sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
-                      />
-                      
-                      <div className="absolute inset-0 bg-gradient-to-t from-black/60 via-black/20 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex items-center justify-center pointer-events-none z-10"></div>
-                      
-                      <div className="absolute bottom-4 left-0 w-full px-4 flex justify-center opacity-0 group-hover:opacity-100 transition-all duration-500 translate-y-8 group-hover:translate-y-0 z-30">
-                        <button
-                          onClick={(e) => { e.preventDefault(); setQuickViewProduct(product); }}
-                          className="text-xs uppercase tracking-widest font-black text-gray-900 dark:text-white hover:text-white hover:bg-neon-pink transition-colors bg-white/90 dark:bg-black/80 px-6 py-3 rounded-full backdrop-blur-md shadow-xl w-full active:scale-95"
-                        >
-                          {t('quick_view')}
-                        </button>
                       </div>
-                    </div>
 
-                    <div className="p-4 flex-1 flex flex-col relative">
-                      <p className="text-gray-500 dark:text-gray-400 text-xs uppercase tracking-widest mb-1 group-hover:text-holo-gold transition-colors">
-                        {t(product.kategori)}
-                      </p>
-                      <Link href={`/urundetay/${product.id}`} className="block before:absolute before:inset-0 before:z-10">
-                        <h3 className="text-gray-900 dark:text-white font-black text-lg mb-2 truncate group-hover:text-neon-pink transition-colors">{t(product.ad)}</h3>
-                      </Link>
-                      <div className="mt-auto pt-4 flex items-center justify-between">
-                        <span className="text-gray-900 dark:text-white font-black text-xl">{formatPrice(product.fiyat)}</span>
-                        <FavoriteButton product={product} className="relative z-30 transform hover:scale-110 active:scale-90" />
+                      <div className="p-2 flex-1 flex flex-col relative z-20">
+                        <p className="text-gray-500 dark:text-gray-400 text-[10px] font-black uppercase tracking-[0.2em] mb-2 group-hover:text-neon-pink transition-colors">
+                          {t(product.kategori)}
+                        </p>
+                        <Link href={`/urundetay/${product.id}`} className="block">
+                          <h3 className="text-gray-900 dark:text-white font-black text-lg mb-2 line-clamp-2 leading-tight group-hover:text-transparent group-hover:bg-clip-text group-hover:bg-gradient-to-r group-hover:from-neon-pink group-hover:to-holo-gold transition-all duration-300">
+                            {t(product.ad)}
+                          </h3>
+                        </Link>
+                        <div className="mt-auto pt-4 flex items-center justify-between border-t border-gray-100 dark:border-white/5">
+                          <span className="text-transparent bg-clip-text bg-gradient-to-r from-gray-900 to-gray-600 dark:from-white dark:to-gray-300 font-black text-2xl tracking-tight">
+                            {formatPrice(product.fiyat)}
+                          </span>
+                          <FavoriteButton product={product} className="relative z-30 transform hover:scale-125 active:scale-90 transition-transform duration-300" />
+                        </div>
                       </div>
                     </div>
-                  </div>
-                ))}
+                  );
+                })}
               </div>
               
               {visibleCount < results.length && (
-                <div ref={loaderRef} className="w-full py-12 flex justify-center">
-                  <div className="w-12 h-12 rounded-full border-4 border-neon-pink border-t-transparent shadow-lg shadow-neon-pink/50 animate-spin"></div>
+                <div ref={loaderRef} className="w-full py-16 flex justify-center">
+                  <div className="relative w-16 h-16 flex items-center justify-center">
+                    <div className="absolute inset-0 border-4 border-neon-pink/20 rounded-full"></div>
+                    <div className="absolute inset-0 border-4 border-neon-pink border-t-transparent rounded-full animate-spin"></div>
+                    <div className="w-4 h-4 bg-holo-gold rounded-full animate-pulse"></div>
+                  </div>
                 </div>
               )}
             </>
@@ -163,3 +211,4 @@ export default function SearchClient({ initialResults, query, isSearch }: { init
     </div>
   );
 }
+

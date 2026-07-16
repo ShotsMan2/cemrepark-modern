@@ -1,74 +1,54 @@
-'use client';
+"use client";
 
 import React from 'react';
+import { AlertTriangle, TrendingDown } from 'lucide-react';
 
-interface LowStockItem {
-  id: number;
-  ad: string;
-  resim: string | null;
-  stok: number;
-  renk?: string | null;
-  beden?: string | null;
-}
+const criticalStocks = [
+  { id: 1, name: 'Floral Maxi Dress', variation: 'Size M - Blue', stock: 2, threshold: 5 },
+  { id: 2, name: 'Silk Hijab', variation: 'Standard - Beige', stock: 0, threshold: 10 },
+  { id: 3, name: 'Evening Abaya', variation: 'Size L - Black', stock: 1, threshold: 3 },
+  { id: 4, name: 'Pearl Pins Set', variation: 'Gold', stock: 4, threshold: 15 },
+];
 
-interface StockWarningProps {
-  items: LowStockItem[];
-}
-
-export default function StockWarning({ items }: StockWarningProps) {
-  if (!items || items.length === 0) {
-    return (
-      <div className="glass-panel p-6 clip-angled relative overflow-hidden group border border-green-500/30 bg-black/40">
-        <div className="absolute top-0 right-0 w-24 h-24 bg-green-500 opacity-10 rounded-bl-full"></div>
-        <div className="flex items-center gap-4 text-green-400">
-          <svg xmlns="http://www.w3.org/2000/svg" className="h-8 w-8" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z" />
-          </svg>
-          <div>
-            <h4 className="font-bold text-lg uppercase tracking-widest">Stok Durumu Harika!</h4>
-            <p className="text-sm text-gray-400 mt-1">Şu an için kritik seviyede olan (5'ten az) ürün bulunmuyor.</p>
-          </div>
-        </div>
-      </div>
-    );
-  }
+export default function StockWarning() {
+  if (!criticalStocks || criticalStocks.length === 0) return null;
 
   return (
-    <div className="glass-panel p-6 clip-angled relative overflow-hidden group border border-red-500/50 bg-black/40">
-      <div className="absolute top-0 right-0 w-32 h-32 bg-red-500 opacity-10 rounded-bl-full animate-pulse"></div>
-      
-      <div className="flex items-center gap-3 text-red-500 mb-6 border-b border-red-500/20 pb-4">
-        <svg xmlns="http://www.w3.org/2000/svg" className="h-7 w-7 animate-bounce" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-          <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-3L13.732 4c-.77-1.333-2.694-1.333-3.464 0L3.34 16c-.77 1.333.192 3 1.732 3z" />
-        </svg>
-        <h3 className="text-lg font-black uppercase tracking-widest">Kritik Stok Uyarısı</h3>
+    <div className="bg-red-50 dark:bg-red-900/20 border border-red-200 dark:border-red-800/50 rounded-2xl p-6">
+      <div className="flex items-center gap-3 mb-4">
+        <div className="bg-red-100 dark:bg-red-800 p-2 rounded-lg">
+          <AlertTriangle className="w-5 h-5 text-red-600 dark:text-red-400" />
+        </div>
+        <div>
+          <h3 className="text-lg font-bold text-red-800 dark:text-red-300">Critical Stock Warning</h3>
+          <p className="text-sm text-red-600 dark:text-red-400">Items below minimum stock threshold</p>
+        </div>
       </div>
       
-      <div className="space-y-4 max-h-80 overflow-y-auto custom-scrollbar pr-2">
-        {items.map((item) => (
-          <div key={`${item.id}-${item.renk}-${item.beden}`} className="flex items-center justify-between bg-black/60 p-4 clip-angled border border-red-500/20 hover:border-red-500/50 transition-colors">
-            <div className="flex items-center gap-4">
-              {item.resim ? (
-                <img src={item.resim} alt={item.ad} className="w-14 h-14 object-cover rounded-sm border border-white/10" />
-              ) : (
-                <div className="w-14 h-14 bg-white/5 rounded-sm flex items-center justify-center">
-                  <span className="text-xs text-gray-500">Görsel Yok</span>
-                </div>
-              )}
-              <div>
-                <p className="font-bold text-white text-sm line-clamp-1">{item.ad}</p>
-                <div className="flex gap-2 text-[10px] text-gray-400 mt-2 uppercase tracking-wider">
-                  {item.renk && <span className="bg-white/5 px-2 py-1 border border-white/10">{item.renk}</span>}
-                  {item.beden && <span className="bg-white/5 px-2 py-1 border border-white/10">{item.beden}</span>}
-                </div>
-              </div>
-            </div>
-            <div className="text-right flex flex-col items-end pl-4 border-l border-white/10">
-              <span className="text-3xl font-black text-red-500">{item.stok}</span>
-              <span className="text-[10px] text-red-400/70 font-bold uppercase tracking-widest">Kalan</span>
-            </div>
-          </div>
-        ))}
+      <div className="overflow-hidden bg-white dark:bg-gray-800 rounded-xl border border-red-100 dark:border-red-900/30">
+        <table className="w-full text-sm text-left">
+          <thead className="bg-red-50/50 dark:bg-gray-800/50 text-red-800 dark:text-red-300 font-medium border-b border-red-100 dark:border-red-900/30">
+            <tr>
+              <th className="px-4 py-3">Product Name</th>
+              <th className="px-4 py-3">Variation</th>
+              <th className="px-4 py-3 text-right">Current Stock</th>
+            </tr>
+          </thead>
+          <tbody className="divide-y divide-red-50 dark:divide-gray-700">
+            {criticalStocks.map((item) => (
+              <tr key={item.id} className="text-gray-700 dark:text-gray-300 hover:bg-red-50/30 dark:hover:bg-gray-700/50 transition-colors">
+                <td className="px-4 py-3 font-medium">{item.name}</td>
+                <td className="px-4 py-3 text-gray-500 dark:text-gray-400">{item.variation}</td>
+                <td className="px-4 py-3 text-right">
+                  <span className="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-full text-xs font-bold bg-red-100 dark:bg-red-900/40 text-red-700 dark:text-red-400">
+                    <TrendingDown className="w-3 h-3" />
+                    {item.stock} left
+                  </span>
+                </td>
+              </tr>
+            ))}
+          </tbody>
+        </table>
       </div>
     </div>
   );

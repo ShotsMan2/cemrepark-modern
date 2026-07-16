@@ -1,21 +1,26 @@
 import { notFound } from "next/navigation";
 import { getSettings } from "../../../data/settings";
 import KurumsalContentClient from "./KurumsalContentClient";
-
-const validSlugs = [
-  "hakkimizda",
-  "iletisim",
-  "mesafeli-satis-sozlesmesi",
-  "iade-ve-degisim-kosullari",
-  "gizlilik-politikasi",
-];
+import prisma from "@/lib/prisma";
 
 export default async function KurumsalPage({ params }) {
   const resolvedParams = await params;
   const { slug } = resolvedParams;
   const settings = getSettings();
 
-  if (!validSlugs.includes(slug)) {
+  const page = await prisma.page.findUnique({
+    where: { slug }
+  });
+
+  const validSlugs = [
+    "hakkimizda",
+    "iletisim",
+    "mesafeli-satis-sozlesmesi",
+    "iade-ve-degisim-kosullari",
+    "gizlilik-politikasi",
+  ];
+
+  if (!page && !validSlugs.includes(slug)) {
     notFound();
   }
 
@@ -25,7 +30,7 @@ export default async function KurumsalPage({ params }) {
       <div className="absolute top-1/4 left-1/4 w-[500px] h-[500px] bg-neon-pink opacity-[0.03] rounded-full blur-[120px] pointer-events-none"></div>
 
       <div className="container mx-auto px-4 relative z-10 max-w-5xl">
-        <KurumsalContentClient slug={slug} settings={settings} />
+        <KurumsalContentClient slug={slug} settings={settings} dynamicPage={page} />
       </div>
     </div>
   );

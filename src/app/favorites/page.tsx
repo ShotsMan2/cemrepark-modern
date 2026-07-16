@@ -7,6 +7,13 @@ import { useState, useEffect } from 'react';
 import { getValidImageUrl } from '../../utils/imageHelper';
 import AOS from 'aos';
 import 'aos/dist/aos.css';
+import FavoriteButton from '../../components/FavoriteButton';
+
+import { Swiper, SwiperSlide } from 'swiper/react';
+import { EffectFade, Pagination, Autoplay } from 'swiper/modules';
+import 'swiper/css';
+import 'swiper/css/effect-fade';
+import 'swiper/css/pagination';
 
 const QuickViewModal = dynamic(() => import('../../components/QuickViewModal'), { ssr: false });
 
@@ -48,62 +55,85 @@ export default function FavoritesPage() {
           </div>
         ) : (
           <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-8">
-            {favoriteItems.map((product: any, index: number) => (
-              <div
-                key={product.id}
-                className="bg-white/60 dark:bg-zinc-900/40 backdrop-blur-xl rounded-[2rem] shadow-lg hover:shadow-2xl hover:shadow-neon-pink/20 transition-all duration-500 border border-white/50 dark:border-white/10 overflow-hidden group flex flex-col transform hover:-translate-y-2"
-                data-aos="fade-up"
-                data-aos-delay={(index % 4) * 100}
-              >
-                <div className="relative h-80 w-full overflow-hidden rounded-t-[2rem]">
-                  <Image
-                    src={getValidImageUrl(product.gorsel)}
-                    alt={t(product.ad)}
-                    fill
-                    className="object-cover group-hover:scale-110 group-hover:rotate-1 transition-all duration-700 ease-out"
-                    sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
-                  />
-                  <div className="absolute inset-0 bg-gradient-to-t from-black/60 via-black/0 to-black/0 opacity-0 group-hover:opacity-100 transition-opacity duration-500"></div>
-                  
-                  <div className="absolute top-4 right-4 z-20">
-                    <button
-                      onClick={(e) => {
-                        e.preventDefault();
-                        removeFromFavorites(product.id);
-                      }}
-                      className="w-12 h-12 bg-white/90 dark:bg-zinc-900/90 backdrop-blur-md rounded-full flex items-center justify-center text-neon-pink hover:bg-red-500 hover:text-white transition-all duration-300 shadow-lg hover:shadow-red-500/50 active:scale-90"
-                    >
-                      <svg className="w-6 h-6" fill="currentColor" viewBox="0 0 24 24">
-                        <path d="M12 21.35l-1.45-1.32C5.4 15.36 2 12.28 2 8.5 2 5.42 4.42 3 7.5 3c1.74 0 3.41.81 4.5 2.09C13.09 3.81 14.76 3 16.5 3 19.58 3 22 5.42 22 8.5c0 3.78-3.4 6.86-8.55 11.54L12 21.35z"></path>
-                      </svg>
-                    </button>
+            {favoriteItems.map((product: any, index: number) => {
+              const images = product.resim ? product.resim.split(',') : (product.gorsel ? product.gorsel.split(',') : []);
+              return (
+                <div
+                  key={product.id}
+                  className="bg-white/60 dark:bg-zinc-900/40 backdrop-blur-xl p-4 rounded-[2rem] group hover:shadow-2xl hover:shadow-neon-pink/20 transition-all duration-500 relative transform hover:-translate-y-2 flex flex-col border border-white/50 dark:border-white/10"
+                  data-aos="fade-up"
+                  data-aos-delay={(index % 4) * 100}
+                >
+                  <div className="relative aspect-[3/4] mb-4 overflow-hidden rounded-2xl transform-gpu">
+                    {product.etiket && (
+                      <div className="absolute top-3 left-3 z-20">
+                        <span className="text-[10px] font-black uppercase tracking-widest bg-gradient-to-r from-neon-pink to-holo-gold text-white px-4 py-1.5 rounded-full shadow-lg">
+                          {t(product.etiket)}
+                        </span>
+                      </div>
+                    )}
+                    
+                    {images.length > 1 ? (
+                      <Swiper
+                        modules={[EffectFade, Pagination, Autoplay]}
+                        effect="fade"
+                        pagination={{ clickable: true, dynamicBullets: true }}
+                        autoplay={{ delay: 3000, disableOnInteraction: false, pauseOnMouseEnter: true }}
+                        className="w-full h-full group-hover:scale-105 transition-transform duration-1000"
+                      >
+                        {images.map((img: string, i: number) => (
+                          <SwiperSlide key={i}>
+                            <Image
+                              src={getValidImageUrl(img)}
+                              alt={`${t(product.ad)} - Image ${i + 1}`}
+                              fill
+                              className="object-cover"
+                              sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
+                            />
+                          </SwiperSlide>
+                        ))}
+                      </Swiper>
+                    ) : (
+                      <Image
+                        src={getValidImageUrl(images[0])}
+                        alt={t(product.ad)}
+                        fill
+                        className="object-cover group-hover:scale-110 transition-transform duration-1000 ease-out"
+                        sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
+                      />
+                    )}
+                    
+                    <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-black/20 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500 flex items-center justify-center pointer-events-none z-10"></div>
+                    
+                    <div className="absolute bottom-6 left-0 w-full px-6 flex justify-center opacity-0 group-hover:opacity-100 transition-all duration-500 translate-y-8 group-hover:translate-y-0 z-30">
+                      <button
+                        onClick={(e) => { e.preventDefault(); setQuickViewProduct(product); }}
+                        className="text-xs uppercase tracking-[0.2em] font-black text-gray-900 dark:text-white hover:text-white hover:bg-neon-pink transition-all duration-300 bg-white/95 dark:bg-black/95 px-8 py-3.5 rounded-full backdrop-blur-xl shadow-xl w-full active:scale-95 transform hover:-translate-y-1"
+                      >
+                        {t('quick_view')}
+                      </button>
+                    </div>
                   </div>
 
-                  <div className="absolute bottom-6 left-0 w-full px-6 flex justify-center opacity-0 group-hover:opacity-100 transition-all duration-500 translate-y-8 group-hover:translate-y-0 z-20">
-                    <button
-                      onClick={(e) => {
-                        e.preventDefault();
-                        setQuickViewProduct(product);
-                      }}
-                      className="bg-white/95 dark:bg-zinc-900/95 text-gray-900 dark:text-white px-8 py-3.5 rounded-full font-black text-xs tracking-[0.2em] uppercase backdrop-blur-xl shadow-xl hover:bg-neon-pink hover:text-white transition-all duration-300 w-full transform active:scale-95"
-                    >
-                      {t('quick_view')}
-                    </button>
+                  <div className="p-2 flex-1 flex flex-col relative z-20">
+                    <p className="text-gray-500 dark:text-gray-400 text-[10px] font-black uppercase tracking-[0.2em] mb-2 group-hover:text-neon-pink transition-colors">
+                      {t(product.kategori)}
+                    </p>
+                    <Link href={`/urundetay/${product.id}`} className="block">
+                      <h3 className="text-gray-900 dark:text-white font-black text-lg mb-2 line-clamp-2 leading-tight group-hover:text-transparent group-hover:bg-clip-text group-hover:bg-gradient-to-r group-hover:from-neon-pink group-hover:to-holo-gold transition-all duration-300">
+                        {t(product.ad)}
+                      </h3>
+                    </Link>
+                    <div className="mt-auto pt-4 flex items-center justify-between border-t border-gray-100 dark:border-white/5">
+                      <span className="text-transparent bg-clip-text bg-gradient-to-r from-gray-900 to-gray-600 dark:from-white dark:to-gray-300 font-black text-2xl tracking-tight">
+                        {formatPrice(product.fiyat)}
+                      </span>
+                      <FavoriteButton product={product} className="relative z-30 transform hover:scale-125 active:scale-90 transition-transform duration-300" />
+                    </div>
                   </div>
                 </div>
-
-                <div className="p-6 flex-1 flex flex-col relative">
-                  <h3 className="text-gray-900 dark:text-white font-black text-lg mb-2 truncate group-hover:text-transparent group-hover:bg-clip-text group-hover:bg-gradient-to-r group-hover:from-neon-pink group-hover:to-holo-gold transition-all duration-300">
-                    <Link href={`/urundetay/${product.id}`} className="block relative z-10">{t(product.ad)}</Link>
-                  </h3>
-                  <div className="mt-auto pt-4 flex items-center justify-between border-t border-gray-200 dark:border-white/10">
-                    <span className="text-gray-900 dark:text-white font-black text-2xl tracking-tight group-hover:text-neon-pink transition-colors">
-                      {formatPrice(product.fiyat)}
-                    </span>
-                  </div>
-                </div>
-              </div>
-            ))}
+              );
+            })}
           </div>
         )}
       </div>

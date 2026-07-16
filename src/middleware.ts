@@ -1,7 +1,34 @@
 import { withAuth } from "next-auth/middleware";
 import { NextResponse } from "next/server";
 import type { NextRequest } from "next/server";
-import { rateLimit } from '@/lib/rate-limit';
+
+// Simple Edge-compatible in-memory rate limiting
+const memoryCache = new Map();
+setInterval(() => {
+  const now = Date.now();
+  for (const [key, record] of memoryCache.entries()) {
+    if (record.resetTime < now) {
+      memoryCache.delete(key);
+    }
+  }
+}, 60000);
+
+async function edgeRateLimit(ip: string, limit: number, windowSec: number) {
+  const now = Date.now();
+  const key = `rate-limit:${ip}`;
+  
+  let record = memoryCache.get(key);
+  if (!record || record.resetTime < now) {
+    record = { count: 0, resetTime: now + windowSec * 1000 };
+  }
+  
+  record.count += 1;
+  memoryCache.set(key, record);
+  
+  return {
+    success: record.count <= limit,
+  };
+}
 
 // NextAuth middleware'ini sadece korunması gereken rotalar için tanımlıyoruz
 const authMiddleware = withAuth(
@@ -69,7 +96,7 @@ export default async function middleware(req: NextRequest, event: any) {
   if ((path.startsWith('/api/auth') && req.method !== 'GET' && !path.includes('/signout') && !path.includes('/register') && !path.includes('/callback')) || path.startsWith('/api/orders')) {
     const ip = req.headers.get('x-forwarded-for') || (req as any).ip || '127.0.0.1';
     try {
-      const { success } = await rateLimit(ip, 20, 60);
+      const { success } = await edgeRateLimit(ip, 20, 60);
       if (!success) {
         return new NextResponse(
           JSON.stringify({ error: 'Too Many Requests', message: 'Hız limiti aşıldı.' }),

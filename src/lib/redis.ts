@@ -49,14 +49,46 @@ export const cacheSet = async (key: string, value: any, ttl = 300) => {
 export const cacheDel = async (key: string) => {
   try {
     if (key.includes('*')) {
-      const keys = await redis.keys(key);
-      if (keys.length > 0) await redis.del(...keys);
+      let cursor = '0';
+      do {
+        const res = await redis.scan(cursor, 'MATCH', key, 'COUNT', 100);
+        cursor = res[0];
+        const keys = res[1];
+        if (keys.length > 0) {
+          await redis.del(...keys);
+        }
+      } while (cursor !== '0');
     } else {
       await redis.del(key);
     }
   } catch (err: any) {
     console.error('Redis cacheDel error:', err.message);
   }
+};
+
+export const fetchWithCache = async <T>(
+  key: string,
+  fetcher: () => Promise<T>,
+  ttl = 300
+): Promise<T> => {
+  try {
+    const cached = await cacheGet(key);
+    if (cached !== null) return cached;
+  } catch (e) {
+    // ignore cache get error and fetch directly
+  }
+
+  const data = await fetcher();
+  
+  try {
+    if (data !== null && data !== undefined) {
+      await cacheSet(key, data, ttl);
+    }
+  } catch (e) {
+    // ignore cache set error and return data
+  }
+  
+  return data;
 };
 
 export default redis;
