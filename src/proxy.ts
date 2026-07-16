@@ -65,8 +65,8 @@ const authMiddleware = withAuth(
 export default async function middleware(req: NextRequest, event: any) {
   const path = req.nextUrl.pathname;
   
-  // 1. Rate Limit Check (Runs for /api/auth non-GET requests and /api/orders, excludes signout)
-  if ((path.startsWith('/api/auth') && req.method !== 'GET' && !path.includes('/signout')) || path.startsWith('/api/orders')) {
+  // 1. Rate Limit Check (Runs for /api/auth non-GET requests and /api/orders, excludes signout, register, and callback)
+  if ((path.startsWith('/api/auth') && req.method !== 'GET' && !path.includes('/signout') && !path.includes('/register') && !path.includes('/callback')) || path.startsWith('/api/orders')) {
     const ip = req.headers.get('x-forwarded-for') || (req as any).ip || '127.0.0.1';
     try {
       const { success } = await rateLimit(ip, 20, 60);

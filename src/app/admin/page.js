@@ -24,9 +24,14 @@ export default function AdminPage() {
     setIsSubmitting(false);
 
     if (result?.error) {
+      let errorMessage = "Kullanıcı adı veya şifre hatalı!";
+      if (result.error === "Too Many Attempts") {
+        errorMessage = "Çok fazla başarısız deneme yaptınız. Lütfen daha sonra tekrar deneyin.";
+      }
+      
       Swal.fire({
         title: "Hata",
-        text: "Kullanıcı adı veya şifre hatalı!",
+        text: errorMessage,
         icon: "error",
         confirmButtonColor: "#ff007f",
         background: "#1a1a1a",

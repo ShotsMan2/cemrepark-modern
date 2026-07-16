@@ -13,11 +13,12 @@ export const POST = apiHandler(async (req) => {
   const ip = req.headers.get("x-forwarded-for") || "unknown";
 
   try {
-    await limiter.check(5, ip); // 5 requests per minute per IP
+    await limiter.check(10, ip); // 10 requests per minute per IP
   } catch {
     logger.warn("Rate limit exceeded", { ip });
     const error = new Error("Çok fazla istek gönderildi. Lütfen daha sonra tekrar deneyin.");
     error.statusCode = 429;
+    error.isOperational = true;
     throw error;
   }
 
