@@ -1,4 +1,4 @@
-import { withAuth } from "next-auth/middleware";
+import { getToken } from "next-auth/jwt";
 import { NextResponse } from "next/server";
 import type { NextRequest } from "next/server";
 
@@ -31,63 +31,57 @@ async function edgeRateLimit(ip: string, limit: number, windowSec: number) {
 }
 
 // NextAuth middleware'ini sadece korunması gereken rotalar için tanımlıyoruz
-const authMiddleware = withAuth(
-  function middleware(req) {
-    const token = req.nextauth.token;
-    const isAuth = !!token;
-    const path = req.nextUrl.pathname;
-    const isAuthPage = path === "/login" || path.startsWith("/login/") || path === "/register" || path.startsWith("/register/");
+async function authMiddleware(req: NextRequest) {
+  const token = await getToken({ req, secret: process.env.NEXTAUTH_SECRET || "default_secret_key_for_development" });
+  const isAuth = !!token;
+  const path = req.nextUrl.pathname;
+  const isAuthPage = path === "/login" || path.startsWith("/login/") || path === "/register" || path.startsWith("/register/");
 
-    if (isAuthPage) {
-      if (isAuth) {
-        return NextResponse.redirect(new URL("/hesabim", req.url));
-      }
-      return NextResponse.next();
+  if (isAuthPage) {
+    if (isAuth) {
+      return NextResponse.redirect(new URL("/hesabim", req.url));
     }
+    return NextResponse.next();
+  }
 
-    if (!isAuth) {
-      if (path.startsWith("/api/admin")) {
-        return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
+  if (!isAuth) {
+    if (path.startsWith("/api/admin")) {
+      return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
+    }
+    if (path.startsWith("/admin")) {
+      if (path === "/admin") {
+        return NextResponse.next();
       }
-      if (path.startsWith("/admin")) {
-        let from = path;
-        if (req.nextUrl.search) {
-          from += req.nextUrl.search;
-        }
-        return NextResponse.redirect(new URL(`/login?from=${encodeURIComponent(from)}`, req.url));
-      }
-      
       let from = path;
       if (req.nextUrl.search) {
         from += req.nextUrl.search;
       }
-      return NextResponse.redirect(new URL(`/login?from=${encodeURIComponent(from)}`, req.url));
-    }
-
-    // Robust Role-based Access Control (RBAC)
-    if (path.startsWith("/admin") || path.startsWith("/api/admin")) {
-      if (token?.role !== "admin") {
-        if (path.startsWith("/api/admin")) {
-          return NextResponse.json({ error: "Forbidden: Admin access required" }, { status: 403 });
-        }
-        return NextResponse.redirect(new URL("/yetkisiz-erisim", req.url));
-      }
+      return NextResponse.redirect(new URL(`/admin?from=${encodeURIComponent(from)}`, req.url));
     }
     
-    // Add Edge Security Headers
-    const response = NextResponse.next();
-    response.headers.set('X-Edge-Secured', 'true');
-    response.headers.set('X-RateLimit-Limit', '100');
-    return response;
-  },
-  {
-    callbacks: {
-      authorized() {
-        return true;
-      },
-    },
+    let from = path;
+    if (req.nextUrl.search) {
+      from += req.nextUrl.search;
+    }
+    return NextResponse.redirect(new URL(`/login?from=${encodeURIComponent(from)}`, req.url));
   }
-);
+
+  // Robust Role-based Access Control (RBAC)
+  if (path.startsWith("/admin") || path.startsWith("/api/admin")) {
+    if (token?.role !== "admin") {
+      if (path.startsWith("/api/admin")) {
+        return NextResponse.json({ error: "Forbidden: Admin access required" }, { status: 403 });
+      }
+      return NextResponse.redirect(new URL("/yetkisiz-erisim", req.url));
+    }
+  }
+  
+  // Add Edge Security Headers
+  const response = NextResponse.next();
+  response.headers.set('X-Edge-Secured', 'true');
+  response.headers.set('X-RateLimit-Limit', '100');
+  return response;
+}
 
 export default async function middleware(req: NextRequest, event: any) {
   const path = req.nextUrl.pathname;
@@ -113,7 +107,7 @@ export default async function middleware(req: NextRequest, event: any) {
   const isAuthRoute = authRoutes.some(route => path === route || path.startsWith(`${route}/`));
 
   if (isAuthRoute) {
-    return authMiddleware(req as any, event);
+    return await authMiddleware(req);
   }
 
   // NextAuth rotası değilse yola devam et (örneğin /api/auth/session)
