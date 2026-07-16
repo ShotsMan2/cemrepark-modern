@@ -15,6 +15,7 @@ import {
 } from "recharts";
 import DashboardAnalytics from "../DashboardAnalytics";
 import { transformCategoryPopularity } from "@/utils/rechartsHelpers";
+import StockWarning from "@/components/admin/StockWarning";
 
 const COLORS = ["#ff007f", "#ffd700", "#a855f7", "#3b82f6", "#22c55e", "#ef4444"];
 
@@ -143,6 +144,11 @@ export default function DashboardView({ products }) {
           <h3 className="text-3xl font-black text-white">{totalOrders}</h3>
           <p className="text-green-500 text-xs mt-2 font-bold">Tüm zamanlar</p>
         </div>
+      </div>
+
+      {/* Stock Warning Component */}
+      <div className="mt-8 animate-fade-in" data-aos="fade-up">
+        <StockWarning items={safeProducts.filter(p => typeof p.stok === 'number' && p.stok < 3).map(p => ({id: p.id, ad: p.ad, resim: p.gorsel || p.resim, stok: p.stok, renk: p.renk, beden: p.beden}))} />
       </div>
 
       {/* Chart Area */}

@@ -62,7 +62,7 @@ export default async function SearchPage({ searchParams }) {
     results = await prisma.product.findMany();
   } else {
     // Prisma SQLite'da contains default olarak ASCII case-insensitive'dir
-    const orConditions = [
+    const orConditions: any[] = [
       { ad: { contains: mappedQuery } },
       { kategori: { contains: mappedQuery } },
       { etiket: { contains: mappedQuery } },

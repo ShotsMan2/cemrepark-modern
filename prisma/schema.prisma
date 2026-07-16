@@ -4,7 +4,7 @@ generator client {
 
 datasource db {
   provider = "sqlite"
-  url      = "file:./dev.db"
+  url      = env("DATABASE_URL")
 }
 
 model User {
@@ -98,7 +98,10 @@ model Order {
   couponCode     String?
   discountAmount Float?   @default(0)
   status         String
+  trackingNumber String?
+  carrier        String?
   createdAt      DateTime @default(now())
+  updatedAt      DateTime @updatedAt
 
   items      OrderItem[]
 
@@ -272,5 +275,22 @@ model Coupon {
   createdAt     DateTime @default(now())
 
   @@index([code])
+  @@index([isActive])
+}
+
+model Promotion {
+  id            Int      @id @default(autoincrement())
+  name          String
+  description   String?
+  type          String   // e.g. "BUY_X_GET_Y", "FREE_SHIPPING", "PERCENTAGE_DISCOUNT"
+  conditionType String?  // e.g. "MIN_CART_VALUE", "MIN_ITEM_COUNT"
+  conditionValue Float?
+  discountValue Float?
+  isActive      Boolean  @default(true)
+  startDate     DateTime?
+  endDate       DateTime?
+  createdAt     DateTime @default(now())
+  updatedAt     DateTime @updatedAt
+
   @@index([isActive])
 }
