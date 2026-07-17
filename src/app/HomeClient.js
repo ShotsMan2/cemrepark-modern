@@ -71,7 +71,7 @@ export default function HomeClient({ bestSellers, discounted, banners = [] }) {
                     <div className="absolute bottom-20 left-10 w-16 h-16 border border-holo-gold opacity-30 clip-angled float-fx"></div>
 
                     <div className="relative w-4/5 h-full clip-angled glass-panel p-2">
-                      <div className="relative w-full h-full clip-angled overflow-hidden group">
+                      <div className="relative w-full h-full clip-angled overflow-hidden group skeleton">
                         <Image
                           src={getValidImageUrl(slide.imageUrl)}
                           alt={slide.title}
@@ -145,7 +145,7 @@ export default function HomeClient({ bestSellers, discounted, banners = [] }) {
               <div className="absolute bottom-20 left-10 w-16 h-16 border border-holo-gold opacity-30 clip-angled float-fx"></div>
 
               <div className="relative w-4/5 h-full clip-angled glass-panel p-2">
-                <div className="relative w-full h-full clip-angled overflow-hidden group">
+                <div className="relative w-full h-full clip-angled overflow-hidden group skeleton">
                   <Image
                     src={getValidImageUrl(bestSellers[0]?.resim || bestSellers[0]?.gorsel?.split(',')[0])}
                     alt="Hero Image"
@@ -218,7 +218,7 @@ export default function HomeClient({ bestSellers, discounted, banners = [] }) {
                 data-aos="fade-up"
                 data-aos-delay={index * 150}
               >
-                <div className="relative aspect-[3/4] mb-4 overflow-hidden clip-angled transform-gpu">
+                <div className="relative aspect-[3/4] mb-4 overflow-hidden clip-angled transform-gpu skeleton">
                   {product.etiket && (
                     <div className="absolute top-2 left-2 z-20">
                       <span className="text-xs font-bold uppercase tracking-widest bg-neon-pink text-gray-900 dark:text-white px-3 py-1 clip-angled shadow-lg">
@@ -273,7 +273,7 @@ export default function HomeClient({ bestSellers, discounted, banners = [] }) {
           <div className="grid grid-cols-1 md:grid-cols-3 gap-6 h-auto md:h-[600px]">
             {/* Big Feature */}
             <div
-              className="md:col-span-2 glass-panel relative group overflow-hidden clip-angled"
+              className="md:col-span-2 glass-panel relative group overflow-hidden clip-angled skeleton"
               data-aos="fade-right"
             >
               <Image
@@ -299,7 +299,7 @@ export default function HomeClient({ bestSellers, discounted, banners = [] }) {
 
             {/* Stacked Small Features */}
             <div className="flex flex-col gap-6" data-aos="fade-left">
-              <div className="h-1/2 glass-panel relative group overflow-hidden clip-angled transform-gpu hover:shadow-2xl hover:shadow-neon-pink/20 transition-all duration-500">
+              <div className="h-1/2 glass-panel relative group overflow-hidden clip-angled transform-gpu hover:shadow-2xl hover:shadow-neon-pink/20 transition-all duration-500 skeleton">
                 <div className="absolute inset-0 bg-gradient-to-br from-neon-pink/20 to-transparent z-10 pointer-events-none group-hover:opacity-50 transition-opacity duration-500"></div>
                 <Image
                   src={getValidImageUrl(discounted[1]?.resim || discounted[1]?.gorsel?.split(',')[0])}
@@ -318,7 +318,7 @@ export default function HomeClient({ bestSellers, discounted, banners = [] }) {
                   </Link>
                 </div>
               </div>
-              <div className="h-1/2 glass-panel relative group overflow-hidden clip-angled transform-gpu hover:shadow-2xl hover:shadow-holo-gold/20 transition-all duration-500">
+              <div className="h-1/2 glass-panel relative group overflow-hidden clip-angled transform-gpu hover:shadow-2xl hover:shadow-holo-gold/20 transition-all duration-500 skeleton">
                 <Image
                   src={getValidImageUrl(discounted[2]?.resim || discounted[2]?.gorsel?.split(',')[0])}
                   alt="Tunik"

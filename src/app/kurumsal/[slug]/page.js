@@ -18,6 +18,9 @@ export default async function KurumsalPage({ params }) {
     "mesafeli-satis-sozlesmesi",
     "iade-ve-degisim-kosullari",
     "gizlilik-politikasi",
+    "vizyon-misyon",
+    "surdurulebilirlik",
+    "kariyer",
   ];
 
   if (!page && !validSlugs.includes(slug)) {

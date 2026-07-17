@@ -13,6 +13,7 @@ import MaintenanceGuard from "../components/MaintenanceGuard";
 import AuthProvider from "../components/AuthProvider";
 import ThemeProvider from "../components/ThemeProvider";
 import Script from "next/script";
+import AIChatWidget from "../components/ui/AIChatWidget";
 
 const jost = Jost({ subsets: ["latin"], variable: "--font-jost" });
 const marcellus = Marcellus({ weight: "400", subsets: ["latin"], variable: "--font-marcellus" });
@@ -74,6 +75,7 @@ export default function RootLayout({ children }) {
                 {children}
 
                 <Footer />
+                <AIChatWidget />
               </MaintenanceGuard>
             </ThemeProvider>
           </StoreProvider>

@@ -110,6 +110,30 @@ export default function KurumsalContentClient({ slug, settings: ssrSettings, dyn
         </div>
       ),
     },
+    "vizyon-misyon": {
+      title: t("vision_mission") || "Vizyon ve Misyon",
+      content: (
+        <div className="space-y-8" data-aos="fade-up">
+          <p className="text-gray-900 dark:text-gray-200 text-lg leading-relaxed">Yenilikçi tasarımlarımızla tesettür giyiminde öncü bir marka olmayı hedefliyoruz. Müşteri memnuniyetini her zaman ön planda tutarak, en kaliteli kumaşları modern tasarımlarla harmanlıyoruz.</p>
+        </div>
+      ),
+    },
+    "surdurulebilirlik": {
+      title: t("sustainability") || "Sürdürülebilirlik",
+      content: (
+        <div className="space-y-8" data-aos="fade-up">
+          <p className="text-gray-900 dark:text-gray-200 text-lg leading-relaxed">Doğaya ve insana saygılı, çevre dostu üretim süreçlerini benimsiyoruz. Daha yeşil bir gelecek için adımlar atıyoruz.</p>
+        </div>
+      ),
+    },
+    "kariyer": {
+      title: t("career") || "Kariyer",
+      content: (
+        <div className="space-y-8" data-aos="fade-up">
+          <p className="text-gray-900 dark:text-gray-200 text-lg leading-relaxed">Büyüyen ailemize katılmak ve kariyerinizde yeni bir sayfa açmak ister misiniz? Başvurularınız için iletişim sayfamızı kullanabilir veya bize özgeçmişinizi iletebilirsiniz.</p>
+        </div>
+      ),
+    },
   };
 
   let pageData = null;
