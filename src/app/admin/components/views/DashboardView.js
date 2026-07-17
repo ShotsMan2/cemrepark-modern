@@ -11,7 +11,9 @@ import {
   Pie,
   Cell,
   BarChart,
-  Bar
+  Bar,
+  ComposedChart,
+  Line
 } from "recharts";
 import DashboardAnalytics from "../DashboardAnalytics";
 import { transformCategoryPopularity } from "@/utils/rechartsHelpers";
@@ -21,12 +23,19 @@ const COLORS = ["#ff007f", "#ffd700", "#a855f7", "#3b82f6", "#22c55e", "#ef4444"
 
 export default function DashboardView({ products }) {
   const [stats, setStats] = useState(null);
+  const [isLoading, setIsLoading] = useState(true);
 
   useEffect(() => {
     fetch("/api/analytics")
       .then((res) => res.json())
-      .then((data) => setStats(data))
-      .catch((err) => console.error("Analytics fetch error:", err));
+      .then((data) => {
+        setStats(data);
+        setIsLoading(false);
+      })
+      .catch((err) => {
+        console.error("Analytics fetch error:", err);
+        setIsLoading(false);
+      });
   }, []);
 
   const safeProducts = Array.isArray(products) ? products : [];
@@ -100,8 +109,102 @@ export default function DashboardView({ products }) {
     return null;
   };
 
+  if (isLoading) {
+    return (
+      <div className="space-y-8 animate-fade-in">
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
+          {[1, 2, 3, 4].map((i) => (
+            <div key={i} className="glass-panel p-6 clip-angled border border-white/5 h-32 animate-pulse flex flex-col justify-between">
+              <div className="w-24 h-4 bg-white/10 rounded"></div>
+              <div className="w-32 h-8 bg-white/20 rounded mt-4"></div>
+              <div className="w-16 h-3 bg-white/10 rounded mt-2"></div>
+            </div>
+          ))}
+        </div>
+        <div className="grid grid-cols-1 lg:grid-cols-3 gap-6 mt-8">
+          <div className="lg:col-span-2 glass-panel p-6 border border-white/5 h-[400px] animate-pulse">
+            <div className="w-48 h-6 bg-white/10 rounded mb-6"></div>
+            <div className="w-full h-72 bg-white/5 rounded"></div>
+          </div>
+          <div className="glass-panel p-6 border border-white/5 animate-pulse">
+            <div className="w-32 h-6 bg-white/10 rounded mb-6"></div>
+            <div className="space-y-6">
+              {[1, 2, 3, 4, 5].map((i) => (
+                <div key={i} className="flex gap-4">
+                  <div className="w-2 h-2 rounded-full bg-white/20 mt-2"></div>
+                  <div className="flex-1 space-y-2">
+                    <div className="w-3/4 h-4 bg-white/10 rounded"></div>
+                    <div className="w-1/4 h-3 bg-white/5 rounded"></div>
+                  </div>
+                </div>
+              ))}
+            </div>
+          </div>
+        </div>
+      </div>
+    );
+  }
+
+  const handleExportCSV = () => {
+    try {
+      const headers = ["Metrik", "Deger"];
+      const rows = [
+        ["Toplam Urun", totalProducts],
+        ["Aktif Kategoriler", activeCategories],
+        ["Toplam Gelir", totalRevenue],
+        ["Toplam Siparis", totalOrders],
+      ];
+
+      rows.push(["", ""]);
+      rows.push(["Gun", "Satis Tutari"]);
+      chartData.forEach(d => {
+        rows.push([d.name, d.total]);
+      });
+
+      const csvContent = "\uFEFF" + headers.join(",") + "\n" + rows.map(e => e.join(",")).join("\n");
+      const blob = new Blob([csvContent], { type: 'text/csv;charset=utf-8;' });
+      const url = URL.createObjectURL(blob);
+      const link = document.createElement("a");
+      link.setAttribute("href", url);
+      link.setAttribute("download", "dashboard_rapor.csv");
+      document.body.appendChild(link);
+      link.click();
+      document.body.removeChild(link);
+    } catch (error) {
+      console.error("Export error", error);
+    }
+  };
+
+  const targetData = [
+    { name: "Oca", gerceklesen: 12000, hedef: 15000 },
+    { name: "Şub", gerceklesen: 18000, hedef: 16000 },
+    { name: "Mar", gerceklesen: 25000, hedef: 20000 },
+    { name: "Nis", gerceklesen: 22000, hedef: 25000 },
+    { name: "May", gerceklesen: 32000, hedef: 28000 },
+    { name: "Haz", gerceklesen: Math.max(35000, totalRevenue), hedef: 30000 },
+  ];
+
   return (
     <div className="space-y-8 animate-fade-in">
+      {/* Header and Export Action */}
+      <div className="flex flex-col md:flex-row justify-between items-start md:items-center gap-4 mb-2">
+        <div>
+          <h2 className="text-2xl font-black text-white uppercase tracking-widest">Genel Bakış</h2>
+          <p className="text-gray-400 text-sm mt-1">Platformun anlık özet durumu ve performans metrikleri</p>
+        </div>
+        <button 
+          onClick={handleExportCSV}
+          className="flex items-center gap-2 glass-panel hover:bg-neon-pink hover:border-neon-pink hover:shadow-[0_0_20px_rgba(225,29,72,0.4)] text-white px-5 py-2.5 text-sm font-bold uppercase tracking-wider transition-all duration-300 clip-angled group"
+        >
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="group-hover:-translate-y-1 transition-transform duration-300">
+            <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path>
+            <polyline points="7 10 12 15 17 10"></polyline>
+            <line x1="12" y1="15" x2="12" y2="3"></line>
+          </svg>
+          CSV Dışa Aktar
+        </button>
+      </div>
+
       <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
         {/* Metric Card 1 */}
         <div className="glass-panel p-6 clip-angled relative overflow-hidden group hover:border-neon-pink transition-colors">
@@ -360,6 +463,45 @@ export default function DashboardView({ products }) {
               <div className="w-3 h-3 rounded-full bg-red-500"></div>
               <span className="text-gray-400 text-xs font-bold uppercase">Başarısız</span>
             </div>
+          </div>
+        </div>
+      </div>
+
+      {/* Advanced Target Analysis Row */}
+      <div className="grid grid-cols-1 gap-6 mt-8 animate-fade-in" data-aos="fade-up" data-aos-delay="400">
+        <div className="glass-panel p-6 md:p-8 clip-angled relative border border-white/5 h-[450px]">
+          <div className="absolute top-0 left-0 w-32 h-32 bg-purple-500 opacity-5 rounded-br-full pointer-events-none"></div>
+          <div className="flex justify-between items-center mb-6">
+            <div>
+              <h3 className="text-white font-bold uppercase tracking-widest mb-1">Gelir ve Hedef Analizi</h3>
+              <p className="text-gray-500 text-xs">Aylık gerçekleşen gelir ile öngörülen hedeflerin karşılaştırması</p>
+            </div>
+            <div className="flex gap-4">
+              <div className="flex items-center gap-2">
+                <div className="w-3 h-3 bg-neon-pink rounded-sm"></div>
+                <span className="text-gray-400 text-xs font-bold">Gerçekleşen</span>
+              </div>
+              <div className="flex items-center gap-2">
+                <div className="w-3 h-3 bg-holo-gold rounded-full"></div>
+                <span className="text-gray-400 text-xs font-bold">Hedef</span>
+              </div>
+            </div>
+          </div>
+          <div className="w-full h-80">
+            <ResponsiveContainer width="100%" height="100%">
+              <ComposedChart data={targetData} margin={{ top: 20, right: 20, left: 0, bottom: 0 }}>
+                <CartesianGrid strokeDasharray="3 3" stroke="rgba(255,255,255,0.05)" vertical={false} />
+                <XAxis dataKey="name" stroke="rgba(255,255,255,0.3)" tick={{ fill: "rgba(255,255,255,0.5)", fontSize: 12 }} />
+                <YAxis stroke="rgba(255,255,255,0.3)" tick={{ fill: "rgba(255,255,255,0.5)", fontSize: 12 }} tickFormatter={(val) => `₺${val / 1000}k`} />
+                <Tooltip 
+                  contentStyle={{ backgroundColor: "rgba(0,0,0,0.9)", border: "1px solid rgba(255,255,255,0.1)", borderRadius: "8px" }} 
+                  itemStyle={{ color: "#fff", fontWeight: "bold" }}
+                  formatter={(value) => `₺${value.toLocaleString()}`}
+                />
+                <Bar dataKey="gerceklesen" fill="#ff007f" radius={[4, 4, 0, 0]} barSize={40} />
+                <Line type="monotone" dataKey="hedef" stroke="#ffd700" strokeWidth={3} dot={{ r: 6, fill: "#ffd700", strokeWidth: 2, stroke: "#000" }} activeDot={{ r: 8 }} />
+              </ComposedChart>
+            </ResponsiveContainer>
           </div>
         </div>
       </div>

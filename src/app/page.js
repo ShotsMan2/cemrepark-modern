@@ -1,4 +1,4 @@
-import { getProducts } from "../data/products";
+
 import HomeClient from "./HomeClient";
 import { prisma } from "@/lib/prisma";
 

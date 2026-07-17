@@ -14,6 +14,8 @@ import AuthProvider from "../components/AuthProvider";
 import ThemeProvider from "../components/ThemeProvider";
 import Script from "next/script";
 import AIChatWidget from "../components/ui/AIChatWidget";
+import { getServerSession } from "next-auth/next";
+import { authOptions } from "@/lib/authOptions";
 
 const jost = Jost({ subsets: ["latin"], variable: "--font-jost" });
 const marcellus = Marcellus({ weight: "400", subsets: ["latin"], variable: "--font-marcellus" });
@@ -58,13 +60,14 @@ export async function generateMetadata() {
   };
 }
 
-export default function RootLayout({ children }) {
+export default async function RootLayout({ children }) {
   const settings = getSettings();
+  const session = await getServerSession(authOptions);
   return (
     <html lang="tr" suppressHydrationWarning>
       <body className={`${jost.variable} ${marcellus.variable} homepage`}>
         {settings.ozelCss ? <style dangerouslySetInnerHTML={{ __html: settings.ozelCss }} /> : null}
-        <AuthProvider>
+        <AuthProvider session={session}>
           <StoreProvider>
             <ThemeProvider attribute="class" defaultTheme="dark" enableSystem={false}>
               <MaintenanceGuard>

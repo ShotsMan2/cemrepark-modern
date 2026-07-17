@@ -54,16 +54,16 @@ export default function AdminSidebar({ activeTab, setActiveTab }) {
   ];
 
   return (
-    <aside className="w-64 bg-black/40 border-r border-white/10 hidden lg:block backdrop-blur-xl h-screen sticky top-0">
+    <aside className="w-64 glass-panel border-r border-y-0 border-l-0 rounded-none hidden lg:block h-screen sticky top-0">
       <div className="p-6 h-full flex flex-col">
         <a
           href="/admin"
           className="mb-10 text-center block group hover:opacity-80 transition-opacity w-full focus:outline-none cursor-pointer"
         >
-          <h2 className="text-2xl font-black text-white tracking-[0.2em] uppercase">
+          <h2 className="text-2xl font-black text-foreground tracking-[0.2em] uppercase">
             CEMRE<span className="text-neon-pink">PARK</span>
           </h2>
-          <p className="text-gray-500 text-[10px] tracking-widest mt-1 uppercase">Yönetim Paneli</p>
+          <p className="text-foreground/60 text-[10px] tracking-widest mt-1 uppercase">Yönetim Paneli</p>
         </a>
 
         <nav className="flex-1 space-y-2">
@@ -71,7 +71,7 @@ export default function AdminSidebar({ activeTab, setActiveTab }) {
             <button
               key={item.id}
               onClick={() => setActiveTab(item.id)}
-              className={`w-full flex items-center gap-4 px-4 py-3 text-sm font-bold uppercase tracking-wider transition-all duration-300 clip-angled ${activeTab === item.id ? "bg-neon-pink text-white" : "text-gray-400 hover:text-white hover:bg-white/5"}`}
+              className={`w-full flex items-center gap-4 px-4 py-3 text-sm font-bold uppercase tracking-wider transition-all duration-300 clip-angled ${activeTab === item.id ? "bg-neon-pink text-white" : "text-foreground/70 hover:text-foreground hover:bg-foreground/5"}`}
             >
               <svg
                 className="w-5 h-5"
@@ -87,14 +87,14 @@ export default function AdminSidebar({ activeTab, setActiveTab }) {
           ))}
         </nav>
 
-        <div className="mt-auto pt-6 border-t border-white/10">
+        <div className="mt-auto pt-6 border-t border-glass-border">
           <div className="flex items-center gap-3">
             <div className="w-10 h-10 bg-holo-gold/20 border border-holo-gold text-holo-gold flex items-center justify-center font-bold clip-angled">
               AD
             </div>
             <div>
-              <p className="text-white font-bold text-sm">Admin</p>
-              <p className="text-gray-500 text-xs">Yönetici</p>
+              <p className="text-foreground font-bold text-sm">Admin</p>
+              <p className="text-foreground/60 text-xs">Yönetici</p>
             </div>
           </div>
         </div>

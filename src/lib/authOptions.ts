@@ -1,9 +1,10 @@
+import { NextAuthOptions } from "next-auth";
 import CredentialsProvider from "next-auth/providers/credentials";
 import prisma from "@/lib/prisma";
 import bcrypt from "bcrypt";
 import { rateLimit } from "@/lib/rate-limit";
 
-export const authOptions = {
+export const authOptions: NextAuthOptions = {
   providers: [
     CredentialsProvider({
       name: "Credentials",
@@ -41,7 +42,7 @@ export const authOptions = {
                 await prisma.loginHistory.create({
                   data: {
                     userId: user.id,
-                    ipAddress: req?.headers?.["x-forwarded-for"] || "unknown",
+                    ipAddress: typeof req?.headers?.["x-forwarded-for"] === 'string' ? req.headers["x-forwarded-for"] : "unknown",
                     success: true,
                   },
                 });
@@ -65,7 +66,7 @@ export const authOptions = {
                 await prisma.loginHistory.create({
                   data: {
                     userId: user.id,
-                    ipAddress: req?.headers?.["x-forwarded-for"] || "unknown",
+                    ipAddress: typeof req?.headers?.["x-forwarded-for"] === 'string' ? req.headers["x-forwarded-for"] : "unknown",
                     success: false,
                   },
                 });
@@ -97,7 +98,7 @@ export const authOptions = {
               };
             }
           }
-        } catch (error) {
+        } catch (error: any) {
           console.error("Auth error:", error);
           if (error.message === "Too Many Attempts") {
             throw error;
@@ -110,19 +111,18 @@ export const authOptions = {
   ],
   session: {
     strategy: "jwt",
-    maxAge: 24 * 60 * 60, // 1 günlük JWT süresi (tarayıcı kapanmasa bile 1 günde expire olur)
+    maxAge: 24 * 60 * 60, // 1 günlük JWT süresi
   },
-  trustHost: true,
   pages: {
     signIn: "/admin",
   },
   callbacks: {
     async jwt({ token, user, trigger, session: updateData }) {
       if (user) {
-        token.role = user.role;
+        token.role = (user as any).role;
         token.id = user.id;
         token.name = user.name;
-        token.phoneNumber = user.phoneNumber;
+        token.phoneNumber = (user as any).phoneNumber;
       }
       // Handle session updates from client-side update() calls
       if (trigger === "update" && updateData) {
@@ -146,10 +146,10 @@ export const authOptions = {
     },
     async session({ session, token }) {
       if (token && session.user) {
-        session.user.role = token.role;
-        session.user.id = token.id;
-        session.user.name = token.name;
-        session.user.phoneNumber = token.phoneNumber;
+        (session.user as any).role = token.role;
+        (session.user as any).id = token.id;
+        (session.user as any).name = token.name;
+        (session.user as any).phoneNumber = token.phoneNumber;
       }
       return session;
     },

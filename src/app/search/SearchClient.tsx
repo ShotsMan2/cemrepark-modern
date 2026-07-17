@@ -161,6 +161,7 @@ export default function SearchClient({ initialResults, query, isSearch }: { init
                         )}
                         
                         <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-black/20 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500 flex items-center justify-center pointer-events-none z-10"></div>
+                        <Link href={`/urundetay/${product.id}`} className="absolute inset-0 z-20"></Link>
                         
                         <div className="absolute bottom-6 left-0 w-full px-6 flex justify-center opacity-0 group-hover:opacity-100 transition-all duration-500 translate-y-8 group-hover:translate-y-0 z-30">
                           <button
