@@ -77,7 +77,7 @@ export default function Header() {
         </div>
 
         {/* TOP BAR */}
-        <div className="bg-gray-100 dark:bg-[#111] border-b border-neon-pink text-gray-600 dark:text-gray-400 text-[11px] md:text-xs py-2 hidden md:block">
+        <div className="bg-white/70 dark:bg-black/70 backdrop-blur-md border-b border-neon-pink/10 text-gray-600 dark:text-gray-400 text-[11px] md:text-xs py-2 hidden md:block transition-colors duration-300">
           <div className="w-full px-4 md:px-6 flex justify-between items-center">
             <div className="flex gap-4 items-center">
               <a
@@ -188,9 +188,9 @@ export default function Header() {
         </div>
 
         {/* LOGO ROW */}
-        <div className="bg-white/98 dark:bg-[#1a1a1a]/98 border-b border-neon-pink/30 flex justify-center py-4 md:py-6">
+        <div className="bg-white/80 dark:bg-black/80 backdrop-blur-xl border-b border-white/10 dark:border-white/5 flex justify-center py-4 md:py-6 shadow-sm transition-colors duration-300">
           <Link href="/" className="flex items-center group">
-            <div className="relative w-[220px] h-[75px] md:w-[360px] md:h-[120px] group-hover:opacity-80 transition-opacity duration-300">
+            <div className="relative w-[220px] h-[75px] md:w-[360px] md:h-[120px] group-hover:scale-105 transition-all duration-500 ease-out">
               <Image
                 src="/assets/siteimg/cemre park.png"
                 alt="Cemre Park Logo"
@@ -213,7 +213,7 @@ export default function Header() {
             <div className="group py-3">
               <Link
                 href="/search"
-                className="text-gray-900 dark:text-gray-300 hover:text-neon-pink dark:hover:text-neon-pink text-sm uppercase tracking-widest transition-colors font-medium flex items-center gap-1"
+                className="text-gray-900 dark:text-gray-300 hover:text-neon-pink dark:hover:text-neon-pink text-sm uppercase tracking-widest transition-all duration-300 hover:scale-105 font-medium flex items-center gap-1"
               >
                 {t("collections_menu")}
                 <svg
@@ -335,31 +335,31 @@ export default function Header() {
 
             <Link
               href="/search?q=Takım"
-              className="text-gray-900 dark:text-gray-300 hover:text-neon-pink text-sm uppercase tracking-widest transition-colors font-medium"
+              className="text-gray-900 dark:text-gray-300 hover:text-neon-pink text-sm uppercase tracking-widest transition-all duration-300 hover:scale-105 font-medium inline-block"
             >
               {t("sets")}
             </Link>
             <Link
               href="/search?q=Tunik"
-              className="text-gray-900 dark:text-gray-300 hover:text-neon-pink text-sm uppercase tracking-widest transition-colors font-medium"
+              className="text-gray-900 dark:text-gray-300 hover:text-neon-pink text-sm uppercase tracking-widest transition-all duration-300 hover:scale-105 font-medium inline-block"
             >
               {t("tunics")}
             </Link>
             <Link
               href="/search?q=Ceket"
-              className="text-gray-900 dark:text-gray-300 hover:text-neon-pink text-sm uppercase tracking-widest transition-colors font-medium"
+              className="text-gray-900 dark:text-gray-300 hover:text-neon-pink text-sm uppercase tracking-widest transition-all duration-300 hover:scale-105 font-medium inline-block"
             >
               {t("jackets")}
             </Link>
             <Link
               href="/search?q=Elbise"
-              className="text-gray-900 dark:text-gray-300 hover:text-neon-pink text-sm uppercase tracking-widest transition-colors font-medium"
+              className="text-gray-900 dark:text-gray-300 hover:text-neon-pink text-sm uppercase tracking-widest transition-all duration-300 hover:scale-105 font-medium inline-block"
             >
               {t("dresses")}
             </Link>
             <Link
               href="/search?q=Pantolon"
-              className="text-gray-900 dark:text-gray-300 hover:text-neon-pink text-sm uppercase tracking-widest transition-colors font-medium"
+              className="text-gray-900 dark:text-gray-300 hover:text-neon-pink text-sm uppercase tracking-widest transition-all duration-300 hover:scale-105 font-medium inline-block"
             >
               {t("trousers")}
             </Link>
@@ -373,7 +373,7 @@ export default function Header() {
               {status === "loading" ? null : session ? (
                 <Link
                   href="/hesabim"
-                  className="text-gray-900 dark:text-gray-300 hover:text-neon-pink transition-colors uppercase tracking-widest"
+                  className="text-gray-900 dark:text-gray-300 hover:text-neon-pink transition-all duration-300 hover:scale-105 uppercase tracking-widest inline-block"
                 >
                   {t("my_account")}
                 </Link>
@@ -381,14 +381,14 @@ export default function Header() {
                 <>
                   <Link
                     href="/login"
-                    className="text-gray-900 dark:text-gray-300 hover:text-neon-pink transition-colors uppercase tracking-widest"
+                    className="text-gray-900 dark:text-gray-300 hover:text-neon-pink transition-all duration-300 hover:scale-105 uppercase tracking-widest inline-block"
                   >
                     {t("login")}
                   </Link>
-                  <div className="w-px h-4 bg-gray-700"></div>
+                  <div className="w-px h-4 bg-gray-300 dark:bg-gray-700"></div>
                   <Link
                     href="/register"
-                    className="text-holo-gold hover:text-neon-pink transition-colors uppercase tracking-widest font-bold"
+                    className="text-holo-gold hover:text-neon-pink transition-all duration-300 hover:scale-105 uppercase tracking-widest font-bold inline-block"
                   >
                     {t("register")}
                   </Link>
@@ -398,7 +398,7 @@ export default function Header() {
 
             <button
               onClick={() => setIsSearchOpen(true)}
-              className="text-gray-900 dark:text-gray-300 hover:text-holo-gold transition-colors"
+              className="text-gray-900 dark:text-gray-300 hover:text-holo-gold transition-all duration-300 hover:scale-110"
               aria-label="Open Search"
             >
               <svg
@@ -418,7 +418,7 @@ export default function Header() {
 
             <Link
               href="/favorites"
-              className="relative text-gray-900 dark:text-gray-300 hover:text-neon-pink transition-colors"
+              className="relative text-gray-900 dark:text-gray-300 hover:text-neon-pink transition-all duration-300 hover:scale-110 inline-block"
               aria-label="Favorites"
             >
               <svg
@@ -442,7 +442,7 @@ export default function Header() {
 
             <Link
               href="/cart"
-              className="relative text-gray-900 dark:text-gray-300 hover:text-holo-gold transition-colors"
+              className="relative text-gray-900 dark:text-gray-300 hover:text-holo-gold transition-all duration-300 hover:scale-110 inline-block"
               aria-label="Cart"
             >
               <svg

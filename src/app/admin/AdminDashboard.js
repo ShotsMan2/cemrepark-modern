@@ -268,7 +268,7 @@ export default function AdminDashboard({ onLogout }) {
   }, [showNotifications]);
 
   return (
-    <div className="min-h-screen flex bg-[#0a0a0a] relative overflow-hidden text-white">
+    <div className="min-h-screen flex bg-background relative overflow-hidden text-foreground">
       {/* Background ambient light */}
       <div className="absolute top-0 right-0 w-[600px] h-[600px] bg-neon-pink opacity-[0.03] rounded-full blur-[150px] pointer-events-none"></div>
 
@@ -278,9 +278,9 @@ export default function AdminDashboard({ onLogout }) {
       {/* Main Content Area */}
       <main className="flex-1 flex flex-col h-screen overflow-y-auto">
         {/* Top Header */}
-        <header className="bg-black/20 backdrop-blur-md border-b border-white/5 sticky top-0 z-30 flex items-center justify-between px-8 py-4">
+        <header className="glass-panel rounded-none border-t-0 border-x-0 border-b border-glass-border sticky top-0 z-30 flex items-center justify-between px-8 py-4">
           <div>
-            <h1 className="text-xl font-bold uppercase tracking-widest text-white">
+            <h1 className="text-xl font-bold uppercase tracking-widest text-foreground">
               {activeTab === "dashboard"
                 ? "Dashboard"
                 : activeTab === "products"
@@ -312,7 +312,7 @@ export default function AdminDashboard({ onLogout }) {
                   setShowNotifications(!showNotifications);
                   setUnreadNotifications(false);
                 }}
-                className="text-gray-400 hover:text-white transition-colors relative focus:outline-none block py-2"
+                className="text-foreground/70 hover:text-foreground transition-colors relative focus:outline-none block py-2"
               >
                 <svg
                   width="24"
@@ -333,14 +333,14 @@ export default function AdminDashboard({ onLogout }) {
               </button>
 
               {showNotifications && (
-                <div className="absolute right-0 mt-2 w-80 glass-panel p-4 clip-angled border border-white/10 shadow-2xl z-50 text-left">
-                  <div className="flex justify-between items-center mb-4 pb-2 border-b border-white/10">
+                <div className="absolute right-0 mt-2 w-80 glass-panel p-4 clip-angled border border-glass-border shadow-2xl z-50 text-left">
+                  <div className="flex justify-between items-center mb-4 pb-2 border-b border-glass-border">
                     <span className="font-bold text-xs uppercase tracking-widest text-holo-gold">
                       Bildirimler
                     </span>
                     <button
                       onClick={() => setShowNotifications(false)}
-                      className="text-gray-500 hover:text-white text-xs"
+                      className="text-foreground/60 hover:text-foreground text-xs"
                     >
                       Kapat
                     </button>
@@ -350,10 +350,10 @@ export default function AdminDashboard({ onLogout }) {
                       <div
                         key={n.id}
                         onClick={() => handleNotificationClick(n)}
-                        className={`p-2.5 rounded bg-white/5 hover:bg-white/10 transition-colors border-l-2 border-neon-pink text-xs ${n.isMessage ? "cursor-pointer hover:border-holo-gold" : ""}`}
+                        className={`p-2.5 rounded bg-foreground/5 hover:bg-foreground/10 transition-colors border-l-2 border-neon-pink text-xs ${n.isMessage ? "cursor-pointer hover:border-holo-gold" : ""}`}
                       >
-                        <p className="text-white font-medium mb-1">{n.text}</p>
-                        <span className="text-gray-500 text-[10px]">{n.time}</span>
+                        <p className="text-foreground font-medium mb-1">{n.text}</p>
+                        <span className="text-foreground/60 text-[10px]">{n.time}</span>
                       </div>
                     ))}
                   </div>
@@ -362,7 +362,7 @@ export default function AdminDashboard({ onLogout }) {
             </div>
             <button
               onClick={onLogout}
-              className="border border-white/20 text-white hover:border-neon-pink hover:text-neon-pink px-4 py-1.5 uppercase tracking-widest text-xs transition-colors clip-angled ml-4"
+              className="border border-glass-border text-foreground hover:border-neon-pink hover:text-neon-pink px-4 py-1.5 uppercase tracking-widest text-xs transition-colors clip-angled ml-4"
             >
               Çıkış
             </button>

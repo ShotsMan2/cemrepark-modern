@@ -237,6 +237,7 @@ export default function HomeClient({ bestSellers, discounted, banners = [] }) {
 
                   {/* Hover Overlay */}
                   <div className="absolute inset-0 bg-gradient-to-t from-black/60 via-black/20 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex items-center justify-center pointer-events-none z-10"></div>
+                  <Link href={`/urundetay/${product.id}`} className="absolute inset-0 z-20"></Link>
 
                   {/* Quick View Button - appears on hover */}
                   <div className="absolute bottom-4 left-0 w-full px-4 flex justify-center opacity-0 group-hover:opacity-100 transition-all duration-500 translate-y-8 group-hover:translate-y-0 z-30">
