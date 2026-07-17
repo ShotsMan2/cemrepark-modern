@@ -3,17 +3,19 @@
 import { useState, useEffect, useRef } from "react";
 import Swal from "sweetalert2";
 import AdminSidebar from "./components/AdminSidebar";
-import DashboardView from "./components/views/DashboardView";
-import ProductsView from "./components/views/ProductsView";
-import OrdersView from "./components/views/OrdersView";
-import CustomersView from "./components/views/CustomersView";
-import SettingsView from "./components/views/SettingsView";
-import MessagesView from "./components/views/MessagesView";
-import PagesView from "./components/views/PagesView";
-import BannersView from "./components/views/BannersView";
-import CouponsView from "./components/views/CouponsView";
-import AISupportView from "./components/views/AISupportView";
-import SecurityView from "./components/views/SecurityView";
+import dynamic from "next/dynamic";
+
+const DashboardView = dynamic(() => import("./components/views/DashboardView"), { loading: () => <div className="p-8 text-center animate-pulse text-primary">Yükleniyor...</div> });
+const ProductsView = dynamic(() => import("./components/views/ProductsView"), { loading: () => <div className="p-8 text-center animate-pulse text-primary">Yükleniyor...</div> });
+const OrdersView = dynamic(() => import("./components/views/OrdersView"), { loading: () => <div className="p-8 text-center animate-pulse text-primary">Yükleniyor...</div> });
+const CustomersView = dynamic(() => import("./components/views/CustomersView"), { loading: () => <div className="p-8 text-center animate-pulse text-primary">Yükleniyor...</div> });
+const SettingsView = dynamic(() => import("./components/views/SettingsView"), { loading: () => <div className="p-8 text-center animate-pulse text-primary">Yükleniyor...</div> });
+const MessagesView = dynamic(() => import("./components/views/MessagesView"), { loading: () => <div className="p-8 text-center animate-pulse text-primary">Yükleniyor...</div> });
+const PagesView = dynamic(() => import("./components/views/PagesView"), { loading: () => <div className="p-8 text-center animate-pulse text-primary">Yükleniyor...</div> });
+const BannersView = dynamic(() => import("./components/views/BannersView"), { loading: () => <div className="p-8 text-center animate-pulse text-primary">Yükleniyor...</div> });
+const CouponsView = dynamic(() => import("./components/views/CouponsView"), { loading: () => <div className="p-8 text-center animate-pulse text-primary">Yükleniyor...</div> });
+const AISupportView = dynamic(() => import("./components/views/AISupportView"), { loading: () => <div className="p-8 text-center animate-pulse text-primary">Yükleniyor...</div> });
+const SecurityView = dynamic(() => import("./components/views/SecurityView"), { loading: () => <div className="p-8 text-center animate-pulse text-primary">Yükleniyor...</div> });
 import ThemeToggle from "@/components/ThemeToggle";
 
 export default function AdminDashboard({ onLogout }) {

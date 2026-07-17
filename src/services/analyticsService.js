@@ -3,7 +3,7 @@ import redis from "@/lib/redis";
 
 class AnalyticsService {
   async getAnalytics() {
-    const cacheKey = "admin:analytics:dashboard:v2";
+    const cacheKey = "admin:analytics:dashboard:v3";
     let cachedData = null;
     try {
       cachedData = await redis.get(cacheKey);
@@ -112,6 +112,69 @@ class AnalyticsService {
       value: o._count._all
     }));
 
+    // Top Selling Products
+    const topSelling = await prisma.orderItem.groupBy({
+      by: ['productId'],
+      _sum: { quantity: true },
+      orderBy: {
+        _sum: {
+          quantity: 'desc'
+        }
+      },
+      take: 5
+    });
+    
+    const topProductIds = topSelling.map(t => t.productId);
+    const topProductsDetails = await prisma.product.findMany({
+      where: { id: { in: topProductIds } },
+      select: { id: true, ad: true }
+    });
+    
+    const topSellingProducts = topSelling.map(t => {
+      const product = topProductsDetails.find(p => p.id === t.productId);
+      return {
+        name: product ? product.ad : `Ürün ${t.productId}`,
+        value: t._sum.quantity || 0
+      };
+    });
+
+    // User Growth (Last 6 months)
+    const sixMonthsAgo = new Date();
+    sixMonthsAgo.setMonth(sixMonthsAgo.getMonth() - 5);
+    sixMonthsAgo.setDate(1); // Start of that month
+    sixMonthsAgo.setHours(0, 0, 0, 0);
+    
+    const recentUsers = await prisma.user.findMany({
+      where: {
+        createdAt: {
+          gte: sixMonthsAgo
+        }
+      },
+      select: { createdAt: true }
+    });
+    
+    const userMonthMap = {};
+    for (let i = 5; i >= 0; i--) {
+      const d = new Date();
+      d.setMonth(d.getMonth() - i);
+      const monthStr = d.toLocaleDateString('tr-TR', { month: 'short', year: 'numeric' });
+      userMonthMap[monthStr] = 0;
+    }
+    
+    recentUsers.forEach(u => {
+      const monthStr = new Date(u.createdAt).toLocaleDateString('tr-TR', { month: 'short', year: 'numeric' });
+      if (userMonthMap[monthStr] !== undefined) {
+        userMonthMap[monthStr] += 1;
+      } else {
+        userMonthMap[monthStr] = 1;
+      }
+    });
+    
+    const userGrowth = Object.keys(userMonthMap).map(month => ({
+      name: month,
+      users: userMonthMap[month]
+    }));
+
     const result = {
       products: productsCount,
       orders: ordersCount,
@@ -122,7 +185,9 @@ class AnalyticsService {
       salesOverTime,
       categoryData,
       loginStats,
-      orderStats
+      orderStats,
+      topSellingProducts,
+      userGrowth
     };
 
     // Cache the result for 5 minutes (300 seconds)

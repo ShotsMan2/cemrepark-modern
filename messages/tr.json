@@ -1,0 +1,17 @@
+{
+  "Index": {
+    "title": "Cemre Park'a Hoş Geldiniz",
+    "description": "Moda ve tesettür giyim için modern e-ticaret platformu."
+  },
+  "Navigation": {
+    "home": "Ana Sayfa",
+    "products": "Ürünler",
+    "about": "Hakkımızda",
+    "contact": "İletişim"
+  },
+  "Auth": {
+    "login": "Giriş Yap",
+    "register": "Kayıt Ol",
+    "logout": "Çıkış Yap"
+  }
+}

@@ -2,6 +2,7 @@
 
 import { useState, useEffect, useRef } from "react";
 import Swal from "sweetalert2";
+import Image from "next/image";
 import { getValidImageUrl } from "@/utils/imageHelper";
 
 export default function BannersView() {
@@ -283,11 +284,15 @@ export default function BannersView() {
             {formData.imageUrl && (
               <div className="mt-4 p-2 bg-black/40 border border-white/10 rounded">
                 <p className="text-xs text-gray-500 mb-2 uppercase">Önizleme:</p>
-                <img
-                  src={getValidImageUrl(formData.imageUrl)}
-                  alt="Önizleme"
-                  className="max-h-32 object-contain rounded mx-auto"
-                />
+                <div className="relative w-full h-32">
+                  <Image
+                    src={getValidImageUrl(formData.imageUrl)}
+                    alt="Önizleme"
+                    fill
+                    sizes="(max-width: 768px) 100vw, 30vw"
+                    className="object-contain rounded mx-auto"
+                  />
+                </div>
               </div>
             )}
           </div>
@@ -388,10 +393,12 @@ export default function BannersView() {
               >
                 <div className="h-40 bg-black/50 mb-4 rounded overflow-hidden flex items-center justify-center relative">
                   {banner.imageUrl ? (
-                    <img
+                    <Image
                       src={getValidImageUrl(banner.imageUrl)}
                       alt={banner.title}
-                      className="w-full h-full object-cover"
+                      fill
+                      sizes="(max-width: 768px) 100vw, 33vw"
+                      className="object-cover group-hover:scale-105 transition-transform duration-500"
                     />
                   ) : (
                     <span className="text-gray-600 text-xs">Görsel Yok</span>

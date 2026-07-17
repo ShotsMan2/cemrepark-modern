@@ -1,3 +1,15 @@
+import createNextIntlPlugin from 'next-intl/plugin';
+import withPWAInit from 'next-pwa';
+
+const withNextIntl = createNextIntlPlugin();
+
+const withPWA = withPWAInit({
+  dest: 'public',
+  register: true,
+  skipWaiting: true,
+  disable: process.env.NODE_ENV === 'development'
+});
+
 /** @type {import('next').NextConfig} */
 // Force reload to clear middleware cache
 const nextConfig = {
@@ -59,4 +71,4 @@ const nextConfig = {
   output: "standalone",
 };
 
-export default nextConfig;
+export default withNextIntl(withPWA(nextConfig));

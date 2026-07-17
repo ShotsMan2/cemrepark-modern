@@ -2,78 +2,107 @@
 @custom-variant dark (&:where(.dark, .dark *));
 
 :root {
-  --background: #fafafa;
-  --foreground: #09090b;
-  --neon-pink: #e11d48;
-  --holographic-gold: #d4af37;
+  /* Elegant Corporate Theme - Emerald & Gold */
+  --background: 60 20% 98%;
+  --foreground: 160 30% 15%;
+  
+  /* Primary & Secondary (New semantic names) */
+  --primary: 160 80% 25%; /* Deep Elegant Emerald */
+  --secondary: 45 85% 55%; /* Rich Corporate Gold */
+  
+  /* Legacy mappings to prevent breaking existing pages */
+  --neon-pink: 160 80% 25%; 
+  --holographic-gold: 45 85% 55%;
+
   --glass-bg: rgba(255, 255, 255, 0.7);
-  --glass-border: rgba(0, 0, 0, 0.05);
+  --glass-border: rgba(255, 255, 255, 0.4);
   --glass-card-grad1: rgba(250, 250, 250, 0.85);
   --glass-card-grad2: rgba(255, 255, 255, 0.95);
+  --font-sans: 'Inter', system-ui, -apple-system, sans-serif;
+  --font-mono: 'Fira Code', monospace;
 }
 
 .dark {
-  --background: #09090b;
-  --foreground: #fafafa;
-  --neon-pink: #f43f5e;
-  --holographic-gold: #fbbf24;
-  --glass-bg: rgba(9, 9, 11, 0.7);
-  --glass-border: rgba(255, 255, 255, 0.08);
-  --glass-card-grad1: rgba(20, 20, 24, 0.85);
-  --glass-card-grad2: rgba(9, 9, 11, 0.95);
+  --background: 160 30% 8%;
+  --foreground: 60 20% 95%;
+  
+  --primary: 160 60% 45%; /* Brighter Emerald for dark mode */
+  --secondary: 45 90% 60%; /* Brighter Gold */
+  
+  --neon-pink: 160 60% 45%;
+  --holographic-gold: 45 90% 60%;
+
+  --glass-bg: rgba(10, 25, 20, 0.7);
+  --glass-border: rgba(255, 255, 255, 0.1);
+  --glass-card-grad1: rgba(15, 35, 25, 0.8);
+  --glass-card-grad2: rgba(10, 25, 20, 0.9);
 }
 
 @theme inline {
-  --color-background: var(--background);
-  --color-foreground: var(--foreground);
-  --color-neon-pink: var(--neon-pink);
-  --color-holo-gold: var(--holographic-gold);
+  --color-background: hsl(var(--background));
+  --color-foreground: hsl(var(--foreground));
+  --color-primary: hsl(var(--primary));
+  --color-secondary: hsl(var(--secondary));
+  
+  /* Legacy compatibility */
+  --color-neon-pink: hsl(var(--neon-pink));
+  --color-holo-gold: hsl(var(--holographic-gold));
+  
+  --font-sans: var(--font-sans);
+  --font-mono: var(--font-mono);
 }
 
 html {
   font-size: 90%;
   scroll-behavior: smooth;
+  font-family: var(--font-sans);
 }
 
 body {
-  background-color: var(--background);
-  color: var(--foreground);
+  background-color: hsl(var(--background));
+  color: hsl(var(--foreground));
   background-image:
-    radial-gradient(circle at 0% 0%, rgba(225, 29, 72, 0.04), transparent 40%),
-    radial-gradient(circle at 100% 100%, rgba(212, 175, 55, 0.04), transparent 40%);
+    radial-gradient(circle at 0% 0%, hsla(var(--primary), 0.03), transparent 40%),
+    radial-gradient(circle at 100% 100%, hsla(var(--secondary), 0.03), transparent 40%);
   background-attachment: fixed;
   overflow-x: hidden;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
 }
 
 /* Glassmorphism Utilities */
 .glass-panel {
   background: var(--glass-bg);
-  backdrop-filter: blur(24px);
-  -webkit-backdrop-filter: blur(24px);
+  backdrop-filter: blur(24px) saturate(180%);
+  -webkit-backdrop-filter: blur(24px) saturate(180%);
   border: 1px solid var(--glass-border);
-  box-shadow: 0 8px 32px rgba(0, 0, 0, 0.04);
+  box-shadow: 0 8px 32px rgba(0, 0, 0, 0.05);
 }
 
 .glass-card {
   background: linear-gradient(135deg, var(--glass-card-grad1), var(--glass-card-grad2));
-  backdrop-filter: blur(16px);
+  backdrop-filter: blur(16px) saturate(150%);
+  -webkit-backdrop-filter: blur(16px) saturate(150%);
   border: 1px solid var(--glass-border);
-  border-radius: 16px;
-  box-shadow: 0 4px 24px rgba(0, 0, 0, 0.02);
+  border-radius: 12px;
+  box-shadow: 0 4px 24px rgba(0, 0, 0, 0.05);
   transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
 }
 
+.glass-card:hover {
+  transform: translateY(-8px);
+  border-color: hsla(var(--primary), 0.3);
+  box-shadow: 0 12px 40px hsla(var(--primary), 0.15);
+}
+
+/* Animations */
 .animate-slide-up {
   animation: slideUp 0.6s cubic-bezier(0.16, 1, 0.3, 1) forwards;
 }
 
 @keyframes marquee {
-  0% {
-    transform: translateX(0%);
-  }
-  100% {
-    transform: translateX(-50%);
-  }
+  0% { transform: translateX(0%); }
+  100% { transform: translateX(-50%); }
 }
 
 .animate-marquee {
@@ -81,79 +110,47 @@ body {
 }
 
 @keyframes shimmer {
-  0% {
-    transform: translateX(-100%);
-  }
-  100% {
-    transform: translateX(100%);
-  }
+  0% { transform: translateX(-100%); }
+  100% { transform: translateX(100%); }
 }
 
 .animate-shimmer::after {
   content: "";
   position: absolute;
-  top: 0;
-  right: 0;
-  bottom: 0;
-  left: 0;
+  top: 0; right: 0; bottom: 0; left: 0;
   background: linear-gradient(
     90deg,
     rgba(255, 255, 255, 0) 0%,
-    rgba(255, 255, 255, 0.08) 50%,
+    rgba(255, 255, 255, 0.1) 50%,
     rgba(255, 255, 255, 0) 100%
   );
-  animation: shimmer 2s infinite;
+  animation: shimmer 2.5s infinite;
 }
 
 .hover-pause:hover {
   animation-play-state: paused;
 }
 
-.glass-card:hover {
-  transform: translateY(-10px) scale(1.02);
-  border-color: var(--neon-pink);
-  box-shadow: 0 10px 30px rgba(255, 0, 127, 0.2);
+/* Micro Animations & FX */
+@keyframes pulse-glow {
+  0%, 100% { box-shadow: 0 0 10px hsla(var(--primary), 0.1); }
+  50% { box-shadow: 0 0 25px hsla(var(--primary), 0.3); }
 }
 
-/* Geometric Clips */
-.clip-angled {
-  clip-path: polygon(10% 0, 100% 0, 100% 90%, 90% 100%, 0 100%, 0 10%);
+.animate-pulse-glow {
+  animation: pulse-glow 3s infinite ease-in-out;
 }
 
-.clip-hexa {
-  clip-path: polygon(50% 0%, 100% 25%, 100% 75%, 50% 100%, 0% 75%, 0% 25%);
-}
-
-.clip-parallelogram {
-  clip-path: polygon(10% 0, 100% 0, 90% 100%, 0 100%);
-}
-
-/* Neon Text */
-.text-glow-pink {
-  color: var(--foreground);
-  text-shadow:
-    0 0 10px rgba(255, 0, 127, 0.8),
-    0 0 20px rgba(255, 0, 127, 0.5);
-}
-
-.text-glow-gold {
-  background: linear-gradient(to right, #ffd700, #ffb300);
+.text-gradient {
+  background: linear-gradient(135deg, hsl(var(--primary)), hsl(var(--secondary)));
   -webkit-background-clip: text;
-  color: transparent;
-  text-shadow: 0 0 15px rgba(255, 215, 0, 0.3);
+  -webkit-text-fill-color: transparent;
 }
 
-/* Floating Animation */
 @keyframes float {
-  0% {
-    transform: translateY(0px);
-  }
-  50% {
-    transform: translateY(-15px);
-  }
-  100% {
-    transform: translateY(0px);
-  }
+  0% { transform: translateY(0px); }
+  50% { transform: translateY(-10px); }
+  100% { transform: translateY(0px); }
 }
 
 .float-fx {
@@ -165,88 +162,121 @@ body {
   animation-delay: 2s;
 }
 
+/* Geometric Clips */
+.clip-angled {
+  clip-path: polygon(10px 0, 100% 0, 100% calc(100% - 10px), calc(100% - 10px) 100%, 0 100%, 0 10px);
+}
+
+.clip-hexa {
+  clip-path: polygon(50% 0%, 100% 25%, 100% 75%, 50% 100%, 0% 75%, 0% 25%);
+}
+
+.clip-parallelogram {
+  clip-path: polygon(15px 0, 100% 0, calc(100% - 15px) 100%, 0 100%);
+}
+
+/* Premium Text Glows */
+.text-glow-primary {
+  color: hsl(var(--foreground));
+  text-shadow:
+    0 0 10px hsla(var(--primary), 0.4),
+    0 0 20px hsla(var(--primary), 0.2);
+}
+
+.text-glow-secondary {
+  background: linear-gradient(to right, hsl(var(--secondary)), #ffcc00);
+  -webkit-background-clip: text;
+  color: transparent;
+  text-shadow: 0 0 15px hsla(var(--secondary), 0.3);
+}
+
+/* Legacy text glows mapped */
+.text-glow-pink {
+  color: hsl(var(--foreground));
+  text-shadow:
+    0 0 10px hsla(var(--primary), 0.4),
+    0 0 20px hsla(var(--primary), 0.2);
+}
+
+.text-glow-gold {
+  background: linear-gradient(to right, hsl(var(--secondary)), #ffcc00);
+  -webkit-background-clip: text;
+  color: transparent;
+  text-shadow: 0 0 15px hsla(var(--secondary), 0.3);
+}
+
 /* Custom Scrollbar */
 ::-webkit-scrollbar {
-  width: 8px;
+  width: 6px;
 }
 ::-webkit-scrollbar-track {
-  background: #0a0a0a;
+  background: hsl(var(--background));
 }
 ::-webkit-scrollbar-thumb {
-  background: #ff007f;
-  border-radius: 4px;
+  background: hsl(var(--primary));
+  border-radius: 10px;
+}
+::-webkit-scrollbar-thumb:hover {
+  background: hsl(var(--secondary));
 }
 
 /* Skeleton Loading Animation */
 @keyframes skeleton-loading {
-  0% {
-    background-color: rgba(255, 255, 255, 0.05);
-  }
-  50% {
-    background-color: rgba(255, 255, 255, 0.15);
-  }
-  100% {
-    background-color: rgba(255, 255, 255, 0.05);
-  }
+  0% { background-color: rgba(160, 160, 160, 0.05); }
+  50% { background-color: rgba(160, 160, 160, 0.15); }
+  100% { background-color: rgba(160, 160, 160, 0.05); }
 }
 
 .skeleton {
   animation: skeleton-loading 1.5s infinite ease-in-out;
   border-radius: 4px;
 }
-.dark .skeleton {
-  animation: skeleton-loading 1.5s infinite ease-in-out;
-}
 
-
-
-
-/* Swiper Customizations */
+/* Swiper Customizations mapped to primary */
 .swiper {
-  --swiper-theme-color: var(--neon-pink) !important;
-  --swiper-navigation-color: var(--neon-pink) !important;
-  --swiper-pagination-color: var(--neon-pink) !important;
+  --swiper-theme-color: hsl(var(--primary)) !important;
+  --swiper-navigation-color: hsl(var(--primary)) !important;
+  --swiper-pagination-color: hsl(var(--primary)) !important;
 }
 
 .swiper-button-next,
 .swiper-button-prev {
-  color: var(--neon-pink) !important;
+  color: hsl(var(--primary)) !important;
   background: var(--glass-bg) !important;
   backdrop-filter: blur(8px);
   -webkit-backdrop-filter: blur(8px);
-  border: 1px solid rgba(255, 0, 127, 0.25);
-  width: 40px !important;
-  height: 40px !important;
+  border: 1px solid hsla(var(--primary), 0.25);
+  width: 44px !important;
+  height: 44px !important;
   border-radius: 50%;
   transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1) !important;
 }
 
 .swiper-button-next::after,
 .swiper-button-prev::after {
-  font-size: 1.1rem !important;
-  font-weight: bold;
+  font-size: 1.2rem !important;
+  font-weight: 600;
 }
 
 .swiper-button-next:hover,
 .swiper-button-prev:hover {
-  background: var(--neon-pink) !important;
+  background: hsl(var(--primary)) !important;
   color: white !important;
-  border-color: var(--neon-pink) !important;
-  transform: scale(1.1);
-  box-shadow: 0 0 15px rgba(255, 0, 127, 0.6);
+  border-color: hsl(var(--primary)) !important;
+  transform: scale(1.05);
+  box-shadow: 0 0 15px hsla(var(--primary), 0.4);
 }
 
 .swiper-pagination-bullet {
-  background: var(--foreground) !important;
-  opacity: 0.35 !important;
+  background: hsl(var(--foreground)) !important;
+  opacity: 0.2 !important;
   transition: all 0.3s ease !important;
 }
 
 .swiper-pagination-bullet-active {
-  background: var(--neon-pink) !important;
+  background: hsl(var(--primary)) !important;
   opacity: 1 !important;
-  box-shadow: 0 0 10px rgba(255, 0, 127, 0.8);
+  box-shadow: 0 0 8px hsla(var(--primary), 0.6);
   transform: scale(1.2);
 }
-
 

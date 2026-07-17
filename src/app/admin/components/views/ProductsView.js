@@ -1,4 +1,5 @@
 import { useState, useEffect } from "react";
+import Image from "next/image";
 
 export default function ProductsView({
   products,
@@ -225,10 +226,12 @@ export default function ProductsView({
                       <td className="p-3">
                         <div className="w-12 h-16 bg-black overflow-hidden rounded relative mx-auto">
                           {/* eslint-disable-next-line @next/next/no-img-element */}
-                          <img
-                            src={product.gorsel || product.resim1}
+                          <Image
+                            src={product.gorsel || product.resim1 || '/assets/placeholder.png'}
                             alt={product.ad}
-                            className="w-full h-full object-cover group-hover:scale-110 transition-transform"
+                            fill
+                            sizes="48px"
+                            className="object-cover group-hover:scale-110 transition-transform"
                           />
                         </div>
                       </td>

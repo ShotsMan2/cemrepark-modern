@@ -3,6 +3,7 @@ import CredentialsProvider from "next-auth/providers/credentials";
 import prisma from "@/lib/prisma";
 import bcrypt from "bcrypt";
 import { rateLimit } from "@/lib/rate-limit";
+import { logLoginHistory } from "@/lib/auditLogger";
 
 export const authOptions: NextAuthOptions = {
   providers: [
@@ -38,20 +39,23 @@ export const authOptions: NextAuthOptions = {
             const passwordMatch = await bcrypt.compare(credentials.password, user.password);
             
             if (passwordMatch) {
+              const ipAddress = typeof req?.headers?.["x-forwarded-for"] === 'string' ? req.headers["x-forwarded-for"] : "unknown";
+              const userAgent = typeof req?.headers?.["user-agent"] === 'string' ? req.headers["user-agent"] : "unknown";
+              
+              await logLoginHistory({
+                userId: user.id,
+                ipAddress,
+                userAgent,
+                success: true,
+              });
+
               try {
-                await prisma.loginHistory.create({
-                  data: {
-                    userId: user.id,
-                    ipAddress: typeof req?.headers?.["x-forwarded-for"] === 'string' ? req.headers["x-forwarded-for"] : "unknown",
-                    success: true,
-                  },
-                });
                 await prisma.user.update({
                   where: { id: user.id },
                   data: { lastLogin: new Date() },
                 });
-              } catch (historyError) {
-                console.error("Failed to save login history:", historyError);
+              } catch (updateError) {
+                console.error("Failed to update last login:", updateError);
               }
 
               return {
@@ -62,17 +66,16 @@ export const authOptions: NextAuthOptions = {
                 phoneNumber: user.phoneNumber,
               };
             } else {
-              try {
-                await prisma.loginHistory.create({
-                  data: {
-                    userId: user.id,
-                    ipAddress: typeof req?.headers?.["x-forwarded-for"] === 'string' ? req.headers["x-forwarded-for"] : "unknown",
-                    success: false,
-                  },
-                });
-              } catch (historyError) {
-                console.error("Failed to save login history:", historyError);
-              }
+              const ipAddress = typeof req?.headers?.["x-forwarded-for"] === 'string' ? req.headers["x-forwarded-for"] : "unknown";
+              const userAgent = typeof req?.headers?.["user-agent"] === 'string' ? req.headers["user-agent"] : "unknown";
+
+              await logLoginHistory({
+                userId: user.id,
+                ipAddress,
+                userAgent,
+                success: false,
+              });
+              
               return null;
             }
           } else {
