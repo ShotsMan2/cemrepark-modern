@@ -175,6 +175,28 @@ body {
   border-radius: 4px;
 }
 
+/* Skeleton Loading Animation */
+@keyframes skeleton-loading {
+  0% {
+    background-color: rgba(255, 255, 255, 0.05);
+  }
+  50% {
+    background-color: rgba(255, 255, 255, 0.15);
+  }
+  100% {
+    background-color: rgba(255, 255, 255, 0.05);
+  }
+}
+
+.skeleton {
+  animation: skeleton-loading 1.5s infinite ease-in-out;
+  border-radius: 4px;
+}
+.dark .skeleton {
+  animation: skeleton-loading 1.5s infinite ease-in-out;
+}
+
+
 
 
 /* Swiper Customizations */

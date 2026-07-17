@@ -86,10 +86,11 @@ async function authMiddleware(req: NextRequest) {
 export default async function middleware(req: NextRequest, event: any) {
   const path = req.nextUrl.pathname;
   
-  // 1. Rate Limit Check (Runs for /api/auth non-GET requests and /api/orders, excludes signout, register, and callback)
-  if ((path.startsWith('/api/auth') && req.method !== 'GET' && !path.includes('/signout') && !path.includes('/register') && !path.includes('/callback')) || path.startsWith('/api/orders')) {
+  // 1. Rate Limit Check (Runs for /api/auth non-GET requests, /api/orders, and /api/chat)
+  if ((path.startsWith('/api/auth') && req.method !== 'GET' && !path.includes('/signout') && !path.includes('/register') && !path.includes('/callback')) || path.startsWith('/api/orders') || path.startsWith('/api/chat')) {
     const ip = req.headers.get('x-forwarded-for') || (req as any).ip || '127.0.0.1';
     try {
+      // 20 requests per minute for API routes
       const { success } = await edgeRateLimit(ip, 20, 60);
       if (!success) {
         return new NextResponse(

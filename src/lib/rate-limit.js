@@ -24,6 +24,8 @@ export async function rateLimit(ip, limit = 100, windowSec = 60) {
       pipeline.ttl(key);
       const results = await pipeline.exec();
       
+      if (results[0][0]) throw results[0][0]; // If there's an error from Redis (e.g. ECONNREFUSED)
+      
       const current = results[0][1];
       let ttl = results[1][1];
       

@@ -4,9 +4,11 @@ import { apiHandler } from "@/lib/apiHandler";
 import { productService } from "@/services/productService";
 import { rateLimit } from "@/lib/rate-limit";
 
+export const dynamic = 'force-dynamic';
+
 export const GET = apiHandler(async (request) => {
   const ip = request.headers.get("x-forwarded-for") || "127.0.0.1";
-  const { success } = await rateLimit(ip, 100, 60); // 100 requests per minute
+  const { success } = await rateLimit(`products-get:${ip}`, 1000, 60); // 1000 requests per minute for dev
   if (!success) {
     return NextResponse.json({ error: "Too Many Requests" }, { status: 429 });
   }

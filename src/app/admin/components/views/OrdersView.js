@@ -69,31 +69,36 @@ export default function OrdersView() {
   const totalPages = Math.ceil(filteredOrders.length / itemsPerPage);
   const paginatedOrders = filteredOrders.slice((currentPage - 1) * itemsPerPage, currentPage * itemsPerPage);
 
-  const handleExport = () => {
-    const headers = ["Sipariş No", "Müşteri", "Tarih", "Tutar", "Durum"];
-    const rows = filteredOrders.map((order) => [
-      order.id,
-      order.musteri,
-      order.tarih,
-      order.tutar,
-      order.durum,
-    ]);
+  const handleExport = async () => {
+    try {
+      const response = await fetch("/api/export/orders", { method: "GET" });
+      if (!response.ok) {
+        throw new Error("Export failed");
+      }
+      
+      // Get the filename from the Content-Disposition header if possible
+      const contentDisposition = response.headers.get("Content-Disposition");
+      let filename = `siparisler_${new Date().toISOString().slice(0, 10)}.csv`;
+      if (contentDisposition && contentDisposition.indexOf('filename=') !== -1) {
+        const matches = /filename="([^"]*)"/.exec(contentDisposition);
+        if (matches != null && matches[1]) { 
+          filename = matches[1];
+        }
+      }
 
-    let csvContent = "\uFEFF"; // UTF-8 BOM for Turkish characters in Excel
-    csvContent += headers.join(",") + "\n";
-    rows.forEach((row) => {
-      const escapedRow = row.map((val) => `"${val.replace(/"/g, '""')}"`);
-      csvContent += escapedRow.join(",") + "\n";
-    });
-
-    const blob = new Blob([csvContent], { type: "text/csv;charset=utf-8;" });
-    const url = URL.createObjectURL(blob);
-    const link = document.createElement("a");
-    link.setAttribute("href", url);
-    link.setAttribute("download", `siparisler_${new Date().toISOString().slice(0, 10)}.csv`);
-    document.body.appendChild(link);
-    link.click();
-    document.body.removeChild(link);
+      const blob = await response.blob();
+      const url = URL.createObjectURL(blob);
+      const link = document.createElement("a");
+      link.href = url;
+      link.download = filename;
+      document.body.appendChild(link);
+      link.click();
+      document.body.removeChild(link);
+      URL.revokeObjectURL(url);
+    } catch (error) {
+      console.error("Export error:", error);
+      Swal.fire("Hata", "Dışa aktarma sırasında bir sorun oluştu.", "error");
+    }
   };
 
   return (
