@@ -82,28 +82,28 @@ export default function InstallAppPrompt() {
         transition={{ type: 'spring', stiffness: 260, damping: 20 }}
         className="fixed bottom-4 left-4 right-4 z-[9999] md:hidden"
       >
-        <div className="bg-gradient-to-r from-emerald-900 to-emerald-950 text-white rounded-2xl shadow-2xl p-4 flex items-center justify-between border border-emerald-500/30 backdrop-blur-xl relative overflow-hidden">
+        <div className="bg-gradient-to-r from-pink-900 to-pink-950 text-white rounded-2xl shadow-2xl p-4 flex items-center justify-between border border-pink-500/30 backdrop-blur-xl relative overflow-hidden">
           
           {/* Subtle gold accent glow */}
           <div className="absolute top-0 right-0 w-32 h-32 bg-amber-500/10 rounded-full blur-3xl -mr-10 -mt-10 pointer-events-none"></div>
 
           <div className="flex items-center gap-3 relative z-10">
             <div className="w-12 h-12 bg-white/10 rounded-xl flex items-center justify-center p-1 border border-white/20 shadow-inner backdrop-blur-sm">
-              <div className="w-full h-full bg-gradient-to-br from-emerald-500 to-emerald-600 rounded-lg flex items-center justify-center text-lg font-black text-white shadow-lg">
+              <div className="w-full h-full bg-gradient-to-br from-pink-500 to-pink-600 rounded-lg flex items-center justify-center text-lg font-black text-white shadow-lg">
                 CP
               </div>
             </div>
             
             <div className="flex flex-col">
               <h4 className="font-bold text-sm text-white tracking-wide">Cemre Park Uygulaması</h4>
-              <p className="text-xs text-emerald-200/90 font-medium">Daha hızlı alışveriş deneyimi</p>
+              <p className="text-xs text-pink-200/90 font-medium">Daha hızlı alışveriş deneyimi</p>
             </div>
           </div>
 
           <div className="flex items-center gap-2 relative z-10 ml-2">
             <button
               onClick={handleDismiss}
-              className="p-1.5 text-emerald-300/70 hover:text-white hover:bg-white/10 rounded-full transition-all"
+              className="p-1.5 text-pink-300/70 hover:text-white hover:bg-white/10 rounded-full transition-all"
               aria-label="Kapat"
             >
               <svg className="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
@@ -112,7 +112,7 @@ export default function InstallAppPrompt() {
             </button>
             <button
               onClick={handleInstall}
-              className="bg-gradient-to-r from-amber-400 to-amber-500 hover:from-amber-300 hover:to-amber-400 text-emerald-950 text-sm font-bold py-2 px-4 rounded-full shadow-[0_0_15px_rgba(251,191,36,0.3)] transform transition-all active:scale-95 whitespace-nowrap"
+              className="bg-gradient-to-r from-amber-400 to-amber-500 hover:from-amber-300 hover:to-amber-400 text-pink-950 text-sm font-bold py-2 px-4 rounded-full shadow-[0_0_15px_rgba(251,191,36,0.3)] transform transition-all active:scale-95 whitespace-nowrap"
             >
               Yükle
             </button>

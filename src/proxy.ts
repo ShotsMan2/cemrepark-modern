@@ -1,15 +1,7 @@
 import { getToken } from "next-auth/jwt";
 import { NextResponse } from "next/server";
 import type { NextRequest } from "next/server";
-import createMiddleware from 'next-intl/middleware';
 
-const handleI18nRouting = createMiddleware({
-  locales: ['en', 'tr'],
-  defaultLocale: 'tr',
-  localePrefix: 'as-needed'
-});
-
-// Simple Edge-compatible in-memory rate limiting
 const memoryCache = new Map();
 setInterval(() => {
   const now = Date.now();
@@ -37,7 +29,6 @@ async function edgeRateLimit(ip: string, limit: number, windowSec: number) {
   };
 }
 
-// NextAuth middleware'ini sadece korunması gereken rotalar için tanımlıyoruz
 async function authMiddleware(req: NextRequest) {
   const token = await getToken({ req, secret: process.env.NEXTAUTH_SECRET || "default_secret_key_for_development" });
   const isAuth = !!token;
@@ -73,7 +64,6 @@ async function authMiddleware(req: NextRequest) {
     return NextResponse.redirect(new URL(`/login?from=${encodeURIComponent(from)}`, req.url));
   }
 
-  // Robust Role-based Access Control (RBAC)
   if (path.startsWith("/admin") || path.startsWith("/api/admin")) {
     if (token?.role !== "admin") {
       if (path.startsWith("/api/admin")) {
@@ -83,7 +73,6 @@ async function authMiddleware(req: NextRequest) {
     }
   }
   
-  // Add Edge Security Headers
   const response = NextResponse.next();
   response.headers.set('X-Edge-Secured', 'true');
   response.headers.set('X-RateLimit-Limit', '100');
@@ -93,11 +82,9 @@ async function authMiddleware(req: NextRequest) {
 export async function proxy(req: NextRequest, event: any) {
   const path = req.nextUrl.pathname;
   
-  // 1. Rate Limit Check (Runs for /api/auth non-GET requests, /api/orders, and /api/chat)
   if ((path.startsWith('/api/auth') && req.method !== 'GET' && !path.includes('/signout') && !path.includes('/register') && !path.includes('/callback')) || path.startsWith('/api/orders') || path.startsWith('/api/chat')) {
     const ip = req.headers.get('x-forwarded-for') || (req as any).ip || '127.0.0.1';
     try {
-      // 20 requests per minute for API routes
       const { success } = await edgeRateLimit(ip, 20, 60);
       if (!success) {
         return new NextResponse(
@@ -110,7 +97,6 @@ export async function proxy(req: NextRequest, event: any) {
     }
   }
 
-  // 2. Sadece yetki gerektiren rotalarda NextAuth middleware'ini çalıştır
   const authRoutes = ["/admin", "/api/admin", "/hesabim", "/login", "/register"];
   const isAuthRoute = authRoutes.some(route => path === route || path.startsWith(`${route}/`));
 
@@ -118,14 +104,6 @@ export async function proxy(req: NextRequest, event: any) {
     return await authMiddleware(req);
   }
 
-  // 3. Public rotalar için i18n routing
-  const publicPathnames = ['/((?!api|_next/static|_next/image|favicon.ico|images).*)'];
-  const isApiOrStatic = path.startsWith('/api') || path.startsWith('/_next') || path.startsWith('/images') || path === '/favicon.ico';
-  if (!isApiOrStatic) {
-    return handleI18nRouting(req);
-  }
-
-  // NextAuth rotası değilse yola devam et (örneğin /api/auth/session)
   return NextResponse.next();
 }
 

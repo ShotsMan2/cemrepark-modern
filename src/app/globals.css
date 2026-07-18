@@ -2,16 +2,16 @@
 @custom-variant dark (&:where(.dark, .dark *));
 
 :root {
-  /* Elegant Corporate Theme - Emerald & Gold */
+  /* Cemre Park Signature Theme - Vibrant Pink & Gold */
   --background: 60 20% 98%;
-  --foreground: 160 30% 15%;
+  --foreground: 330 20% 15%;
   
-  /* Primary & Secondary (New semantic names) */
-  --primary: 160 80% 25%; /* Deep Elegant Emerald */
-  --secondary: 45 85% 55%; /* Rich Corporate Gold */
+  /* Primary & Secondary */
+  --primary: 330 80% 45%; /* Vibrant Cemre Park Pink */
+  --secondary: 45 85% 55%; /* Warm Gold */
   
-  /* Legacy mappings to prevent breaking existing pages */
-  --neon-pink: 160 80% 25%; 
+  /* Legacy mappings */
+  --neon-pink: 330 80% 45%;
   --holographic-gold: 45 85% 55%;
 
   --glass-bg: rgba(255, 255, 255, 0.7);
@@ -23,19 +23,19 @@
 }
 
 .dark {
-  --background: 160 30% 8%;
+  --background: 330 20% 8%;
   --foreground: 60 20% 95%;
   
-  --primary: 160 60% 45%; /* Brighter Emerald for dark mode */
+  --primary: 330 75% 55%; /* Brighter Pink for dark mode */
   --secondary: 45 90% 60%; /* Brighter Gold */
   
-  --neon-pink: 160 60% 45%;
+  --neon-pink: 330 75% 55%;
   --holographic-gold: 45 90% 60%;
 
-  --glass-bg: rgba(10, 25, 20, 0.7);
+  --glass-bg: rgba(25, 10, 20, 0.7);
   --glass-border: rgba(255, 255, 255, 0.1);
-  --glass-card-grad1: rgba(15, 35, 25, 0.8);
-  --glass-card-grad2: rgba(10, 25, 20, 0.9);
+  --glass-card-grad1: rgba(30, 15, 25, 0.8);
+  --glass-card-grad2: rgba(20, 10, 18, 0.9);
 }
 
 @theme inline {

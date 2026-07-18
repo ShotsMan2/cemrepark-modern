@@ -1,7 +1,4 @@
-import createNextIntlPlugin from 'next-intl/plugin';
 import withPWAInit from 'next-pwa';
-
-const withNextIntl = createNextIntlPlugin();
 
 const withPWA = withPWAInit({
   dest: 'public',
@@ -71,4 +68,4 @@ const nextConfig = {
   output: "standalone",
 };
 
-export default withNextIntl(withPWA(nextConfig));
+export default withPWA(nextConfig);

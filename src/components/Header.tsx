@@ -452,6 +452,11 @@ export default function Header() {
               )}
             </Link>
 
+            {/* Mobile Language Switcher */}
+            <div className="lg:hidden flex items-center">
+              <LanguageSwitcher />
+            </div>
+
             {/* Mobile Menu Toggle */}
             <button
               className="lg:hidden text-gray-900 dark:text-white"

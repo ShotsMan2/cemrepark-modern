@@ -19,28 +19,28 @@ export default function KurumsalPage() {
     {
       title: "Hakkımızda",
       description: "Cemre Park olarak yıllardır kaliteyi ve şıklığı sizlerle buluşturuyoruz.",
-      icon: <Building2 className="w-12 h-12 mb-4 text-emerald-600" />,
+      icon: <Building2 className="w-12 h-12 mb-4 text-pink-600" />,
       link: "/kurumsal/hakkimizda",
       delay: 100,
     },
     {
       title: "Vizyon & Misyon",
       description: "Yenilikçi tasarımlarımızla tesettür giyiminde öncü bir marka olmayı hedefliyoruz.",
-      icon: <Target className="w-12 h-12 mb-4 text-emerald-600" />,
+      icon: <Target className="w-12 h-12 mb-4 text-pink-600" />,
       link: "/kurumsal/vizyon-misyon",
       delay: 200,
     },
     {
       title: "Sürdürülebilirlik",
       description: "Doğaya ve insana saygılı, çevre dostu üretim süreçlerini benimsiyoruz.",
-      icon: <Leaf className="w-12 h-12 mb-4 text-emerald-600" />,
+      icon: <Leaf className="w-12 h-12 mb-4 text-pink-600" />,
       link: "/kurumsal/surdurulebilirlik",
       delay: 300,
     },
     {
       title: "Kariyer",
       description: "Büyüyen ailemize katılmak ve kariyerinizde yeni bir sayfa açmak ister misiniz?",
-      icon: <Users className="w-12 h-12 mb-4 text-emerald-600" />,
+      icon: <Users className="w-12 h-12 mb-4 text-pink-600" />,
       link: "/kurumsal/kariyer",
       delay: 400,
     },
@@ -54,7 +54,7 @@ export default function KurumsalPage() {
           data-aos="fade-down"
           className="text-4xl md:text-5xl font-extrabold text-gray-900 mb-6 tracking-tight"
         >
-          Cemre Park <span className="text-emerald-600">Kurumsal</span>
+          Cemre Park <span className="text-pink-600">Kurumsal</span>
         </h1>
         <p 
           data-aos="fade-up" 
@@ -78,7 +78,7 @@ export default function KurumsalPage() {
                 <div className="transform group-hover:scale-110 transition-transform duration-300">
                   {section.icon}
                 </div>
-                <h3 className="text-2xl font-bold text-gray-800 mb-3 group-hover:text-emerald-600 transition-colors">
+                <h3 className="text-2xl font-bold text-gray-800 mb-3 group-hover:text-pink-600 transition-colors">
                   {section.title}
                 </h3>
                 <p className="text-gray-600">
@@ -105,7 +105,7 @@ export default function KurumsalPage() {
               <ul className="space-y-4">
                 {['Müşteri Odaklılık', 'Yenilikçi Yaklaşım', 'Güvenilirlik'].map((item, i) => (
                   <li key={i} className="flex items-center text-gray-700">
-                    <span className="w-2 h-2 bg-emerald-600 rounded-full mr-3"></span>
+                    <span className="w-2 h-2 bg-pink-600 rounded-full mr-3"></span>
                     <span className="font-medium">{item}</span>
                   </li>
                 ))}
@@ -113,8 +113,8 @@ export default function KurumsalPage() {
             </div>
             <div className="relative h-[400px] rounded-2xl overflow-hidden shadow-inner bg-gray-200">
               {/* Optional background image or pattern */}
-              <div className="absolute inset-0 bg-gradient-to-tr from-emerald-600/20 to-transparent flex items-center justify-center">
-                 <Target className="w-32 h-32 text-emerald-600 opacity-50" />
+              <div className="absolute inset-0 bg-gradient-to-tr from-pink-600/20 to-transparent flex items-center justify-center">
+                 <Target className="w-32 h-32 text-pink-600 opacity-50" />
               </div>
             </div>
           </div>

@@ -17,7 +17,7 @@ import {
   Legend
 } from "recharts";
 
-const PIE_COLORS = ["#047857", "#d97706", "#059669", "#f59e0b", "#10b981", "#fbbf24"];
+const PIE_COLORS = ["#d61c7b", "#d97706", "#e83d8b", "#f59e0b", "#f06292", "#fbbf24"];
 
 const CustomTooltip = ({ active, payload, label }) => {
   if (active && payload && payload.length) {
@@ -66,7 +66,7 @@ export default function DashboardAnalytics() {
         <div className="flex gap-2">
           <div className="w-3 h-3 bg-primary rounded-full animate-bounce"></div>
           <div className="w-3 h-3 bg-secondary rounded-full animate-bounce" style={{ animationDelay: "150ms" }}></div>
-          <div className="w-3 h-3 bg-emerald-500 rounded-full animate-bounce" style={{ animationDelay: "300ms" }}></div>
+          <div className="w-3 h-3 bg-pink-500 rounded-full animate-bounce" style={{ animationDelay: "300ms" }}></div>
         </div>
       </div>
     );
@@ -96,15 +96,15 @@ export default function DashboardAnalytics() {
             <AreaChart data={data.salesOverTime || []} margin={{ top: 10, right: 10, left: 0, bottom: 0 }}>
               <defs>
                 <linearGradient id="colorTotal" x1="0" y1="0" x2="0" y2="1">
-                  <stop offset="5%" stopColor="#047857" stopOpacity={0.8}/>
-                  <stop offset="95%" stopColor="#047857" stopOpacity={0}/>
+                  <stop offset="5%" stopColor="#d61c7b" stopOpacity={0.8}/>
+                  <stop offset="95%" stopColor="#d61c7b" stopOpacity={0}/>
                 </linearGradient>
               </defs>
               <CartesianGrid strokeDasharray="3 3" stroke="rgba(255,255,255,0.05)" vertical={false} />
               <XAxis dataKey="name" stroke="#6b7280" fontSize={12} tickLine={false} axisLine={false} />
               <YAxis stroke="#6b7280" fontSize={12} tickLine={false} axisLine={false} tickFormatter={(value) => `₺${value}`} />
               <Tooltip content={<CustomTooltip />} />
-              <Area type="monotone" dataKey="total" name="Gelir" stroke="#047857" strokeWidth={3} fillOpacity={1} fill="url(#colorTotal)" />
+                <Area type="monotone" dataKey="total" name="Gelir" stroke="#d61c7b" strokeWidth={3} fillOpacity={1} fill="url(#colorTotal)" />
             </AreaChart>
           </ResponsiveContainer>
         </div>

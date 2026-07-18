@@ -123,7 +123,7 @@ export default function CheckoutPage() {
         throw new Error(errorData?.error || 'Sipariş oluşturulamadı.');
       }
       setPaymentStatus('Başarılı!');
-      await Swal.fire({ toast: true, position: 'top-end', icon: 'success', title: `${provider} ile ödeme başarılı!`, showConfirmButton: false, timer: 1500, background: '#18181b', color: '#fff', iconColor: '#10b981' });
+      await Swal.fire({ toast: true, position: 'top-end', icon: 'success', title: `${provider} ile ödeme başarılı!`, showConfirmButton: false, timer: 1500, background: '#18181b', color: '#fff', iconColor: '#d61c7b' });
       clearCart();
       router.push('/');
     } catch (error: any) { 
@@ -153,7 +153,7 @@ export default function CheckoutPage() {
 
   return (
     <div className="min-h-screen pt-32 pb-24 bg-gray-50 dark:bg-transparent relative overflow-hidden">
-      <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_top,_var(--tw-gradient-stops))] from-emerald-50 via-white to-gray-50 dark:from-emerald-950/20 dark:via-zinc-900/50 dark:to-black/30 -z-10"></div>
+      <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_top,_var(--tw-gradient-stops))] from-pink-50 via-white to-gray-50 dark:from-pink-950/20 dark:via-zinc-900/50 dark:to-black/30 -z-10"></div>
       
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
         <h1 className="text-4xl md:text-6xl font-black mb-16 text-transparent bg-clip-text bg-gradient-to-r from-primary to-secondary uppercase tracking-tighter text-center" data-aos="fade-down">
@@ -335,7 +335,7 @@ export default function CheckoutPage() {
 
               <div className="space-y-4 text-sm font-bold text-gray-600 dark:text-gray-300 mb-8 bg-white/50 dark:bg-zinc-800/50 p-6 rounded-[2rem] border border-white/20 dark:border-white/5 shadow-inner">
                 <div className="flex justify-between items-center"><span className="uppercase tracking-widest">{t('subtotal')}</span><span className="text-gray-900 dark:text-white text-base">{formatPrice(cartTotal)}</span></div>
-                <div className="flex justify-between items-center"><span className="uppercase tracking-widest">{t('shipping')}</span><span className={shippingCost === 0 ? "text-emerald-500 uppercase tracking-widest text-xs bg-emerald-500/10 px-3 py-1.5 rounded-lg" : "text-gray-900 dark:text-white text-base"}>{shippingCost === 0 ? t('free') : formatPrice(shippingCost)}</span></div>
+                <div className="flex justify-between items-center"><span className="uppercase tracking-widest">{t('shipping')}</span><span className={shippingCost === 0 ? "text-pink-500 uppercase tracking-widest text-xs bg-pink-500/10 px-3 py-1.5 rounded-lg" : "text-gray-900 dark:text-white text-base"}>{shippingCost === 0 ? t('free') : formatPrice(shippingCost)}</span></div>
                 {appliedCoupon && <div className="flex justify-between items-center text-neon-pink pt-4 border-t border-gray-200 dark:border-white/10 mt-4"><span className="uppercase tracking-widest">İndirim</span><span className="text-base">-{formatPrice(discountAmount)}</span></div>}
               </div>
 

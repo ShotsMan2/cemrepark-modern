@@ -132,8 +132,8 @@ export default function SecurityView() {
                       {logType === "login" ? (
                         <td className="py-4 px-6 text-center">
                           {log.success ? (
-                            <span className="inline-flex items-center gap-1.5 bg-emerald-500/10 text-emerald-400 border border-emerald-500/20 px-3 py-1 rounded-full text-[10px] font-black uppercase tracking-widest shadow-[0_0_10px_rgba(16,185,129,0.1)]">
-                              <div className="w-1.5 h-1.5 rounded-full bg-emerald-400 animate-pulse"></div>
+                            <span className="inline-flex items-center gap-1.5 bg-pink-500/10 text-pink-400 border border-pink-500/20 px-3 py-1 rounded-full text-[10px] font-black uppercase tracking-widest shadow-[0_0_10px_rgba(16,185,129,0.1)]">
+                              <div className="w-1.5 h-1.5 rounded-full bg-pink-400 animate-pulse"></div>
                               BAŞARILI
                             </span>
                           ) : (
