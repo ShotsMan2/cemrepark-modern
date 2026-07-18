@@ -110,6 +110,9 @@ export function StoreProvider({ children }) {
         document.documentElement.dir = "ltr";
       }
 
+      // Update html lang attribute
+      document.documentElement.lang = language.toLowerCase();
+
       // Handle Document Title dynamically
       if (translations[language] && translations[language]["suits_you_well"]) {
         document.title = "Cemre Park - " + translations[language]["suits_you_well"];

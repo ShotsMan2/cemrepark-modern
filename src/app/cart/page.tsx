@@ -167,7 +167,7 @@ export default function CartPage() {
                   </div>
                   <div className="flex justify-between items-center bg-white/50 dark:bg-zinc-800/50 p-5 rounded-2xl border border-white/20 dark:border-white/5 shadow-inner">
                     <span className="uppercase tracking-widest">{t('shipping')}</span>
-                    <span className="text-emerald-500 uppercase tracking-widest">{t('free')}</span>
+                    <span className="text-pink-500 uppercase tracking-widest">{t('free')}</span>
                   </div>
                 </div>
 

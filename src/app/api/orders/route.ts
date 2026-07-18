@@ -1,3 +1,4 @@
+import { logger } from '@/lib/logger';
 import { NextResponse } from "next/server";
 import { checkAdminAndLog } from "@/lib/adminAuth";
 import { apiHandler } from "@/lib/apiHandler";
@@ -55,7 +56,7 @@ export const POST = apiHandler(async (req: Request) => {
         data: { usedCount: { increment: 1 } }
       });
     } catch (e) {
-      console.error("Failed to increment coupon usage:", e);
+      logger.error("Failed to increment coupon usage:", e);
     }
   }
 
@@ -123,7 +124,7 @@ export const PATCH = apiHandler(async (req: Request) => {
               data: { stok: { increment: item.quantity } }
             });
           } catch (e) {
-            console.error(`Failed to restore stock for product ${item.productId}:`, e);
+            logger.error(`Failed to restore stock for product ${item.productId}:`, e);
           }
         }
       }

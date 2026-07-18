@@ -1,3 +1,4 @@
+import { logger } from '@/lib/logger';
 import { NextResponse } from "next/server";
 import { checkAdminAndLog } from "@/lib/adminAuth";
 import { apiHandler } from "@/lib/apiHandler";
@@ -58,7 +59,7 @@ export const PATCH = apiHandler(async (req: Request, { params }: { params: { id:
             data: { stok: { increment: item.quantity } }
           });
         } catch (e) {
-          console.error(`Failed to restore stock for product ${item.productId}:`, e);
+          logger.error(`Failed to restore stock for product ${item.productId}:`, e);
         }
       }
     }

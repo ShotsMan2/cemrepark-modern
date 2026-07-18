@@ -1,0 +1,17 @@
+{
+  "Index": {
+    "title": "Welcome to Cemre Park",
+    "description": "The modern e-commerce platform for fashion and hijab clothing."
+  },
+  "Navigation": {
+    "home": "Home",
+    "products": "Products",
+    "about": "About Us",
+    "contact": "Contact"
+  },
+  "Auth": {
+    "login": "Login",
+    "register": "Register",
+    "logout": "Logout"
+  }
+}

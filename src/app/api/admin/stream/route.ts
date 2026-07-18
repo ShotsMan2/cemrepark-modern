@@ -1,3 +1,4 @@
+import { logger } from '@/lib/logger';
 import { NextRequest } from "next/server";
 
 export const dynamic = "force-dynamic";
@@ -12,7 +13,7 @@ export async function GET(request: NextRequest) {
         try {
           controller.enqueue(`data: ${JSON.stringify(data)}\n\n`);
         } catch (err) {
-          console.error('SSE Stream error:', err);
+          logger.error('SSE Stream error:', err);
         }
       };
 
@@ -24,7 +25,7 @@ export async function GET(request: NextRequest) {
         try {
           controller.enqueue(`: ping\n\n`);
         } catch (err) {
-          console.error('SSE Stream ping error:', err);
+          logger.error('SSE Stream ping error:', err);
           clearInterval(intervalId);
         }
       }, 30000);

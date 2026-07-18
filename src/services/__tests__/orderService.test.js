@@ -28,7 +28,7 @@ describe('orderService', () => {
   });
 
   it('should process discount code correctly within a transaction', async () => {
-    const mockOrderData = { customer: 'Test User', discountCode: 'INDIRIM10' };
+    const mockOrderData = { customer: 'Test User', discountCode: 'INDIRIM10', total: 180 };
     const mockItems = [{ productId: 1, quantity: 2 }];
 
     // Fake transaction implementation to run the callback

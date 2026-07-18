@@ -13,7 +13,7 @@ import MaintenanceGuard from "../components/MaintenanceGuard";
 import AuthProvider from "../components/AuthProvider";
 import ThemeProvider from "../components/ThemeProvider";
 import Script from "next/script";
-import AIChatWidget from "../components/ui/AIChatWidget";
+import { AIChatWidget } from "../components/ui/AIChatWidget";
 import { getServerSession } from "next-auth/next";
 import { authOptions } from "@/lib/authOptions";
 
@@ -69,7 +69,7 @@ export default async function RootLayout({ children }) {
         {settings.ozelCss ? <style dangerouslySetInnerHTML={{ __html: settings.ozelCss }} /> : null}
         <AuthProvider session={session}>
           <StoreProvider>
-            <ThemeProvider attribute="class" defaultTheme="dark" enableSystem={false}>
+            <ThemeProvider attribute="class" defaultTheme="system" enableSystem={true}>
               <MaintenanceGuard>
                 <AOSInitializer />
                 <SvgDefs />

@@ -7,15 +7,51 @@ const CACHE_KEY_CATEGORIES = "all_categories";
 const CACHE_KEY_BANNERS = "all_banners";
 
 class ProductService {
-  async getProducts() {
-    const cached = await cacheGet(CACHE_KEY_PRODUCTS);
-    if (cached) return cached;
+  async getProducts(filters = {}) {
+    const { search, category, minPrice, maxPrice, color, categoryId } = filters;
+    const hasFilters = search || category || minPrice !== undefined || maxPrice !== undefined || color || categoryId !== undefined;
+    
+    // Only use the static cache if there are no filters
+    if (!hasFilters) {
+      const cached = await cacheGet(CACHE_KEY_PRODUCTS);
+      if (cached) return cached;
+    }
 
     try {
+      const whereClause = {};
+
+      if (search) {
+        whereClause.ad = { contains: search }; // Note: case insensitive is default in Prisma with some DBs, or you'd use mode: 'insensitive' in Postgres. SQLite doesn't support mode: 'insensitive' easily, so we just use contains.
+      }
+      if (category) {
+        whereClause.kategori = category;
+      }
+      if (categoryId !== undefined) {
+        whereClause.categoryId = categoryId;
+      }
+      if (minPrice !== undefined || maxPrice !== undefined) {
+        whereClause.fiyat = {};
+        if (minPrice !== undefined) whereClause.fiyat.gte = minPrice;
+        if (maxPrice !== undefined) whereClause.fiyat.lte = maxPrice;
+      }
+      if (color) {
+        whereClause.renk = color; // Also could check variants in future: variants: { some: { color } }
+      }
+
       const products = await prisma.product.findMany({
-        orderBy: { id: "desc" }
+        where: whereClause,
+        orderBy: { id: "desc" },
+        include: {
+          variants: true,
+          colors: true,
+          category: true,
+        }
       });
-      await cacheSet(CACHE_KEY_PRODUCTS, products, 300);
+      
+      if (!hasFilters) {
+        await cacheSet(CACHE_KEY_PRODUCTS, products, 300);
+      }
+      
       return products;
     } catch (error) {
       logger.error("Failed to fetch products from DB", { error: error.message });

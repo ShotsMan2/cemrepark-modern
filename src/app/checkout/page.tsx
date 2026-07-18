@@ -123,7 +123,7 @@ export default function CheckoutPage() {
         throw new Error(errorData?.error || 'Sipariş oluşturulamadı.');
       }
       setPaymentStatus('Başarılı!');
-      await Swal.fire({ toast: true, position: 'top-end', icon: 'success', title: `${provider} ile ödeme başarılı!`, showConfirmButton: false, timer: 1500, background: '#18181b', color: '#fff', iconColor: '#10b981' });
+      await Swal.fire({ toast: true, position: 'top-end', icon: 'success', title: `${provider} ile ödeme başarılı!`, showConfirmButton: false, timer: 1500, background: '#18181b', color: '#fff', iconColor: '#d61c7b' });
       clearCart();
       router.push('/');
     } catch (error: any) { 
@@ -156,14 +156,14 @@ export default function CheckoutPage() {
       <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_top,_var(--tw-gradient-stops))] from-pink-50 via-white to-gray-50 dark:from-pink-950/20 dark:via-zinc-900/50 dark:to-black/30 -z-10"></div>
       
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
-        <h1 className="text-4xl md:text-6xl font-black mb-16 text-transparent bg-clip-text bg-gradient-to-r from-neon-pink to-holo-gold uppercase tracking-tighter text-center" data-aos="fade-down">
+        <h1 className="text-4xl md:text-6xl font-black mb-16 text-transparent bg-clip-text bg-gradient-to-r from-primary to-secondary uppercase tracking-tighter text-center" data-aos="fade-down">
           {t('checkout_title')}
         </h1>
 
         <div className="flex flex-col lg:flex-row gap-12">
           <div className="w-full lg:w-2/3" data-aos="fade-right">
             <form id="checkout-form" onSubmit={handlePayment} className="space-y-12 bg-white/40 dark:bg-zinc-900/40 backdrop-blur-3xl p-8 md:p-14 rounded-[3rem] shadow-2xl border border-white/50 dark:border-white/10 relative overflow-hidden group">
-              <div className="absolute top-0 right-0 w-[500px] h-[500px] bg-neon-pink/10 rounded-full blur-[120px] pointer-events-none group-hover:scale-110 transition-transform duration-1000"></div>
+              <div className="absolute top-0 right-0 w-[500px] h-[500px] bg-primary/10 rounded-full blur-[120px] pointer-events-none group-hover:scale-110 transition-transform duration-1000"></div>
               
               <div className="relative z-10 space-y-12">
                 {/* EXPRESS CHECKOUT */}
@@ -211,17 +211,16 @@ export default function CheckoutPage() {
                   </div>
                 </div>
 
-                {/* 1. TESLİMAT */}
+                {/* ONE-STEP CHECKOUT FORM */}
                 <div className="bg-white/50 dark:bg-zinc-800/50 p-8 rounded-[2rem] border border-white/20 dark:border-white/5 shadow-inner">
-                  <h2 className="text-2xl font-black text-gray-900 dark:text-white mb-8 flex items-center gap-4 uppercase tracking-widest">
-                    <span className="w-12 h-12 rounded-full bg-neon-pink text-white flex items-center justify-center text-xl shadow-lg shadow-neon-pink/40">1</span>
-                    Teslimat
+                  <h2 className="text-2xl font-black text-transparent bg-clip-text bg-gradient-to-r from-primary to-secondary mb-8 flex items-center gap-4 uppercase tracking-widest">
+                    Teslimat & Ödeme Detayları
                   </h2>
-                  <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+                  <div className="grid grid-cols-1 md:grid-cols-2 gap-6 mb-10">
                     {['fullName', 'email', 'phone', 'city'].map((field) => (
                       <div key={field} className="relative group/input">
-                        <label className="block text-[10px] font-black text-gray-500 dark:text-gray-400 mb-2 uppercase tracking-[0.2em] group-focus-within/input:text-neon-pink transition-colors">{t(field === 'fullName' ? 'full_name' : field === 'city' ? 'district' : field)}</label>
-                        <input required type={field === 'email' ? 'email' : 'text'} name={field} value={(formData as any)[field]} onChange={handleInputChange} className="w-full bg-white/60 dark:bg-zinc-950/60 border border-gray-200 dark:border-white/10 text-gray-900 dark:text-white rounded-2xl px-5 py-4 focus:outline-none focus:ring-2 focus:ring-neon-pink focus:border-transparent transition-all backdrop-blur-sm shadow-inner font-bold" />
+                        <label className="block text-[10px] font-black text-gray-500 dark:text-gray-400 mb-2 uppercase tracking-[0.2em] group-focus-within/input:text-primary transition-colors">{t(field === 'fullName' ? 'full_name' : field === 'city' ? 'district' : field)}</label>
+                        <input required type={field === 'email' ? 'email' : 'text'} name={field} value={(formData as any)[field]} onChange={handleInputChange} className="w-full bg-white/60 dark:bg-zinc-950/60 border border-gray-200 dark:border-white/10 text-gray-900 dark:text-white rounded-2xl px-5 py-4 focus:outline-none focus:ring-2 focus:ring-primary focus:border-transparent transition-all backdrop-blur-sm shadow-inner font-bold" />
                       </div>
                     ))}
                     <div className="md:col-span-2 relative group/input">
@@ -229,17 +228,11 @@ export default function CheckoutPage() {
                       <textarea required name="address" value={formData.address} onChange={handleInputChange} rows={3} className="w-full bg-white/60 dark:bg-zinc-950/60 border border-gray-200 dark:border-white/10 text-gray-900 dark:text-white rounded-2xl px-5 py-4 focus:outline-none focus:ring-2 focus:ring-neon-pink focus:border-transparent transition-all resize-none backdrop-blur-sm shadow-inner font-bold"></textarea>
                     </div>
                   </div>
-                </div>
 
-                {/* 2. ÖDEME */}
-                <div className="bg-white/50 dark:bg-zinc-800/50 p-8 rounded-[2rem] border border-white/20 dark:border-white/5 shadow-inner">
-                  <h2 className="text-2xl font-black text-gray-900 dark:text-white mb-10 flex items-center gap-4 uppercase tracking-widest">
-                    <span className="w-12 h-12 rounded-full bg-gradient-to-r from-holo-gold to-yellow-500 text-gray-900 flex items-center justify-center text-xl shadow-lg shadow-holo-gold/40">2</span>
-                    Ödeme
-                  </h2>
+                  <hr className="border-gray-200 dark:border-white/10 mb-10" />
                   
                   {/* Modern Card Visual */}
-                  <div className="max-w-[400px] mx-auto mb-12 bg-gradient-to-br from-gray-900 via-zinc-800 to-black rounded-[2rem] p-8 shadow-2xl border border-white/10 transform transition-transform duration-500 hover:scale-105 hover:-rotate-2 relative overflow-hidden group/card">
+                  <div className="max-w-[400px] mx-auto mb-12 bg-gradient-to-br from-gray-900 via-zinc-800 to-black rounded-[2rem] p-8 shadow-2xl border border-white/10 transform transition-transform duration-500 hover:scale-105 hover:-rotate-2 relative overflow-hidden group/card animate-pulse-glow">
                     <div className="absolute -inset-full bg-gradient-to-r from-transparent via-white/10 to-transparent group-hover/card:-translate-x-full duration-1000 ease-in-out transition-transform"></div>
                     <div className="flex justify-between items-center mb-10 relative z-10">
                       <div className="w-14 h-10 bg-gradient-to-br from-yellow-300 to-yellow-600 rounded-md opacity-90 shadow-sm flex items-center justify-center">
@@ -342,7 +335,7 @@ export default function CheckoutPage() {
 
               <div className="space-y-4 text-sm font-bold text-gray-600 dark:text-gray-300 mb-8 bg-white/50 dark:bg-zinc-800/50 p-6 rounded-[2rem] border border-white/20 dark:border-white/5 shadow-inner">
                 <div className="flex justify-between items-center"><span className="uppercase tracking-widest">{t('subtotal')}</span><span className="text-gray-900 dark:text-white text-base">{formatPrice(cartTotal)}</span></div>
-                <div className="flex justify-between items-center"><span className="uppercase tracking-widest">{t('shipping')}</span><span className={shippingCost === 0 ? "text-emerald-500 uppercase tracking-widest text-xs bg-emerald-500/10 px-3 py-1.5 rounded-lg" : "text-gray-900 dark:text-white text-base"}>{shippingCost === 0 ? t('free') : formatPrice(shippingCost)}</span></div>
+                <div className="flex justify-between items-center"><span className="uppercase tracking-widest">{t('shipping')}</span><span className={shippingCost === 0 ? "text-pink-500 uppercase tracking-widest text-xs bg-pink-500/10 px-3 py-1.5 rounded-lg" : "text-gray-900 dark:text-white text-base"}>{shippingCost === 0 ? t('free') : formatPrice(shippingCost)}</span></div>
                 {appliedCoupon && <div className="flex justify-between items-center text-neon-pink pt-4 border-t border-gray-200 dark:border-white/10 mt-4"><span className="uppercase tracking-widest">İndirim</span><span className="text-base">-{formatPrice(discountAmount)}</span></div>}
               </div>
 
