@@ -2,40 +2,60 @@
 @custom-variant dark (&:where(.dark, .dark *));
 
 :root {
-  /* Cemre Park Signature Theme - Vibrant Pink & Gold */
+  /* Cemre Park Enterprise Theme */
   --background: 60 20% 98%;
   --foreground: 330 20% 15%;
   
-  /* Primary & Secondary */
-  --primary: 330 80% 45%; /* Vibrant Cemre Park Pink */
-  --secondary: 45 85% 55%; /* Warm Gold */
+  /* Brand Colors */
+  --primary: 330 80% 45%;      /* Vibrant Pink */
+  --secondary: 45 85% 55%;     /* Warm Gold */
+  --accent: 250 70% 60%;       /* Deep Purple/Indigo for accents */
   
-  /* Legacy mappings */
+  /* Semantic Colors */
+  --success: 142 71% 45%;
+  --warning: 38 92% 50%;
+  --danger: 348 83% 47%;
+  --info: 214 90% 52%;
+  --muted: 0 0% 40%;
+  
+  /* Legacy mappings (deprecated but kept for fallback) */
   --neon-pink: 330 80% 45%;
   --holographic-gold: 45 85% 55%;
 
-  --glass-bg: rgba(255, 255, 255, 0.7);
-  --glass-border: rgba(255, 255, 255, 0.4);
+  /* Glassmorphism Variables */
+  --glass-bg: rgba(255, 255, 255, 0.75);
+  --glass-border: rgba(255, 255, 255, 0.5);
   --glass-card-grad1: rgba(250, 250, 250, 0.85);
   --glass-card-grad2: rgba(255, 255, 255, 0.95);
+  
+  /* Shadows */
+  --shadow-subtle: 0 4px 20px rgba(0, 0, 0, 0.05);
+  --shadow-elevated: 0 10px 40px rgba(0, 0, 0, 0.08);
+
+  /* Fonts */
   --font-sans: 'Inter', system-ui, -apple-system, sans-serif;
-  --font-mono: 'Fira Code', monospace;
+  --font-heading: var(--font-jost), 'Jost', sans-serif;
+  --font-display: var(--font-marcellus), 'Marcellus', serif;
 }
 
 .dark {
-  --background: 330 20% 8%;
+  --background: 330 20% 6%;
   --foreground: 60 20% 95%;
   
-  --primary: 330 75% 55%; /* Brighter Pink for dark mode */
-  --secondary: 45 90% 60%; /* Brighter Gold */
+  --primary: 330 75% 55%; 
+  --secondary: 45 90% 60%;
+  --accent: 250 80% 65%;
   
   --neon-pink: 330 75% 55%;
   --holographic-gold: 45 90% 60%;
 
-  --glass-bg: rgba(25, 10, 20, 0.7);
+  --glass-bg: rgba(18, 10, 15, 0.75);
   --glass-border: rgba(255, 255, 255, 0.1);
   --glass-card-grad1: rgba(30, 15, 25, 0.8);
   --glass-card-grad2: rgba(20, 10, 18, 0.9);
+  
+  --shadow-subtle: 0 4px 20px rgba(0, 0, 0, 0.2);
+  --shadow-elevated: 0 10px 40px rgba(0, 0, 0, 0.4);
 }
 
 @theme inline {
@@ -43,40 +63,95 @@
   --color-foreground: hsl(var(--foreground));
   --color-primary: hsl(var(--primary));
   --color-secondary: hsl(var(--secondary));
+  --color-accent: hsl(var(--accent));
+  
+  --color-success: hsl(var(--success));
+  --color-warning: hsl(var(--warning));
+  --color-danger: hsl(var(--danger));
+  --color-info: hsl(var(--info));
   
   /* Legacy compatibility */
   --color-neon-pink: hsl(var(--neon-pink));
   --color-holo-gold: hsl(var(--holographic-gold));
   
   --font-sans: var(--font-sans);
-  --font-mono: var(--font-mono);
+  --font-heading: var(--font-heading);
+  --font-display: var(--font-display);
 }
 
+/* ==========================================================================
+   Base Styles
+   ========================================================================== */
 html {
-  font-size: 90%;
+  font-size: 16px; /* Restored standard base size */
   scroll-behavior: smooth;
-  font-family: var(--font-sans);
+  scroll-padding-top: 5rem;
 }
 
 body {
   background-color: hsl(var(--background));
   color: hsl(var(--foreground));
-  background-image:
-    radial-gradient(circle at 0% 0%, hsla(var(--primary), 0.03), transparent 40%),
-    radial-gradient(circle at 100% 100%, hsla(var(--secondary), 0.03), transparent 40%);
-  background-attachment: fixed;
+  font-family: var(--font-sans);
   overflow-x: hidden;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
 }
 
-/* Glassmorphism Utilities */
+/* Aurora & Particle Backgrounds */
+body.homepage::before,
+body.homepage::after {
+  content: '';
+  position: fixed;
+  width: 60vw;
+  height: 60vw;
+  border-radius: 50%;
+  filter: blur(100px);
+  z-index: -1;
+  opacity: 0.15;
+  pointer-events: none;
+  animation: aurora-move 20s infinite alternate cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+body.homepage::before {
+  top: -20%;
+  left: -10%;
+  background: radial-gradient(circle, hsla(var(--primary), 0.8), transparent 60%);
+}
+
+body.homepage::after {
+  bottom: -20%;
+  right: -10%;
+  background: radial-gradient(circle, hsla(var(--secondary), 0.8), transparent 60%);
+  animation-delay: -10s;
+}
+
+@keyframes aurora-move {
+  0% { transform: scale(1) translate(0, 0); }
+  33% { transform: scale(1.1) translate(5%, 5%); }
+  66% { transform: scale(0.9) translate(-5%, 5%); }
+  100% { transform: scale(1.2) translate(5%, -5%); }
+}
+
+/* ==========================================================================
+   Typography Utilities
+   ========================================================================== */
+h1, h2, h3, h4, h5, h6 {
+  font-family: var(--font-heading);
+}
+
+.font-display {
+  font-family: var(--font-display);
+}
+
+/* ==========================================================================
+   Glassmorphism System
+   ========================================================================== */
 .glass-panel {
   background: var(--glass-bg);
   backdrop-filter: blur(24px) saturate(180%);
   -webkit-backdrop-filter: blur(24px) saturate(180%);
   border: 1px solid var(--glass-border);
-  box-shadow: 0 8px 32px rgba(0, 0, 0, 0.05);
+  box-shadow: var(--shadow-subtle);
 }
 
 .glass-card {
@@ -85,72 +160,76 @@ body {
   -webkit-backdrop-filter: blur(16px) saturate(150%);
   border: 1px solid var(--glass-border);
   border-radius: 12px;
-  box-shadow: 0 4px 24px rgba(0, 0, 0, 0.05);
+  box-shadow: var(--shadow-subtle);
   transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
 }
 
 .glass-card:hover {
-  transform: translateY(-8px);
-  border-color: hsla(var(--primary), 0.3);
-  box-shadow: 0 12px 40px hsla(var(--primary), 0.15);
+  transform: translateY(-6px);
+  border-color: hsla(var(--primary), 0.4);
+  box-shadow: var(--shadow-elevated);
 }
 
-/* Animations */
+/* High-end frosted glass (e.g., sticky headers, modals) */
+.glass-frosted {
+  background: rgba(255, 255, 255, 0.4);
+  backdrop-filter: blur(30px) saturate(200%);
+  -webkit-backdrop-filter: blur(30px) saturate(200%);
+  border-bottom: 1px solid rgba(255,255,255, 0.2);
+}
+
+.dark .glass-frosted {
+  background: rgba(15, 10, 15, 0.5);
+  border-bottom: 1px solid rgba(255,255,255, 0.05);
+}
+
+/* ==========================================================================
+   Animations & Micro-interactions
+   ========================================================================== */
+@keyframes slideUp {
+  from { opacity: 0; transform: translateY(30px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+@keyframes fadeIn {
+  from { opacity: 0; }
+  to { opacity: 1; }
+}
+
+@keyframes scaleIn {
+  from { opacity: 0; transform: scale(0.95); }
+  to { opacity: 1; transform: scale(1); }
+}
+
 .animate-slide-up {
   animation: slideUp 0.6s cubic-bezier(0.16, 1, 0.3, 1) forwards;
 }
 
+.animate-fade-in {
+  animation: fadeIn 0.5s ease-out forwards;
+}
+
+.animate-scale-in {
+  animation: scaleIn 0.5s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+}
+
+/* Infinite Animations */
 @keyframes marquee {
   0% { transform: translateX(0%); }
   100% { transform: translateX(-50%); }
 }
 
 .animate-marquee {
-  animation: marquee 25s linear infinite;
-}
-
-@keyframes shimmer {
-  0% { transform: translateX(-100%); }
-  100% { transform: translateX(100%); }
-}
-
-.animate-shimmer::after {
-  content: "";
-  position: absolute;
-  top: 0; right: 0; bottom: 0; left: 0;
-  background: linear-gradient(
-    90deg,
-    rgba(255, 255, 255, 0) 0%,
-    rgba(255, 255, 255, 0.1) 50%,
-    rgba(255, 255, 255, 0) 100%
-  );
-  animation: shimmer 2.5s infinite;
+  animation: marquee 30s linear infinite;
 }
 
 .hover-pause:hover {
   animation-play-state: paused;
 }
 
-/* Micro Animations & FX */
-@keyframes pulse-glow {
-  0%, 100% { box-shadow: 0 0 10px hsla(var(--primary), 0.1); }
-  50% { box-shadow: 0 0 25px hsla(var(--primary), 0.3); }
-}
-
-.animate-pulse-glow {
-  animation: pulse-glow 3s infinite ease-in-out;
-}
-
-.text-gradient {
-  background: linear-gradient(135deg, hsl(var(--primary)), hsl(var(--secondary)));
-  -webkit-background-clip: text;
-  -webkit-text-fill-color: transparent;
-}
-
 @keyframes float {
-  0% { transform: translateY(0px); }
-  50% { transform: translateY(-10px); }
-  100% { transform: translateY(0px); }
+  0%, 100% { transform: translateY(0px); }
+  50% { transform: translateY(-12px); }
 }
 
 .float-fx {
@@ -162,9 +241,84 @@ body {
   animation-delay: 2s;
 }
 
-/* Geometric Clips */
+@keyframes pulse-glow {
+  0%, 100% { box-shadow: 0 0 10px hsla(var(--primary), 0.2); }
+  50% { box-shadow: 0 0 25px hsla(var(--primary), 0.5); }
+}
+
+.animate-pulse-glow {
+  animation: pulse-glow 3s infinite ease-in-out;
+}
+
+/* Shimmer Loading Skeleton */
+@keyframes shimmer {
+  0% { transform: translateX(-100%); }
+  100% { transform: translateX(100%); }
+}
+
+.skeleton {
+  position: relative;
+  overflow: hidden;
+  background-color: rgba(150, 150, 150, 0.1);
+}
+
+.skeleton::after {
+  content: "";
+  position: absolute;
+  top: 0; right: 0; bottom: 0; left: 0;
+  background: linear-gradient(
+    90deg,
+    transparent,
+    rgba(255, 255, 255, 0.2),
+    transparent
+  );
+  animation: shimmer 2s infinite;
+}
+
+.dark .skeleton::after {
+  background: linear-gradient(
+    90deg,
+    transparent,
+    rgba(255, 255, 255, 0.05),
+    transparent
+  );
+}
+
+/* ==========================================================================
+   Text FX & Gradients
+   ========================================================================== */
+.text-gradient {
+  background: linear-gradient(135deg, hsl(var(--primary)), hsl(var(--secondary)));
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+  color: transparent;
+}
+
+.text-gradient-alt {
+  background: linear-gradient(135deg, hsl(var(--secondary)), hsl(var(--accent)));
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+}
+
+/* Standardized Glows */
+.text-glow-primary,
+.text-glow-pink {
+  color: hsl(var(--foreground));
+  text-shadow: 0 0 15px hsla(var(--primary), 0.5), 0 0 30px hsla(var(--primary), 0.3);
+}
+
+.text-glow-secondary,
+.text-glow-gold {
+  color: hsl(var(--foreground));
+  text-shadow: 0 0 15px hsla(var(--secondary), 0.5), 0 0 30px hsla(var(--secondary), 0.3);
+}
+
+/* ==========================================================================
+   Geometric Shapes & Masks
+   ========================================================================== */
 .clip-angled {
-  clip-path: polygon(10px 0, 100% 0, 100% calc(100% - 10px), calc(100% - 10px) 100%, 0 100%, 0 10px);
+  clip-path: polygon(12px 0, 100% 0, 100% calc(100% - 12px), calc(100% - 12px) 100%, 0 100%, 0 12px);
 }
 
 .clip-hexa {
@@ -175,64 +329,35 @@ body {
   clip-path: polygon(15px 0, 100% 0, calc(100% - 15px) 100%, 0 100%);
 }
 
-/* Premium Text Glows */
-.text-glow-primary {
-  color: hsl(var(--foreground));
-  text-shadow:
-    0 0 10px hsla(var(--primary), 0.4),
-    0 0 20px hsla(var(--primary), 0.2);
-}
-
-.text-glow-secondary {
-  background: linear-gradient(to right, hsl(var(--secondary)), #ffcc00);
-  -webkit-background-clip: text;
-  color: transparent;
-  text-shadow: 0 0 15px hsla(var(--secondary), 0.3);
-}
-
-/* Legacy text glows mapped */
-.text-glow-pink {
-  color: hsl(var(--foreground));
-  text-shadow:
-    0 0 10px hsla(var(--primary), 0.4),
-    0 0 20px hsla(var(--primary), 0.2);
-}
-
-.text-glow-gold {
-  background: linear-gradient(to right, hsl(var(--secondary)), #ffcc00);
-  -webkit-background-clip: text;
-  color: transparent;
-  text-shadow: 0 0 15px hsla(var(--secondary), 0.3);
-}
-
+/* ==========================================================================
+   Custom UI Elements
+   ========================================================================== */
 /* Custom Scrollbar */
 ::-webkit-scrollbar {
-  width: 6px;
+  width: 8px;
+  height: 8px;
 }
 ::-webkit-scrollbar-track {
   background: hsl(var(--background));
 }
 ::-webkit-scrollbar-thumb {
-  background: hsl(var(--primary));
-  border-radius: 10px;
-}
-::-webkit-scrollbar-thumb:hover {
-  background: hsl(var(--secondary));
-}
-
-/* Skeleton Loading Animation */
-@keyframes skeleton-loading {
-  0% { background-color: rgba(160, 160, 160, 0.05); }
-  50% { background-color: rgba(160, 160, 160, 0.15); }
-  100% { background-color: rgba(160, 160, 160, 0.05); }
-}
-
-.skeleton {
-  animation: skeleton-loading 1.5s infinite ease-in-out;
+  background: hsla(var(--primary), 0.6);
   border-radius: 4px;
 }
+::-webkit-scrollbar-thumb:hover {
+  background: hsla(var(--primary), 1);
+}
 
-/* Swiper Customizations mapped to primary */
+/* Custom Scrollbar for hidden horizontal overflow */
+.no-scrollbar::-webkit-scrollbar {
+  display: none;
+}
+.no-scrollbar {
+  -ms-overflow-style: none;
+  scrollbar-width: none;
+}
+
+/* Swiper overrides mapped to primary */
 .swiper {
   --swiper-theme-color: hsl(var(--primary)) !important;
   --swiper-navigation-color: hsl(var(--primary)) !important;
@@ -245,17 +370,18 @@ body {
   background: var(--glass-bg) !important;
   backdrop-filter: blur(8px);
   -webkit-backdrop-filter: blur(8px);
-  border: 1px solid hsla(var(--primary), 0.25);
-  width: 44px !important;
-  height: 44px !important;
+  border: 1px solid hsla(var(--primary), 0.3);
+  width: 48px !important;
+  height: 48px !important;
   border-radius: 50%;
   transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1) !important;
+  box-shadow: var(--shadow-subtle);
 }
 
 .swiper-button-next::after,
 .swiper-button-prev::after {
-  font-size: 1.2rem !important;
-  font-weight: 600;
+  font-size: 1.25rem !important;
+  font-weight: 700;
 }
 
 .swiper-button-next:hover,
@@ -263,20 +389,28 @@ body {
   background: hsl(var(--primary)) !important;
   color: white !important;
   border-color: hsl(var(--primary)) !important;
-  transform: scale(1.05);
-  box-shadow: 0 0 15px hsla(var(--primary), 0.4);
+  transform: scale(1.1);
+  box-shadow: 0 0 20px hsla(var(--primary), 0.4);
 }
 
 .swiper-pagination-bullet {
   background: hsl(var(--foreground)) !important;
-  opacity: 0.2 !important;
+  opacity: 0.3 !important;
   transition: all 0.3s ease !important;
+  width: 10px !important;
+  height: 10px !important;
 }
 
 .swiper-pagination-bullet-active {
   background: hsl(var(--primary)) !important;
   opacity: 1 !important;
-  box-shadow: 0 0 8px hsla(var(--primary), 0.6);
-  transform: scale(1.2);
+  box-shadow: 0 0 10px hsla(var(--primary), 0.6);
+  transform: scale(1.3);
 }
 
+/* ==========================================================================
+   Container Utilities
+   ========================================================================== */
+.container-premium {
+  @apply w-full max-w-7xl mx-auto px-4 sm:px-6 lg:px-8;
+}
