@@ -78,7 +78,7 @@ export default function Header() {
         </div>
 
         {/* TOP BAR */}
-        <div className="bg-white/70 dark:bg-black/70 backdrop-blur-md border-b border-primary/10 text-gray-600 dark:text-gray-400 text-[11px] md:text-xs py-2 hidden md:block transition-colors duration-300">
+        <div className="bg-[#120a10] backdrop-blur-md border-b border-white/5 text-gray-400 text-[11px] md:text-xs py-2 hidden md:block transition-colors duration-300">
           <div className="w-full px-4 md:px-6 flex justify-between items-center">
             <div className="flex gap-4 items-center">
               <a
@@ -100,7 +100,7 @@ export default function Header() {
                 </svg>
                 {settings?.destekTelefonu || "0554 169 89 09"}
               </a>
-              <span className="text-gray-700">|</span>
+              <span className="text-gray-500">|</span>
               <a
                 href="https://instagram.com/cemrepark"
                 className="flex items-center gap-1.5 hover:text-primary transition-colors"
@@ -122,13 +122,13 @@ export default function Header() {
                 </svg>
                 @cemrepark
               </a>
-              <span className="text-gray-700">|</span>
+              <span className="text-gray-500">|</span>
               <div className="flex gap-2 items-center">
                 <LanguageSwitcher />
                 <select
                   value={currency}
                   onChange={(e) => setCurrency(e.target.value)}
-                  className="bg-transparent border-none text-gray-600 dark:text-gray-400 text-[11px] focus:outline-none cursor-pointer uppercase font-bold hover:text-black dark:hover:text-white transition-colors"
+                  className="bg-transparent border-none text-gray-400 text-[11px] focus:outline-none cursor-pointer uppercase font-bold hover:text-white transition-colors"
                   aria-label="Currency"
                 >
                   <option className="bg-background text-foreground" value="TL">
@@ -167,14 +167,14 @@ export default function Header() {
                 </svg>
                 {t("shopier_store")}
               </a>
-              <span className="text-gray-700">|</span>
+              <span className="text-gray-500">|</span>
               <span className="text-gradient font-bold">{t("suits_you_well")}</span>
             </div>
           </div>
         </div>
 
         {/* LOGO ROW */}
-        <div className="bg-white/80 dark:bg-black/80 backdrop-blur-xl border-b border-white/10 dark:border-white/5 flex justify-center py-4 md:py-6 shadow-sm transition-colors duration-300">
+        <div className="bg-[#120a10] backdrop-blur-xl border-b border-white/5 flex justify-center py-4 md:py-6 shadow-sm transition-colors duration-300">
           <Link href="/" className="flex items-center group">
             <div className="relative w-[220px] h-[75px] md:w-[360px] md:h-[120px] group-hover:scale-105 transition-all duration-500 ease-out">
               <Image
@@ -191,7 +191,7 @@ export default function Header() {
       </header>
 
       {/* MAIN NAV (Original layout) */}
-      <div className="w-full glass-panel border-b-0 border-white/5 py-1 sticky top-0 z-[60] shadow-xl">
+      <div className="w-full bg-[#120a10] border-b border-white/5 py-1 sticky top-0 z-[60] shadow-xl">
         <div className="w-full px-4 md:px-6 flex justify-between items-center relative">
           {/* Desktop Menu */}
           <div className="hidden lg:flex items-center gap-6">
@@ -199,7 +199,7 @@ export default function Header() {
             <div className="group py-3">
               <Link
                 href="/search"
-                className="text-gray-900 dark:text-gray-300 hover:text-primary dark:hover:text-primary text-sm uppercase tracking-widest transition-all duration-300 hover:scale-105 font-medium flex items-center gap-1"
+                className="text-gray-300 hover:text-primary text-sm uppercase tracking-widest transition-all duration-300 hover:scale-105 font-medium flex items-center gap-1"
               >
                 {t("collections_menu")}
                 <svg
@@ -321,31 +321,31 @@ export default function Header() {
 
             <Link
               href="/search?q=Takım"
-              className="text-gray-900 dark:text-gray-300 hover:text-primary text-sm uppercase tracking-widest transition-all duration-300 hover:scale-105 font-medium inline-block"
+              className="text-gray-300 hover:text-primary text-sm uppercase tracking-widest transition-all duration-300 hover:scale-105 font-medium inline-block"
             >
               {t("sets")}
             </Link>
             <Link
               href="/search?q=Tunik"
-              className="text-gray-900 dark:text-gray-300 hover:text-primary text-sm uppercase tracking-widest transition-all duration-300 hover:scale-105 font-medium inline-block"
+              className="text-gray-300 hover:text-primary text-sm uppercase tracking-widest transition-all duration-300 hover:scale-105 font-medium inline-block"
             >
               {t("tunics")}
             </Link>
             <Link
               href="/search?q=Ceket"
-              className="text-gray-900 dark:text-gray-300 hover:text-primary text-sm uppercase tracking-widest transition-all duration-300 hover:scale-105 font-medium inline-block"
+              className="text-gray-300 hover:text-primary text-sm uppercase tracking-widest transition-all duration-300 hover:scale-105 font-medium inline-block"
             >
               {t("jackets")}
             </Link>
             <Link
               href="/search?q=Elbise"
-              className="text-gray-900 dark:text-gray-300 hover:text-primary text-sm uppercase tracking-widest transition-all duration-300 hover:scale-105 font-medium inline-block"
+              className="text-gray-300 hover:text-primary text-sm uppercase tracking-widest transition-all duration-300 hover:scale-105 font-medium inline-block"
             >
               {t("dresses")}
             </Link>
             <Link
               href="/search?q=Pantolon"
-              className="text-gray-900 dark:text-gray-300 hover:text-primary text-sm uppercase tracking-widest transition-all duration-300 hover:scale-105 font-medium inline-block"
+              className="text-gray-300 hover:text-primary text-sm uppercase tracking-widest transition-all duration-300 hover:scale-105 font-medium inline-block"
             >
               {t("trousers")}
             </Link>
@@ -359,7 +359,7 @@ export default function Header() {
               {status === "loading" ? null : session ? (
                 <Link
                   href="/hesabim"
-                  className="text-gray-900 dark:text-gray-300 hover:text-primary transition-all duration-300 hover:scale-105 uppercase tracking-widest inline-block"
+                  className="text-gray-300 hover:text-primary transition-all duration-300 hover:scale-105 uppercase tracking-widest inline-block"
                 >
                   {t("my_account")}
                 </Link>
@@ -367,11 +367,11 @@ export default function Header() {
                 <>
                   <Link
                     href="/login"
-                    className="text-gray-900 dark:text-gray-300 hover:text-primary transition-all duration-300 hover:scale-105 uppercase tracking-widest inline-block"
+                    className="text-gray-300 hover:text-primary transition-all duration-300 hover:scale-105 uppercase tracking-widest inline-block"
                   >
                     {t("login")}
                   </Link>
-                  <div className="w-px h-4 bg-gray-300 dark:bg-gray-700"></div>
+                  <div className="w-px h-4 bg-gray-600"></div>
                   <Link
                     href="/register"
                     className="text-secondary hover:text-primary transition-all duration-300 hover:scale-105 uppercase tracking-widest font-bold inline-block"
@@ -384,7 +384,7 @@ export default function Header() {
 
             <button
               onClick={() => setIsSearchOpen(true)}
-              className="text-gray-900 dark:text-gray-300 hover:text-secondary transition-all duration-300 hover:scale-110"
+              className="text-gray-300 hover:text-secondary transition-all duration-300 hover:scale-110"
               aria-label="Open Search"
             >
               <svg
@@ -404,7 +404,7 @@ export default function Header() {
 
             <Link
               href="/favorites"
-              className="relative text-gray-900 dark:text-gray-300 hover:text-primary transition-all duration-300 hover:scale-110 inline-block"
+              className="relative text-gray-300 hover:text-primary transition-all duration-300 hover:scale-110 inline-block"
               aria-label="Favorites"
             >
               <svg
@@ -428,7 +428,7 @@ export default function Header() {
 
             <Link
               href="/cart"
-              className="relative text-gray-900 dark:text-gray-300 hover:text-secondary transition-all duration-300 hover:scale-110 inline-block"
+              className="relative text-gray-300 hover:text-secondary transition-all duration-300 hover:scale-110 inline-block"
               aria-label="Cart"
             >
               <svg
@@ -459,7 +459,7 @@ export default function Header() {
 
             {/* Mobile Menu Toggle */}
             <button
-              className="lg:hidden text-gray-900 dark:text-white"
+              className="lg:hidden text-gray-300"
               type="button"
               aria-label="Toggle Mobile Menu"
               data-bs-toggle="offcanvas"
