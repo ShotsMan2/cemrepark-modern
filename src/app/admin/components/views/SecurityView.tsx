@@ -3,15 +3,15 @@
 import { useState, useEffect, useMemo, useCallback } from 'react';
 import Link from 'next/link';
 import { motion, AnimatePresence } from 'framer-motion';
-import {
-  BarChart,
-  Bar,
-  XAxis,
-  YAxis,
-  Tooltip,
-  ResponsiveContainer,
-  CartesianGrid,
-} from 'recharts';
+import dynamic from 'next/dynamic';
+
+const BarChart = dynamic(() => import('recharts').then(mod => mod.BarChart), { ssr: false });
+const Bar = dynamic(() => import('recharts').then(mod => mod.Bar), { ssr: false });
+const XAxis = dynamic(() => import('recharts').then(mod => mod.XAxis), { ssr: false });
+const YAxis = dynamic(() => import('recharts').then(mod => mod.YAxis), { ssr: false });
+const Tooltip = dynamic(() => import('recharts').then(mod => mod.Tooltip), { ssr: false });
+const ResponsiveContainer = dynamic(() => import('recharts').then(mod => mod.ResponsiveContainer), { ssr: false });
+const CartesianGrid = dynamic(() => import('recharts').then(mod => mod.CartesianGrid), { ssr: false });
 import {
   Shield,
   ShieldAlert,
@@ -89,7 +89,7 @@ function getLast7DaysChart(logs) {
 }
 
 // ─── Skeleton shimmer component ─────────────────────────────────────────────
-function Skeleton({ className = '' }) {
+function Skeleton({ className = "" }: { className?: string }) {
   return (
     <div
       className={`relative overflow-hidden rounded-lg bg-foreground/5 ${className}`}
@@ -109,7 +109,7 @@ function KPICardSkeleton() {
   );
 }
 
-function TableRowSkeleton({ cols = 4 }) {
+function TableRowSkeleton({ cols = 4 }: { cols?: number }) {
   return (
     <tr className="border-b border-glass-border">
       {Array.from({ length: cols }).map((_, i) => (
@@ -122,7 +122,7 @@ function TableRowSkeleton({ cols = 4 }) {
 }
 
 // ─── Custom Recharts Tooltip ────────────────────────────────────────────────
-function ChartTooltip({ active, payload, label }) {
+function ChartTooltip({ active, payload, label }: any) {
   if (!active || !payload?.length) return null;
   return (
     <div className="glass-card p-3 rounded-lg border border-glass-border shadow-xl text-xs">
@@ -430,7 +430,7 @@ export default function SecurityView() {
                 tickLine={false}
                 allowDecimals={false}
               />
-              <Tooltip content={<ChartTooltip />} cursor={{ fill: 'var(--color-foreground, #888)', opacity: 0.05 }} />
+              <Tooltip content={<ChartTooltip active={undefined} payload={undefined} label={undefined} />} cursor={{ fill: 'var(--color-foreground, #888)', opacity: 0.05 }} />
               <Bar
                 dataKey="basarili"
                 name="Başarılı"

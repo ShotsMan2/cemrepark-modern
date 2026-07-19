@@ -15,18 +15,33 @@ setInterval(() => {
 async function edgeRateLimit(ip: string, limit: number, windowSec: number) {
   const now = Date.now();
   const key = `rate-limit:${ip}`;
-  
+
   let record = memoryCache.get(key);
   if (!record || record.resetTime < now) {
     record = { count: 0, resetTime: now + windowSec * 1000 };
   }
-  
+
   record.count += 1;
   memoryCache.set(key, record);
-  
+
   return {
     success: record.count <= limit,
   };
+}
+
+function applySecurityHeaders(response: NextResponse) {
+  response.headers.set("X-Frame-Options", "DENY");
+  response.headers.set("X-Content-Type-Options", "nosniff");
+  response.headers.set("Referrer-Policy", "strict-origin-when-cross-origin");
+  response.headers.set("Strict-Transport-Security", "max-age=31536000; includeSubDomains; preload");
+  response.headers.set(
+    "Content-Security-Policy",
+    "default-src 'self'; script-src 'self' 'unsafe-inline' 'unsafe-eval' 'unsafe-dynamic'; style-src 'self' 'unsafe-inline'; img-src 'self' data: https: blob:; font-src 'self' data: https:; connect-src 'self' https: wss: ws:; frame-src 'self' https:;"
+  );
+  response.headers.set("Permissions-Policy", "camera=(), microphone=(), geolocation=()");
+  response.headers.set("X-DNS-Prefetch-Control", "on");
+  response.headers.set("X-XSS-Protection", "1; mode=block");
+  return response;
 }
 
 async function authMiddleware(req: NextRequest) {
@@ -39,7 +54,8 @@ async function authMiddleware(req: NextRequest) {
     if (isAuth) {
       return NextResponse.redirect(new URL("/hesabim", req.url));
     }
-    return NextResponse.next();
+    const response = NextResponse.next();
+    return applySecurityHeaders(response);
   }
 
   if (!isAuth) {
@@ -48,7 +64,8 @@ async function authMiddleware(req: NextRequest) {
     }
     if (path.startsWith("/admin")) {
       if (path === "/admin") {
-        return NextResponse.next();
+        const response = NextResponse.next();
+        return applySecurityHeaders(response);
       }
       let from = path;
       if (req.nextUrl.search) {
@@ -56,7 +73,7 @@ async function authMiddleware(req: NextRequest) {
       }
       return NextResponse.redirect(new URL(`/admin?from=${encodeURIComponent(from)}`, req.url));
     }
-    
+
     let from = path;
     if (req.nextUrl.search) {
       from += req.nextUrl.search;
@@ -72,16 +89,16 @@ async function authMiddleware(req: NextRequest) {
       return NextResponse.redirect(new URL("/yetkisiz-erisim", req.url));
     }
   }
-  
+
   const response = NextResponse.next();
-  response.headers.set('X-Edge-Secured', 'true');
-  response.headers.set('X-RateLimit-Limit', '100');
-  return response;
+  response.headers.set("X-Edge-Secured", "true");
+  response.headers.set("X-RateLimit-Limit", "100");
+  return applySecurityHeaders(response);
 }
 
 export async function proxy(req: NextRequest, event: any) {
   const path = req.nextUrl.pathname;
-  
+
   if ((path.startsWith('/api/auth') && req.method !== 'GET' && !path.includes('/signout') && !path.includes('/register') && !path.includes('/callback')) || path.startsWith('/api/orders') || path.startsWith('/api/chat')) {
     const ip = req.headers.get('x-forwarded-for') || (req as any).ip || '127.0.0.1';
     try {
@@ -104,11 +121,12 @@ export async function proxy(req: NextRequest, event: any) {
     return await authMiddleware(req);
   }
 
-  return NextResponse.next();
+  const response = NextResponse.next();
+  return applySecurityHeaders(response);
 }
 
 export const config = {
   matcher: [
-    "/((?!_next/static|_next/image|favicon.ico|images).*)"
+    "/((?!_next/static|_next/image|favicon.ico|sitemap.xml|robots.txt).*)"
   ],
 };

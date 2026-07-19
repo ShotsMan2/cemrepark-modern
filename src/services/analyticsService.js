@@ -63,23 +63,23 @@ class AnalyticsService {
       const d = new Date();
       d.setDate(d.getDate() - i);
       const dateStr = d.toLocaleDateString('tr-TR', { month: 'short', day: 'numeric' });
-      salesMap[dateStr] = 0;
+      salesMap[dateStr] = { total: 0, orders: 0 };
     }
     
     recentOrders.forEach(o => {
       const dateStr = new Date(o.createdAt).toLocaleDateString('tr-TR', { month: 'short', day: 'numeric' });
       if (salesMap[dateStr] !== undefined) {
-        salesMap[dateStr] += o.total;
+        salesMap[dateStr].total += o.total;
+        salesMap[dateStr].orders += 1;
       } else {
-        // Fallback for orders that might have different timezone or edge case, 
-        // though `gte` filter should catch them within 7 days.
-        salesMap[dateStr] = o.total;
+        salesMap[dateStr] = { total: o.total, orders: 1 };
       }
     });
     
     const salesOverTime = Object.keys(salesMap).map(date => ({
       name: date,
-      total: salesMap[date]
+      total: salesMap[date].total,
+      orders: salesMap[date].orders
     }));
 
     // Category distribution

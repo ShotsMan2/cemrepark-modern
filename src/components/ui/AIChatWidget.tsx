@@ -1,6 +1,7 @@
 "use client";
 import React, { useState, useEffect, useRef } from "react";
 import { usePathname } from "next/navigation";
+import Image from "next/image";
 
 export function AIChatWidget() {
   const pathname = usePathname();
@@ -16,9 +17,6 @@ export function AIChatWidget() {
   const [isLoading, setIsLoading] = useState(false);
   const messagesEndRef = useRef<HTMLDivElement>(null);
 
-  // Hide on admin pages
-  if (pathname?.startsWith("/admin")) return null;
-
   const scrollToBottom = () => {
     messagesEndRef.current?.scrollIntoView({ behavior: "smooth" });
   };
@@ -26,6 +24,9 @@ export function AIChatWidget() {
   useEffect(() => {
     scrollToBottom();
   }, [messages, isOpen]);
+
+  // Hide on admin pages
+  if (pathname?.startsWith("/admin")) return null;
 
   const sendMessage = async (text: string) => {
     if (!text.trim()) return;
@@ -102,7 +103,7 @@ export function AIChatWidget() {
                     {msg.products.map(p => (
                       <a key={p.id} href={`/urundetay/${p.id}`} className="min-w-[120px] bg-white dark:bg-[#1a1a1a] rounded-xl border border-gray-100 dark:border-white/10 overflow-hidden group hover:border-neon-pink transition-colors">
                         <div className="h-[120px] bg-gray-200 relative overflow-hidden">
-                           <img src={p.gorsel?.split(',')[0] || p.resim} alt={p.ad} className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-500" />
+                           <Image fill src={p.gorsel?.split(',')[0] || p.resim || '/placeholder.jpg'} alt={p.ad || 'Product Image'} className="object-cover group-hover:scale-110 transition-transform duration-500" sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw" />
                         </div>
                         <div className="p-2">
                           <p className="text-[10px] truncate text-gray-800 dark:text-white font-medium">{p.ad}</p>

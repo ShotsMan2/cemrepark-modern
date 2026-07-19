@@ -12,6 +12,23 @@ export const GET = apiHandler(async (req: NextRequest) => {
     throw error;
   }
 
+  const url = new URL(req.url);
+  const searchParams = url.searchParams;
+  const page = searchParams.get('page');
+
+  if (page) {
+    const pageNum = parseInt(page) || 1;
+    const limit = parseInt(searchParams.get('limit') || '10');
+    const sortBy = searchParams.get('sortBy') || 'id';
+    const sortOrder = searchParams.get('sortOrder') || 'desc';
+    const search = searchParams.get('search') || '';
+    
+    const filters = { search };
+    
+    const paginatedMessages = await messageService.getMessagesPaginated(filters, pageNum, limit, sortBy, sortOrder);
+    return NextResponse.json(paginatedMessages);
+  }
+
   const messages = await messageService.getMessages();
   return NextResponse.json(messages);
 });

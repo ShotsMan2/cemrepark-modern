@@ -3,6 +3,7 @@ import React from "react";
 import { getServerSession } from "next-auth/next";
 import { authOptions } from "@/lib/authOptions";
 import { redirect } from "next/navigation";
+import ExportButton from "../components/ExportButton";
 
 export const metadata = {
   title: "Audit Logs - Admin Panel",
@@ -36,6 +37,16 @@ export default async function AuditLogsPage() {
             Sistem aktivite ve değişiklik kayıtları (Son 100 işlem)
           </p>
         </div>
+        <ExportButton 
+          data={logs.map(log => ({
+            "Tarih": new Date(log.createdAt).toLocaleString("tr-TR"),
+            "Kullanıcı": log.user?.name || log.user?.email || "Bilinmiyor",
+            "Aksiyon": log.action,
+            "Detay": log.details || "-",
+            "IP Adresi": log.ipAddress || "Bilinmiyor"
+          }))}
+          filename="audit_logs.csv"
+        />
       </div>
 
       <div className="glass-panel p-0 clip-angled border border-white/5 overflow-hidden shadow-2xl bg-black/40 backdrop-blur-xl">

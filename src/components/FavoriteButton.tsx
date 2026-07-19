@@ -1,6 +1,6 @@
 "use client";
 import { useStore } from "../context/StoreContext";
-import Swal from "sweetalert2";
+import { showInfoToast, showToast } from "../utils/toast";
 import React from "react";
 import { Product } from "@prisma/client";
 
@@ -42,33 +42,10 @@ export default function FavoriteButton({ product, className = "" }: FavoriteButt
 
     if (isFavorite) {
       removeFromFavorites(product.id);
-      Swal.fire({
-        toast: true,
-        position: "bottom-end",
-        showConfirmButton: false,
-        timer: 2000,
-        icon: "info",
-        title: t("favorite_removed_toast"),
-        background: "rgba(10, 10, 10, 0.9)",
-        color: "#fff",
-        iconColor: "#a0a0a0",
-      });
+      showInfoToast(t("favorite_removed_toast") as string);
     } else {
       addToFavorites(product);
-      Swal.fire({
-        toast: true,
-        position: "bottom-end",
-        showConfirmButton: false,
-        timer: 2000,
-        icon: "success",
-        title: t("favorite_added_toast"),
-        background: "rgba(10, 10, 10, 0.9)",
-        color: "#fff",
-        iconColor: "#ff007f",
-        customClass: {
-          popup: "border border-neon-pink backdrop-blur-md rounded-xl",
-        },
-      });
+      showToast(t("favorite_added_toast") as string);
     }
   };
 

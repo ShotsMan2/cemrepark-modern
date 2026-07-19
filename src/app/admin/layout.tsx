@@ -1,12 +1,10 @@
-import { getServerSession } from "next-auth/next";
-import { authOptions } from "@/lib/authOptions";
-import { redirect } from "next/navigation";
+import AdminShell from "./components/AdminShell";
 
 export const metadata = {
   title: "Admin Panel - Cemre Park",
 };
 
-export default async function AdminLayout({ children }) {
+export default async function AdminLayout({ children }: { children: React.ReactNode }) {
   return (
     <div className="admin-wrapper bg-background min-h-screen text-foreground font-inter">
       <style
@@ -83,7 +81,7 @@ export default async function AdminLayout({ children }) {
       `,
         }}
       />
-      {children}
+      <AdminShell>{children}</AdminShell>
     </div>
   );
 }

@@ -29,6 +29,7 @@ model User {
   favorites     Favorite[]
   notifications Notification[]
   addresses     Address[]
+  cart          Cart?
 
   @@index([role])
   @@index([createdAt])
@@ -97,6 +98,7 @@ model Product {
   reviews    Review[]
   orderItems OrderItem[]
   favorites  Favorite[]
+  cartItems  CartItem[]
 
   @@index([kategori])
   @@index([categoryId])
@@ -169,7 +171,8 @@ model Order {
   createdAt DateTime @default(now())
   updatedAt DateTime @default(now()) @updatedAt
 
-  items OrderItem[]
+  items               OrderItem[]
+  paymentTransactions PaymentTransaction[]
 
   @@index([orderNumber])
   @@index([customer])
@@ -203,6 +206,8 @@ model Page {
   content   String
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
+
+  versions PageVersion[]
 }
 
 model Banner {
@@ -281,16 +286,18 @@ model PasswordResetToken {
 }
 
 model LoginHistory {
-  id        Int      @id @default(autoincrement())
-  userId    Int
-  user      User     @relation(fields: [userId], references: [id], onDelete: Cascade)
-  ipAddress String?
-  userAgent String?
-  success   Boolean
-  createdAt DateTime @default(now())
+  id            Int      @id @default(autoincrement())
+  userId        Int
+  user          User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+  ipAddress     String?
+  userAgent     String?
+  success       Boolean
+  failureReason String?
+  createdAt     DateTime @default(now())
 
   @@index([userId])
   @@index([createdAt])
+  @@index([success])
 }
 
 model AuditLog {
@@ -298,11 +305,17 @@ model AuditLog {
   userId    Int?
   user      User?    @relation(fields: [userId], references: [id], onDelete: SetNull)
   action    String
+  entity    String?
+  entityId  String?
   details   String?
+  changes   String?  // JSON string representing changes
   ipAddress String?
+  userAgent String?
   createdAt DateTime @default(now())
 
   @@index([userId])
+  @@index([action])
+  @@index([entity, entityId])
   @@index([createdAt])
 }
 
@@ -364,4 +377,95 @@ model Promotion {
   updatedAt      DateTime  @updatedAt
 
   @@index([isActive])
+}
+
+// ============================================================================
+// Enterprise Models — Phase 4 Upgrade
+// ============================================================================
+
+/// Server-side shopping cart for logged-in users
+model Cart {
+  id        Int        @id @default(autoincrement())
+  userId    Int        @unique
+  user      User       @relation(fields: [userId], references: [id], onDelete: Cascade)
+  items     CartItem[]
+  createdAt DateTime   @default(now())
+  updatedAt DateTime   @updatedAt
+}
+
+/// Individual items within a server-side cart
+model CartItem {
+  id        Int     @id @default(autoincrement())
+  cartId    Int
+  cart      Cart    @relation(fields: [cartId], references: [id], onDelete: Cascade)
+  productId Int
+  product   Product @relation(fields: [productId], references: [id], onDelete: Cascade)
+  quantity  Int     @default(1)
+  variantId Int?
+  color     String?
+  size      String?
+
+  @@unique([cartId, productId, color, size])
+  @@index([cartId])
+  @@index([productId])
+}
+
+/// Payment transaction records for order tracking
+model PaymentTransaction {
+  id            Int      @id @default(autoincrement())
+  orderId       Int
+  order         Order    @relation(fields: [orderId], references: [id], onDelete: Cascade)
+  provider      String   // e.g. "shopier", "havale", "kredi_karti"
+  transactionId String?  // External payment provider's transaction ID
+  amount        Float
+  currency      String   @default("TRY")
+  status        String   @default("PENDING") // PENDING, COMPLETED, FAILED, REFUNDED
+  metadata      String?  // JSON string for additional data
+  createdAt     DateTime @default(now())
+
+  @@index([orderId])
+  @@index([status])
+  @@index([createdAt])
+}
+
+/// Available shipping methods and pricing
+model ShippingMethod {
+  id            Int      @id @default(autoincrement())
+  name          String   // e.g. "Yurtiçi Kargo", "Aras Kargo"
+  provider      String   // Carrier code
+  price         Float
+  freeAbove     Float?   // Free shipping threshold
+  isActive      Boolean  @default(true)
+  estimatedDays Int?     // Estimated delivery days
+  createdAt     DateTime @default(now())
+  updatedAt     DateTime @updatedAt
+
+  @@index([isActive])
+}
+
+/// Configurable email templates for transactional emails
+model EmailTemplate {
+  id        Int      @id @default(autoincrement())
+  name      String   @unique // e.g. "order_confirmation", "shipping_notification"
+  subject   String
+  body      String   // HTML email template body
+  variables String?  // JSON array of template variable names
+  isActive  Boolean  @default(true)
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+}
+
+/// Page version history for CMS content management
+model PageVersion {
+  id        Int      @id @default(autoincrement())
+  pageId    Int
+  page      Page     @relation(fields: [pageId], references: [id], onDelete: Cascade)
+  content   String
+  title     String?
+  version   Int
+  createdBy String?  // Editor name/email
+  createdAt DateTime @default(now())
+
+  @@index([pageId])
+  @@index([pageId, version])
 }

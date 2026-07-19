@@ -12,6 +12,49 @@ class MessageService {
     }));
   }
 
+  async getMessagesPaginated(filters = {}, page = 1, limit = 10, sortBy = "id", sortOrder = "desc") {
+    try {
+      const { search } = filters;
+      const whereClause = {};
+
+      if (search) {
+        whereClause.OR = [
+          { adSoyad: { contains: search } },
+          { email: { contains: search } },
+          { mesaj: { contains: search } }
+        ];
+      }
+
+      const skip = (page - 1) * limit;
+
+      const [messages, total] = await Promise.all([
+        prisma.message.findMany({
+          where: whereClause,
+          skip,
+          take: limit,
+          orderBy: { [sortBy]: sortOrder },
+        }),
+        prisma.message.count({ where: whereClause })
+      ]);
+
+      const mappedData = messages.map((m) => ({
+        ...m,
+        ePosta: m.email,
+      }));
+
+      return {
+        data: mappedData,
+        total,
+        page,
+        limit,
+        totalPages: Math.ceil(total / limit)
+      };
+    } catch (error) {
+      console.error("Failed to fetch paginated messages from DB", { error: error.message });
+      return { data: [], total: 0, page, limit, totalPages: 0 };
+    }
+  }
+
   async createMessage(data) {
     const { adSoyad, ePosta, email, telefon, mesaj } = data;
     const userEmail = ePosta || email;

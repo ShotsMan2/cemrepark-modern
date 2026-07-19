@@ -74,6 +74,7 @@ export const authOptions: NextAuthOptions = {
                 ipAddress,
                 userAgent,
                 success: false,
+                failureReason: "Invalid password",
               });
               
               return null;

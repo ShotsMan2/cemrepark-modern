@@ -1,31 +1,17 @@
 "use client";
 import { createContext, useContext, useState, useEffect } from "react";
-import { loadTranslation } from "../utils/translations";
-import Swal from "sweetalert2";
-
-const Toast = Swal.mixin({
-  toast: true,
-  position: "bottom-end",
-  showConfirmButton: false,
-  timer: 3000,
-  timerProgressBar: true,
-  background: "rgba(15, 15, 15, 0.95)",
-  color: "#fff",
-  iconColor: "#ff007f",
-  customClass: {
-    popup: "border border-[rgba(255,0,127,0.2)] rounded-xl backdrop-blur-md",
-  },
-});
+import { CartProvider, useCart } from "./CartContext";
+import { FavoritesProvider, useFavorites } from "./FavoritesContext";
+import { CurrencyProvider, useCurrency } from "./CurrencyContext";
+import { I18nProvider, useI18n } from "./I18nContext";
 
 const StoreContext = createContext();
 
-export function StoreProvider({ children }) {
-  const [cartItems, setCartItems] = useState([]);
-  const [favoriteItems, setFavoriteItems] = useState([]);
-  const [isLoaded, setIsLoaded] = useState(false);
-  const [language, setLanguage] = useState("TR");
-  const [currency, setCurrency] = useState("TL");
-  const [translations, setTranslations] = useState({});
+function StoreFacadeProvider({ children }) {
+  const { cartItems, isCartLoaded, addToCart, removeFromCart, clearCart, updateQuantity } = useCart();
+  const { favoriteItems, isFavoritesLoaded, addToFavorites, removeFromFavorites } = useFavorites();
+  const { currency, setCurrency, formatPrice, isCurrencyLoaded } = useCurrency();
+  const { language, setLanguage, t, isI18nLoaded } = useI18n();
 
   const [settings, setSettings] = useState({
     siteAdi: "Cemre Park",
@@ -38,21 +24,6 @@ export function StoreProvider({ children }) {
     bakimModu: false,
     ozelCss: "",
   });
-
-  // Load from localStorage on mount
-  useEffect(() => {
-    const savedCart = localStorage.getItem("cemrepark_cart");
-    const savedFavorites = localStorage.getItem("cemrepark_favorites");
-    const savedLang = localStorage.getItem("cemrepark_lang");
-    const savedCurr = localStorage.getItem("cemrepark_curr");
-
-    if (savedCart) setCartItems(JSON.parse(savedCart));
-    if (savedFavorites) setFavoriteItems(JSON.parse(savedFavorites));
-    if (savedLang) setLanguage(savedLang);
-    if (savedCurr) setCurrency(savedCurr);
-
-    setIsLoaded(true);
-  }, []);
 
   // Load settings from API
   useEffect(() => {
@@ -70,155 +41,7 @@ export function StoreProvider({ children }) {
     fetchSettings();
   }, []);
 
-  // Save to localStorage whenever items change
-  useEffect(() => {
-    if (isLoaded) {
-      localStorage.setItem("cemrepark_cart", JSON.stringify(cartItems));
-    }
-  }, [cartItems, isLoaded]);
-
-  useEffect(() => {
-    if (isLoaded) {
-      localStorage.setItem("cemrepark_favorites", JSON.stringify(favoriteItems));
-    }
-  }, [favoriteItems, isLoaded]);
-
-  // Load language dictionary dynamically
-  useEffect(() => {
-    let isMounted = true;
-    const loadLang = async () => {
-      const langData = await loadTranslation(language);
-      if (isMounted) {
-        setTranslations(prev => ({ ...prev, [language]: langData }));
-      }
-    };
-    loadLang();
-    return () => {
-      isMounted = false;
-    };
-  }, [language]);
-
-  useEffect(() => {
-    if (isLoaded) {
-      localStorage.setItem("cemrepark_lang", language);
-      localStorage.setItem("cemrepark_curr", currency);
-
-      // Handle RTL support for Arabic
-      if (language === "AR") {
-        document.documentElement.dir = "rtl";
-      } else {
-        document.documentElement.dir = "ltr";
-      }
-
-      // Update html lang attribute
-      document.documentElement.lang = language.toLowerCase();
-
-      // Handle Document Title dynamically
-      if (translations[language] && translations[language]["suits_you_well"]) {
-        document.title = "Cemre Park - " + translations[language]["suits_you_well"];
-      }
-    }
-  }, [language, currency, isLoaded, translations]);
-
-  const formatPrice = (priceInTL) => {
-    const numPrice = parseFloat(priceInTL) || 0;
-    if (currency === "USD") {
-      return (
-        (numPrice / 32).toLocaleString("en-US", {
-          minimumFractionDigits: 2,
-          maximumFractionDigits: 2,
-        }) + " $"
-      );
-    }
-    if (currency === "EUR") {
-      return (
-        (numPrice / 35).toLocaleString("en-IE", {
-          minimumFractionDigits: 2,
-          maximumFractionDigits: 2,
-        }) + " €"
-      );
-    }
-    return (
-      numPrice.toLocaleString("tr-TR", { minimumFractionDigits: 2, maximumFractionDigits: 2 }) +
-      " TL"
-    );
-  };
-
-  const t = (key, params = {}) => {
-    if (key === "badge_whatsapp_support_desc" && settings?.destekTelefonu) {
-      return settings.destekTelefonu;
-    }
-    let text = translations[language]?.[key] || key;
-    Object.keys(params).forEach((k) => {
-      text = text.replace(`{${k}}`, params[k]);
-    });
-    return text;
-  };
-
-  const addToCart = (product, beden, renk) => {
-    setCartItems((prev) => {
-      const existing = prev.find(
-        (item) => item.id === product.id && item.beden === beden && item.renk === renk
-      );
-      if (existing) {
-        return prev.map((item) =>
-          item.id === product.id && item.beden === beden && item.renk === renk
-            ? { ...item, quantity: item.quantity + 1 }
-            : item
-        );
-      }
-      return [...prev, { ...product, beden, renk, quantity: 1 }];
-    });
-
-    Toast.fire({
-      icon: "success",
-      title: `${product.ad} sepete eklendi!`,
-    });
-  };
-
-  const removeFromCart = (productId, beden, renk) => {
-    setCartItems((prev) =>
-      prev.filter((item) => !(item.id === productId && item.beden === beden && item.renk === renk))
-    );
-  };
-
-  const addToFavorites = (product) => {
-    setFavoriteItems((prev) => {
-      const existing = prev.find((item) => item.id === product.id);
-      if (existing) return prev; // Already in favorites
-      return [...prev, product];
-    });
-
-    Toast.fire({
-      icon: "success",
-      title: `${product.ad} favorilere eklendi!`,
-    });
-  };
-
-  const removeFromFavorites = (productId) => {
-    setFavoriteItems((prev) => prev.filter((item) => item.id !== productId));
-  };
-
-  const clearCart = () => {
-    setCartItems([]);
-    if (typeof window !== 'undefined') {
-      localStorage.removeItem('cemrepark_cart');
-    }
-  };
-
-  const updateQuantity = (productId, beden, renk, newQuantity) => {
-    if (newQuantity <= 0) {
-      removeFromCart(productId, beden, renk);
-      return;
-    }
-    setCartItems((prev) =>
-      prev.map((item) =>
-        item.id === productId && item.beden === beden && item.renk === renk
-          ? { ...item, quantity: newQuantity }
-          : item
-      )
-    );
-  };
+  const isLoaded = isCartLoaded && isFavoritesLoaded && isCurrencyLoaded && isI18nLoaded;
 
   return (
     <StoreContext.Provider
@@ -244,6 +67,34 @@ export function StoreProvider({ children }) {
     >
       {children}
     </StoreContext.Provider>
+  );
+}
+
+export function StoreProvider({ children }) {
+  const [settingsForI18n, setSettingsForI18n] = useState(null);
+
+  // We need to fetch settings at this level too if we want to pass them directly to I18nProvider, 
+  // or we can let StoreFacadeProvider handle settings and we just pass a simple context.
+  // Actually, I18nProvider takes settings as a prop for the t() function.
+  useEffect(() => {
+    fetch("/api/settings")
+      .then(res => res.ok ? res.json() : null)
+      .then(data => setSettingsForI18n(data))
+      .catch(() => {});
+  }, []);
+
+  return (
+    <CartProvider>
+      <FavoritesProvider>
+        <CurrencyProvider>
+          <I18nProvider settings={settingsForI18n}>
+            <StoreFacadeProvider>
+              {children}
+            </StoreFacadeProvider>
+          </I18nProvider>
+        </CurrencyProvider>
+      </FavoritesProvider>
+    </CartProvider>
   );
 }
 
