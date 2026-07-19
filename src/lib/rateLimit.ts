@@ -1,14 +1,19 @@
 import { LRUCache } from "lru-cache";
 
-export default function rateLimit(options) {
-  const tokenCache = new LRUCache({
+interface RateLimitOptions {
+  uniqueTokenPerInterval?: number;
+  interval?: number;
+}
+
+export default function rateLimit(options?: RateLimitOptions) {
+  const tokenCache = new LRUCache<string, number[]>({
     max: options?.uniqueTokenPerInterval || 500,
     ttl: options?.interval || 60000,
   });
 
   return {
-    check: (limit, token) =>
-      new Promise((resolve, reject) => {
+    check: (limit: number, token: string) =>
+      new Promise<void>((resolve, reject) => {
         const tokenCount = (tokenCache.get(token) || [0])[0];
         if (tokenCount === 0) {
           tokenCache.set(token, [1]);

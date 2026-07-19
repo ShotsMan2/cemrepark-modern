@@ -6,6 +6,8 @@ import { rateLimit } from "@/lib/rate-limit";
 
 export const dynamic = 'force-dynamic';
 
+import { fetchWithCache } from "@/lib/redis";
+
 export const GET = apiHandler(async (request: NextRequest) => {
   const ip = request.headers.get("x-forwarded-for") || "127.0.0.1";
   const { success } = await rateLimit(`products-get:${ip}`, 1000, 60); // 1000 requests per minute for dev
@@ -23,7 +25,28 @@ export const GET = apiHandler(async (request: NextRequest) => {
     categoryId: url.searchParams.get("categoryId") ? parseInt(url.searchParams.get("categoryId") as string, 10) : undefined,
   };
 
-  const products = await productService.getProducts(filters);
+  const page = url.searchParams.get("page");
+  if (page) {
+    const limit = url.searchParams.get("limit") ? parseInt(url.searchParams.get("limit") as string, 10) : 10;
+    const sortBy = url.searchParams.get("sortBy") || "id";
+    const sortOrder = url.searchParams.get("sortOrder") || "desc";
+    
+    const cacheKey = `products:paginated:${JSON.stringify(filters)}:page=${page}:limit=${limit}:sort=${sortBy}:${sortOrder}`;
+    
+    const paginatedResult = await fetchWithCache(
+      cacheKey,
+      () => productService.getProductsPaginated(filters, parseInt(page, 10), limit, sortBy, sortOrder),
+      300 // 5 minutes cache
+    );
+    return NextResponse.json(paginatedResult);
+  }
+
+  const cacheKey = `products:all:${JSON.stringify(filters)}`;
+  const products = await fetchWithCache(
+    cacheKey,
+    () => productService.getProducts(filters),
+    300 // 5 minutes cache
+  );
   return NextResponse.json(products);
 });
 

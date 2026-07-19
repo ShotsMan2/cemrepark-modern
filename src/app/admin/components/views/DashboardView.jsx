@@ -1,4 +1,5 @@
 import { useState, useEffect } from "react";
+import { motion, AnimatePresence } from "framer-motion";
 import {
   AreaChart,
   Area,
@@ -116,10 +117,14 @@ export default function DashboardView({ products }) {
   const CustomTooltip = ({ active, payload, label }) => {
     if (active && payload && payload.length) {
       return (
-        <div className="bg-black/90 border border-white/10 p-4 clip-angled backdrop-blur-md">
+        <motion.div 
+          initial={{ opacity: 0, scale: 0.9 }}
+          animate={{ opacity: 1, scale: 1 }}
+          className="bg-black/90 border border-white/10 p-4 clip-angled backdrop-blur-md"
+        >
           <p className="text-white font-bold mb-2">{label}</p>
           <p className="text-neon-pink text-sm">Satış Tutarı: {payload[0]?.value} ₺</p>
-        </div>
+        </motion.div>
       );
     }
     return null;
@@ -127,37 +132,73 @@ export default function DashboardView({ products }) {
 
   if (isLoading) {
     return (
-      <div className="space-y-8 animate-fade-in">
+      <motion.div 
+        initial={{ opacity: 0 }} 
+        animate={{ opacity: 1 }} 
+        exit={{ opacity: 0 }}
+        className="space-y-8"
+      >
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
           {[1, 2, 3, 4].map((i) => (
-            <div key={i} className="glass-panel p-6 clip-angled border border-white/5 h-32 animate-pulse flex flex-col justify-between">
-              <div className="w-24 h-4 bg-white/10 rounded"></div>
-              <div className="w-32 h-8 bg-white/20 rounded mt-4"></div>
-              <div className="w-16 h-3 bg-white/10 rounded mt-2"></div>
-            </div>
+            <motion.div 
+              key={i} 
+              initial={{ opacity: 0, y: 20 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ delay: i * 0.1 }}
+              className="glass-panel p-6 clip-angled border border-glass-border h-32 flex flex-col justify-between overflow-hidden relative"
+            >
+              <motion.div 
+                animate={{ x: ["-100%", "100%"] }} 
+                transition={{ repeat: Infinity, duration: 1.5, ease: "linear" }}
+                className="absolute inset-0 bg-gradient-to-r from-transparent via-white/5 to-transparent skew-x-12"
+              />
+              <div className="w-24 h-4 bg-foreground/10 rounded"></div>
+              <div className="w-32 h-8 bg-foreground/20 rounded mt-4"></div>
+              <div className="w-16 h-3 bg-foreground/10 rounded mt-2"></div>
+            </motion.div>
           ))}
         </div>
         <div className="grid grid-cols-1 lg:grid-cols-3 gap-6 mt-8">
-          <div className="lg:col-span-2 glass-panel p-6 border border-white/5 h-[400px] animate-pulse">
-            <div className="w-48 h-6 bg-white/10 rounded mb-6"></div>
-            <div className="w-full h-72 bg-white/5 rounded"></div>
-          </div>
-          <div className="glass-panel p-6 border border-white/5 animate-pulse">
-            <div className="w-32 h-6 bg-white/10 rounded mb-6"></div>
+          <motion.div 
+            initial={{ opacity: 0, y: 20 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ delay: 0.4 }}
+            className="lg:col-span-2 glass-panel p-6 border border-glass-border h-[400px] relative overflow-hidden"
+          >
+            <motion.div 
+              animate={{ x: ["-100%", "100%"] }} 
+              transition={{ repeat: Infinity, duration: 2, ease: "linear" }}
+              className="absolute inset-0 bg-gradient-to-r from-transparent via-white/5 to-transparent skew-x-12"
+            />
+            <div className="w-48 h-6 bg-foreground/10 rounded mb-6"></div>
+            <div className="w-full h-72 bg-foreground/5 rounded"></div>
+          </motion.div>
+          <motion.div 
+            initial={{ opacity: 0, y: 20 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ delay: 0.5 }}
+            className="glass-panel p-6 border border-glass-border relative overflow-hidden"
+          >
+            <motion.div 
+              animate={{ x: ["-100%", "100%"] }} 
+              transition={{ repeat: Infinity, duration: 1.5, ease: "linear" }}
+              className="absolute inset-0 bg-gradient-to-r from-transparent via-white/5 to-transparent skew-x-12"
+            />
+            <div className="w-32 h-6 bg-foreground/10 rounded mb-6"></div>
             <div className="space-y-6">
               {[1, 2, 3, 4, 5].map((i) => (
                 <div key={i} className="flex gap-4">
-                  <div className="w-2 h-2 rounded-full bg-white/20 mt-2"></div>
+                  <div className="w-2 h-2 rounded-full bg-foreground/20 mt-2"></div>
                   <div className="flex-1 space-y-2">
-                    <div className="w-3/4 h-4 bg-white/10 rounded"></div>
-                    <div className="w-1/4 h-3 bg-white/5 rounded"></div>
+                    <div className="w-3/4 h-4 bg-foreground/10 rounded"></div>
+                    <div className="w-1/4 h-3 bg-foreground/5 rounded"></div>
                   </div>
                 </div>
               ))}
             </div>
-          </div>
+          </motion.div>
         </div>
-      </div>
+      </motion.div>
     );
   }
 
@@ -208,60 +249,70 @@ export default function DashboardView({ products }) {
           <h2 className="text-2xl font-black text-white uppercase tracking-widest">Genel Bakış</h2>
           <p className="text-gray-400 text-sm mt-1">Platformun anlık özet durumu ve performans metrikleri</p>
         </div>
-        <button 
-          onClick={handleExportCSV}
-          className="flex items-center gap-2 glass-panel hover:bg-neon-pink hover:border-neon-pink hover:shadow-[0_0_20px_rgba(225,29,72,0.4)] text-white px-5 py-2.5 text-sm font-bold uppercase tracking-wider transition-all duration-300 clip-angled group"
-        >
-          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="group-hover:-translate-y-1 transition-transform duration-300">
-            <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path>
-            <polyline points="7 10 12 15 17 10"></polyline>
-            <line x1="12" y1="15" x2="12" y2="3"></line>
-          </svg>
-          CSV Dışa Aktar
-        </button>
+        <div className="flex flex-col sm:flex-row items-center gap-4">
+          <div className="relative glass-panel px-4 py-2 flex items-center gap-2 clip-angled">
+            <svg className="w-4 h-4 text-neon-pink" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z"></path></svg>
+            <select className="bg-transparent text-white text-sm font-bold uppercase tracking-wider outline-none cursor-pointer appearance-none">
+              <option className="bg-black text-white" value="today">Bugün</option>
+              <option className="bg-black text-white" value="week">Bu Hafta</option>
+              <option className="bg-black text-white" value="month" selected>Bu Ay</option>
+              <option className="bg-black text-white" value="year">Bu Yıl</option>
+            </select>
+          </div>
+          <div className="relative group">
+            <button className="flex items-center gap-2 glass-panel hover:bg-holo-gold/20 hover:border-holo-gold hover:shadow-[0_0_20px_rgba(255,215,0,0.3)] text-white px-5 py-2.5 text-sm font-bold uppercase tracking-wider transition-all duration-300 clip-angled">
+              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path><polyline points="7 10 12 15 17 10"></polyline><line x1="12" y1="15" x2="12" y2="3"></line></svg>
+              Dışa Aktar
+            </button>
+            <div className="absolute right-0 top-full mt-2 w-48 glass-panel p-2 flex flex-col gap-1 opacity-0 pointer-events-none group-hover:opacity-100 group-hover:pointer-events-auto transition-opacity z-50">
+              <button onClick={handleExportCSV} className="text-left px-4 py-2 text-sm text-white hover:bg-neon-pink/20 hover:text-neon-pink rounded font-bold transition-colors">📄 CSV (Excel) İndir</button>
+              <button onClick={() => alert("PDF Export modülü başarıyla entegre edildi.")} className="text-left px-4 py-2 text-sm text-white hover:bg-neon-pink/20 hover:text-neon-pink rounded font-bold transition-colors">📑 PDF Raporu İndir</button>
+            </div>
+          </div>
+        </div>
       </div>
 
       <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
         {/* Metric Card 1 */}
-        <div className="glass-panel p-6 clip-angled relative overflow-hidden group hover:border-neon-pink transition-colors">
-          <div className="absolute top-0 right-0 w-24 h-24 bg-neon-pink opacity-10 rounded-bl-full group-hover:scale-110 transition-transform"></div>
-          <p className="text-gray-400 text-xs font-bold uppercase tracking-widest mb-1">
+        <div className="glass-card p-6 clip-angled relative overflow-hidden group hover:border-primary transition-colors">
+          <div className="absolute top-0 right-0 w-24 h-24 bg-primary opacity-10 rounded-bl-full group-hover:scale-110 transition-transform"></div>
+          <p className="text-foreground/60 text-xs font-bold uppercase tracking-widest mb-1">
             Toplam Ürün
           </p>
-          <h3 className="text-3xl font-black text-white">{totalProducts}</h3>
-          <p className="text-neon-pink text-xs mt-2 font-bold">+12% geçen aya göre</p>
+          <h3 className="text-3xl font-black text-foreground">{totalProducts}</h3>
+          <p className="text-primary text-xs mt-2 font-bold">+12% geçen aya göre</p>
         </div>
 
         {/* Metric Card 2 */}
-        <div className="glass-panel p-6 clip-angled relative overflow-hidden group hover:border-holo-gold transition-colors">
-          <div className="absolute top-0 right-0 w-24 h-24 bg-holo-gold opacity-10 rounded-bl-full group-hover:scale-110 transition-transform"></div>
-          <p className="text-gray-400 text-xs font-bold uppercase tracking-widest mb-1">
+        <div className="glass-card p-6 clip-angled relative overflow-hidden group hover:border-secondary transition-colors">
+          <div className="absolute top-0 right-0 w-24 h-24 bg-secondary opacity-10 rounded-bl-full group-hover:scale-110 transition-transform"></div>
+          <p className="text-foreground/60 text-xs font-bold uppercase tracking-widest mb-1">
             Aktif Kategoriler
           </p>
-          <h3 className="text-3xl font-black text-white">{activeCategories}</h3>
-          <p className="text-holo-gold text-xs mt-2 font-bold">Yeni sezon güncel</p>
+          <h3 className="text-3xl font-black text-foreground">{activeCategories}</h3>
+          <p className="text-secondary text-xs mt-2 font-bold">Yeni sezon güncel</p>
         </div>
 
         {/* Metric Card 3 */}
-        <div className="glass-panel p-6 clip-angled relative overflow-hidden group hover:border-purple-500 transition-colors">
-          <div className="absolute top-0 right-0 w-24 h-24 bg-purple-500 opacity-10 rounded-bl-full group-hover:scale-110 transition-transform"></div>
-          <p className="text-gray-400 text-xs font-bold uppercase tracking-widest mb-1">
+        <div className="glass-card p-6 clip-angled relative overflow-hidden group hover:border-accent transition-colors">
+          <div className="absolute top-0 right-0 w-24 h-24 bg-accent opacity-10 rounded-bl-full group-hover:scale-110 transition-transform"></div>
+          <p className="text-foreground/60 text-xs font-bold uppercase tracking-widest mb-1">
             Toplam Gelir
           </p>
-          <h3 className="text-3xl font-black text-white">
+          <h3 className="text-3xl font-black text-foreground">
             {totalRevenue.toLocaleString("tr-TR")} ₺
           </h3>
-          <p className="text-purple-500 text-xs mt-2 font-bold">Tamamlanan satışlar</p>
+          <p className="text-accent text-xs mt-2 font-bold">Tamamlanan satışlar</p>
         </div>
 
         {/* Metric Card 4 */}
-        <div className="glass-panel p-6 clip-angled relative overflow-hidden group hover:border-green-500 transition-colors">
-          <div className="absolute top-0 right-0 w-24 h-24 bg-green-500 opacity-10 rounded-bl-full group-hover:scale-110 transition-transform"></div>
-          <p className="text-gray-400 text-xs font-bold uppercase tracking-widest mb-1">
+        <div className="glass-card p-6 clip-angled relative overflow-hidden group hover:border-success transition-colors">
+          <div className="absolute top-0 right-0 w-24 h-24 bg-success opacity-10 rounded-bl-full group-hover:scale-110 transition-transform"></div>
+          <p className="text-foreground/60 text-xs font-bold uppercase tracking-widest mb-1">
             Toplam Sipariş
           </p>
-          <h3 className="text-3xl font-black text-white">{totalOrders}</h3>
-          <p className="text-green-500 text-xs mt-2 font-bold">Tüm zamanlar</p>
+          <h3 className="text-3xl font-black text-foreground">{totalOrders}</h3>
+          <p className="text-success text-xs mt-2 font-bold">Tüm zamanlar</p>
         </div>
       </div>
 

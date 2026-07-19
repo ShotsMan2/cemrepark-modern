@@ -1,31 +1,66 @@
 import Redis from 'ioredis';
 
-const globalForRedis = global as unknown as { redis: Redis };
+const globalForRedis = global as unknown as { redis: Redis | null };
 
 const redisUrl = process.env.REDIS_URL || 'redis://localhost:6379';
 
-export const redis =
-  globalForRedis.redis ||
-  new Redis(redisUrl, {
-    maxRetriesPerRequest: 1,
-    connectTimeout: 2000,
-    enableOfflineQueue: false,
-    retryStrategy(times) {
-      if (times > 3) {
-        return null;
-      }
-      return Math.min(times * 50, 2000);
-    },
-  });
+let _redis: Redis | null = null;
 
-if (process.env.NODE_ENV !== 'production') globalForRedis.redis = redis;
-
-redis.on('error', (err: any) => {
-  if (err.code === 'ECONNREFUSED' || err.code === 'ECONNRESET') {
-    // Ignore expected connection errors if Redis is not running locally
-    return;
+function getRedis(): Redis {
+  if (_redis && _redis.status !== 'end') return _redis;
+  if (globalForRedis.redis && globalForRedis.redis.status !== 'end') {
+    _redis = globalForRedis.redis;
+    return _redis;
   }
-  console.error('Redis Client Error:', err.message || err);
+
+  try {
+    _redis = new Redis(redisUrl, {
+      maxRetriesPerRequest: 1,
+      connectTimeout: 2000,
+      enableOfflineQueue: false,
+      lazyConnect: true,
+      retryStrategy(times) {
+        if (times > 3) {
+          return null;
+        }
+        return Math.min(times * 50, 2000);
+      },
+    });
+
+    _redis.on('error', (err: any) => {
+      if (err.code === 'ECONNREFUSED' || err.code === 'ECONNRESET') {
+        return;
+      }
+      console.error('Redis Client Error:', err.message || err);
+    });
+
+    _redis.connect().catch(() => {});
+
+    if (process.env.NODE_ENV !== 'production') {
+      globalForRedis.redis = _redis;
+    }
+  } catch {
+    // Redis unavailable - return a no-op stub
+    _redis = null as any;
+  }
+
+  return _redis!;
+}
+
+export const redis = new Proxy({} as Redis, {
+  get(_target, prop) {
+    const instance = getRedis();
+    if (!instance) {
+      // Return no-op functions for common Redis methods
+      return (..._args: any[]) => {
+        if (prop === 'get' || prop === 'scan') return Promise.resolve(null);
+        if (prop === 'status') return 'disconnected';
+        return Promise.resolve(null);
+      };
+    }
+    const val = (instance as any)[prop];
+    return typeof val === 'function' ? val.bind(instance) : val;
+  },
 });
 
 export const cacheGet = async (key: string) => {

@@ -85,6 +85,11 @@ export default async function UrunDetay({ params }) {
     image: imageUrl.startsWith("http") ? imageUrl : `${baseUrl}${imageUrl}`,
     description: `${product.ad} - Cemre Park online mağazasında inceleyin.`,
     sku: product.id.toString(),
+    mpn: product.id.toString(),
+    brand: {
+      "@type": "Brand",
+      name: "Cemre Park"
+    },
     offers: {
       "@type": "Offer",
       url: `${baseUrl}/urundetay/${product.id}`,
@@ -95,6 +100,26 @@ export default async function UrunDetay({ params }) {
       itemCondition: "https://schema.org/NewCondition",
     },
   };
+
+  if (reviews && reviews.length > 0) {
+    const avgRating = reviews.reduce((acc, rev) => acc + rev.rating, 0) / reviews.length;
+    jsonLd.aggregateRating = {
+      "@type": "AggregateRating",
+      ratingValue: avgRating.toFixed(1),
+      reviewCount: reviews.length,
+    };
+    jsonLd.review = reviews.map((r) => ({
+      "@type": "Review",
+      reviewRating: {
+        "@type": "Rating",
+        ratingValue: r.rating,
+      },
+      author: {
+        "@type": "Person",
+        name: r.user?.name || "Anonim",
+      },
+    }));
+  }
 
   return (
     <>

@@ -321,13 +321,14 @@ export default function ProductDetailsClient({
             <div className="flex gap-3 mb-8">
               <button
                 onClick={handleAddToCart}
-                className="flex-1 bg-transparent border border-neon-pink text-neon-pink hover:bg-neon-pink hover:text-white py-4 px-8 uppercase font-bold tracking-widest transition-all duration-300 clip-angled text-sm"
+                className="flex-1 bg-transparent border border-primary text-primary hover:bg-primary hover:text-white py-4 px-8 uppercase font-bold tracking-widest transition-all duration-300 clip-angled text-sm shadow-subtle hover:shadow-[0_0_20px_hsla(var(--primary),0.5)] group relative overflow-hidden"
               >
-                {t("add_to_cart")}
+                <span className="relative z-10">{t("add_to_cart")}</span>
+                <div className="absolute inset-0 bg-primary transform scale-x-0 origin-left group-hover:scale-x-100 transition-transform duration-300 ease-out z-0"></div>
               </button>
               <FavoriteButton
                 product={product}
-                className="w-16 flex items-center justify-center border border-gray-300 dark:border-gray-700 hover:border-neon-pink transition-all duration-300 clip-angled"
+                className="w-16 flex items-center justify-center border border-glass-border hover:border-primary text-foreground/70 hover:text-primary transition-all duration-300 clip-angled hover:shadow-[0_0_15px_hsla(var(--primary),0.3)]"
               />
             </div>
 
@@ -528,44 +529,44 @@ export default function ProductDetailsClient({
                 <Link
                   href={`/urundetay/${rp.id}`}
                   key={rp.id}
-                  className="group relative block glass-panel p-2 clip-angled transition-all hover:border-black/20 dark:hover:border-white/20"
+                  className="group relative block glass-card p-3 clip-angled transition-all hover:border-primary/40 overflow-hidden"
                 >
                   <div className="relative h-48 md:h-60 w-full overflow-hidden clip-angled mb-3 transform-gpu">
-                    <div className="absolute inset-0 bg-black/20 group-hover:bg-transparent transition-colors z-10"></div>
+                    <div className="absolute inset-0 bg-black/10 group-hover:bg-transparent transition-colors z-10"></div>
                     <Image
                       src={getValidImageUrl(rp.resim || rp.gorsel?.split(',')[0])}
                       alt={rp.ad}
                       fill
                       sizes="(max-width: 768px) 50vw, (max-width: 1200px) 25vw, 25vw"
-                      className="object-cover group-hover:scale-110 transition-transform duration-700"
+                      className="object-cover group-hover:scale-110 transition-transform duration-700 ease-out"
                     />
                     {rp.etiket && (
                       <div className="absolute top-2 left-2 z-20">
-                        <span className="text-[10px] font-bold uppercase tracking-widest bg-white text-black px-2 py-1">
+                        <span className="text-[10px] font-bold uppercase tracking-widest bg-background/90 backdrop-blur-md text-foreground px-3 py-1 border border-glass-border shadow-sm">
                           {t(rp.etiket)}
                         </span>
                       </div>
                     )}
 
                     {/* Quick View Button - appears on hover */}
-                    <div className="absolute bottom-4 left-0 w-full px-4 flex justify-center opacity-0 group-hover:opacity-100 transition-all duration-300 translate-y-4 group-hover:translate-y-0 z-30">
+                    <div className="absolute bottom-4 left-0 w-full px-4 flex justify-center opacity-0 group-hover:opacity-100 transition-all duration-500 translate-y-4 group-hover:translate-y-0 z-30">
                       <button
                         onClick={(e) => {
                           e.preventDefault(); // Prevent navigating to product details page
                           setQuickViewProduct(rp);
                         }}
-                        className="text-xs uppercase tracking-widest font-bold text-white hover:text-neon-pink transition-colors mt-1 bg-black/60 px-6 py-3 rounded-full backdrop-blur-md touch-manipulation shadow-lg border border-white/10"
+                        className="text-xs uppercase tracking-widest font-bold text-foreground hover:text-white transition-colors mt-1 bg-background/70 hover:bg-primary px-6 py-3 rounded-full backdrop-blur-md touch-manipulation shadow-lg border border-glass-border w-full hover:shadow-[0_0_15px_hsla(var(--primary),0.5)]"
                       >
                         {t("quick_view")}
                       </button>
                     </div>
                   </div>
-                  <div className="p-2">
-                    <p className="text-gray-500 dark:text-gray-400 text-[10px] uppercase tracking-widest mb-1">
+                  <div className="p-2 z-20 relative">
+                    <p className="text-foreground/50 text-[10px] uppercase tracking-widest mb-1">
                       {t(rp.kategori)}
                     </p>
-                    <h4 className="text-gray-900 dark:text-white font-bold text-sm truncate mb-2">{t(rp.ad)}</h4>
-                    <p className="text-neon-pink font-bold text-sm">{formatPrice(rp.fiyat)}</p>
+                    <h4 className="text-foreground font-bold text-sm truncate mb-2 group-hover:text-primary transition-colors">{t(rp.ad)}</h4>
+                    <p className="text-primary font-bold text-sm">{formatPrice(rp.fiyat)}</p>
                   </div>
                 </Link>
               ))}
