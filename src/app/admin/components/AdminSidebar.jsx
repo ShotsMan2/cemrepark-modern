@@ -10,6 +10,8 @@ export default function AdminSidebar({ activeTab, setActiveTab, isOpen, setIsOpe
     { id: "coupons", label: "Kuponlar", icon: "M15 5v2m0 4v2m0 4v2M5 5a2 2 0 00-2 2v3a2 2 0 110 4v3a2 2 0 002 2h14a2 2 0 002-2v-3a2 2 0 110-4V7a2 2 0 00-2-2H5z" },
     { id: "ai-support", label: "AI Destek", icon: "M9.75 17L9 20l-1 1h8l-1-1-.75-3M3 13h18M5 17h14a2 2 0 002-2V5a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z" },
     { id: "security", label: "Güvenlik", icon: "M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z" },
+    { id: "audit-logs", label: "Sistem Logları", href: "/admin/audit-logs", isSubItem: true },
+    { id: "login-history", label: "Oturum Geçmişi", href: "/admin/login-history", isSubItem: true },
     { id: "settings", label: "Ayarlar", icon: "M10.325 4.317c.426-1.756 2.924-1.756 3.35 0a1.724 1.724 0 002.573 1.066c1.543-.94 3.31.826 2.37 2.37a1.724 1.724 0 001.065 2.572c1.756.426 1.756 2.924 0 3.35a1.724 1.724 0 00-1.066 2.573c.94 1.543-.826 3.31-2.37 2.37a1.724 1.724 0 00-2.572 1.065c-.426 1.756-2.924 1.756-3.35 0a1.724 1.724 0 00-2.573-1.066c-1.543.94-3.31-.826-2.37-2.37a1.724 1.724 0 00-1.065-2.572c-1.756-.426-1.756-2.924 0-3.35a1.724 1.724 0 001.066-2.573c-.94-1.543.826-3.31 2.37-2.37.996.608 2.296.07 2.572-1.065z" },
   ];
 
@@ -50,30 +52,57 @@ export default function AdminSidebar({ activeTab, setActiveTab, isOpen, setIsOpe
           </a>
 
           <nav className="flex-1 space-y-1 overflow-y-auto no-scrollbar pb-4 pr-2">
-            {menuItems.map((item) => (
-              <button
-                key={item.id}
-                onClick={() => {
-                  setActiveTab(item.id);
-                  setIsOpen(false);
-                }}
-                className={`w-full flex items-center gap-4 px-4 py-3 text-sm font-bold uppercase tracking-wider transition-all duration-300 clip-angled group ${
-                  activeTab === item.id 
-                    ? "bg-primary text-white shadow-[0_0_15px_hsla(var(--primary),0.4)]" 
-                    : "text-foreground/70 hover:text-foreground hover:bg-primary/10"
-                }`}
-              >
-                <svg
-                  className={`w-5 h-5 transition-transform duration-300 ${activeTab === item.id ? "scale-110" : "group-hover:scale-110 group-hover:text-primary"}`}
-                  fill="none"
-                  stroke="currentColor"
-                  viewBox="0 0 24 24"
+            {menuItems.map((item) => {
+              const isActive = activeTab === item.id || (typeof window !== "undefined" && window.location.pathname === item.href);
+              
+              const itemContent = (
+                <>
+                  {item.icon && (
+                    <svg
+                      className={`w-5 h-5 transition-transform duration-300 ${isActive ? "scale-110" : "group-hover:scale-110 group-hover:text-primary"}`}
+                      fill="none"
+                      stroke="currentColor"
+                      viewBox="0 0 24 24"
+                    >
+                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d={item.icon} />
+                    </svg>
+                  )}
+                  {item.label}
+                </>
+              );
+
+              const className = `w-full flex items-center gap-4 px-4 py-3 text-sm font-bold uppercase tracking-wider transition-all duration-300 group ${
+                item.isSubItem ? "pl-12 border-l-2 border-transparent hover:border-primary text-xs" : "clip-angled"
+              } ${
+                isActive 
+                  ? (item.isSubItem ? "text-primary border-primary bg-primary/5" : "bg-primary text-white shadow-[0_0_15px_hsla(var(--primary),0.4)]") 
+                  : "text-foreground/70 hover:text-foreground hover:bg-primary/10"
+              }`;
+
+              if (item.href) {
+                return (
+                  <a key={item.id} href={item.href} className={className}>
+                    {itemContent}
+                  </a>
+                );
+              }
+
+              return (
+                <button
+                  key={item.id}
+                  onClick={() => {
+                    if (setActiveTab) setActiveTab(item.id);
+                    if (setIsOpen) setIsOpen(false);
+                    if (typeof window !== "undefined" && window.location.pathname !== "/admin") {
+                       window.location.href = "/admin";
+                    }
+                  }}
+                  className={className}
                 >
-                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d={item.icon} />
-                </svg>
-                {item.label}
-              </button>
-            ))}
+                  {itemContent}
+                </button>
+              );
+            })}
           </nav>
 
           <div className="mt-4 pt-4 border-t border-glass-border">

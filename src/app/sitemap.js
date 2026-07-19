@@ -1,13 +1,15 @@
-import { PrismaClient } from "@prisma/client";
-
-const prisma = new PrismaClient();
+import prisma from "@/lib/prisma";
 
 export default async function sitemap() {
   const baseUrl = process.env.NEXT_PUBLIC_BASE_URL || "http://localhost:3000";
 
   // Fetch data
   const products = await prisma.product.findMany({
-    select: { id: true },
+    select: { id: true, updatedAt: true },
+  });
+
+  const categories = await prisma.category.findMany({
+    select: { slug: true, updatedAt: true },
   });
 
   const pages = await prisma.page.findMany({
@@ -16,7 +18,14 @@ export default async function sitemap() {
 
   const productUrls = products.map((product) => ({
     url: `${baseUrl}/urundetay/${product.id}`,
-    lastModified: new Date(),
+    lastModified: product.updatedAt,
+    changeFrequency: "weekly",
+    priority: 0.8,
+  }));
+
+  const categoryUrls = categories.map((cat) => ({
+    url: `${baseUrl}/search?category=${cat.slug}`,
+    lastModified: cat.updatedAt,
     changeFrequency: "weekly",
     priority: 0.8,
   }));
@@ -36,12 +45,16 @@ export default async function sitemap() {
     "/favorites",
     "/hesabim",
     "/hesabim/siparislerim",
+    "/login",
+    "/register",
+    "/forgot-password",
+    "/kurumsal"
   ].map((route) => ({
     url: `${baseUrl}${route}`,
     lastModified: new Date(),
-    changeFrequency: "daily",
+    changeFrequency: route === "" ? "daily" : "weekly",
     priority: route === "" ? 1 : 0.6,
   }));
 
-  return [...routes, ...productUrls, ...pageUrls];
+  return [...routes, ...categoryUrls, ...productUrls, ...pageUrls];
 }

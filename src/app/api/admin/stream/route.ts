@@ -1,9 +1,13 @@
 import { logger } from '@/lib/logger';
 import { NextRequest } from "next/server";
+import { checkAdminAndLog } from "@/lib/adminAuth";
 
 export const dynamic = "force-dynamic";
 
 export async function GET(request: NextRequest) {
+  const { errorResponse } = await checkAdminAndLog(request, "STREAM_CONNECT", "SSE bağlantısı kuruldu");
+  if (errorResponse) return errorResponse;
+
   let intervalId: NodeJS.Timeout;
 
   const stream = new ReadableStream({

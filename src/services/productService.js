@@ -59,6 +59,59 @@ class ProductService {
     }
   }
 
+  async getProductsPaginated(filters = {}, page = 1, limit = 10, sortBy = "id", sortOrder = "desc") {
+    try {
+      const { search, category, minPrice, maxPrice, color, categoryId } = filters;
+      const whereClause = {};
+
+      if (search) {
+        whereClause.ad = { contains: search }; 
+      }
+      if (category && category !== 'all') {
+        whereClause.kategori = category;
+      }
+      if (categoryId !== undefined) {
+        whereClause.categoryId = categoryId;
+      }
+      if (minPrice !== undefined || maxPrice !== undefined) {
+        whereClause.fiyat = {};
+        if (minPrice !== undefined) whereClause.fiyat.gte = minPrice;
+        if (maxPrice !== undefined) whereClause.fiyat.lte = maxPrice;
+      }
+      if (color) {
+        whereClause.renk = color; 
+      }
+
+      const skip = (page - 1) * limit;
+
+      const [products, total] = await Promise.all([
+        prisma.product.findMany({
+          where: whereClause,
+          skip,
+          take: limit,
+          orderBy: { [sortBy]: sortOrder },
+          include: {
+            variants: true,
+            colors: true,
+            category: true,
+          }
+        }),
+        prisma.product.count({ where: whereClause })
+      ]);
+
+      return {
+        data: products,
+        total,
+        page,
+        limit,
+        totalPages: Math.ceil(total / limit)
+      };
+    } catch (error) {
+      logger.error("Failed to fetch paginated products from DB", { error: error.message });
+      return { data: [], total: 0, page, limit, totalPages: 0 };
+    }
+  }
+
   async addProduct(productData) {
     await cacheDel(CACHE_KEY_PRODUCTS);
     await cacheDel(CACHE_KEY_CATEGORIES);

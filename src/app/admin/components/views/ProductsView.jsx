@@ -3,8 +3,6 @@ import Image from "next/image";
 import Swal from "sweetalert2";
 
 export default function ProductsView({
-  products,
-  isLoading,
   formData,
   editingId,
   handleInputChange,
@@ -19,27 +17,55 @@ export default function ProductsView({
   const [isUploading, setIsUploading] = useState(false);
   const fileInputRef = useRef(null);
 
-  const categories = ["all", ...new Set(products.map((p) => p.kategori?.trim()).filter(Boolean))];
-
-  const filteredProducts = products.filter((product) => {
-    const matchesSearch =
-      product.ad.toLowerCase().includes(searchTerm.toLowerCase()) ||
-      (product.kategori && product.kategori.toLowerCase().includes(searchTerm.toLowerCase()));
-    const matchesCategory =
-      selectedCat === "all" ||
-      (product.kategori && product.kategori.trim().toLowerCase() === selectedCat.toLowerCase());
-    return matchesSearch && matchesCategory;
-  });
-
+  const [productsData, setProductsData] = useState([]);
+  const [totalProducts, setTotalProducts] = useState(0);
+  const [totalPages, setTotalPages] = useState(1);
   const [currentPage, setCurrentPage] = useState(1);
-  useEffect(() => { setCurrentPage(1); }, [searchTerm, selectedCat]);
-
+  const [isLoading, setIsLoading] = useState(false);
+  
   const itemsPerPage = 8;
-  const totalPages = Math.ceil(filteredProducts.length / itemsPerPage);
-  const paginatedProducts = filteredProducts.slice((currentPage - 1) * itemsPerPage, currentPage * itemsPerPage);
+  const [categories, setCategories] = useState(["all"]);
+
+  useEffect(() => {
+    fetchProducts();
+  }, [currentPage, searchTerm, selectedCat]);
+
+  const fetchProducts = async () => {
+    setIsLoading(true);
+    try {
+      const query = new URLSearchParams({
+        page: currentPage,
+        limit: itemsPerPage,
+      });
+      if (searchTerm) query.append("search", searchTerm);
+      if (selectedCat && selectedCat !== "all") query.append("category", selectedCat);
+
+      const res = await fetch(`/api/products?${query.toString()}`);
+      if (res.ok) {
+        const data = await res.json();
+        setProductsData(data.data || []);
+        setTotalProducts(data.total || 0);
+        setTotalPages(data.totalPages || 1);
+      }
+      
+      // Fetch categories once if not loaded
+      if (categories.length === 1) {
+        const allRes = await fetch("/api/products");
+        if (allRes.ok) {
+           const allData = await allRes.json();
+           const cats = ["all", ...new Set((Array.isArray(allData) ? allData : []).map((p) => p.kategori?.trim()).filter(Boolean))];
+           setCategories(cats);
+        }
+      }
+    } catch (error) {
+      console.error("Failed to fetch paginated products:", error);
+    } finally {
+      setIsLoading(false);
+    }
+  };
 
   const handleSelectAll = (e) => {
-    if (e.target.checked) setSelectedProducts(paginatedProducts.map(p => p.id));
+    if (e.target.checked) setSelectedProducts(productsData.map(p => p.id));
     else setSelectedProducts([]);
   };
 
@@ -182,7 +208,7 @@ export default function ProductsView({
           <div className="flex flex-col md:flex-row justify-between items-start md:items-center gap-4 mb-6 border-b border-glass-border pb-4">
             <div className="flex items-center gap-3">
               <h2 className="text-xl font-bold text-foreground uppercase tracking-wider">
-                Tüm Ürünler <span className="text-sm text-foreground/50 ml-1">({filteredProducts.length})</span>
+                Tüm Ürünler <span className="text-sm text-foreground/50 ml-1">({totalProducts})</span>
               </h2>
               {selectedProducts.length > 0 && (
                 <span className="bg-primary/20 text-primary text-xs font-bold px-2 py-1 rounded animate-fade-in">
@@ -233,7 +259,7 @@ export default function ProductsView({
                 <thead>
                   <tr className="border-b border-glass-border bg-foreground/5 text-foreground/60 text-xs uppercase tracking-widest">
                     <th className="p-3 w-10 text-center">
-                      <input type="checkbox" onChange={handleSelectAll} checked={selectedProducts.length === paginatedProducts.length && paginatedProducts.length > 0} className="accent-primary" />
+                      <input type="checkbox" onChange={handleSelectAll} checked={selectedProducts.length === productsData.length && productsData.length > 0} className="accent-primary" />
                     </th>
                     <th className="p-3 font-bold w-16 text-center">Görsel</th>
                     <th className="p-3 font-bold">Ürün Adı</th>
@@ -243,7 +269,7 @@ export default function ProductsView({
                   </tr>
                 </thead>
                 <tbody className="divide-y divide-glass-border">
-                  {paginatedProducts.map((product) => (
+                  {productsData.map((product) => (
                     <tr key={product.id} className="hover:bg-foreground/5 transition-colors group">
                       <td className="p-3 text-center">
                         <input type="checkbox" checked={selectedProducts.includes(product.id)} onChange={() => handleSelectProduct(product.id)} className="accent-primary" />
@@ -293,7 +319,7 @@ export default function ProductsView({
                       </td>
                     </tr>
                   ))}
-                  {paginatedProducts.length === 0 && (
+                  {productsData.length === 0 && (
                     <tr>
                       <td colSpan="6" className="p-8 text-center text-foreground/50">Ürün bulunamadı.</td>
                     </tr>
@@ -306,7 +332,7 @@ export default function ProductsView({
           {/* Pagination Controls */}
           {!isLoading && totalPages > 1 && (
             <div className="border-t border-glass-border pt-4 mt-auto flex justify-between items-center text-foreground/50 text-xs uppercase tracking-widest">
-              <span>{filteredProducts.length} Ürün Listeleniyor</span>
+              <span>{totalProducts} Ürün Listeleniyor</span>
               <div className="flex gap-1">
                 <button
                   onClick={() => setCurrentPage((prev) => Math.max(prev - 1, 1))}

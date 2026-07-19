@@ -146,7 +146,7 @@ h1, h2, h3, h4, h5, h6 {
 /* ==========================================================================
    Glassmorphism System
    ========================================================================== */
-.glass-panel {
+@utility glass-panel {
   background: var(--glass-bg);
   backdrop-filter: blur(24px) saturate(180%);
   -webkit-backdrop-filter: blur(24px) saturate(180%);
@@ -154,7 +154,7 @@ h1, h2, h3, h4, h5, h6 {
   box-shadow: var(--shadow-subtle);
 }
 
-.glass-card {
+@utility glass-card {
   background: linear-gradient(135deg, var(--glass-card-grad1), var(--glass-card-grad2));
   backdrop-filter: blur(16px) saturate(150%);
   -webkit-backdrop-filter: blur(16px) saturate(150%);
@@ -171,7 +171,7 @@ h1, h2, h3, h4, h5, h6 {
 }
 
 /* High-end frosted glass (e.g., sticky headers, modals) */
-.glass-frosted {
+@utility glass-frosted {
   background: rgba(255, 255, 255, 0.4);
   backdrop-filter: blur(30px) saturate(200%);
   -webkit-backdrop-filter: blur(30px) saturate(200%);
