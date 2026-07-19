@@ -95,7 +95,7 @@ export default function AdminDashboard({ onLogout }) {
 
   const handleEdit = (product) => {
     setFormData({
-      ad: product.ad, fiyat: product.fiyat, gorsel: product.gorsel || product.resim1 || "",
+      ad: product.ad, fiyat: product.fiyat, gorsel: product.gorsel || product.resim || "",
       etiket: product.etiket || "", kategori: product.kategori || "", renk: product.renk || "", beden: product.beden || "",
     });
     setEditingId(product.id);
@@ -136,7 +136,7 @@ export default function AdminDashboard({ onLogout }) {
 
   const renderView = () => {
     switch (activeTab) {
-      case "dashboard": return <DashboardView products={products} />;
+      case "dashboard": return <DashboardView products={products} setActiveTab={setActiveTab} />;
       case "products": return <ProductsView products={products} isLoading={isLoading} formData={formData} editingId={editingId} handleInputChange={handleInputChange} handleSubmit={handleSubmit} handleEdit={handleEdit} handleDelete={handleDelete} cancelEdit={cancelEdit} />;
       case "orders": return <OrdersView />;
       case "customers": return <CustomersView />;
@@ -147,7 +147,7 @@ export default function AdminDashboard({ onLogout }) {
       case "coupons": return <CouponsView />;
       case "ai-support": return <AISupportView />;
       case "security": return <SecurityView />;
-      default: return <DashboardView products={products} />;
+      default: return <DashboardView products={products} setActiveTab={setActiveTab} />;
     }
   };
 

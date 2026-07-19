@@ -16,9 +16,6 @@ export function AIChatWidget() {
   const [isLoading, setIsLoading] = useState(false);
   const messagesEndRef = useRef<HTMLDivElement>(null);
 
-  // Hide on admin pages
-  if (pathname?.startsWith("/admin")) return null;
-
   const scrollToBottom = () => {
     messagesEndRef.current?.scrollIntoView({ behavior: "smooth" });
   };
@@ -26,6 +23,9 @@ export function AIChatWidget() {
   useEffect(() => {
     scrollToBottom();
   }, [messages, isOpen]);
+
+  // Hide on admin pages
+  if (pathname?.startsWith("/admin")) return null;
 
   const sendMessage = async (text: string) => {
     if (!text.trim()) return;

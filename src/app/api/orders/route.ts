@@ -26,6 +26,25 @@ export const GET = apiHandler(async (req: Request) => {
   return NextResponse.json(orders);
 });
 
+import { z } from "zod";
+
+const orderSchema = z.object({
+  customer: z.string().min(1, "Customer name is required"),
+  userId: z.number().optional().nullable(),
+  total: z.number().min(0, "Total must be non-negative"),
+  items: z.array(
+    z.object({
+      productId: z.number(),
+      quantity: z.number().min(1),
+      price: z.number().min(0),
+    })
+  ).optional(),
+  couponCode: z.string().optional().nullable(),
+  discountAmount: z.number().optional().nullable(),
+  trackingNumber: z.string().optional().nullable(),
+  carrier: z.string().optional().nullable(),
+});
+
 export const POST = apiHandler(async (req: Request) => {
   const ip = req.headers.get("x-forwarded-for") || "127.0.0.1";
   const { success } = await rateLimit(ip, 20, 60); // 20 requests per minute
@@ -35,13 +54,6 @@ export const POST = apiHandler(async (req: Request) => {
 
   const body = await req.json();
   const { customer, userId, total, items, couponCode, discountAmount, trackingNumber, carrier } = body;
-  
-  if (!customer) {
-    const error = new Error("Customer name is required") as any;
-    error.statusCode = 400;
-    error.isOperational = true;
-    throw error;
-  }
 
   const newOrder = await orderService.createOrder(
     { customer, userId, total, couponCode, discountAmount, trackingNumber, carrier } as any,
@@ -61,7 +73,7 @@ export const POST = apiHandler(async (req: Request) => {
   }
 
   return NextResponse.json(newOrder, { status: 201 });
-});
+}, orderSchema);
 
 export const PATCH = apiHandler(async (req: Request) => {
   const ip = req.headers.get("x-forwarded-for") || "127.0.0.1";

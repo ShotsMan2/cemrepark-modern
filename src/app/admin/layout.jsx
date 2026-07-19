@@ -1,6 +1,4 @@
-import { getServerSession } from "next-auth/next";
-import { authOptions } from "@/lib/authOptions";
-import { redirect } from "next/navigation";
+import AdminShell from "./components/AdminShell";
 
 export const metadata = {
   title: "Admin Panel - Cemre Park",
@@ -83,7 +81,7 @@ export default async function AdminLayout({ children }) {
       `,
         }}
       />
-      {children}
+      <AdminShell>{children}</AdminShell>
     </div>
   );
 }

@@ -14,7 +14,10 @@ import {
   CartesianGrid,
   BarChart,
   Bar,
-  Legend
+  Legend,
+  LineChart,
+  Line,
+  ComposedChart
 } from "recharts";
 
 const PIE_COLORS = ["#d61c7b", "#d97706", "#e83d8b", "#f59e0b", "#f06292", "#fbbf24"];
@@ -78,35 +81,65 @@ export default function DashboardAnalytics() {
 
   return (
     <div className="space-y-6 mt-8 animate-fade-in">
-      {/* Top row: Revenue Area Chart */}
-      <div className="glass-panel p-6 md:p-8 clip-angled relative border border-white/5 w-full">
-        <div className="flex justify-between items-center mb-6">
-          <div>
-            <h3 className="text-white font-bold uppercase tracking-widest text-lg">Gelir Analizi (Son 7 Gün)</h3>
-            <p className="text-gray-500 text-xs">Günlük satış hacmi trendleri</p>
+      {/* Top row: Revenue and Orders Charts */}
+      <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
+        {/* Revenue Area Chart */}
+        <div className="glass-panel p-6 md:p-8 clip-angled relative border border-white/5 w-full">
+          <div className="flex justify-between items-center mb-6">
+            <div>
+              <h3 className="text-white font-bold uppercase tracking-widest text-lg">Gelir Analizi (Son 7 Gün)</h3>
+              <p className="text-gray-500 text-xs">Günlük satış hacmi trendleri</p>
+            </div>
+            <div className="text-right">
+              <p className="text-primary font-black text-2xl">₺{data.revenue?.toLocaleString("tr-TR")}</p>
+              <p className="text-gray-500 text-xs uppercase tracking-widest">Toplam Gelir</p>
+            </div>
           </div>
-          <div className="text-right">
-            <p className="text-primary font-black text-2xl">₺{data.revenue?.toLocaleString("tr-TR")}</p>
-            <p className="text-gray-500 text-xs uppercase tracking-widest">Toplam Gelir</p>
+          
+          <div className="h-[300px] w-full">
+            <ResponsiveContainer width="100%" height="100%">
+              <AreaChart data={data.salesOverTime || []} margin={{ top: 10, right: 10, left: 0, bottom: 0 }}>
+                <defs>
+                  <linearGradient id="colorTotal" x1="0" y1="0" x2="0" y2="1">
+                    <stop offset="5%" stopColor="#d61c7b" stopOpacity={0.8}/>
+                    <stop offset="95%" stopColor="#d61c7b" stopOpacity={0}/>
+                  </linearGradient>
+                </defs>
+                <CartesianGrid strokeDasharray="3 3" stroke="rgba(255,255,255,0.05)" vertical={false} />
+                <XAxis dataKey="name" stroke="#6b7280" fontSize={12} tickLine={false} axisLine={false} />
+                <YAxis stroke="#6b7280" fontSize={12} tickLine={false} axisLine={false} tickFormatter={(value) => `₺${value}`} />
+                <Tooltip content={<CustomTooltip />} />
+                <Area type="monotone" dataKey="total" name="Gelir" stroke="#d61c7b" strokeWidth={3} fillOpacity={1} fill="url(#colorTotal)" />
+              </AreaChart>
+            </ResponsiveContainer>
           </div>
         </div>
-        
-        <div className="h-[300px] w-full">
-          <ResponsiveContainer width="100%" height="100%">
-            <AreaChart data={data.salesOverTime || []} margin={{ top: 10, right: 10, left: 0, bottom: 0 }}>
-              <defs>
-                <linearGradient id="colorTotal" x1="0" y1="0" x2="0" y2="1">
-                  <stop offset="5%" stopColor="#d61c7b" stopOpacity={0.8}/>
-                  <stop offset="95%" stopColor="#d61c7b" stopOpacity={0}/>
-                </linearGradient>
-              </defs>
-              <CartesianGrid strokeDasharray="3 3" stroke="rgba(255,255,255,0.05)" vertical={false} />
-              <XAxis dataKey="name" stroke="#6b7280" fontSize={12} tickLine={false} axisLine={false} />
-              <YAxis stroke="#6b7280" fontSize={12} tickLine={false} axisLine={false} tickFormatter={(value) => `₺${value}`} />
-              <Tooltip content={<CustomTooltip />} />
-                <Area type="monotone" dataKey="total" name="Gelir" stroke="#d61c7b" strokeWidth={3} fillOpacity={1} fill="url(#colorTotal)" />
-            </AreaChart>
-          </ResponsiveContainer>
+
+        {/* Orders Bar/Line Chart */}
+        <div className="glass-panel p-6 md:p-8 clip-angled relative border border-white/5 w-full">
+          <div className="flex justify-between items-center mb-6">
+            <div>
+              <h3 className="text-white font-bold uppercase tracking-widest text-lg">Sipariş Trendi (Son 7 Gün)</h3>
+              <p className="text-gray-500 text-xs">Günlük sipariş adetleri</p>
+            </div>
+            <div className="text-right">
+              <p className="text-[#00ffff] font-black text-2xl">{data.orders?.toLocaleString("tr-TR")}</p>
+              <p className="text-gray-500 text-xs uppercase tracking-widest">Toplam Sipariş</p>
+            </div>
+          </div>
+          
+          <div className="h-[300px] w-full">
+            <ResponsiveContainer width="100%" height="100%">
+              <ComposedChart data={data.salesOverTime || []} margin={{ top: 10, right: 10, left: -20, bottom: 0 }}>
+                <CartesianGrid strokeDasharray="3 3" stroke="rgba(255,255,255,0.05)" vertical={false} />
+                <XAxis dataKey="name" stroke="#6b7280" fontSize={12} tickLine={false} axisLine={false} />
+                <YAxis stroke="#6b7280" fontSize={12} tickLine={false} axisLine={false} />
+                <Tooltip content={<CustomTooltip />} />
+                <Bar dataKey="orders" name="Sipariş Adedi" fill="#00ffff" radius={[4, 4, 0, 0]} barSize={30} />
+                <Line type="monotone" dataKey="orders" name="Trend" stroke="#f59e0b" strokeWidth={2} dot={{ r: 4, fill: "#f59e0b" }} />
+              </ComposedChart>
+            </ResponsiveContainer>
+          </div>
         </div>
       </div>
 
