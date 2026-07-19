@@ -24,34 +24,54 @@ export default function OrdersView() {
 
   const orderStatuses = ["Beklemede", "Onaylandı", "Hazırlanıyor", "Kargolandı", "Teslim Edildi", "İptal"];
 
+  const [totalPages, setTotalPages] = useState(1);
+  const [totalOrders, setTotalOrders] = useState(0);
+
   useEffect(() => {
     fetchOrders();
-  }, []);
+  }, [currentPage, activeTab, searchTerm]);
 
   const fetchOrders = async () => {
     setLoading(true);
     try {
-      const res = await fetch("/api/orders");
+      const query = new URLSearchParams({
+        page: currentPage,
+        limit: itemsPerPage,
+      });
+      if (searchTerm) query.append("search", searchTerm);
+      if (activeTab !== "Tümü") query.append("status", activeTab);
+
+      const res = await fetch(`/api/orders?${query.toString()}`);
       if (res.ok) {
-        const data = await res.json();
+        const result = await res.json();
+        
+        // Handle both paginated and non-paginated responses gracefully during transition
+        const data = result.data || result;
+        const total = result.total || data.length;
+        
         const mappedOrders = data.map((o) => ({
           id: o.id.toString(),
           musteri: o.customer || "Bilinmiyor",
           tarih: new Date(o.createdAt).toLocaleDateString("tr-TR"),
           tarihRaw: new Date(o.createdAt),
           tutar: `${o.total} ₺`,
-          durum: o.status === "Bekliyor" ? "Beklemede" : o.status, // normalise
-          odeme: o.paymentStatus || "Ödendi", // Mock payment status if not present
+          durum: o.status === "Bekliyor" ? "Beklemede" : o.status,
+          odeme: o.paymentStatus || "Ödendi",
           ...getStatusStyles(o.status === "Bekliyor" ? "Beklemede" : o.status)
         }));
         setOrders(mappedOrders);
+        setTotalPages(result.totalPages || Math.ceil(data.length / itemsPerPage) || 1);
+        setTotalOrders(total);
       } else {
-        // Mock data fallback if API is not fully set up
         setOrders(getMockOrders());
+        setTotalPages(3);
+        setTotalOrders(25);
       }
     } catch (err) {
       console.error(err);
       setOrders(getMockOrders());
+      setTotalPages(3);
+      setTotalOrders(25);
     } finally {
       setLoading(false);
     }
@@ -70,7 +90,7 @@ export default function OrdersView() {
   };
 
   const getMockOrders = () => {
-    return Array.from({ length: 25 }).map((_, i) => {
+    return Array.from({ length: itemsPerPage }).map((_, i) => {
       const st = orderStatuses[Math.floor(Math.random() * orderStatuses.length)];
       return {
         id: `SIP-${1000 + i}`,
@@ -98,20 +118,18 @@ export default function OrdersView() {
 
     if (result.isConfirmed) {
       try {
-        const res = await fetch(`/api/orders/${id}`, {
+        const res = await fetch(`/api/orders`, {
           method: "PATCH",
           headers: { "Content-Type": "application/json" },
-          body: JSON.stringify({ status: newStatus }),
+          body: JSON.stringify({ id: Number(id), status: newStatus }),
         });
         
-        // Mock UI update anyway
-        setOrders(prev => prev.map(o => o.id === id ? { ...o, durum: newStatus, ...getStatusStyles(newStatus) } : o));
-        
-        if (selectedOrder && selectedOrder.id === id) {
-          setSelectedOrder(prev => ({ ...prev, durum: newStatus, ...getStatusStyles(newStatus) }));
+        if (res.ok) {
+          fetchOrders();
+          if (showMessage) Swal.fire("Başarılı", "Sipariş durumu güncellendi", "success");
+        } else {
+           Swal.fire("Hata", "Güncelleme başarısız", "error");
         }
-
-        if (showMessage) Swal.fire("Başarılı", "Sipariş durumu güncellendi", "success");
       } catch (err) {
         Swal.fire("Hata", "Güncelleme başarısız", "error");
       }
@@ -132,37 +150,26 @@ export default function OrdersView() {
     });
 
     if (result.isConfirmed) {
-      setOrders(prev => prev.map(o => selectedOrdersIds.includes(o.id) ? { ...o, durum: bulkStatus, ...getStatusStyles(bulkStatus) } : o));
-      Swal.fire("Başarılı", "Seçili siparişler güncellendi", "success");
-      setSelectedOrdersIds([]);
-      setBulkStatus("");
+      try {
+        await fetch(`/api/orders`, {
+          method: "PATCH",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({ orderIds: selectedOrdersIds.map(Number), status: bulkStatus }),
+        });
+        fetchOrders();
+        Swal.fire("Başarılı", "Seçili siparişler güncellendi", "success");
+        setSelectedOrdersIds([]);
+        setBulkStatus("");
+      } catch (e) {
+        Swal.fire("Hata", "Toplu güncelleme başarısız", "error");
+      }
     }
   };
 
-  // Filtering
-  const filteredOrders = orders.filter((o) => {
-    const matchesTab = activeTab === "Tümü" || o.durum === activeTab;
-    const matchesSearch = o.id.toLowerCase().includes(searchTerm.toLowerCase()) || o.musteri.toLowerCase().includes(searchTerm.toLowerCase());
-    const matchesPayment = paymentFilter === "Tümü" || o.odeme === paymentFilter;
-    
-    let matchesDate = true;
-    if (dateRange.start) {
-      matchesDate = matchesDate && o.tarihRaw >= new Date(dateRange.start);
-    }
-    if (dateRange.end) {
-      const endD = new Date(dateRange.end);
-      endD.setHours(23, 59, 59, 999);
-      matchesDate = matchesDate && o.tarihRaw <= endD;
-    }
-
-    return matchesTab && matchesSearch && matchesPayment && matchesDate;
-  });
-
-  const totalPages = Math.ceil(filteredOrders.length / itemsPerPage);
-  const paginatedOrders = filteredOrders.slice((currentPage - 1) * itemsPerPage, currentPage * itemsPerPage);
+  const paginatedOrders = orders;
 
   const handleExport = () => {
-    const dataToExport = filteredOrders.map(o => `"${o.id}","${o.musteri}","${o.tarih}","${o.tutar}","${o.durum}","${o.odeme}"`);
+    const dataToExport = paginatedOrders.map(o => `"${o.id}","${o.musteri}","${o.tarih}","${o.tutar}","${o.durum}","${o.odeme}"`);
     const csv = ["Sipariş No,Müşteri,Tarih,Tutar,Durum,Ödeme Durumu", ...dataToExport].join("\n");
     const blob = new Blob([csv], { type: "text/csv;charset=utf-8;" });
     const link = document.createElement("a");
@@ -202,7 +209,7 @@ export default function OrdersView() {
             </p>
           </div>
           <button onClick={handleExport} className="bg-primary hover:bg-secondary text-white font-bold py-2 px-6 uppercase tracking-widest text-sm transition-colors clip-angled shadow-[0_0_15px_hsla(var(--primary),0.3)] flex items-center gap-2">
-            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4M7 10l5 5 5-5M12 15V3"/></svg>
+            <svg width={} height={} viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth={}><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4M7 10l5 5 5-5M12 15V3"/></svg>
             Dışa Aktar
           </button>
         </div>
@@ -241,7 +248,7 @@ export default function OrdersView() {
         {/* Filters */}
         <div className="flex flex-wrap items-center gap-3 w-full lg:w-auto">
           <div className="relative">
-            <svg className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-foreground/50" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"></path></svg>
+            <svg className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-foreground/50" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={} d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"></path></svg>
             <input type="text" placeholder="Sipariş No, Müşteri..." value={searchTerm} onChange={(e) => setSearchTerm(e.target.value)} className="bg-background border border-glass-border text-foreground pl-9 pr-4 py-1.5 focus:outline-none focus:border-primary text-sm w-48 transition-colors" />
           </div>
           
@@ -322,7 +329,7 @@ export default function OrdersView() {
         {/* Pagination */}
         {totalPages > 0 && (
           <div className="border-t border-glass-border p-4 flex justify-between items-center text-foreground/50 text-xs uppercase tracking-wider bg-foreground/5 mt-auto">
-            <span>{filteredOrders.length} Sipariş Listeleniyor</span>
+            <span>{totalOrders} Sipariş Listeleniyor</span>
             <div className="flex gap-2">
               <button onClick={() => setCurrentPage(prev => Math.max(prev - 1, 1))} disabled={currentPage === 1} className="px-3 py-1.5 border border-glass-border hover:border-primary hover:text-primary transition-colors disabled:opacity-30">
                 &lt; Önceki
@@ -354,7 +361,7 @@ export default function OrdersView() {
                 <p className="text-foreground/50 text-sm">{selectedOrder.id} • {selectedOrder.tarih}</p>
               </div>
               <button onClick={() => setSelectedOrder(null)} className="w-8 h-8 flex items-center justify-center bg-foreground/10 hover:bg-danger hover:text-white transition-colors rounded">
-                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2"><line x1="18" y1="6" x2="6" y2="18"></line><line x1="6" y1="6" x2="18" y2="18"></line></svg>
+                <svg width={} height={} viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth={}><line x1="18" y1="6" x2="6" y2="18"></line><line x1="6" y1="6" x2="18" y2="18"></line></svg>
               </button>
             </div>
 
@@ -375,7 +382,7 @@ export default function OrdersView() {
                       return (
                         <div key={st} className="flex flex-col items-center gap-2 bg-background p-1">
                           <div className={`w-6 h-6 rounded-full flex items-center justify-center border-2 ${isActive ? 'bg-primary border-primary text-white shadow-[0_0_10px_hsla(var(--primary),0.5)]' : 'bg-background border-glass-border text-foreground/30'} ${isCurrent ? 'ring-4 ring-primary/20' : ''}`}>
-                            {isActive ? <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="3"><polyline points="20 6 9 17 4 12"></polyline></svg> : <div className="w-2 h-2 rounded-full bg-foreground/20"></div>}
+                            {isActive ? <svg width={} height={} viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth={}><polyline points="20 6 9 17 4 12"></polyline></svg> : <div className="w-2 h-2 rounded-full bg-foreground/20"></div>}
                           </div>
                           <span className={`text-[10px] uppercase font-bold tracking-widest ${isActive ? 'text-primary' : 'text-foreground/50'}`}>{st}</span>
                         </div>
@@ -393,7 +400,7 @@ export default function OrdersView() {
                         <div className="w-16 h-20 bg-foreground/10 relative overflow-hidden rounded border border-glass-border">
                           {/* Placeholder image logic */}
                           <div className="absolute inset-0 flex items-center justify-center text-foreground/20">
-                            <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2"><rect x="3" y="3" width="18" height="18" rx="2" ry="2"/><circle cx="8.5" cy="8.5" r="1.5"/><polyline points="21 15 16 10 5 21"/></svg>
+                            <svg width={} height={} viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth={}><rect x="3" y="3" width={} height={} rx="2" ry="2"/><circle cx="8.5" cy="8.5" r="1.5"/><polyline points="21 15 16 10 5 21"/></svg>
                           </div>
                         </div>
                         <div className="flex-1">
@@ -494,7 +501,7 @@ export default function OrdersView() {
             {/* Modal Footer */}
             <div className="p-4 border-t border-glass-border bg-background flex justify-between items-center">
               <button onClick={() => window.print()} className="bg-foreground/5 hover:bg-foreground/10 text-foreground px-6 py-2 uppercase tracking-widest text-xs font-bold transition-colors border border-glass-border flex items-center gap-2">
-                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2"><polyline points="6 9 6 2 18 2 18 9"></polyline><path d="M6 18H4a2 2 0 0 1-2-2v-5a2 2 0 0 1 2-2h16a2 2 0 0 1 2 2v5a2 2 0 0 1-2 2h-2"></path><rect x="6" y="14" width="12" height="8"></rect></svg>
+                <svg width={} height={} viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth={}><polyline points="6 9 6 2 18 2 18 9"></polyline><path d="M6 18H4a2 2 0 0 1-2-2v-5a2 2 0 0 1 2-2h16a2 2 0 0 1 2 2v5a2 2 0 0 1-2 2h-2"></path><rect x="6" y="14" width={} height={}></rect></svg>
                 Fatura Yazdır
               </button>
               <button onClick={() => setSelectedOrder(null)} className="bg-primary hover:bg-secondary text-white px-8 py-2 uppercase tracking-widest text-xs font-bold transition-colors clip-angled">

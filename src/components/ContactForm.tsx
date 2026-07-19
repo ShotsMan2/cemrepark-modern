@@ -2,7 +2,7 @@
 import React, { useState } from "react";
 import { Input, Textarea } from "./ui/Input";
 import { Button } from "./ui/Button";
-import Swal from "sweetalert2";
+import { showToast, showErrorToast } from "../utils/toast";
 
 export default function ContactForm() {
   const [adSoyad, setAdSoyad] = useState("");
@@ -23,32 +23,12 @@ export default function ContactForm() {
       });
 
       if (res.ok) {
-        if (typeof window !== "undefined" && Swal) {
-          Swal.fire({
-            icon: "success",
-            title: "Mesajınız Alındı!",
-            text: "En kısa sürede size dönüş yapacağız.",
-            confirmButtonColor: "#ff007f",
-            background: "#111",
-            color: "#fff",
-          });
-        } else {
-          alert("Mesajınız Alındı! En kısa sürede size dönüş yapacağız.");
-        }
+        showToast("Mesajınız Alındı! En kısa sürede dönüş yapacağız.");
         setAdSoyad("");
         setEPosta("");
         setMesaj("");
       } else {
-        if (typeof window !== "undefined" && Swal) {
-          Swal.fire({
-            icon: "error",
-            title: "Hata",
-            text: "Mesaj gönderilirken bir hata oluştu.",
-            confirmButtonColor: "#ff007f",
-            background: "#111",
-            color: "#fff",
-          });
-        }
+        showErrorToast("Mesaj gönderilirken bir hata oluştu.");
       }
     } catch (error) {
       console.error("Mesaj gönderilirken hata oluştu:", error);

@@ -3,15 +3,7 @@ import Image from "next/image";
 import Swal from "sweetalert2";
 import { getValidImageUrl } from "@/utils/imageHelper";
 
-export default function ProductsView({
-  formData,
-  editingId,
-  handleInputChange,
-  handleSubmit,
-  handleEdit,
-  handleDelete,
-  cancelEdit,
-}) {
+export default function ProductsView({ formData, editingId, handleInputChange, handleSubmit, handleEdit, handleDelete, cancelEdit, products, isLoading }: any) {
   // Pagination & Fetch State
   const [productsData, setProductsData] = useState([]);
   const [totalProducts, setTotalProducts] = useState(0);
@@ -233,7 +225,7 @@ export default function ProductsView({
                Ürün Yönetimi <span className="text-sm text-foreground/50 ml-1">({totalProducts} Ürün)</span>
              </h2>
              <button onClick={exportCSV} className="bg-foreground/5 border border-glass-border hover:bg-primary hover:text-white px-3 py-1.5 text-xs font-bold uppercase tracking-widest transition-colors flex items-center gap-2">
-               <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4M7 10l5 5 5-5M12 15V3"/></svg>
+               <svg width={} height={} viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth={}><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4M7 10l5 5 5-5M12 15V3"/></svg>
                CSV İndir
              </button>
           </div>
@@ -354,7 +346,7 @@ export default function ProductsView({
                       <label className="block text-foreground/70 text-xs font-bold mb-1 uppercase flex justify-between">
                         <span>Görsel URL *</span>
                         <button type="button" onClick={() => fileInputRef.current?.click()} className="text-primary hover:text-secondary flex items-center gap-1 transition-colors">
-                          <svg className="w-3 h-3" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-8l-4-4m0 0L8 8m4-4v12"></path></svg>
+                          <svg className="w-3 h-3" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={} d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-8l-4-4m0 0L8 8m4-4v12"></path></svg>
                           Yükle
                         </button>
                       </label>
@@ -369,7 +361,7 @@ export default function ProductsView({
                             <div className="mt-2 flex gap-2">
                               <div className="w-16 h-16 rounded overflow-hidden border border-glass-border relative">
                                 {/* eslint-disable-next-line @next/next/no-img-element */}
-                                <img src={formData.gorsel} alt="preview" className="w-full h-full object-cover" onError={(e) => e.target.style.display='none'} />
+                                <img src={formData.gorsel} alt="preview" className="w-full h-full object-cover" onError={(e) => (e.target as HTMLElement).style.display = "none"} />
                               </div>
                             </div>
                           )}
@@ -430,10 +422,10 @@ export default function ProductsView({
               
               <div className="flex gap-2">
                 <button onClick={() => setViewMode('grid')} className={`p-1.5 border ${viewMode === 'grid' ? 'border-primary text-primary' : 'border-glass-border text-foreground/50'}`}>
-                  <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2"><rect x="3" y="3" width="7" height="7"/><rect x="14" y="3" width="7" height="7"/><rect x="14" y="14" width="7" height="7"/><rect x="3" y="14" width="7" height="7"/></svg>
+                  <svg width={} height={} viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth={}><rect x="3" y="3" width={} height={}/><rect x="14" y="3" width={} height={}/><rect x="14" y="14" width={} height={}/><rect x="3" y="14" width={} height={}/></svg>
                 </button>
                 <button onClick={() => setViewMode('list')} className={`p-1.5 border ${viewMode === 'list' ? 'border-primary text-primary' : 'border-glass-border text-foreground/50'}`}>
-                  <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2"><line x1="8" y1="6" x2="21" y2="6"/><line x1="8" y1="12" x2="21" y2="12"/><line x1="8" y1="18" x2="21" y2="18"/><line x1="3" y1="6" x2="3.01" y2="6"/><line x1="3" y1="12" x2="3.01" y2="12"/><line x1="3" y1="18" x2="3.01" y2="18"/></svg>
+                  <svg width={} height={} viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth={}><line x1="8" y1="6" x2="21" y2="6"/><line x1="8" y1="12" x2="21" y2="12"/><line x1="8" y1="18" x2="21" y2="18"/><line x1="3" y1="6" x2="3.01" y2="6"/><line x1="3" y1="12" x2="3.01" y2="12"/><line x1="3" y1="18" x2="3.01" y2="18"/></svg>
                 </button>
               </div>
             </div>
@@ -502,10 +494,10 @@ export default function ProductsView({
                           <td className="p-3 text-right">
                             <div className="flex justify-end gap-2 opacity-50 group-hover:opacity-100 transition-opacity">
                               <button onClick={() => handleEdit(product)} className="w-8 h-8 rounded bg-foreground/5 hover:bg-primary hover:text-white flex items-center justify-center transition-colors text-foreground" title="Düzenle">
-                                <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M11 4H4a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-7"></path><path d="M18.5 2.5a2.121 2.121 0 0 1 3 3L12 15l-4 1 1-4 9.5-9.5z"></path></svg>
+                                <svg width={} height={} viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth={} strokeLinecap="round" strokeLinejoin="round"><path d="M11 4H4a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-7"></path><path d="M18.5 2.5a2.121 2.121 0 0 1 3 3L12 15l-4 1 1-4 9.5-9.5z"></path></svg>
                               </button>
                               <button onClick={() => handleDelete(product.id)} className="w-8 h-8 rounded bg-foreground/5 hover:bg-danger hover:text-white flex items-center justify-center transition-colors text-foreground" title="Sil">
-                                <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><polyline points="3 6 5 6 21 6"></polyline><path d="M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6m3 0V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2"></path><line x1="10" y1="11" x2="10" y2="17"></line><line x1="14" y1="11" x2="14" y2="17"></line></svg>
+                                <svg width={} height={} viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth={} strokeLinecap="round" strokeLinejoin="round"><polyline points="3 6 5 6 21 6"></polyline><path d="M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6m3 0V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2"></path><line x1="10" y1="11" x2="10" y2="17"></line><line x1="14" y1="11" x2="14" y2="17"></line></svg>
                               </button>
                             </div>
                           </td>
@@ -539,7 +531,7 @@ export default function ProductsView({
                         <div className="flex gap-2">
                           <button onClick={() => handleEdit(product)} className="flex-1 text-xs bg-foreground/10 hover:bg-primary py-1.5 transition-colors font-bold uppercase text-center">Düzenle</button>
                           <button onClick={() => handleDelete(product.id)} className="w-8 flex items-center justify-center bg-foreground/10 hover:bg-danger text-danger hover:text-white transition-colors">
-                            <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2"><path d="M3 6h18M19 6v14a2 2 0 01-2 2H7a2 2 0 01-2-2V6m3 0V4a2 2 0 012-2h4a2 2 0 012 2v2"/></svg>
+                            <svg width={} height={} viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth={}><path d="M3 6h18M19 6v14a2 2 0 01-2 2H7a2 2 0 01-2-2V6m3 0V4a2 2 0 012-2h4a2 2 0 012 2v2"/></svg>
                           </button>
                         </div>
                       </div>
@@ -555,13 +547,13 @@ export default function ProductsView({
                 <span>{totalProducts} Ürün Listeleniyor</span>
                 <div className="flex gap-1">
                   <button onClick={() => setCurrentPage((prev) => Math.max(prev - 1, 1))} disabled={currentPage === 1} className="w-8 h-8 flex items-center justify-center border border-glass-border hover:border-primary hover:text-primary transition-colors disabled:opacity-30 disabled:hover:border-glass-border disabled:hover:text-foreground/50">
-                    <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2"><path d="M15 18l-6-6 6-6"/></svg>
+                    <svg width={} height={} viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth={}><path d="M15 18l-6-6 6-6"/></svg>
                   </button>
                   <span className="h-8 px-4 flex items-center justify-center bg-foreground/5 text-foreground font-bold">
                     {currentPage} / {totalPages}
                   </span>
                   <button onClick={() => setCurrentPage((prev) => Math.min(prev + 1, totalPages))} disabled={currentPage === totalPages} className="w-8 h-8 flex items-center justify-center border border-glass-border hover:border-primary hover:text-primary transition-colors disabled:opacity-30 disabled:hover:border-glass-border disabled:hover:text-foreground/50">
-                    <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2"><path d="M9 18l6-6-6-6"/></svg>
+                    <svg width={} height={} viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth={}><path d="M9 18l6-6-6-6"/></svg>
                   </button>
                 </div>
               </div>

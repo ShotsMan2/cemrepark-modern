@@ -3,8 +3,12 @@ import { prisma } from './prisma';
 export interface AuditLogParams {
   action: string;
   userId?: number | null;
+  entity?: string | null;
+  entityId?: string | null;
   details?: string | null;
+  changes?: string | null;
   ipAddress?: string | null;
+  userAgent?: string | null;
 }
 
 export interface LoginHistoryParams {
@@ -12,6 +16,7 @@ export interface LoginHistoryParams {
   ipAddress?: string | null;
   userAgent?: string | null;
   success: boolean;
+  failureReason?: string | null;
 }
 
 /**
@@ -23,16 +28,24 @@ export interface LoginHistoryParams {
 export async function logAuditAction({
   action,
   userId,
+  entity,
+  entityId,
   details,
+  changes,
   ipAddress,
+  userAgent,
 }: AuditLogParams): Promise<void> {
   try {
     await prisma.auditLog.create({
       data: {
         action,
         userId: userId ?? null,
+        entity: entity ?? null,
+        entityId: entityId ?? null,
         details: details ?? null,
+        changes: changes ?? null,
         ipAddress: ipAddress ?? null,
+        userAgent: userAgent ?? null,
       },
     });
   } catch (error) {
@@ -51,6 +64,7 @@ export async function logLoginHistory({
   ipAddress,
   userAgent,
   success,
+  failureReason,
 }: LoginHistoryParams): Promise<void> {
   try {
     await prisma.loginHistory.create({
@@ -59,6 +73,7 @@ export async function logLoginHistory({
         ipAddress: ipAddress ?? null,
         userAgent: userAgent ?? null,
         success,
+        failureReason: failureReason ?? null,
       },
     });
   } catch (error) {

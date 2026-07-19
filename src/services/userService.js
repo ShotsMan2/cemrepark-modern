@@ -16,8 +16,58 @@ class UserService {
       },
       orderBy: {
         createdAt: "desc",
-      },
     });
+  }
+
+  async getUsersPaginated(filters = {}, page = 1, limit = 10, sortBy = "createdAt", sortOrder = "desc") {
+    try {
+      const { search, role } = filters;
+      const whereClause = {};
+
+      if (search) {
+        whereClause.OR = [
+          { name: { contains: search } },
+          { email: { contains: search } }
+        ];
+      }
+
+      if (role && role !== 'all') {
+        whereClause.role = role;
+      }
+
+      const skip = (page - 1) * limit;
+
+      const [users, total] = await Promise.all([
+        prisma.user.findMany({
+          where: whereClause,
+          skip,
+          take: limit,
+          orderBy: { [sortBy]: sortOrder },
+          select: {
+            id: true,
+            name: true,
+            email: true,
+            role: true,
+            createdAt: true,
+            _count: {
+              select: { orders: true, reviews: true },
+            },
+          }
+        }),
+        prisma.user.count({ where: whereClause })
+      ]);
+
+      return {
+        data: users,
+        total,
+        page,
+        limit,
+        totalPages: Math.ceil(total / limit)
+      };
+    } catch (error) {
+      console.error("Failed to fetch paginated users from DB", { error: error.message });
+      return { data: [], total: 0, page, limit, totalPages: 0 };
+    }
   }
 
   async registerUser(email, password, name, ip) {

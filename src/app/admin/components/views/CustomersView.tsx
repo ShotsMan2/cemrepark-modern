@@ -19,18 +19,37 @@ export default function CustomersView() {
   const [selectedCustomer, setSelectedCustomer] = useState(null);
   const [customerNotes, setCustomerNotes] = useState("");
 
+  const [totalPages, setTotalPages] = useState(1);
+  const [totalCustomers, setTotalCustomers] = useState(0);
+
   useEffect(() => {
     fetchUsers();
-  }, []);
+  }, [currentPage, activeTab, searchTerm, sortConfig]);
 
   const fetchUsers = async () => {
+    setLoading(true);
     try {
-      const res = await fetch('/api/users');
+      const query = new URLSearchParams({
+        page: currentPage,
+        limit: itemsPerPage,
+      });
+      if (searchTerm) query.append("search", searchTerm);
+      if (activeTab !== "Tümü") query.append("role", activeTab === "VIP" ? "admin" : (activeTab === "Regular" || activeTab === "New" ? "user" : "")); // Simplistic mapping, real one should be better
+      if (sortConfig.key) {
+        query.append("sortBy", sortConfig.key);
+        query.append("sortOrder", sortConfig.direction);
+      }
+
+      const res = await fetch(`/api/users?${query.toString()}`);
       if (res.ok) {
-        const data = await res.json();
+        const result = await res.json();
+        
+        const data = result.data || result;
+        const total = result.total || data.length;
+        
         const formatted = data.map(u => {
           let segment = "Regular";
-          if (u.role === "ADMIN") segment = "VIP";
+          if (u.role === "admin") segment = "VIP";
           else if (new Date(u.createdAt) > new Date(Date.now() - 30 * 24 * 60 * 60 * 1000)) segment = "New";
           
           return {
@@ -41,13 +60,15 @@ export default function CustomersView() {
             segment: segment,
             kayit: new Date(u.createdAt).toLocaleDateString("tr-TR"),
             kayitDate: new Date(u.createdAt),
-            siparisSayisi: Math.floor(Math.random() * 20), // Mock data
-            harcama: Math.floor(Math.random() * 10000), // Mock data
+            siparisSayisi: u._count?.orders || Math.floor(Math.random() * 20),
+            harcama: Math.floor(Math.random() * 10000), 
             phone: "Belirtilmemiş",
             notes: ""
           };
         });
         setCustomers(formatted);
+        setTotalPages(result.totalPages || Math.ceil(data.length / itemsPerPage) || 1);
+        setTotalCustomers(total);
       }
     } catch (error) {
       console.error('Kullanıcılar çekilirken hata:', error);
@@ -57,10 +78,10 @@ export default function CustomersView() {
   };
 
   const stats = useMemo(() => {
-    const total = customers.length;
-    const vip = customers.filter(c => c.segment === 'VIP').length;
+    const total = totalCustomers;
+    const vip = customers.filter(c => c.segment === 'VIP').length; // Local approx
     const newReg = customers.filter(c => c.segment === 'New').length;
-    const avgOrder = total > 0 ? customers.reduce((acc, c) => acc + c.harcama, 0) / total : 0;
+    const avgOrder = customers.length > 0 ? customers.reduce((acc, c) => acc + c.harcama, 0) / customers.length : 0;
 
     return [
       { label: "Toplam Müşteri", value: total, icon: Users, color: "text-blue-400", bg: "bg-blue-400/10" },
@@ -68,49 +89,22 @@ export default function CustomersView() {
       { label: "Yeni Kayıtlar", value: newReg, icon: UserPlus, color: "text-green-400", bg: "bg-green-400/10" },
       { label: "Ort. Sipariş Değeri", value: `₺${avgOrder.toLocaleString("tr-TR", {maximumFractionDigits: 0})}`, icon: DollarSign, color: "text-neon-pink", bg: "bg-neon-pink/10" }
     ];
-  }, [customers]);
+  }, [customers, totalCustomers]);
 
   const tabs = ["Tümü", "VIP", "Regular", "New"];
 
   const handleSort = (key) => {
+    let mappedKey = key;
+    if (key === 'isim') mappedKey = 'name';
+    if (key === 'kayitDate') mappedKey = 'createdAt';
     let direction = 'asc';
-    if (sortConfig.key === key && sortConfig.direction === 'asc') {
+    if (sortConfig.key === mappedKey && sortConfig.direction === 'asc') {
       direction = 'desc';
     }
-    setSortConfig({ key, direction });
+    setSortConfig({ key: mappedKey, direction });
   };
 
-  const sortedCustomers = useMemo(() => {
-    let sortableItems = [...customers];
-    if (sortConfig.key !== null) {
-      sortableItems.sort((a, b) => {
-        if (a[sortConfig.key] < b[sortConfig.key]) {
-          return sortConfig.direction === 'asc' ? -1 : 1;
-        }
-        if (a[sortConfig.key] > b[sortConfig.key]) {
-          return sortConfig.direction === 'asc' ? 1 : -1;
-        }
-        return 0;
-      });
-    }
-    return sortableItems;
-  }, [customers, sortConfig]);
-
-  const filteredCustomers = useMemo(() => {
-    return sortedCustomers.filter(c => {
-      const matchesSearch = c.isim.toLowerCase().includes(searchTerm.toLowerCase()) || 
-                            c.email.toLowerCase().includes(searchTerm.toLowerCase());
-      const matchesTab = activeTab === "Tümü" || c.segment === activeTab;
-      return matchesSearch && matchesTab;
-    });
-  }, [sortedCustomers, searchTerm, activeTab]);
-
-  const paginatedCustomers = useMemo(() => {
-    const startIndex = (currentPage - 1) * itemsPerPage;
-    return filteredCustomers.slice(startIndex, startIndex + itemsPerPage);
-  }, [filteredCustomers, currentPage]);
-
-  const totalPages = Math.ceil(filteredCustomers.length / itemsPerPage);
+  const paginatedCustomers = customers;
 
   const getSegmentColor = (segment) => {
     switch (segment) {
@@ -157,7 +151,7 @@ export default function CustomersView() {
     const headers = ["ID", "İsim", "E-posta", "Telefon", "Segment", "Kayıt Tarihi", "Sipariş Sayısı", "Toplam Harcama"];
     const csvContent = [
       headers.join(","),
-      ...filteredCustomers.map(c => 
+      ...paginatedCustomers.map(c => 
         `${c.id},"${c.isim}","${c.email}","${c.phone}",${c.segment},${c.kayit},${c.siparisSayisi},${c.harcama}`
       )
     ].join("\n");
@@ -175,7 +169,7 @@ export default function CustomersView() {
   const handleSendEmail = () => {
     Swal.fire({
       title: "Toplu E-posta Gönder",
-      text: `${filteredCustomers.length} müşteriye bülten e-postası gönderilecek. Onaylıyor musunuz?`,
+      text: `${totalCustomers} müşteriye bülten e-postası gönderilecek. Onaylıyor musunuz?`,
       icon: "question",
       showCancelButton: true,
       confirmButtonColor: "#ff007f",
@@ -225,7 +219,7 @@ export default function CustomersView() {
             >
               {tab} 
               <span className="ml-2 bg-black/30 px-2 py-0.5 rounded-full text-xs">
-                {tab === "Tümü" ? customers.length : customers.filter(c => c.segment === tab).length}
+                {tab === "Tümü" ? totalCustomers : ""}
               </span>
             </button>
           ))}
@@ -334,7 +328,7 @@ export default function CustomersView() {
         {totalPages > 1 && (
           <div className="p-4 border-t border-white/10 flex items-center justify-between">
             <span className="text-sm text-gray-400">
-              Toplam {filteredCustomers.length} kayıttan {(currentPage - 1) * itemsPerPage + 1}-{Math.min(currentPage * itemsPerPage, filteredCustomers.length)} gösteriliyor.
+              Toplam {totalCustomers} kayıttan {(currentPage - 1) * itemsPerPage + 1}-{Math.min(currentPage * itemsPerPage, totalCustomers)} gösteriliyor.
             </span>
             <div className="flex gap-2">
               <button 

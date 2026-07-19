@@ -1,9 +1,21 @@
 import React, { useState, useEffect } from "react";
 import { motion, AnimatePresence } from "framer-motion";
-import {
-  AreaChart, Area, XAxis, YAxis, CartesianGrid, Tooltip as RechartsTooltip, ResponsiveContainer,
-  PieChart, Pie, Cell, BarChart, Bar, ComposedChart, Line
-} from "recharts";
+import dynamic from "next/dynamic";
+
+const AreaChart = dynamic(() => import("recharts").then(mod => mod.AreaChart), { ssr: false });
+const Area = dynamic(() => import("recharts").then(mod => mod.Area), { ssr: false });
+const XAxis = dynamic(() => import("recharts").then(mod => mod.XAxis), { ssr: false });
+const YAxis = dynamic(() => import("recharts").then(mod => mod.YAxis), { ssr: false });
+const CartesianGrid = dynamic(() => import("recharts").then(mod => mod.CartesianGrid), { ssr: false });
+const RechartsTooltip = dynamic(() => import("recharts").then(mod => mod.Tooltip), { ssr: false });
+const ResponsiveContainer = dynamic(() => import("recharts").then(mod => mod.ResponsiveContainer), { ssr: false });
+const PieChart = dynamic(() => import("recharts").then(mod => mod.PieChart), { ssr: false });
+const Pie = dynamic(() => import("recharts").then(mod => mod.Pie), { ssr: false });
+const Cell = dynamic(() => import("recharts").then(mod => mod.Cell), { ssr: false });
+const BarChart = dynamic(() => import("recharts").then(mod => mod.BarChart), { ssr: false });
+const Bar = dynamic(() => import("recharts").then(mod => mod.Bar), { ssr: false });
+const ComposedChart = dynamic(() => import("recharts").then(mod => mod.ComposedChart), { ssr: false });
+const Line = dynamic(() => import("recharts").then(mod => mod.Line), { ssr: false });
 import DashboardAnalytics from "../DashboardAnalytics";
 import { transformCategoryPopularity } from "@/utils/rechartsHelpers";
 import StockWarning from "@/components/admin/StockWarning";
@@ -13,7 +25,7 @@ const COLORS = ["#ff007f", "#ffd700", "#a855f7", "#3b82f6", "#22c55e", "#ef4444"
 
 const generateSparkline = () => Array.from({length: 10}, (_, i) => ({ name: i, value: Math.random() * 100 + 50 }));
 
-export default function DashboardView({ products, setActiveTab }) {
+export default function DashboardView({ products, setActiveTab }: { products: any[], setActiveTab: (t: string) => void }) {
   const [stats, setStats] = useState(null);
   const [isLoading, setIsLoading] = useState(true);
 
@@ -194,7 +206,7 @@ export default function DashboardView({ products, setActiveTab }) {
   }
 
   // Helper component for KPI Cards
-  const KPICard = ({ title, value, subtext, trend, trendValue, colorClass, sparklineData, colorHex }) => (
+  const KPICard = ({ title, value, subtext, trend, trendValue, colorClass, sparklineData, colorHex }: any) => (
     <motion.div variants={itemVariants} className={`glass-card p-4 clip-angled relative overflow-hidden group hover:border-${colorClass} transition-colors bg-gradient-to-br from-white/5 to-transparent`}>
       <div className={`absolute top-0 right-0 w-32 h-32 bg-${colorClass} opacity-10 rounded-bl-full group-hover:scale-110 transition-transform`}></div>
       <div className="flex justify-between items-start mb-2">

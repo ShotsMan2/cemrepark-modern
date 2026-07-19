@@ -62,7 +62,12 @@ export async function generateMetadata() {
 
 export default async function RootLayout({ children }) {
   const settings = getSettings();
-  const session = await getServerSession(authOptions);
+  let session = null;
+  try {
+    session = await getServerSession(authOptions);
+  } catch (e) {
+    console.error("Session fetch failed:", e);
+  }
   return (
     <html lang="tr" suppressHydrationWarning>
       <body className={`${jost.variable} ${marcellus.variable} homepage`}>

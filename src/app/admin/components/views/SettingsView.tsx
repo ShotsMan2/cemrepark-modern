@@ -170,7 +170,7 @@ export default function SettingsView() {
             <div><label className="block text-gray-400 text-xs font-bold mb-2 uppercase tracking-wider">Site Adı</label><input type="text" name="siteAdi" value={formData.siteAdi} onChange={handleInputChange} className="w-full bg-black/50 border border-white/10 text-white px-4 py-3 text-sm focus:border-neon-pink outline-none transition-colors"/></div>
             <div><label className="block text-gray-400 text-xs font-bold mb-2 uppercase tracking-wider">İletişim E-posta</label><input type="email" name="iletisimEposta" value={formData.iletisimEposta} onChange={handleInputChange} className="w-full bg-black/50 border border-white/10 text-white px-4 py-3 text-sm focus:border-neon-pink outline-none transition-colors"/></div>
             <div className="md:col-span-2"><label className="block text-gray-400 text-xs font-bold mb-2 uppercase tracking-wider">Destek Telefonu</label><input type="text" name="destekTelefonu" value={formData.destekTelefonu} onChange={handleInputChange} className="w-full bg-black/50 border border-white/10 text-white px-4 py-3 text-sm focus:border-neon-pink outline-none transition-colors"/></div>
-            <div className="md:col-span-2"><label className="block text-gray-400 text-xs font-bold mb-2 uppercase tracking-wider">Adres</label><textarea name="adres" value={formData.adres} onChange={handleInputChange} rows="3" className="w-full bg-black/50 border border-white/10 text-white px-4 py-3 text-sm focus:border-neon-pink outline-none transition-colors resize-none"/></div>
+            <div className="md:col-span-2"><label className="block text-gray-400 text-xs font-bold mb-2 uppercase tracking-wider">Adres</label><textarea name="adres" value={formData.adres} onChange={handleInputChange} rows={} className="w-full bg-black/50 border border-white/10 text-white px-4 py-3 text-sm focus:border-neon-pink outline-none transition-colors resize-none"/></div>
           </div>
 
           {/* Kargo Tab */}
@@ -212,7 +212,7 @@ export default function SettingsView() {
           {/* SEO Tab */}
           <div className={`grid grid-cols-1 md:grid-cols-2 gap-6 animate-fade-in ${activeTab === "SEO" ? "block" : "hidden"}`}>
             <div className="md:col-span-2"><label className="block text-gray-400 text-xs font-bold mb-2 uppercase tracking-wider">Varsayılan Meta Başlık</label><input type="text" name="metaTitle" value={formData.metaTitle} onChange={handleInputChange} className="w-full bg-black/50 border border-white/10 text-white px-4 py-3 text-sm focus:border-neon-pink outline-none"/></div>
-            <div className="md:col-span-2"><label className="block text-gray-400 text-xs font-bold mb-2 uppercase tracking-wider">Varsayılan Meta Açıklama</label><textarea name="metaDescription" value={formData.metaDescription} onChange={handleInputChange} rows="3" className="w-full bg-black/50 border border-white/10 text-white px-4 py-3 text-sm focus:border-neon-pink outline-none resize-none"/></div>
+            <div className="md:col-span-2"><label className="block text-gray-400 text-xs font-bold mb-2 uppercase tracking-wider">Varsayılan Meta Açıklama</label><textarea name="metaDescription" value={formData.metaDescription} onChange={handleInputChange} rows={} className="w-full bg-black/50 border border-white/10 text-white px-4 py-3 text-sm focus:border-neon-pink outline-none resize-none"/></div>
             <div><label className="block text-gray-400 text-xs font-bold mb-2 uppercase tracking-wider">Google Analytics ID</label><input type="text" name="googleAnalyticsId" value={formData.googleAnalyticsId} onChange={handleInputChange} className="w-full bg-black/50 border border-white/10 text-white px-4 py-3 text-sm focus:border-neon-pink outline-none"/></div>
             <div><label className="block text-gray-400 text-xs font-bold mb-2 uppercase tracking-wider">Facebook Pixel ID</label><input type="text" name="facebookPixelId" value={formData.facebookPixelId} onChange={handleInputChange} className="w-full bg-black/50 border border-white/10 text-white px-4 py-3 text-sm focus:border-neon-pink outline-none"/></div>
           </div>
@@ -237,7 +237,7 @@ export default function SettingsView() {
             </div>
             <div>
               <label className="block text-gray-400 text-xs font-bold mb-2 uppercase tracking-wider">Özel CSS Kodu</label>
-              <textarea name="ozelCss" value={formData.ozelCss} onChange={handleInputChange} rows="4" className="w-full bg-black/50 border border-white/10 text-white px-4 py-3 text-sm focus:border-neon-pink outline-none transition-colors font-mono text-xs" placeholder="/* Özel CSS kodlarınızı buraya yazın */"/>
+              <textarea name="ozelCss" value={formData.ozelCss} onChange={handleInputChange} rows={} className="w-full bg-black/50 border border-white/10 text-white px-4 py-3 text-sm focus:border-neon-pink outline-none transition-colors font-mono text-xs" placeholder="/* Özel CSS kodlarınızı buraya yazın */"/>
             </div>
           </div>
 

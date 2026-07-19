@@ -18,7 +18,7 @@ const CouponsView = dynamic(() => import("./components/views/CouponsView"), { lo
 const AISupportView = dynamic(() => import("./components/views/AISupportView"), { loading: () => <div className="p-8 text-center animate-pulse text-primary">Yükleniyor...</div> });
 const SecurityView = dynamic(() => import("./components/views/SecurityView"), { loading: () => <div className="p-8 text-center animate-pulse text-primary">Yükleniyor...</div> });
 
-export default function AdminDashboard({ onLogout }) {
+export default function AdminDashboard({ onLogout }: { onLogout: () => void }) {
   const [activeTab, setActiveTab] = useState("dashboard");
   const [isSidebarOpen, setIsSidebarOpen] = useState(false);
   const [products, setProducts] = useState([]);

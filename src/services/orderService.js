@@ -11,11 +11,17 @@ export const orderService = {
     return prisma.$transaction(async (tx) => {
       let calculatedTotal = 0;
 
+      // Pre-fetch all products
+      const productIds = items.map(item => item.productId);
+      const products = await tx.product.findMany({
+        where: { id: { in: productIds } }
+      });
+
+      const productMap = new Map(products.map(p => [p.id, p]));
+
       // Deduct stock for each item and calculate total
       for (const item of items) {
-        const product = await tx.product.findUnique({
-          where: { id: item.productId }
-        });
+        const product = productMap.get(item.productId);
 
         if (!product) {
           const error = new Error(`Product with ID ${item.productId} not found`);
@@ -46,8 +52,6 @@ export const orderService = {
 
       const total = orderData.total !== undefined ? orderData.total : calculatedTotal;
 
-      // Final total is already calculated from the frontend, but we can verify it if needed.
-      // We'll trust orderData.total, orderData.couponCode, orderData.discountAmount
       const finalTotal = total;
 
       // Create the order
@@ -62,20 +66,20 @@ export const orderService = {
         }
       });
 
-      // Create order items
-      for (const item of items) {
-        const product = await tx.product.findUnique({
-          where: { id: item.productId }
-        });
-        await tx.orderItem.create({
-          data: {
-            orderId: newOrder.id,
-            productId: item.productId,
-            quantity: item.quantity,
-            price: product.fiyat,
-          }
-        });
-      }
+      // Create all order items in a single query
+      const orderItemsData = items.map(item => {
+        const product = productMap.get(item.productId);
+        return {
+          orderId: newOrder.id,
+          productId: item.productId,
+          quantity: item.quantity,
+          price: product.fiyat,
+        };
+      });
+
+      await tx.orderItem.createMany({
+        data: orderItemsData
+      });
 
       // Return order with items
       return tx.order.findUnique({
@@ -130,5 +134,47 @@ export const orderService = {
     return prisma.order.findMany({
       orderBy: { createdAt: "desc" },
     });
+  },
+
+  async getOrdersPaginated(filters = {}, page = 1, limit = 10, sortBy = "createdAt", sortOrder = "desc") {
+    try {
+      const { search, status } = filters;
+      const whereClause = {};
+
+      if (search) {
+        whereClause.OR = [
+          { customer: { contains: search } },
+          { trackingNumber: { contains: search } }
+        ];
+      }
+      
+      if (status && status !== 'all') {
+        whereClause.status = status;
+      }
+
+      const skip = (page - 1) * limit;
+
+      const [orders, total] = await Promise.all([
+        prisma.order.findMany({
+          where: whereClause,
+          skip,
+          take: limit,
+          orderBy: { [sortBy]: sortOrder },
+          include: { items: true }
+        }),
+        prisma.order.count({ where: whereClause })
+      ]);
+
+      return {
+        data: orders,
+        total,
+        page,
+        limit,
+        totalPages: Math.ceil(total / limit)
+      };
+    } catch (error) {
+      console.error("Failed to fetch paginated orders from DB", { error: error.message });
+      return { data: [], total: 0, page, limit, totalPages: 0 };
+    }
   }
 };

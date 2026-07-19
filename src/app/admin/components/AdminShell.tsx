@@ -13,7 +13,7 @@ const pathToTab = {
   "/admin/pages": "pages",
 };
 
-export default function AdminShell({ children }) {
+export default function AdminShell({ children }: { children: React.ReactNode }) {
   const pathname = usePathname();
   const [isSidebarOpen, setIsSidebarOpen] = useState(false);
 

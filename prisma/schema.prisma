@@ -286,16 +286,18 @@ model PasswordResetToken {
 }
 
 model LoginHistory {
-  id        Int      @id @default(autoincrement())
-  userId    Int
-  user      User     @relation(fields: [userId], references: [id], onDelete: Cascade)
-  ipAddress String?
-  userAgent String?
-  success   Boolean
-  createdAt DateTime @default(now())
+  id            Int      @id @default(autoincrement())
+  userId        Int
+  user          User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+  ipAddress     String?
+  userAgent     String?
+  success       Boolean
+  failureReason String?
+  createdAt     DateTime @default(now())
 
   @@index([userId])
   @@index([createdAt])
+  @@index([success])
 }
 
 model AuditLog {
@@ -303,11 +305,17 @@ model AuditLog {
   userId    Int?
   user      User?    @relation(fields: [userId], references: [id], onDelete: SetNull)
   action    String
+  entity    String?
+  entityId  String?
   details   String?
+  changes   String?  // JSON string representing changes
   ipAddress String?
+  userAgent String?
   createdAt DateTime @default(now())
 
   @@index([userId])
+  @@index([action])
+  @@index([entity, entityId])
   @@index([createdAt])
 }
 

@@ -25,15 +25,15 @@ import { z } from "zod";
 import { ShieldCheck, Truck, RotateCcw, CreditCard, Banknote, Calendar } from "lucide-react";
 
 const checkoutSchema = z.object({
-  fullName: z.string().min(3, "Ad Soyad en az 3 karakter olmalÄ±dÄ±r"),
+  fullName: z.string().min(3, "Ad Soyad en az 3 karakter olmal\u0131d\u0131r"),
 
-  email: z.string().email("GeÃ§erli bir e-posta adresi giriniz"),
+  email: z.string().email("Ge\u00e7erli bir e-posta adresi giriniz"),
 
-  phone: z.string().min(10, "GeÃ§erli bir telefon numarasÄ± giriniz"),
+  phone: z.string().min(10, "Ge\u00e7erli bir telefon numaras\u0131 giriniz"),
 
-  city: z.string().min(2, "Ä°l/Ä°lÃ§e zorunludur"),
+  city: z.string().min(2, "\u0130l/\u0130l\u00e7e zorunludur"),
 
-  address: z.string().min(10, "AÃ§Ä±k adres en az 10 karakter olmalÄ±dÄ±r"),
+  address: z.string().min(10, "A\u00e7\u0131k adres en az 10 karakter olmal\u0131d\u0131r"),
 
   cardNumber: z.string().optional(),
 
@@ -165,7 +165,7 @@ export default function CheckoutPage() {
       setErrors((prev) => ({ ...prev, [name]: "" }));
     } catch (err) {
       if (err instanceof z.ZodError) {
-        setErrors((prev) => ({ ...prev, [name]: err.errors[0]?.message || "" }));
+        setErrors((prev) => ({ ...prev, [name]: (err as z.ZodError).errors[0]?.message || "" }));
       }
     }
   };
@@ -195,16 +195,16 @@ export default function CheckoutPage() {
           toast: true,
           position: "bottom-end",
           icon: "success",
-          title: "Kupon uygulandÄ±!",
+          title: "Kupon uyguland\u0131!",
           showConfirmButton: false,
           timer: 3000,
           background: "#18181b",
           color: "#fff",
           iconColor: "#ff007f",
         });
-      } else setCouponError(data.error || "GeÃ§ersiz kupon kodu.");
+      } else setCouponError(data.error || "Ge\u00e7ersiz kupon kodu.");
     } catch (err) {
-      setCouponError("Hata oluÅŸtu.");
+      setCouponError("Hata olu\u015ftu.");
     } finally {
       setIsApplyingCoupon(false);
     }
@@ -232,7 +232,7 @@ export default function CheckoutPage() {
         toast: true,
         position: "top-end",
         icon: "error",
-        title: "LÃ¼tfen formdaki hatalarÄ± dÃ¼zeltin.",
+        title: "L\u00fcften formdaki hatalar\u0131 d\u00fczeltin.",
         showConfirmButton: false,
         timer: 3000,
         background: "#18181b",
@@ -252,7 +252,7 @@ export default function CheckoutPage() {
         toast: true,
         position: "top-end",
         icon: "error",
-        title: "LÃ¼tfen kart bilgilerini eksiksiz girin.",
+        title: "L\u00fcften kart bilgilerini eksiksiz girin.",
         showConfirmButton: false,
         timer: 3000,
         background: "#18181b",
@@ -290,12 +290,12 @@ export default function CheckoutPage() {
       if (!response.ok) {
         const errorData = await response.json().catch(() => null);
 
-        throw new Error(errorData?.error || "SipariÅŸ oluÅŸturulamadÄ±.");
+        throw new Error(errorData?.error || "Sipari\u015f olu\u015fturulamad\u0131.");
       }
 
       Swal.fire({
-        title: "SipariÅŸiniz AlÄ±ndÄ±!",
-        text: "SipariÅŸiniz baÅŸarÄ±yla oluÅŸturuldu.",
+        title: "Sipari\u015finiz Al\u0131nd\u0131!",
+        text: "Sipari\u015finiz ba\u015far\u0131yla olu\u015fturuldu.",
         icon: "success",
         background: "#18181b",
         color: "#fff",
@@ -321,7 +321,7 @@ export default function CheckoutPage() {
   const handleFastPayment = async (provider: "Apple Pay" | "Google Pay") => {
     setIsProcessing(true);
 
-    setPaymentStatus(`${provider} baÅŸlatÄ±lÄ±yor...`);
+    setPaymentStatus(`${provider} ba\u015flat\u0131l\u0131yor...`);
 
     try {
       await new Promise((resolve) => setTimeout(resolve, 800));
@@ -330,10 +330,10 @@ export default function CheckoutPage() {
 
       await new Promise((resolve) => setTimeout(resolve, 1000));
 
-      setPaymentStatus("SipariÅŸ oluÅŸturuluyor...");
+      setPaymentStatus("Sipari\u015f olu\u015fturuluyor...");
 
       const payload = {
-        customer: formData.fullName || (session?.user as any)?.name || `${provider} KullanÄ±cÄ±sÄ±`,
+        customer: formData.fullName || (session?.user as any)?.name || `${provider} Kullan\u0131c\u0131s\u0131`,
         userId: (session?.user as any)?.id ? parseInt((session.user as any).id as string) : null,
 
         total: totalAmount,
@@ -355,16 +355,16 @@ export default function CheckoutPage() {
       if (!response.ok) {
         const errorData = await response.json().catch(() => null);
 
-        throw new Error(errorData?.error || "SipariÅŸ oluÅŸturulamadÄ±.");
+        throw new Error(errorData?.error || "Sipari\u015f olu\u015fturulamad\u0131.");
       }
 
-      setPaymentStatus("BaÅŸarÄ±lÄ±!");
+      setPaymentStatus("Ba\u015far\u0131l\u0131!");
 
       await Swal.fire({
         toast: true,
         position: "top-end",
         icon: "success",
-        title: `${provider} ile Ã¶deme baÅŸarÄ±lÄ±!`,
+        title: `${provider} ile \u00f6deme ba\u015far\u0131l\u0131!`,
         showConfirmButton: false,
         timer: 1500,
         background: "#18181b",
@@ -404,7 +404,7 @@ export default function CheckoutPage() {
           </div>
 
           <div className="text-xl font-bold uppercase tracking-widest text-gray-500 animate-pulse">
-            Ã–deme SayfasÄ± HazÄ±rlanÄ±yor...
+            \u00d6deme Sayfas\u0131 Haz\u0131rlan\u0131yor...
           </div>
         </div>
       </div>
@@ -449,7 +449,7 @@ export default function CheckoutPage() {
               </div>
 
               <span className="text-[10px] uppercase tracking-widest font-bold text-gray-900 dark:text-white">
-                Teslimat & Ã–deme
+                Teslimat & \u00d6deme
               </span>
             </div>
 
@@ -488,7 +488,7 @@ export default function CheckoutPage() {
             <form
               id="checkout-form"
               onSubmit={handlePayment}
-              className="space-y-8 bg-white/40 dark:bg-zinc-900/40 backdrop-blur-3xl p-6 md:p-10 rounded-[2.5rem] shadow-2xl border border-white/50 dark:border-white/10 relative overflow-hidden group"
+              className="space-y-8 glass-panel p-6 md:p-10 rounded-[2.5rem] shadow-2xl border border-white/50 dark:border-white/10 relative overflow-hidden group"
             >
               <div className="absolute top-0 right-0 w-[500px] h-[500px] bg-primary/5 rounded-full blur-[120px] pointer-events-none group-hover:scale-110 transition-transform duration-1000"></div>
 
@@ -498,10 +498,10 @@ export default function CheckoutPage() {
                 <motion.div
                   whileHover={{ scale: 1.005 }}
 
-                  className="bg-white/50 dark:bg-zinc-800/50 p-6 rounded-[2rem] border border-white/20 dark:border-white/5 shadow-inner"
+                  className="glass-card p-6 rounded-[2rem] border border-white/20 dark:border-white/5 shadow-inner"
                 >
                   <h3 className="text-xs font-bold text-gray-500 dark:text-gray-400 mb-4 uppercase tracking-widest text-center">
-                    HÄ±zlÄ± Ã–deme
+                    H\u0131zl\u0131 \u00d6deme
                   </h3>
 
                   <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
@@ -568,8 +568,8 @@ export default function CheckoutPage() {
                       <div className="w-full border-t border-gray-300 dark:border-white/10"></div>
                     </div>
 
-                    <span className="relative bg-white/50 dark:bg-zinc-800/50 px-4 text-[10px] font-bold text-gray-400 uppercase tracking-widest backdrop-blur-md">
-                      Veya Klasik YÃ¶ntemle
+                    <span className="relative glass-card px-4 text-[10px] font-bold text-gray-400 uppercase tracking-widest backdrop-blur-md">
+                      Veya Klasik Y\u00f6ntemle
                     </span>
                   </div>
                 </motion.div>
@@ -601,7 +601,7 @@ export default function CheckoutPage() {
                           name={field}
                           value={(formData as any)[field]}
                           onChange={handleInputChange}
-                          className={`w-full bg-white/60 dark:bg-zinc-950/60 border ${errors[field] ? "border-red-500" : "border-gray-200 dark:border-white/10"} text-gray-900 dark:text-white rounded-xl px-4 py-3 text-sm focus:outline-none focus:ring-2 focus:ring-primary focus:border-transparent transition-all backdrop-blur-sm shadow-inner font-semibold`}
+                          className={`w-full glass-panel border ${errors[field] ? "border-red-500" : "border-gray-200 dark:border-white/10"} text-gray-900 dark:text-white rounded-xl px-4 py-3 text-sm focus:outline-none focus:ring-2 focus:ring-primary focus:border-transparent transition-all backdrop-blur-sm shadow-inner font-semibold`}
                         />
 
                         <AnimatePresence>
@@ -630,7 +630,7 @@ export default function CheckoutPage() {
                         value={formData.address}
                         onChange={handleInputChange}
                         rows={3}
-                        className={`w-full bg-white/60 dark:bg-zinc-950/60 border ${errors.address ? "border-red-500" : "border-gray-200 dark:border-white/10"} text-gray-900 dark:text-white rounded-xl px-4 py-3 text-sm focus:outline-none focus:ring-2 focus:ring-neon-pink focus:border-transparent transition-all resize-none backdrop-blur-sm shadow-inner font-semibold`}
+                        className={`w-full glass-panel border ${errors.address ? "border-red-500" : "border-gray-200 dark:border-white/10"} text-gray-900 dark:text-white rounded-xl px-4 py-3 text-sm focus:outline-none focus:ring-2 focus:ring-neon-pink focus:border-transparent transition-all resize-none backdrop-blur-sm shadow-inner font-semibold`}
                       ></textarea>
                     </div>
                   </div>
@@ -640,7 +640,7 @@ export default function CheckoutPage() {
 
                 <motion.div className="space-y-4">
                   <h2 className="text-xl font-black text-gray-900 dark:text-white flex items-center gap-2 uppercase tracking-widest border-b border-gray-200 dark:border-white/10 pb-4">
-                    Kargo SeÃ§enekleri
+                    Kargo Se\u00e7enekleri
                   </h2>
 
                   <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
@@ -663,12 +663,12 @@ export default function CheckoutPage() {
                       </div>
 
                       <span className="text-xs text-gray-500 dark:text-gray-400 mb-2">
-                        2-4 iÅŸ gÃ¼nÃ¼ iÃ§inde teslimat
+                        2-4 i\u015f g\u00fcn\u00fc i\u00e7inde teslimat
                       </span>
 
                       <span className="font-black text-neon-pink mt-auto">
                         {subtotalAfterDiscount >= FREE_SHIPPING_THRESHOLD
-                          ? "Ãœcretsiz"
+                          ? "\u00dccretsiz"
                           : formatPrice(BASE_SHIPPING_FEE)}
                       </span>
                     </label>
@@ -678,7 +678,7 @@ export default function CheckoutPage() {
                     >
                       <div className="flex justify-between items-center mb-2">
                         <span className="font-bold flex items-center gap-2 text-holo-gold">
-                          <Truck className="w-4 h-4" /> HÄ±zlÄ± Kargo
+                          <Truck className="w-4 h-4" /> H\u0131zl\u0131 Kargo
                         </span>
 
                         <input
@@ -692,7 +692,7 @@ export default function CheckoutPage() {
                       </div>
 
                       <span className="text-xs text-gray-500 dark:text-gray-400 mb-2">
-                        Ertesi gÃ¼n teslimat avantajÄ±
+                        Ertesi g\u00fcn teslimat avantaj\u0131
                       </span>
 
                       <span className="font-black text-holo-gold mt-auto">
@@ -718,7 +718,7 @@ export default function CheckoutPage() {
                 <motion.div className="space-y-6">
                   <h2 className="text-xl font-black text-gray-900 dark:text-white flex items-center gap-2 uppercase tracking-widest border-b border-gray-200 dark:border-white/10 pb-4">
                     <CreditCard className="w-5 h-5 text-holo-gold" />
-                    Ã–deme YÃ¶ntemi
+                    \u00d6deme Y\u00f6ntemi
                   </h2>
 
                   <div className="flex gap-4">
@@ -734,7 +734,7 @@ export default function CheckoutPage() {
                         className="hidden"
                       />
                       <CreditCard className="w-4 h-4" />{" "}
-                      <span className="font-bold text-sm">Kredi KartÄ±</span>
+                      <span className="font-bold text-sm">Kredi Kart\u0131</span>
                     </label>
 
                     <label
@@ -749,7 +749,7 @@ export default function CheckoutPage() {
                         className="hidden"
                       />
                       <Banknote className="w-4 h-4" />{" "}
-                      <span className="font-bold text-sm">KapÄ±da Ã–deme</span>
+                      <span className="font-bold text-sm">Kap\u0131da \u00d6deme</span>
                     </label>
                   </div>
 
@@ -791,7 +791,7 @@ export default function CheckoutPage() {
 
                               <div className="text-white text-xl tracking-[0.15em] font-mono drop-shadow-md">
                                 {formData.cardNumber ||
-                                  "â€¢â€¢â€¢â€¢ â€¢â€¢â€¢â€¢ â€¢â€¢â€¢â€¢ â€¢â€¢â€¢â€¢"}
+                                  "\u2022\u2022\u2022\u2022 \u2022\u2022\u2022\u2022 \u2022\u2022\u2022\u2022 \u2022\u2022\u2022\u2022"}
                               </div>
 
                               <div className="flex justify-between text-gray-300">
@@ -828,8 +828,8 @@ export default function CheckoutPage() {
                                 </div>
 
                                 <p className="text-[8px] text-gray-500 mt-2 pr-12">
-                                  Bu kart sadece gÃ¼venli alÄ±ÅŸveriÅŸ iÃ§indir. Arka yÃ¼zdeki
-                                  gÃ¼venlik kodu (CVV) ile iÅŸlem yapabilirsiniz.
+                                  Bu kart sadece g\u00fcvenli al\u0131\u015fveri\u015f i\u00e7indir. Arka y\u00fczdeki
+                                  g\u00fcvenlik kodu (CVV) ile i\u015flem yapabilirsiniz.
                                 </p>
                               </div>
                             </div>
@@ -839,7 +839,7 @@ export default function CheckoutPage() {
                         <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                           <div className="md:col-span-2 relative group/input">
                             <label className="block text-[10px] font-black text-gray-500 dark:text-gray-400 mb-1.5 uppercase tracking-[0.2em] group-focus-within/input:text-holo-gold transition-colors">
-                              Kart NumarasÄ±
+                              Kart Numaras\u0131
                             </label>
 
                             <input
@@ -850,7 +850,7 @@ export default function CheckoutPage() {
                               onChange={handleInputChange}
                               onFocus={() => setIsCvvFocused(false)}
                               maxLength={19}
-                              className={`w-full bg-white/60 dark:bg-zinc-950/60 border ${errors.cardNumber ? "border-red-500" : "border-gray-200 dark:border-white/10"} text-gray-900 dark:text-white rounded-xl px-4 py-3 font-mono font-bold tracking-widest text-sm focus:ring-2 focus:ring-holo-gold focus:outline-none transition-all shadow-inner`}
+                              className={`w-full glass-panel border ${errors.cardNumber ? "border-red-500" : "border-gray-200 dark:border-white/10"} text-gray-900 dark:text-white rounded-xl px-4 py-3 font-mono font-bold tracking-widest text-sm focus:ring-2 focus:ring-holo-gold focus:outline-none transition-all shadow-inner`}
                               placeholder="0000 0000 0000 0000"
                             />
                           </div>
@@ -868,7 +868,7 @@ export default function CheckoutPage() {
                               onChange={handleInputChange}
                               onFocus={() => setIsCvvFocused(false)}
                               maxLength={5}
-                              className={`w-full bg-white/60 dark:bg-zinc-950/60 border ${errors.cardExpiry ? "border-red-500" : "border-gray-200 dark:border-white/10"} text-gray-900 dark:text-white rounded-xl px-4 py-3 font-mono font-bold tracking-widest text-sm focus:ring-2 focus:ring-holo-gold focus:outline-none transition-all shadow-inner text-center`}
+                              className={`w-full glass-panel border ${errors.cardExpiry ? "border-red-500" : "border-gray-200 dark:border-white/10"} text-gray-900 dark:text-white rounded-xl px-4 py-3 font-mono font-bold tracking-widest text-sm focus:ring-2 focus:ring-holo-gold focus:outline-none transition-all shadow-inner text-center`}
                               placeholder="MM/YY"
                             />
                           </div>
@@ -887,7 +887,7 @@ export default function CheckoutPage() {
                               onFocus={() => setIsCvvFocused(true)}
                               onBlur={() => setIsCvvFocused(false)}
                               maxLength={3}
-                              className={`w-full bg-white/60 dark:bg-zinc-950/60 border ${errors.cardCvv ? "border-red-500" : "border-gray-200 dark:border-white/10"} text-gray-900 dark:text-white rounded-xl px-4 py-3 font-mono font-bold tracking-widest text-sm focus:ring-2 focus:ring-holo-gold focus:outline-none transition-all shadow-inner text-center`}
+                              className={`w-full glass-panel border ${errors.cardCvv ? "border-red-500" : "border-gray-200 dark:border-white/10"} text-gray-900 dark:text-white rounded-xl px-4 py-3 font-mono font-bold tracking-widest text-sm focus:ring-2 focus:ring-holo-gold focus:outline-none transition-all shadow-inner text-center`}
                               placeholder="***"
                             />
                           </div>
@@ -908,10 +908,10 @@ export default function CheckoutPage() {
                 className="w-full bg-gradient-to-r from-neon-pink to-holo-gold text-white py-5 rounded-2xl font-black text-lg uppercase tracking-[0.2em] shadow-xl hover:shadow-neon-pink/40 transition-all duration-300 flex items-center justify-center gap-4 mt-6"
               >
                 {isProcessing ? (
-                  "Ä°ÅŸleniyor..."
+                  "\u0130\u015fleniyor..."
                 ) : (
                   <>
-                    Ã–DEMEYÄ° TAMAMLA
+                    \u00d6DEMEY\u0130 TAMAMLA
                     <span className="opacity-50 font-normal">|</span>
                     {formatPrice(totalAmount)}
                     <svg
@@ -936,12 +936,12 @@ export default function CheckoutPage() {
               <div className="flex justify-center items-center gap-6 mt-6 pt-6 border-t border-gray-200 dark:border-white/10 opacity-70">
                 <div className="flex items-center gap-2 text-[10px] uppercase font-bold text-gray-600 dark:text-gray-400">
                   <ShieldCheck className="w-4 h-4 text-emerald-500" />
-                  256-bit SSL GÃ¼venliÄŸi
+                  256-bit SSL G\u00fcvenli\u011fi
                 </div>
 
                 <div className="flex items-center gap-2 text-[10px] uppercase font-bold text-gray-600 dark:text-gray-400">
                   <RotateCcw className="w-4 h-4 text-blue-500" />
-                  Kolay Ä°ade
+                  Kolay \u0130ade
                 </div>
               </div>
             </form>
@@ -956,11 +956,11 @@ export default function CheckoutPage() {
 
             className="w-full lg:w-1/3"
           >
-            <div className="bg-white/40 dark:bg-zinc-900/40 backdrop-blur-3xl p-6 md:p-8 rounded-[2.5rem] shadow-2xl border border-white/50 dark:border-white/10 lg:sticky lg:top-32">
+            <div className="glass-panel p-6 md:p-8 rounded-[2.5rem] shadow-2xl border border-white/50 dark:border-white/10 lg:sticky lg:top-32">
               {/* Order Summary Accordion on Mobile (Hidden implementation here, visually simplified) */}
 
               <h2 className="text-lg font-black text-gray-900 dark:text-white mb-6 uppercase tracking-[0.2em] border-b border-gray-200 dark:border-white/10 pb-4">
-                SipariÅŸ Ã–zeti
+                Sipari\u015f \u00d6zeti
               </h2>
 
               <div className="space-y-4 mb-6 max-h-[300px] overflow-y-auto pr-2 custom-scrollbar">
@@ -973,7 +973,7 @@ export default function CheckoutPage() {
 
                       whileHover={{ scale: 1.02 }}
 
-                      className="flex gap-4 items-center group bg-white/50 dark:bg-zinc-800/50 p-2.5 rounded-xl border border-white/20 dark:border-white/5 shadow-inner transition-all duration-300"
+                      className="flex gap-4 items-center group glass-card p-2.5 rounded-xl border border-white/20 dark:border-white/5 shadow-inner transition-all duration-300"
                     >
                       <div className="relative w-16 h-20 bg-gray-100 dark:bg-zinc-800 rounded-lg overflow-hidden shrink-0">
                         <Image
@@ -1018,7 +1018,7 @@ export default function CheckoutPage() {
                       placeholder="Kupon Kodu"
                       value={couponCode}
                       onChange={(e) => setCouponCode(e.target.value)}
-                      className="flex-1 bg-white/60 dark:bg-zinc-950/60 border border-gray-200 dark:border-white/10 rounded-xl px-4 py-3 focus:ring-2 focus:ring-neon-pink outline-none uppercase text-xs font-bold tracking-widest text-gray-900 dark:text-white shadow-inner"
+                      className="flex-1 glass-panel border border-gray-200 dark:border-white/10 rounded-xl px-4 py-3 focus:ring-2 focus:ring-neon-pink outline-none uppercase text-xs font-bold tracking-widest text-gray-900 dark:text-white shadow-inner"
                     />
 
                     <button
@@ -1044,7 +1044,7 @@ export default function CheckoutPage() {
                       </p>
 
                       <p className="text-gray-500 dark:text-gray-400 text-[10px] font-bold mt-0.5">
-                        Ä°ndirim uygulandÄ±
+                        \u0130ndirim uyguland\u0131
                       </p>
                     </div>
 
@@ -1074,7 +1074,7 @@ export default function CheckoutPage() {
                 )}
               </div>
 
-              <div className="space-y-3 text-xs font-bold text-gray-600 dark:text-gray-300 mb-6 bg-white/50 dark:bg-zinc-800/50 p-5 rounded-[1.5rem] border border-white/20 dark:border-white/5 shadow-inner">
+              <div className="space-y-3 text-xs font-bold text-gray-600 dark:text-gray-300 mb-6 glass-card p-5 rounded-[1.5rem] border border-white/20 dark:border-white/5 shadow-inner">
                 <div className="flex justify-between items-center">
                   <span className="uppercase tracking-widest">{t("subtotal")}</span>
                   <span className="text-gray-900 dark:text-white text-sm">
@@ -1084,7 +1084,7 @@ export default function CheckoutPage() {
 
                 <div className="flex justify-between items-center">
                   <span className="uppercase tracking-widest">
-                    {t("shipping")} ({shippingMethod === "express" ? "HÄ±zlÄ±" : "Standart"})
+                    {t("shipping")} ({shippingMethod === "express" ? "H\u0131zl\u0131" : "Standart"})
                   </span>
                   <span
                     className={
@@ -1099,7 +1099,7 @@ export default function CheckoutPage() {
 
                 {appliedCoupon && (
                   <div className="flex justify-between items-center text-neon-pink pt-3 border-t border-gray-200 dark:border-white/10 mt-3">
-                    <span className="uppercase tracking-widest">Ä°ndirim</span>
+                    <span className="uppercase tracking-widest">\u0130ndirim</span>
                     <span className="text-sm">-{formatPrice(discountAmount)}</span>
                   </div>
                 )}

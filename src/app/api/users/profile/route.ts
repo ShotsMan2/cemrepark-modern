@@ -9,7 +9,10 @@ export const GET = apiHandler(async (req: NextRequest) => {
   const session = await getServerSession(authOptions);
 
   if (!session || !session.user?.email) {
-    const error = new Error("Oturum açmanız gerekiyor.") as Error & { statusCode?: number; isOperational?: boolean };
+    const error = new Error("Oturum açmanız gerekiyor.") as Error & {
+      statusCode?: number;
+      isOperational?: boolean;
+    };
     error.statusCode = 401;
     error.isOperational = true;
     throw error;
@@ -27,7 +30,10 @@ export const GET = apiHandler(async (req: NextRequest) => {
   });
 
   if (!user) {
-    const error = new Error("Kullanıcı bulunamadı.") as Error & { statusCode?: number; isOperational?: boolean };
+    const error = new Error("Kullanıcı bulunamadı.") as Error & {
+      statusCode?: number;
+      isOperational?: boolean;
+    };
     error.statusCode = 404;
     error.isOperational = true;
     throw error;
@@ -40,7 +46,10 @@ export const PUT = apiHandler(async (req: NextRequest) => {
   const session = await getServerSession(authOptions);
 
   if (!session || !session.user?.email) {
-    const error = new Error("Oturum açmanız gerekiyor.") as Error & { statusCode?: number; isOperational?: boolean };
+    const error = new Error("Oturum açmanız gerekiyor.") as Error & {
+      statusCode?: number;
+      isOperational?: boolean;
+    };
     error.statusCode = 401;
     error.isOperational = true;
     throw error;
@@ -48,11 +57,14 @@ export const PUT = apiHandler(async (req: NextRequest) => {
 
   // Get the user from db to get their ID, since session.user might only have email/name
   const currentUser = await prisma.user.findUnique({
-    where: { email: session.user.email }
+    where: { email: session.user.email },
   });
 
   if (!currentUser) {
-    const error = new Error("Kullanıcı bulunamadı.") as Error & { statusCode?: number; isOperational?: boolean };
+    const error = new Error("Kullanıcı bulunamadı.") as Error & {
+      statusCode?: number;
+      isOperational?: boolean;
+    };
     error.statusCode = 404;
     error.isOperational = true;
     throw error;
@@ -65,8 +77,24 @@ export const PUT = apiHandler(async (req: NextRequest) => {
     name,
     email,
     phoneNumber,
-    password
+    password,
   });
+
+  const ipAddress = req.headers.get("x-forwarded-for") || req.ip || "127.0.0.1";
+  const userAgent = req.headers.get("user-agent") || "unknown";
+
+  await import("@/lib/auditLogger").then(({ logAuditAction }) =>
+    logAuditAction({
+      action: "UPDATE_PROFILE",
+      userId: currentUser.id,
+      entity: "User",
+      entityId: currentUser.id.toString(),
+      details: `User updated their profile.`,
+      changes: JSON.stringify({ name, email, phoneNumber }),
+      ipAddress,
+      userAgent,
+    })
+  );
 
   return NextResponse.json(result);
 });
