@@ -100,7 +100,7 @@ export default function AccountSettingsPage() {
     try {
       setLoading(true);
 
-      const updatePayload = {
+      const updatePayload: Record<string, any> = {
         name: formData.name,
         email: formData.email,
         phoneNumber: formData.phoneNumber || undefined,
@@ -195,7 +195,7 @@ export default function AccountSettingsPage() {
           </Link>
         </div>
 
-        <h1 className="text-4xl font-black text-gray-900 dark:text-white uppercase tracking-widest mb-4 text-center">
+        <h1 className="text-4xl font-black text-foreground uppercase tracking-widest mb-4 text-center">
           {t("account_settings") || "Hesap Ayarları"}
         </h1>
         <div className="w-24 h-1 bg-neon-pink mx-auto mb-12"></div>
@@ -203,7 +203,7 @@ export default function AccountSettingsPage() {
         <div className="glass-panel p-8 clip-angled max-w-2xl mx-auto">
           <form onSubmit={handleSubmit} className="space-y-6">
             <div>
-              <label className="block text-sm font-bold text-gray-900 dark:text-white uppercase tracking-wider mb-2">
+              <label className="block text-sm font-bold text-foreground uppercase tracking-wider mb-2">
                 {t("name") || "Ad Soyad"}
               </label>
               <input
@@ -211,13 +211,13 @@ export default function AccountSettingsPage() {
                 name="name"
                 value={formData.name}
                 onChange={handleChange}
-                className="w-full bg-black/5 dark:bg-black/30 border border-black/10 dark:border-white/10 rounded-none px-4 py-3 text-gray-900 dark:text-white focus:outline-none focus:border-neon-pink transition-colors"
+                className="w-full bg-black/5 dark:bg-black/30 border border-black/10 dark:border-white/10 rounded-none px-4 py-3 text-foreground focus:outline-none focus:border-neon-pink transition-colors"
                 placeholder={t("name") || "Ad Soyad"}
               />
             </div>
 
             <div>
-              <label className="block text-sm font-bold text-gray-900 dark:text-white uppercase tracking-wider mb-2">
+              <label className="block text-sm font-bold text-foreground uppercase tracking-wider mb-2">
                 {t("email") || "E-posta Adresi"}
               </label>
               <input
@@ -226,13 +226,13 @@ export default function AccountSettingsPage() {
                 value={formData.email}
                 onChange={handleChange}
                 required
-                className="w-full bg-black/5 dark:bg-black/30 border border-black/10 dark:border-white/10 rounded-none px-4 py-3 text-gray-900 dark:text-white focus:outline-none focus:border-neon-pink transition-colors"
+                className="w-full bg-black/5 dark:bg-black/30 border border-black/10 dark:border-white/10 rounded-none px-4 py-3 text-foreground focus:outline-none focus:border-neon-pink transition-colors"
                 placeholder="ornek@email.com"
               />
             </div>
 
             <div>
-              <label className="block text-sm font-bold text-gray-900 dark:text-white uppercase tracking-wider mb-2">
+              <label className="block text-sm font-bold text-foreground uppercase tracking-wider mb-2">
                 {t("phone") || "Telefon Numarası"}
               </label>
               <input
@@ -240,13 +240,13 @@ export default function AccountSettingsPage() {
                 name="phoneNumber"
                 value={formData.phoneNumber}
                 onChange={handleChange}
-                className="w-full bg-black/5 dark:bg-black/30 border border-black/10 dark:border-white/10 rounded-none px-4 py-3 text-gray-900 dark:text-white focus:outline-none focus:border-neon-pink transition-colors"
+                className="w-full bg-black/5 dark:bg-black/30 border border-black/10 dark:border-white/10 rounded-none px-4 py-3 text-foreground focus:outline-none focus:border-neon-pink transition-colors"
                 placeholder="05XX XXX XX XX"
               />
             </div>
 
             <div className="pt-6 border-t border-black/10 dark:border-white/10">
-              <h3 className="text-xl font-bold text-gray-900 dark:text-white uppercase tracking-wider mb-4">
+              <h3 className="text-xl font-bold text-foreground uppercase tracking-wider mb-4">
                 {t("change_password") || "Şifre Değiştir"}
               </h3>
               <p className="text-sm text-gray-500 mb-4">
@@ -256,7 +256,7 @@ export default function AccountSettingsPage() {
 
               <div className="space-y-4">
                 <div>
-                  <label className="block text-sm font-bold text-gray-900 dark:text-white uppercase tracking-wider mb-2">
+                  <label className="block text-sm font-bold text-foreground uppercase tracking-wider mb-2">
                     {t("new_password") || "Yeni Şifre"}
                   </label>
                   <input
@@ -264,13 +264,13 @@ export default function AccountSettingsPage() {
                     name="password"
                     value={formData.password}
                     onChange={handleChange}
-                    className="w-full bg-black/5 dark:bg-black/30 border border-black/10 dark:border-white/10 rounded-none px-4 py-3 text-gray-900 dark:text-white focus:outline-none focus:border-neon-pink transition-colors"
+                    className="w-full bg-black/5 dark:bg-black/30 border border-black/10 dark:border-white/10 rounded-none px-4 py-3 text-foreground focus:outline-none focus:border-neon-pink transition-colors"
                     placeholder={t("new_password_placeholder") || "En az 6 karakter"}
                   />
                 </div>
 
                 <div>
-                  <label className="block text-sm font-bold text-gray-900 dark:text-white uppercase tracking-wider mb-2">
+                  <label className="block text-sm font-bold text-foreground uppercase tracking-wider mb-2">
                     {t("confirm_password") || "Yeni Şifre (Tekrar)"}
                   </label>
                   <input
@@ -278,7 +278,7 @@ export default function AccountSettingsPage() {
                     name="confirmPassword"
                     value={formData.confirmPassword}
                     onChange={handleChange}
-                    className="w-full bg-black/5 dark:bg-black/30 border border-black/10 dark:border-white/10 rounded-none px-4 py-3 text-gray-900 dark:text-white focus:outline-none focus:border-neon-pink transition-colors"
+                    className="w-full bg-black/5 dark:bg-black/30 border border-black/10 dark:border-white/10 rounded-none px-4 py-3 text-foreground focus:outline-none focus:border-neon-pink transition-colors"
                     placeholder={t("confirm_password_placeholder") || "Şifrenizi tekrar girin"}
                   />
                 </div>
@@ -288,7 +288,7 @@ export default function AccountSettingsPage() {
             <button
               type="submit"
               disabled={loading}
-              className="w-full bg-neon-pink text-white font-bold uppercase tracking-widest py-4 clip-angled hover:bg-white hover:text-neon-pink transition-colors duration-300 disabled:opacity-50 disabled:cursor-not-allowed mt-8"
+              className="w-full bg-neon-pink text-foreground font-bold uppercase tracking-widest py-4 clip-angled hover:bg-white hover:text-neon-pink transition-colors duration-300 disabled:opacity-50 disabled:cursor-not-allowed mt-8"
             >
               {loading ? (
                 <span className="flex items-center justify-center">

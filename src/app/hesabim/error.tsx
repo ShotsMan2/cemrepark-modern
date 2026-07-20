@@ -3,7 +3,7 @@
 import { useEffect } from 'react';
 import Link from 'next/link';
 
-export default function CartError({
+export default function HesabimError({
   error,
   reset,
 }: {
@@ -11,11 +11,11 @@ export default function CartError({
   reset: () => void;
 }) {
   useEffect(() => {
-    console.error('Cart Error:', error);
+    console.error('Hesabim Error:', error);
   }, [error]);
 
   return (
-    <div className="min-h-[60vh] flex items-center justify-center p-6">
+    <div className="container-premium py-16 min-h-[60vh] flex items-center justify-center">
       <div className="max-w-md w-full glass-card p-8 text-center space-y-6">
         <div className="w-20 h-20 bg-danger/10 rounded-full flex items-center justify-center mx-auto mb-4">
           <svg className="w-10 h-10 text-danger" fill="none" viewBox="0 0 24 24" stroke="currentColor">
@@ -23,9 +23,9 @@ export default function CartError({
           </svg>
         </div>
         
-        <h2 className="text-2xl font-bold text-foreground">Sepet Yüklenemedi</h2>
+        <h2 className="text-2xl font-bold text-foreground">Hesap Bilgileri Yüklenemedi</h2>
         <p className="text-foreground/60 text-sm">
-          {error.message || "Sepet bilgilerinizi alırken bir sorun oluştu. Lütfen tekrar deneyin."}
+          {error.message || "Hesap detaylarınızı alırken bir sorun oluştu."}
         </p>
         
         <div className="flex flex-col space-y-3 pt-4">
@@ -33,7 +33,7 @@ export default function CartError({
             Tekrar Dene
           </button>
           <Link href="/" className="w-full py-3 px-4 bg-foreground/5 hover:bg-foreground/10 text-foreground rounded-xl font-medium transition-all">
-            Alışverişe Devam Et
+            Ana Sayfaya Dön
           </Link>
         </div>
       </div>

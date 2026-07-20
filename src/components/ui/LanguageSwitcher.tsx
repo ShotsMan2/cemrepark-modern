@@ -68,7 +68,7 @@ export default function LanguageSwitcher() {
       <button
         ref={buttonRef}
         onClick={() => setIsOpen(!isOpen)}
-        className="flex items-center gap-1.5 px-2 py-1 rounded-full border border-gray-300 dark:border-white/20 bg-white/50 dark:bg-black/50 hover:bg-white dark:hover:bg-black/80 transition-all duration-300 backdrop-blur-md text-xs font-bold text-gray-700 dark:text-gray-300 focus:outline-none focus:ring-1 focus:ring-primary/50"
+        className="flex items-center gap-1.5 px-2 py-1 rounded-full border border-gray-300 dark:border-white/20 bg-white/50 dark:bg-black/50 hover:bg-white dark:hover:bg-background/80 transition-all duration-300 backdrop-blur-md text-xs font-bold text-foreground/80 focus:outline-none focus:ring-1 focus:ring-primary/50"
         aria-haspopup="true"
         aria-expanded={isOpen}
         type="button"
@@ -85,7 +85,7 @@ export default function LanguageSwitcher() {
         createPortal(
           <div
             ref={dropdownRef}
-            className="fixed w-36 bg-white dark:bg-gray-900 rounded-xl border border-gray-200 dark:border-gray-700 shadow-2xl z-[9999] animate-slide-up"
+            className="fixed w-36 bg-background rounded-xl border border-gray-200 dark:border-gray-700 shadow-2xl z-[9999] animate-slide-up"
             style={{ top: pos.top, left: pos.left }}
           >
             <ul className="py-1" role="menu">
@@ -96,13 +96,13 @@ export default function LanguageSwitcher() {
                     className={`w-full flex items-center justify-between px-3 py-2 text-xs transition-colors duration-200 hover:bg-primary/10 ${
                       selectedLang.code === lang.code
                         ? "text-primary font-semibold bg-primary/5"
-                        : "text-gray-700 dark:text-gray-300"
+                        : "text-foreground/80"
                     }`}
                     role="menuitem"
                     type="button"
                   >
                     <span className="flex items-center gap-2">
-                      <span className="text-xs font-bold text-gray-500 dark:text-gray-400">{lang.short}</span>
+                      <span className="text-xs font-bold text-foreground/60">{lang.short}</span>
                       {lang.name}
                     </span>
                     {selectedLang.code === lang.code && (

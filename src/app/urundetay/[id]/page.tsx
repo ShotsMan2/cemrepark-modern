@@ -52,7 +52,7 @@ export default async function UrunDetay({ params }) {
   if (!product) {
     return (
       <div className="min-h-screen flex items-center justify-center pt-32 pb-24">
-        <h2 className="text-gray-900 dark:text-white text-3xl font-bold">Ürün Bulunamadı</h2>
+        <h2 className="text-foreground text-3xl font-bold">Ürün Bulunamadı</h2>
       </div>
     );
   }
@@ -78,7 +78,7 @@ export default async function UrunDetay({ params }) {
   const baseUrl = process.env.NEXT_PUBLIC_BASE_URL || "http://localhost:3000";
   const imageUrl = product.resim || (product.gorsel ? product.gorsel.split(',')[0] : "");
 
-  const jsonLd = {
+  const jsonLd: any = {
     "@context": "https://schema.org",
     "@type": "Product",
     name: product.ad,
@@ -88,7 +88,7 @@ export default async function UrunDetay({ params }) {
     mpn: product.id.toString(),
     brand: {
       "@type": "Brand",
-      name: "Cemre Park"
+      name: "Cemre Park",
     },
     offers: {
       "@type": "Offer",
@@ -121,11 +121,38 @@ export default async function UrunDetay({ params }) {
     }));
   }
 
+  const breadcrumbJsonLd = {
+    "@context": "https://schema.org",
+    "@type": "BreadcrumbList",
+    "itemListElement": [
+      {
+        "@type": "ListItem",
+        "position": 1,
+        "name": "Anasayfa",
+        "item": baseUrl
+      },
+      {
+        "@type": "ListItem",
+        "position": 2,
+        "name": product.kategori || "Ürünler",
+        "item": `${baseUrl}/search?q=${product.kategori || ""}`
+      },
+      {
+        "@type": "ListItem",
+        "position": 3,
+        "name": product.ad,
+        "item": `${baseUrl}/urundetay/${product.id}`
+      }
+    ]
+  };
+
+  const schemaArr = [jsonLd, breadcrumbJsonLd];
+
   return (
     <>
       <script
         type="application/ld+json"
-        dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }}
+        dangerouslySetInnerHTML={{ __html: JSON.stringify(schemaArr) }}
       />
       <ProductDetailsClient
         product={product}

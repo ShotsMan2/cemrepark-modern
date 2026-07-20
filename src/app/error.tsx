@@ -31,7 +31,7 @@ export default function Error({
         <div className="flex flex-col space-y-3 pt-4">
           <button
             onClick={() => reset()}
-            className="w-full py-3 px-4 bg-gradient-to-r from-red-500 to-pink-600 hover:from-red-600 hover:to-pink-700 text-white rounded-xl font-medium transition-all shadow-md hover:shadow-lg focus:ring-2 focus:ring-offset-2 focus:ring-red-500"
+            className="w-full py-3 px-4 bg-gradient-to-r from-red-500 to-pink-600 hover:from-red-600 hover:to-pink-700 text-foreground rounded-xl font-medium transition-all shadow-md hover:shadow-lg focus:ring-2 focus:ring-offset-2 focus:ring-red-500"
           >
             Tekrar Dene
           </button>

@@ -53,9 +53,9 @@ export default function StockWarning({ items }: StockWarningProps) {
           </thead>
           <tbody className="divide-y divide-red-50 dark:divide-gray-700">
             {displayItems.map((item) => (
-              <tr key={item.id} className="text-gray-700 dark:text-gray-300 hover:bg-red-50/30 dark:hover:bg-gray-700/50 transition-colors">
+              <tr key={item.id} className="text-foreground/80 hover:bg-red-50/30 dark:hover:bg-gray-700/50 transition-colors">
                 <td className="px-4 py-3 font-medium">{item.name}</td>
-                <td className="px-4 py-3 text-gray-500 dark:text-gray-400">{item.variation}</td>
+                <td className="px-4 py-3 text-foreground/60">{item.variation}</td>
                 <td className="px-4 py-3 text-right">
                   <span className="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-full text-xs font-bold bg-red-100 dark:bg-red-900/40 text-red-700 dark:text-red-400">
                     <TrendingDown className="w-3 h-3" />

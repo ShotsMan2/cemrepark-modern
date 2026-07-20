@@ -27,7 +27,7 @@ export function ProductCard({ product, onQuickView, className = "", delay = 0 }:
       <div className="relative aspect-[3/4] mb-4 overflow-hidden clip-angled transform-gpu skeleton">
         {product.etiket && (
           <div className="absolute top-2 left-2 z-20">
-            <span className="text-xs font-bold uppercase tracking-widest bg-gradient-to-r from-neon-pink to-holo-gold text-white px-3 py-1 clip-angled shadow-lg">
+            <span className="text-xs font-bold uppercase tracking-widest bg-gradient-to-r from-neon-pink to-holo-gold text-foreground px-3 py-1 clip-angled shadow-lg">
               {t(product.etiket) as string}
             </span>
           </div>
@@ -50,7 +50,7 @@ export function ProductCard({ product, onQuickView, className = "", delay = 0 }:
           <div className="absolute bottom-4 left-0 w-full px-4 flex justify-center opacity-0 group-hover:opacity-100 transition-all duration-500 translate-y-8 group-hover:translate-y-0 z-30">
             <button
               onClick={(e) => { e.preventDefault(); onQuickView(product); }}
-              className="text-xs uppercase tracking-widest font-black text-gray-900 dark:text-white hover:text-white hover:bg-neon-pink transition-colors bg-white/90 dark:bg-black/80 px-6 py-3 rounded-full backdrop-blur-md shadow-xl w-full active:scale-95"
+              className="text-xs uppercase tracking-widest font-black text-foreground hover:text-foreground hover:bg-neon-pink transition-colors glass-panel px-6 py-3 rounded-full backdrop-blur-md shadow-xl w-full active:scale-95"
             >
               {t("quick_view") as string}
             </button>
@@ -59,14 +59,14 @@ export function ProductCard({ product, onQuickView, className = "", delay = 0 }:
       </div>
 
       <div className="p-4 relative">
-        <p className="text-gray-500 dark:text-gray-400 text-xs uppercase tracking-widest mb-1 group-hover:text-holo-gold transition-colors">
+        <p className="text-foreground/60 text-xs uppercase tracking-widest mb-1 group-hover:text-holo-gold transition-colors">
           {t(product.kategori) as string}
         </p>
         <Link href={`/urundetay/${product.id}`} className="block before:absolute before:inset-0 before:z-10">
-          <h3 className="text-gray-900 dark:text-white font-black text-lg truncate mb-2 group-hover:text-neon-pink transition-colors">{t(product.ad) as string}</h3>
+          <h3 className="text-foreground font-black text-lg truncate mb-2 group-hover:text-neon-pink transition-colors">{t(product.ad) as string}</h3>
         </Link>
         <div className="flex justify-between items-center mt-3">
-          <PriceDisplay amount={product.fiyat} className="text-gray-900 dark:text-white font-black text-xl" />
+          <PriceDisplay amount={product.fiyat} className="text-foreground font-black text-xl" />
           <FavoriteButton product={product} className="relative z-30 transform hover:scale-110 active:scale-90" />
         </div>
       </div>

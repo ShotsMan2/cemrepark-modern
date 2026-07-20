@@ -25,8 +25,8 @@ const PIE_COLORS = ["#d61c7b", "#d97706", "#e83d8b", "#f59e0b", "#f06292", "#fbb
 const CustomTooltip = ({ active, payload, label }: any) => {
   if (active && payload && payload.length) {
     return (
-      <div className="bg-black/90 border border-white/10 p-3 rounded-lg shadow-2xl backdrop-blur-md">
-        <p className="text-white font-bold mb-1">{label}</p>
+      <div className="bg-black/90 border border-glass-border p-3 rounded-lg shadow-2xl backdrop-blur-md">
+        <p className="text-foreground font-bold mb-1">{label}</p>
         {payload.map((entry, index) => (
           <p key={index} className="text-sm" style={{ color: entry.color || entry.fill }}>
             {entry.name}: <span className="font-bold">{entry.value}</span>
@@ -84,15 +84,15 @@ export default function DashboardAnalytics() {
       {/* Top row: Revenue and Orders Charts */}
       <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
         {/* Revenue Area Chart */}
-        <div className="glass-panel p-6 md:p-8 clip-angled relative border border-white/5 w-full">
+        <div className="glass-panel p-6 md:p-8 clip-angled relative border border-glass-border w-full">
           <div className="flex justify-between items-center mb-6">
             <div>
-              <h3 className="text-white font-bold uppercase tracking-widest text-lg">Gelir Analizi (Son 7 Gün)</h3>
-              <p className="text-gray-500 text-xs">Günlük satış hacmi trendleri</p>
+              <h3 className="text-foreground font-bold uppercase tracking-widest text-lg">Gelir Analizi (Son 7 Gün)</h3>
+              <p className="text-foreground/60 text-xs">Günlük satış hacmi trendleri</p>
             </div>
             <div className="text-right">
               <p className="text-primary font-black text-2xl">₺{data.revenue?.toLocaleString("tr-TR")}</p>
-              <p className="text-gray-500 text-xs uppercase tracking-widest">Toplam Gelir</p>
+              <p className="text-foreground/60 text-xs uppercase tracking-widest">Toplam Gelir</p>
             </div>
           </div>
           
@@ -116,15 +116,15 @@ export default function DashboardAnalytics() {
         </div>
 
         {/* Orders Bar/Line Chart */}
-        <div className="glass-panel p-6 md:p-8 clip-angled relative border border-white/5 w-full">
+        <div className="glass-panel p-6 md:p-8 clip-angled relative border border-glass-border w-full">
           <div className="flex justify-between items-center mb-6">
             <div>
-              <h3 className="text-white font-bold uppercase tracking-widest text-lg">Sipariş Trendi (Son 7 Gün)</h3>
-              <p className="text-gray-500 text-xs">Günlük sipariş adetleri</p>
+              <h3 className="text-foreground font-bold uppercase tracking-widest text-lg">Sipariş Trendi (Son 7 Gün)</h3>
+              <p className="text-foreground/60 text-xs">Günlük sipariş adetleri</p>
             </div>
             <div className="text-right">
               <p className="text-[#00ffff] font-black text-2xl">{data.orders?.toLocaleString("tr-TR")}</p>
-              <p className="text-gray-500 text-xs uppercase tracking-widest">Toplam Sipariş</p>
+              <p className="text-foreground/60 text-xs uppercase tracking-widest">Toplam Sipariş</p>
             </div>
           </div>
           
@@ -146,9 +146,9 @@ export default function DashboardAnalytics() {
       {/* Middle row: 2 charts */}
       <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
         {/* Category Distribution Bar Chart */}
-        <div className="glass-panel p-6 md:p-8 clip-angled relative border border-white/5 h-[350px] flex flex-col">
-          <h3 className="text-white font-bold uppercase tracking-widest mb-2">Kategori Dağılımı</h3>
-          <p className="text-gray-500 text-xs mb-6">Kategorilere göre ürün sayıları</p>
+        <div className="glass-panel p-6 md:p-8 clip-angled relative border border-glass-border h-[350px] flex flex-col">
+          <h3 className="text-foreground font-bold uppercase tracking-widest mb-2">Kategori Dağılımı</h3>
+          <p className="text-foreground/60 text-xs mb-6">Kategorilere göre ürün sayıları</p>
           <div className="flex-1 w-full">
             <ResponsiveContainer width="100%" height="100%">
               <BarChart data={data.categoryData || []} margin={{ top: 10, right: 10, left: -20, bottom: 0 }}>
@@ -163,9 +163,9 @@ export default function DashboardAnalytics() {
         </div>
 
         {/* Order Status Pie Chart */}
-        <div className="glass-panel p-6 md:p-8 clip-angled relative border border-white/5 h-[350px] flex flex-col">
-          <h3 className="text-white font-bold uppercase tracking-widest mb-2">Sipariş Durum Dağılımı</h3>
-          <p className="text-gray-500 text-xs mb-6">Siparişlerin onaylanma/iptal durumları</p>
+        <div className="glass-panel p-6 md:p-8 clip-angled relative border border-glass-border h-[350px] flex flex-col">
+          <h3 className="text-foreground font-bold uppercase tracking-widest mb-2">Sipariş Durum Dağılımı</h3>
+          <p className="text-foreground/60 text-xs mb-6">Siparişlerin onaylanma/iptal durumları</p>
           <div className="flex-1 w-full">
             <ResponsiveContainer width="100%" height="100%">
               <PieChart>
@@ -194,8 +194,8 @@ export default function DashboardAnalytics() {
       {/* Bottom row: Login Stats & Roles */}
       <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
         {/* User Roles Pie Chart */}
-        <div className="glass-panel p-6 md:p-8 clip-angled relative border border-white/5 h-[300px] flex flex-col">
-          <h3 className="text-white font-bold uppercase tracking-widest mb-2">Kullanıcı Rolleri</h3>
+        <div className="glass-panel p-6 md:p-8 clip-angled relative border border-glass-border h-[300px] flex flex-col">
+          <h3 className="text-foreground font-bold uppercase tracking-widest mb-2">Kullanıcı Rolleri</h3>
           <div className="flex-1 w-full">
             <ResponsiveContainer width="100%" height="100%">
               <PieChart>
@@ -219,8 +219,8 @@ export default function DashboardAnalytics() {
         </div>
 
         {/* Login Success Rate */}
-        <div className="glass-panel p-6 md:p-8 clip-angled relative border border-white/5 h-[300px] flex flex-col">
-          <h3 className="text-white font-bold uppercase tracking-widest mb-2">Giriş Başarı Oranı</h3>
+        <div className="glass-panel p-6 md:p-8 clip-angled relative border border-glass-border h-[300px] flex flex-col">
+          <h3 className="text-foreground font-bold uppercase tracking-widest mb-2">Giriş Başarı Oranı</h3>
           <div className="flex-1 w-full">
             <ResponsiveContainer width="100%" height="100%">
               <BarChart data={data.loginStats || []} layout="vertical" margin={{ top: 10, right: 30, left: 20, bottom: 5 }}>

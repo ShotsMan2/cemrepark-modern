@@ -49,24 +49,24 @@ export default function LoginPage() {
     <div className="min-h-screen pt-32 pb-20 flex items-center justify-center bg-background relative overflow-hidden px-4">
       <div className="max-w-md w-full glass-panel p-8 rounded-xl shadow-2xl relative overflow-hidden">
         <div className="absolute top-0 left-0 w-full h-1 bg-gradient-to-r from-neon-pink to-holo-gold"></div>
-        <h2 className="text-3xl font-black text-gray-900 dark:text-white mb-6 text-center">{t("login_title")}</h2>
+        <h2 className="text-3xl font-black text-foreground mb-6 text-center">{t("login_title")}</h2>
 
         <form onSubmit={handleSubmit} className="space-y-6">
           <div>
-            <label className="block text-gray-600 dark:text-gray-400 text-sm font-bold mb-2 uppercase tracking-wider">
+            <label className="block text-foreground/70 text-sm font-bold mb-2 uppercase tracking-wider">
               {t("email_title")}
             </label>
             <input
               type="email"
               value={email}
               onChange={(e) => setEmail(e.target.value)}
-              className="w-full bg-black/5 dark:bg-black/50 border border-black/10 dark:border-gray-700 text-gray-900 dark:text-white px-4 py-3 rounded-lg focus:outline-none focus:border-neon-pink transition-colors font-medium"
+              className="w-full bg-black/5 dark:bg-black/50 border border-black/10 dark:border-gray-700 text-foreground px-4 py-3 rounded-lg focus:outline-none focus:border-neon-pink transition-colors font-medium"
               required
             />
           </div>
 
           <div>
-            <label className="block text-gray-600 dark:text-gray-400 text-sm font-bold mb-2 uppercase tracking-wider">
+            <label className="block text-foreground/70 text-sm font-bold mb-2 uppercase tracking-wider">
               {t("password_label")}
             </label>
             <div className="relative">
@@ -74,7 +74,7 @@ export default function LoginPage() {
                 type={showPassword ? "text" : "password"}
                 value={password}
                 onChange={(e) => setPassword(e.target.value)}
-                className="w-full bg-black/5 dark:bg-black/50 border border-black/10 dark:border-gray-700 text-gray-900 dark:text-white px-4 py-3 rounded-lg focus:outline-none focus:border-neon-pink transition-colors font-medium pr-12"
+                className="w-full bg-black/5 dark:bg-black/50 border border-black/10 dark:border-gray-700 text-foreground px-4 py-3 rounded-lg focus:outline-none focus:border-neon-pink transition-colors font-medium pr-12"
                 required
               />
               <button
@@ -100,7 +100,7 @@ export default function LoginPage() {
           <div className="flex items-center justify-between">
             <Link
               href="/forgot-password"
-              className="text-sm text-gray-600 dark:text-gray-400 hover:text-holo-gold dark:hover:text-holo-gold transition-colors font-semibold"
+              className="text-sm text-foreground/70 hover:text-holo-gold dark:hover:text-holo-gold transition-colors font-semibold"
             >
               {t("forgot_password")}
             </Link>
@@ -115,7 +115,7 @@ export default function LoginPage() {
           </button>
         </form>
 
-        <p className="mt-6 text-center text-gray-600 dark:text-gray-400 font-medium">
+        <p className="mt-6 text-center text-foreground/70 font-medium">
           {t("dont_have_account")}{" "}
           <Link href="/register" className="text-holo-gold hover:underline font-bold">
             {t("register")}

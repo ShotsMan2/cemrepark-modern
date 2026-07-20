@@ -1,7 +1,20 @@
 import { prisma } from "@/lib/prisma";
 import SearchClient from "./SearchClient";
+import { getSettings } from "@/data/settings";
 
 export const dynamic = "force-dynamic";
+
+export async function generateMetadata({ searchParams }) {
+  const resolvedParams = await searchParams;
+  const query = resolvedParams.q || "";
+  const settings = getSettings();
+  const siteAdi = settings.siteAdi || "Cemre Park";
+  const title = query ? `Arama: ${query}` : "Tüm Ürünler";
+  return {
+    title: `${title} | ${siteAdi}`,
+    description: `${siteAdi} online mağazasında ${title} sonuçlarını inceleyin.`,
+  };
+}
 
 export default async function SearchPage({ searchParams }) {
   const resolvedParams = await searchParams;

@@ -61,7 +61,7 @@ export default function ShippingSelector({ selectedId, onSelect }: ShippingSelec
         <svg className="w-6 h-6 text-pink-600 dark:text-pink-400" fill="none" viewBox="0 0 24 24" stroke="currentColor">
           <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M5 8h14M5 8a2 2 0 110-4h14a2 2 0 110 4M5 8v10a2 2 0 002 2h10a2 2 0 002-2V8m-9 4h4" />
         </svg>
-        <h3 className="text-xl font-semibold text-gray-800 dark:text-gray-200">
+        <h3 className="text-xl font-semibold text-foreground/90">
           Kargo Seçimi
         </h3>
       </div>
@@ -80,7 +80,7 @@ export default function ShippingSelector({ selectedId, onSelect }: ShippingSelec
                 flex flex-col items-center text-center gap-2
                 ${isSelected 
                   ? 'border-pink-500 bg-pink-50/50 dark:bg-pink-900/20 shadow-[0_0_15px_rgba(214,28,123,0.15)]' 
-                  : 'border-gray-200 dark:border-gray-800 bg-white dark:bg-gray-900 hover:border-pink-300 dark:hover:border-pink-700'}
+                  : 'border-gray-200 dark:border-gray-800 bg-background hover:border-pink-300 dark:hover:border-pink-700'}
               `}
             >
               {isSelected && (
@@ -98,8 +98,8 @@ export default function ShippingSelector({ selectedId, onSelect }: ShippingSelec
                 </div>
               )}
               
-              <div className={`w-14 h-14 rounded-2xl flex items-center justify-center mb-1 transition-colors ${isSelected ? 'bg-gradient-to-br from-pink-100 to-pink-200 dark:from-pink-800 dark:to-pink-900 shadow-inner' : 'bg-gray-100 dark:bg-gray-800'}`}>
-                <svg className={`w-7 h-7 ${isSelected ? 'text-pink-700 dark:text-pink-300' : 'text-gray-500 dark:text-gray-400'}`} fill="none" viewBox="0 0 24 24" stroke="currentColor">
+              <div className={`w-14 h-14 rounded-2xl flex items-center justify-center mb-1 transition-colors ${isSelected ? 'bg-gradient-to-br from-pink-100 to-pink-200 dark:from-pink-800 dark:to-pink-900 shadow-inner' : 'bg-foreground/10'}`}>
+                <svg className={`w-7 h-7 ${isSelected ? 'text-pink-700 dark:text-pink-300' : 'text-foreground/60'}`} fill="none" viewBox="0 0 24 24" stroke="currentColor">
                   {/* Shipping Truck Icon */}
                   <path d="M9 17a2 2 0 11-4 0 2 2 0 014 0zM19 17a2 2 0 11-4 0 2 2 0 014 0z" />
                   <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M13 16V6a1 1 0 00-1-1H4a1 1 0 00-1 1v10a1 1 0 001 1h1m8-1a1 1 0 01-1 1H9m4-1V8a1 1 0 011-1h2.586a1 1 0 01.707.293l3.414 3.414a1 1 0 01.293.707V16a1 1 0 01-1 1h-1m-6-1a1 1 0 001 1h1M5 17a2 2 0 104 0m-4 0a2 2 0 114 0m6 0a2 2 0 104 0m-4 0a2 2 0 114 0" />
@@ -107,15 +107,15 @@ export default function ShippingSelector({ selectedId, onSelect }: ShippingSelec
               </div>
               
               <div className="flex-1 mt-2">
-                <h4 className={`font-semibold text-lg ${isSelected ? 'text-pink-800 dark:text-pink-300' : 'text-gray-700 dark:text-gray-300'}`}>
+                <h4 className={`font-semibold text-lg ${isSelected ? 'text-pink-800 dark:text-pink-300' : 'text-foreground/80'}`}>
                   {provider.name}
                 </h4>
-                <p className="text-xs text-gray-500 dark:text-gray-400 mt-1 font-medium bg-gray-100 dark:bg-gray-800 px-2 py-1 rounded-full inline-block">
+                <p className="text-xs text-foreground/60 mt-1 font-medium bg-foreground/10 px-2 py-1 rounded-full inline-block">
                   {provider.estimatedDays}
                 </p>
               </div>
 
-              <div className={`mt-3 font-bold text-xl ${isSelected ? 'text-pink-600 dark:text-pink-400' : 'text-gray-900 dark:text-gray-100'}`}>
+              <div className={`mt-3 font-bold text-xl ${isSelected ? 'text-pink-600 dark:text-pink-400' : 'text-foreground'}`}>
                 {provider.price.toLocaleString('tr-TR', { style: 'currency', currency: 'TRY' })}
               </div>
             </motion.div>

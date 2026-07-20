@@ -85,7 +85,7 @@ export default memo(function HeroSection({ activeBanners }: { activeBanners: any
                 >
                   <Link
                     href={slide.linkUrl || "/search"}
-                    className="glass-panel px-8 py-4 bg-foreground text-background dark:bg-white dark:text-black font-bold uppercase tracking-widest hover:bg-primary dark:hover:bg-primary hover:text-white hover:border-primary transition-all duration-300 clip-angled text-center inline-flex items-center gap-2 group"
+                    className="glass-panel px-8 py-4 bg-foreground text-background dark:bg-white dark:text-black font-bold uppercase tracking-widest hover:bg-primary dark:hover:bg-primary hover:text-foreground hover:border-primary transition-all duration-300 clip-angled text-center inline-flex items-center gap-2 group"
                   >
                     {t("explore_collection")}
                     <svg className="w-5 h-5 group-hover:translate-x-2 transition-transform" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M17 8l4 4m0 0l-4 4m4-4H3"></path></svg>
@@ -125,7 +125,7 @@ export default memo(function HeroSection({ activeBanners }: { activeBanners: any
               onClick={() => setCurrentSlide(index)}
               className={`relative h-2 rounded-full transition-all duration-500 overflow-hidden ${
                 index === currentSlide 
-                  ? "w-16 bg-gray-200 dark:bg-gray-700" 
+                  ? "w-16 bg-foreground/20" 
                   : "w-4 bg-gray-300 dark:bg-gray-600 hover:bg-primary/50"
               }`}
               aria-label={`Slayt ${index + 1}`}

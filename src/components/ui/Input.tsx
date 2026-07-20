@@ -14,13 +14,13 @@ export const Input = React.forwardRef<HTMLInputElement, InputProps>(({
   return (
     <div className="w-full">
       {label && (
-        <label className="block text-gray-600 dark:text-gray-400 text-xs font-bold mb-2 uppercase tracking-wider">
+        <label className="block text-foreground/70 text-xs font-bold mb-2 uppercase tracking-wider">
           {label}
         </label>
       )}
       <input
         ref={ref}
-        className={`w-full bg-black/5 dark:bg-black/50 border ${error ? 'border-red-500' : 'border-black/10 dark:border-white/10'} text-gray-900 dark:text-white px-4 py-3 text-sm focus:border-neon-pink outline-none transition-colors ${className}`}
+        className={`w-full bg-black/5 dark:bg-black/50 border ${error ? 'border-red-500' : 'border-black/10 dark:border-white/10'} text-foreground px-4 py-3 text-sm focus:border-neon-pink outline-none transition-colors ${className}`}
         {...props}
       />
       {error && <p className="mt-1 text-xs text-red-500">{error}</p>}
@@ -44,13 +44,13 @@ export const Textarea = React.forwardRef<HTMLTextAreaElement, TextareaProps>(({
   return (
     <div className="w-full">
       {label && (
-        <label className="block text-gray-600 dark:text-gray-400 text-xs font-bold mb-2 uppercase tracking-wider">
+        <label className="block text-foreground/70 text-xs font-bold mb-2 uppercase tracking-wider">
           {label}
         </label>
       )}
       <textarea
         ref={ref}
-        className={`w-full bg-black/5 dark:bg-black/50 border ${error ? 'border-red-500' : 'border-black/10 dark:border-white/10'} text-gray-900 dark:text-white px-4 py-3 text-sm focus:border-neon-pink outline-none transition-colors ${className}`}
+        className={`w-full bg-black/5 dark:bg-black/50 border ${error ? 'border-red-500' : 'border-black/10 dark:border-white/10'} text-foreground px-4 py-3 text-sm focus:border-neon-pink outline-none transition-colors ${className}`}
         {...props}
       />
       {error && <p className="mt-1 text-xs text-red-500">{error}</p>}

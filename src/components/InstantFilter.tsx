@@ -95,22 +95,22 @@ export default function InstantFilter({
 
   return (
     <div
-      className="bg-white/40 dark:bg-zinc-900/40 backdrop-blur-3xl p-8 rounded-[2.5rem] shadow-2xl border border-white/50 dark:border-white/10 relative overflow-hidden group transition-all duration-500 hover:shadow-neon-pink/10"
+      className="glass-panel p-8 rounded-[2.5rem] shadow-2xl relative overflow-hidden group transition-all duration-500 hover:shadow-neon-pink/10"
       data-aos="fade-right"
     >
       <div className="absolute top-0 right-0 w-48 h-48 bg-gradient-to-br from-neon-pink/20 to-holo-gold/20 rounded-full blur-[60px] pointer-events-none group-hover:scale-150 transition-transform duration-1000"></div>
       <div className="absolute bottom-0 left-0 w-32 h-32 bg-gradient-to-tr from-blue-500/10 to-purple-500/10 rounded-full blur-[50px] pointer-events-none group-hover:scale-150 transition-transform duration-1000"></div>
 
-      <h3 className="text-2xl font-black text-transparent bg-clip-text bg-gradient-to-r from-gray-900 to-gray-500 dark:from-white dark:to-gray-400 mb-8 uppercase tracking-[0.15em] border-b border-gray-200 dark:border-white/10 pb-4 relative z-10">
+      <h3 className="text-2xl font-black text-transparent bg-clip-text bg-gradient-to-r from-gray-900 to-gray-500 dark:from-white dark:to-gray-400 mb-8 uppercase tracking-[0.15em] border-b border-glass-border pb-4 relative z-10">
         Filtreler
       </h3>
 
       {/* Category Tree */}
       <div className="mb-8 relative z-10">
-        <h4 className="font-black text-xs text-gray-500 dark:text-gray-400 mb-4 uppercase tracking-[0.2em]">
+        <h4 className="font-black text-xs text-foreground/60 mb-4 uppercase tracking-[0.2em]">
           Kategoriler
         </h4>
-        <div className="space-y-1 bg-white/30 dark:bg-zinc-950/30 p-2 rounded-2xl border border-white/20 dark:border-white/5 shadow-inner">
+        <div className="space-y-1 bg-foreground/5 p-2 rounded-2xl border border-glass-border shadow-inner">
           {["Tümü", ...categories].map((cat, idx) => {
             const val = cat === "Tümü" ? "" : cat;
             const isSelected = filters.category === val;
@@ -136,7 +136,7 @@ export default function InstantFilter({
       {/* Dynamic Price Slider */}
       <div className="mb-8 relative z-10">
         <div className="flex justify-between items-center mb-4">
-          <h4 className="font-black text-xs text-gray-500 dark:text-gray-400 uppercase tracking-[0.2em]">
+          <h4 className="font-black text-xs text-foreground/60 uppercase tracking-[0.2em]">
             Fiyat (₺)
           </h4>
           <span className="text-[10px] font-bold text-neon-pink bg-neon-pink/10 px-2 py-1 rounded-md">
@@ -162,7 +162,7 @@ export default function InstantFilter({
 
       {/* Color Swatches */}
       <div className="mb-8 relative z-10">
-        <h4 className="font-black text-xs text-gray-500 dark:text-gray-400 mb-4 uppercase tracking-[0.2em]">
+        <h4 className="font-black text-xs text-foreground/60 mb-4 uppercase tracking-[0.2em]">
           Renkler
         </h4>
         <div className="flex flex-wrap gap-3">
@@ -196,7 +196,7 @@ export default function InstantFilter({
 
       {/* Sizes */}
       <div className="mb-8 relative z-10">
-        <h4 className="font-black text-xs text-gray-500 dark:text-gray-400 mb-4 uppercase tracking-[0.2em]">
+        <h4 className="font-black text-xs text-foreground/60 mb-4 uppercase tracking-[0.2em]">
           Bedenler
         </h4>
         <div className="grid grid-cols-4 gap-3">
@@ -208,8 +208,8 @@ export default function InstantFilter({
                 onClick={() => handleChange("size", isSelected ? "" : size)}
                 className={`flex items-center justify-center aspect-square text-sm font-black rounded-2xl transition-all duration-300 transform active:scale-95 ${
                   isSelected
-                    ? "bg-gradient-to-br from-gray-900 to-black dark:from-white dark:to-gray-200 text-white dark:text-black shadow-xl shadow-black/20 dark:shadow-white/20 scale-110"
-                    : "bg-white/80 dark:bg-zinc-800/80 text-gray-700 dark:text-gray-300 border border-gray-200 dark:border-zinc-700 hover:border-gray-900 dark:hover:border-white hover:shadow-md"
+                    ? "bg-gradient-to-br from-gray-900 to-black dark:from-white dark:to-gray-200 text-foreground dark:text-black shadow-xl shadow-black/20 dark:shadow-white/20 scale-110"
+                    : "bg-white/80 dark:bg-zinc-800/80 text-foreground/80 border border-gray-200 dark:border-zinc-700 hover:border-gray-900 dark:hover:border-white hover:shadow-md"
                 }`}
               >
                 {size}
@@ -222,7 +222,7 @@ export default function InstantFilter({
       {/* In Stock Toggle */}
       <div className="mb-8 relative z-10">
         <label className="flex items-center justify-between cursor-pointer p-4 rounded-2xl bg-white/50 dark:bg-zinc-800/50 border border-gray-200 dark:border-zinc-700 hover:shadow-md transition-all">
-          <span className="text-xs font-black text-gray-700 dark:text-gray-300 uppercase tracking-widest">
+          <span className="text-xs font-black text-foreground/80 uppercase tracking-widest">
             Sadece Stoktakiler
           </span>
           <div className="relative">
@@ -251,7 +251,7 @@ export default function InstantFilter({
           setTempPrice({ min: 0, max: 10000 });
           onFilterChange(reset);
         }}
-        className="w-full py-4 text-xs font-black uppercase tracking-[0.2em] text-gray-600 dark:text-gray-400 bg-gray-100/50 dark:bg-zinc-800/50 hover:bg-red-50 dark:hover:bg-red-500/10 hover:text-red-500 dark:hover:text-red-400 rounded-2xl transition-all duration-300 active:scale-95 relative z-10 group"
+        className="w-full py-4 text-xs font-black uppercase tracking-[0.2em] text-foreground/70 bg-gray-100/50 dark:bg-zinc-800/50 hover:bg-red-50 dark:hover:bg-red-500/10 hover:text-red-500 dark:hover:text-red-400 rounded-2xl transition-all duration-300 active:scale-95 relative z-10 group"
       >
         <span className="flex items-center justify-center gap-2">
           <svg

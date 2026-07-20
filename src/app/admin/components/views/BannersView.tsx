@@ -233,15 +233,15 @@ export default function BannersView() {
 
   return (
     <div className="space-y-6 animate-fade-in">
-      <div className="flex justify-between items-center bg-black/40 p-4 rounded-xl border border-white/5">
+      <div className="flex justify-between items-center bg-black/40 p-4 rounded-xl border border-glass-border">
         <div>
-          <h2 className="text-xl font-bold text-white uppercase tracking-widest">Banner Yönetimi</h2>
-          <p className="text-gray-400 text-sm mt-1">Ana sayfa görsel vitrinini buradan yönetin.</p>
+          <h2 className="text-xl font-bold text-foreground uppercase tracking-widest">Banner Yönetimi</h2>
+          <p className="text-foreground/50 text-sm mt-1">Ana sayfa görsel vitrinini buradan yönetin.</p>
         </div>
         <button
           onClick={() => setIsPreviewMode(!isPreviewMode)}
           className={`flex items-center gap-2 px-4 py-2 rounded font-bold uppercase tracking-wider text-sm transition-colors ${
-            isPreviewMode ? "bg-neon-pink text-white" : "bg-white/10 text-gray-300 hover:bg-white/20"
+            isPreviewMode ? "bg-neon-pink text-foreground" : "bg-foreground/10 text-foreground/70 hover:bg-foreground/20"
           }`}
         >
           <LayoutGrid size={18} />
@@ -261,7 +261,7 @@ export default function BannersView() {
                 className="object-cover"
               />
             ) : (
-              <div className="w-full h-full flex items-center justify-center text-gray-500">Aktif banner bulunamadı</div>
+              <div className="w-full h-full flex items-center justify-center text-foreground/60">Aktif banner bulunamadı</div>
             )}
             <div className="absolute bottom-4 left-1/2 -translate-x-1/2 flex gap-2">
               {banners.filter(b => b.isActive).map((_, i) => (
@@ -271,45 +271,45 @@ export default function BannersView() {
           </div>
         </div>
       ) : (
-        <div className="glass-panel p-6 clip-angled border border-white/5">
-          <h2 className="text-xl font-bold text-white uppercase tracking-widest mb-6">
+        <div className="glass-panel p-6 clip-angled border border-glass-border">
+          <h2 className="text-xl font-bold text-foreground uppercase tracking-widest mb-6">
             {editingId ? "Banner Düzenle" : "Yeni Banner Ekle"}
           </h2>
           <form onSubmit={handleSubmit} className="grid grid-cols-1 md:grid-cols-2 gap-6">
             <div className="space-y-4">
               <div>
-                <label className="block text-gray-400 text-xs font-bold mb-2 uppercase">Banner Başlığı</label>
+                <label className="block text-foreground/50 text-xs font-bold mb-2 uppercase">Banner Başlığı</label>
                 <input
                   type="text"
                   name="title"
                   value={formData.title}
                   onChange={handleInputChange}
-                  className="w-full bg-black/50 border border-white/10 text-white px-4 py-3 text-sm focus:border-neon-pink outline-none transition-colors"
+                  className="w-full bg-background/50 border border-glass-border text-foreground px-4 py-3 text-sm focus:border-neon-pink outline-none transition-colors"
                   placeholder="Yaz Kampanyası"
                   required
                 />
               </div>
 
               <div>
-                <label className="block text-gray-400 text-xs font-bold mb-2 uppercase">Yönlendirme Linki (Opsiyonel)</label>
+                <label className="block text-foreground/50 text-xs font-bold mb-2 uppercase">Yönlendirme Linki (Opsiyonel)</label>
                 <input
                   type="text"
                   name="linkUrl"
                   value={formData.linkUrl}
                   onChange={handleInputChange}
-                  className="w-full bg-black/50 border border-white/10 text-white px-4 py-3 text-sm focus:border-neon-pink outline-none transition-colors"
+                  className="w-full bg-background/50 border border-glass-border text-foreground px-4 py-3 text-sm focus:border-neon-pink outline-none transition-colors"
                   placeholder="/kategori/yeni-sezon"
                 />
               </div>
 
               <div className="grid grid-cols-2 gap-4">
                 <div>
-                  <label className="block text-gray-400 text-xs font-bold mb-2 uppercase">Cihaz</label>
+                  <label className="block text-foreground/50 text-xs font-bold mb-2 uppercase">Cihaz</label>
                   <select
                     name="deviceType"
                     value={formData.deviceType}
                     onChange={handleInputChange}
-                    className="w-full bg-black/50 border border-white/10 text-white px-4 py-3 text-sm focus:border-neon-pink outline-none appearance-none"
+                    className="w-full bg-background/50 border border-glass-border text-foreground px-4 py-3 text-sm focus:border-neon-pink outline-none appearance-none"
                   >
                     <option value="ALL">Tümü</option>
                     <option value="DESKTOP">Sadece Masaüstü</option>
@@ -317,13 +317,13 @@ export default function BannersView() {
                   </select>
                 </div>
                 <div>
-                  <label className="block text-gray-400 text-xs font-bold mb-2 uppercase">Sıra</label>
+                  <label className="block text-foreground/50 text-xs font-bold mb-2 uppercase">Sıra</label>
                   <input
                     type="number"
                     name="order"
                     value={formData.order}
                     onChange={handleInputChange}
-                    className="w-full bg-black/50 border border-white/10 text-white px-4 py-3 text-sm focus:border-neon-pink outline-none"
+                    className="w-full bg-background/50 border border-glass-border text-foreground px-4 py-3 text-sm focus:border-neon-pink outline-none"
                     placeholder="0"
                   />
                 </div>
@@ -331,23 +331,23 @@ export default function BannersView() {
 
               <div className="grid grid-cols-2 gap-4">
                 <div>
-                  <label className="block text-gray-400 text-xs font-bold mb-2 uppercase flex items-center gap-1"><Calendar size={12}/> Başlangıç</label>
+                  <label className="block text-foreground/50 text-xs font-bold mb-2 uppercase flex items-center gap-1"><Calendar size={12}/> Başlangıç</label>
                   <input
                     type="datetime-local"
                     name="startDate"
                     value={formData.startDate}
                     onChange={handleInputChange}
-                    className="w-full bg-black/50 border border-white/10 text-gray-300 px-3 py-2 text-sm focus:border-neon-pink outline-none [color-scheme:dark]"
+                    className="w-full bg-background/50 border border-glass-border text-foreground/70 px-3 py-2 text-sm focus:border-neon-pink outline-none [color-scheme:dark]"
                   />
                 </div>
                 <div>
-                  <label className="block text-gray-400 text-xs font-bold mb-2 uppercase flex items-center gap-1"><Calendar size={12}/> Bitiş</label>
+                  <label className="block text-foreground/50 text-xs font-bold mb-2 uppercase flex items-center gap-1"><Calendar size={12}/> Bitiş</label>
                   <input
                     type="datetime-local"
                     name="endDate"
                     value={formData.endDate}
                     onChange={handleInputChange}
-                    className="w-full bg-black/50 border border-white/10 text-gray-300 px-3 py-2 text-sm focus:border-neon-pink outline-none [color-scheme:dark]"
+                    className="w-full bg-background/50 border border-glass-border text-foreground/70 px-3 py-2 text-sm focus:border-neon-pink outline-none [color-scheme:dark]"
                   />
                 </div>
               </div>
@@ -361,16 +361,16 @@ export default function BannersView() {
                   id="isActiveCheckbox"
                   className="w-5 h-5 accent-neon-pink"
                 />
-                <label htmlFor="isActiveCheckbox" className="text-gray-300 text-sm font-bold cursor-pointer">
+                <label htmlFor="isActiveCheckbox" className="text-foreground/70 text-sm font-bold cursor-pointer">
                   Aktif Mi?
                 </label>
               </div>
             </div>
 
             <div className="space-y-4">
-              <label className="block text-gray-400 text-xs font-bold mb-2 uppercase">Banner Görseli (1920x800 önerilir)</label>
+              <label className="block text-foreground/50 text-xs font-bold mb-2 uppercase">Banner Görseli (1920x800 önerilir)</label>
               
-              <div className="border-2 border-dashed border-white/10 hover:border-neon-pink/50 transition-colors bg-black/30 rounded-lg p-6 flex flex-col items-center justify-center relative min-h-[200px]">
+              <div className="border-2 border-dashed border-glass-border hover:border-neon-pink/50 transition-colors bg-black/30 rounded-lg p-6 flex flex-col items-center justify-center relative min-h-[200px]">
                 {formData.imageUrl ? (
                   <>
                     <Image
@@ -383,7 +383,7 @@ export default function BannersView() {
                       <button 
                         type="button" 
                         onClick={() => setFormData(prev => ({...prev, imageUrl: ""}))}
-                        className="bg-red-500/80 hover:bg-red-500 text-white p-2 rounded-full backdrop-blur-sm z-10 transition-colors"
+                        className="bg-red-500/80 hover:bg-red-500 text-foreground p-2 rounded-full backdrop-blur-sm z-10 transition-colors"
                       >
                         <X size={20} />
                       </button>
@@ -391,8 +391,8 @@ export default function BannersView() {
                   </>
                 ) : (
                   <>
-                    <Upload size={40} className="text-gray-500 mb-4" />
-                    <p className="text-gray-400 text-sm mb-2 text-center">Görsel seçmek için tıklayın veya sürükleyin</p>
+                    <Upload size={40} className="text-foreground/60 mb-4" />
+                    <p className="text-foreground/50 text-sm mb-2 text-center">Görsel seçmek için tıklayın veya sürükleyin</p>
                     <p className="text-gray-600 text-xs mb-4 text-center">PNG, JPG, WEBP (Max 5MB)</p>
                     <input
                       type="file"
@@ -404,7 +404,7 @@ export default function BannersView() {
                     />
                     <label 
                       htmlFor="bannerImageUpload"
-                      className="bg-white/10 hover:bg-white/20 text-white px-4 py-2 rounded text-sm cursor-pointer transition-colors"
+                      className="bg-foreground/10 hover:bg-foreground/20 text-foreground px-4 py-2 rounded text-sm cursor-pointer transition-colors"
                     >
                       {isUploading ? "Yükleniyor..." : "Görsel Seç"}
                     </label>
@@ -413,10 +413,10 @@ export default function BannersView() {
               </div>
             </div>
 
-            <div className="md:col-span-2 pt-4 border-t border-white/10 flex gap-4">
+            <div className="md:col-span-2 pt-4 border-t border-glass-border flex gap-4">
               <button
                 type="submit"
-                className="bg-neon-pink text-white px-8 py-3 uppercase tracking-widest text-xs font-bold hover:bg-white hover:text-black transition-colors clip-angled"
+                className="bg-neon-pink text-foreground px-8 py-3 uppercase tracking-widest text-xs font-bold hover:bg-white hover:text-black transition-colors clip-angled"
               >
                 {editingId ? "Güncelle" : "Banner Ekle"}
               </button>
@@ -424,7 +424,7 @@ export default function BannersView() {
                 <button
                   type="button"
                   onClick={cancelEdit}
-                  className="border border-white/20 text-white px-8 py-3 uppercase tracking-widest text-xs font-bold hover:bg-white/10 transition-colors clip-angled"
+                  className="border border-white/20 text-foreground px-8 py-3 uppercase tracking-widest text-xs font-bold hover:bg-foreground/10 transition-colors clip-angled"
                 >
                   İptal
                 </button>
@@ -434,20 +434,20 @@ export default function BannersView() {
         </div>
       )}
 
-      <div className="glass-panel p-6 clip-angled border border-white/5">
-        <h3 className="text-xl font-bold text-white mb-6 uppercase tracking-wider flex items-center justify-between">
+      <div className="glass-panel p-6 clip-angled border border-glass-border">
+        <h3 className="text-xl font-bold text-foreground mb-6 uppercase tracking-wider flex items-center justify-between">
           <span>Mevcut Banner'lar</span>
-          <span className="text-sm font-normal text-gray-400 normal-case bg-black/30 px-3 py-1 rounded">Sıralamayı değiştirmek için okları kullanın</span>
+          <span className="text-sm font-normal text-foreground/50 normal-case bg-black/30 px-3 py-1 rounded">Sıralamayı değiştirmek için okları kullanın</span>
         </h3>
 
         {isLoading ? (
           <div className="py-16 flex flex-col items-center justify-center gap-4">
             <div className="w-12 h-12 border-4 border-neon-pink/30 border-t-neon-pink rounded-full animate-spin"></div>
-            <p className="text-gray-400 text-sm">Banner'lar yükleniyor...</p>
+            <p className="text-foreground/50 text-sm">Banner'lar yükleniyor...</p>
           </div>
         ) : banners.length === 0 ? (
-           <div className="py-16 text-center border border-white/5 border-dashed bg-black/20 clip-angled">
-             <p className="text-gray-400 mb-2">Henüz eklenmiş bir banner bulunmuyor.</p>
+           <div className="py-16 text-center border border-glass-border border-dashed bg-black/20 clip-angled">
+             <p className="text-foreground/50 mb-2">Henüz eklenmiş bir banner bulunmuyor.</p>
            </div>
         ) : (
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
@@ -457,9 +457,9 @@ export default function BannersView() {
                 initial={{ opacity: 0, scale: 0.9 }}
                 animate={{ opacity: 1, scale: 1 }}
                 key={banner.id}
-                className={`glass-panel p-0 clip-angled border ${banner.isActive ? "border-white/10" : "border-red-500/30 opacity-70"} group flex flex-col`}
+                className={`glass-panel p-0 clip-angled border ${banner.isActive ? "border-glass-border" : "border-red-500/30 opacity-70"} group flex flex-col`}
               >
-                <div className="h-40 bg-black/50 relative overflow-hidden group-hover:bg-black/30 transition-colors">
+                <div className="h-40 bg-background/50 relative overflow-hidden group-hover:bg-black/30 transition-colors">
                   {banner.imageUrl ? (
                     <Image
                       src={getValidImageUrl(banner.imageUrl)}
@@ -475,10 +475,10 @@ export default function BannersView() {
                   {/* Status & Device Badges */}
                   <div className="absolute top-2 left-2 flex flex-col gap-2">
                     {!banner.isActive && (
-                      <span className="bg-red-500 text-white text-[10px] px-2 py-1 font-bold uppercase rounded shadow-lg backdrop-blur-sm">Pasif</span>
+                      <span className="bg-red-500 text-foreground text-[10px] px-2 py-1 font-bold uppercase rounded shadow-lg backdrop-blur-sm">Pasif</span>
                     )}
-                    {banner.deviceType === 'MOBILE' && <span className="bg-blue-500/80 backdrop-blur text-white p-1 rounded shadow-lg"><Smartphone size={14}/></span>}
-                    {banner.deviceType === 'DESKTOP' && <span className="bg-purple-500/80 backdrop-blur text-white p-1 rounded shadow-lg"><Monitor size={14}/></span>}
+                    {banner.deviceType === 'MOBILE' && <span className="bg-blue-500/80 backdrop-blur text-foreground p-1 rounded shadow-lg"><Smartphone size={14}/></span>}
+                    {banner.deviceType === 'DESKTOP' && <span className="bg-purple-500/80 backdrop-blur text-foreground p-1 rounded shadow-lg"><Monitor size={14}/></span>}
                   </div>
                   
                   {/* Order Controls */}
@@ -486,15 +486,15 @@ export default function BannersView() {
                     <button 
                       onClick={() => changeOrder(index, -1)}
                       disabled={index === 0}
-                      className="bg-black/60 hover:bg-neon-pink text-white p-2 rounded backdrop-blur disabled:opacity-30 disabled:hover:bg-black/60 transition-colors"
+                      className="bg-black/60 hover:bg-neon-pink text-foreground p-2 rounded backdrop-blur disabled:opacity-30 disabled:hover:bg-black/60 transition-colors"
                     >
                       <ArrowUp size={16} />
                     </button>
-                    <div className="bg-black/60 text-white text-center py-1 rounded text-xs font-bold backdrop-blur">{index + 1}</div>
+                    <div className="bg-black/60 text-foreground text-center py-1 rounded text-xs font-bold backdrop-blur">{index + 1}</div>
                     <button 
                       onClick={() => changeOrder(index, 1)}
                       disabled={index === banners.length - 1}
-                      className="bg-black/60 hover:bg-neon-pink text-white p-2 rounded backdrop-blur disabled:opacity-30 disabled:hover:bg-black/60 transition-colors"
+                      className="bg-black/60 hover:bg-neon-pink text-foreground p-2 rounded backdrop-blur disabled:opacity-30 disabled:hover:bg-black/60 transition-colors"
                     >
                       <ArrowDown size={16} />
                     </button>
@@ -502,30 +502,30 @@ export default function BannersView() {
                 </div>
 
                 <div className="p-4 flex-1 flex flex-col">
-                  <h4 className="font-bold text-white mb-2 truncate" title={banner.title}>{banner.title}</h4>
+                  <h4 className="font-bold text-foreground mb-2 truncate" title={banner.title}>{banner.title}</h4>
                   
                   {/* Analytics Stats */}
                   <div className="flex justify-between items-center bg-black/30 p-2 rounded mb-4">
-                    <div className="flex items-center gap-2 text-gray-400 text-xs">
+                    <div className="flex items-center gap-2 text-foreground/50 text-xs">
                       <Eye size={14} className="text-blue-400" />
                       <span>{banner.impressions?.toLocaleString("tr-TR")}</span>
                     </div>
-                    <div className="flex items-center gap-2 text-gray-400 text-xs">
+                    <div className="flex items-center gap-2 text-foreground/50 text-xs">
                       <MousePointerClick size={14} className="text-green-400" />
                       <span>{banner.clicks?.toLocaleString("tr-TR")}</span>
                     </div>
                   </div>
 
-                  <div className="flex justify-between border-t border-white/10 pt-3 mt-auto">
+                  <div className="flex justify-between border-t border-glass-border pt-3 mt-auto">
                     <button
                       onClick={() => handleEdit(banner)}
-                      className="text-gray-400 hover:text-holo-gold text-xs uppercase font-bold tracking-wider transition-colors flex items-center gap-1"
+                      className="text-foreground/50 hover:text-holo-gold text-xs uppercase font-bold tracking-wider transition-colors flex items-center gap-1"
                     >
                       Düzenle
                     </button>
                     <button
                       onClick={() => handleDelete(banner.id)}
-                      className="text-gray-400 hover:text-red-500 text-xs uppercase font-bold tracking-wider transition-colors flex items-center gap-1"
+                      className="text-foreground/50 hover:text-red-500 text-xs uppercase font-bold tracking-wider transition-colors flex items-center gap-1"
                     >
                       Sil
                     </button>

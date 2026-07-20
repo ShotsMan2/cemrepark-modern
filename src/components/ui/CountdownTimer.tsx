@@ -43,10 +43,10 @@ export default function CountdownTimer({ targetDate, title }: CountdownTimerProp
       <div className="absolute -right-20 -top-20 w-64 h-64 bg-primary/20 rounded-full blur-3xl pointer-events-none"></div>
       
       <div className="flex-1 text-center md:text-left z-10">
-        <h3 className="text-2xl md:text-3xl font-black text-gray-900 dark:text-white uppercase tracking-wider mb-2">
+        <h3 className="text-2xl md:text-3xl font-black text-foreground uppercase tracking-wider mb-2">
           {title || (() => { const v = t("flash_sale"); return v !== "flash_sale" ? v : "GÜNÜN FIRSATI"; })()}
         </h3>
-        <p className="text-gray-600 dark:text-gray-400 text-sm">
+        <p className="text-foreground/70 text-sm">
           {(() => { const v = t("flash_sale_desc"); return v !== "flash_sale_desc" ? v : "Seçili ürünlerde sepette %20 ek indirim. Acele edin, fırsatı kaçırmayın!"; })()}
         </p>
       </div>

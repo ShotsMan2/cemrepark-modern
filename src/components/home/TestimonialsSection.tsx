@@ -17,7 +17,7 @@ export default memo(function TestimonialsSection() {
           <span className="text-secondary font-bold tracking-widest uppercase text-sm mb-2 block">
             Müşteri Yorumları
           </span>
-          <h2 className="text-3xl md:text-4xl font-black font-display text-gray-900 dark:text-white mb-4">
+          <h2 className="text-3xl md:text-4xl font-black font-display text-foreground mb-4">
             Sizden Gelenler
           </h2>
           <div className="w-20 h-1 bg-gradient-to-r from-primary to-secondary mx-auto mb-4"></div>
@@ -31,7 +31,7 @@ export default memo(function TestimonialsSection() {
           viewport={{ once: true }}
         >
           <div className="text-center md:text-left flex-shrink-0">
-            <div className="text-5xl font-black font-display text-gray-900 dark:text-white">
+            <div className="text-5xl font-black font-display text-foreground">
               4.9
             </div>
             <div className="flex gap-1 text-secondary my-2 justify-center md:justify-start">
@@ -116,16 +116,16 @@ export default memo(function TestimonialsSection() {
                 <span className="text-xs text-gray-500 font-medium">{review.date}</span>
               </div>
 
-              <p className="text-gray-700 dark:text-gray-300 mb-6 leading-relaxed text-sm md:text-base relative z-10">
+              <p className="text-foreground/80 mb-6 leading-relaxed text-sm md:text-base relative z-10">
                 {review.text}
               </p>
 
-              <div className="flex items-center gap-4 mt-auto pt-4 border-t border-gray-200 dark:border-white/10">
-                <div className="w-10 h-10 rounded-full bg-gradient-to-br from-primary to-secondary flex items-center justify-center text-white font-black shadow-lg text-base">
+              <div className="flex items-center gap-4 mt-auto pt-4 border-t border-glass-border">
+                <div className="w-10 h-10 rounded-full bg-gradient-to-br from-primary to-secondary flex items-center justify-center text-foreground font-black shadow-lg text-base">
                   {review.name.charAt(0)}
                 </div>
                 <div>
-                  <h4 className="text-gray-900 dark:text-white font-bold tracking-wide">
+                  <h4 className="text-foreground font-bold tracking-wide">
                     {review.name}
                   </h4>
                   <div className="badge-premium bg-green-500/10 text-green-600 dark:text-green-400 mt-1">

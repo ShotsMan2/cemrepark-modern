@@ -241,34 +241,34 @@ export default function DashboardView({ products, setActiveTab }: { products: an
       {/* Header and Actions */}
       <div className="flex flex-col md:flex-row justify-between items-start md:items-center gap-4">
         <div>
-          <h2 className="text-2xl font-black text-white uppercase tracking-widest">Genel Bakış</h2>
-          <p className="text-gray-400 text-sm mt-1">Platformun anlık özet durumu ve performans metrikleri</p>
+          <h2 className="text-2xl font-black text-foreground uppercase tracking-widest">Genel Bakış</h2>
+          <p className="text-foreground/50 text-sm mt-1">Platformun anlık özet durumu ve performans metrikleri</p>
         </div>
 
         {/* Quick Actions Panel */}
         <div className="flex flex-wrap items-center gap-3">
-          <button onClick={() => setActiveTab("products")} className="glass-panel px-4 py-2 flex items-center gap-2 hover:bg-neon-pink/20 hover:border-neon-pink transition-all text-xs font-bold text-white clip-angled">
+          <button onClick={() => setActiveTab("products")} className="glass-panel px-4 py-2 flex items-center gap-2 hover:bg-neon-pink/20 hover:border-neon-pink transition-all text-xs font-bold text-foreground clip-angled">
             <svg className="w-4 h-4 text-neon-pink" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M12 4v16m8-8H4"></path></svg>
             YENİ ÜRÜN
           </button>
-          <button onClick={() => setActiveTab("orders")} className="glass-panel px-4 py-2 flex items-center gap-2 hover:bg-purple-500/20 hover:border-purple-500 transition-all text-xs font-bold text-white clip-angled">
+          <button onClick={() => setActiveTab("orders")} className="glass-panel px-4 py-2 flex items-center gap-2 hover:bg-purple-500/20 hover:border-purple-500 transition-all text-xs font-bold text-foreground clip-angled">
             <svg className="w-4 h-4 text-purple-500" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2m-6 9l2 2 4-4"></path></svg>
             SİPARİŞLER
-            <span className="bg-purple-500 text-white text-[10px] px-1.5 py-0.5 rounded-full ml-1">{orderData.find(o => o.name==="Beklemede")?.value || 0}</span>
+            <span className="bg-purple-500 text-foreground text-[10px] px-1.5 py-0.5 rounded-full ml-1">{orderData.find(o => o.name==="Beklemede")?.value || 0}</span>
           </button>
-          <button className="glass-panel px-4 py-2 flex items-center gap-2 hover:bg-holo-gold/20 hover:border-holo-gold transition-all text-xs font-bold text-white clip-angled cursor-default">
+          <button className="glass-panel px-4 py-2 flex items-center gap-2 hover:bg-holo-gold/20 hover:border-holo-gold transition-all text-xs font-bold text-foreground clip-angled cursor-default">
             <svg className="w-4 h-4 text-holo-gold" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-3L13.732 4c-.77-1.333-2.694-1.333-3.464 0L3.34 16c-.77 1.333.192 3 1.732 3z"></path></svg>
             STOK UYARISI
             <span className="bg-holo-gold text-black text-[10px] px-1.5 py-0.5 rounded-full font-black ml-1">{safeProducts.filter(p => p.stok < 5).length}</span>
           </button>
           
           <div className="relative group">
-            <button className="glass-panel hover:bg-white/10 text-white px-4 py-2 text-xs font-bold uppercase tracking-wider transition-all clip-angled flex items-center gap-2">
+            <button className="glass-panel hover:bg-foreground/10 text-foreground px-4 py-2 text-xs font-bold uppercase tracking-wider transition-all clip-angled flex items-center gap-2">
               <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-4l-4 4m0 0l-4-4m4 4V4"></path></svg>
               DIŞA AKTAR
             </button>
             <div className="absolute right-0 top-full mt-2 w-40 glass-panel p-2 flex flex-col gap-1 opacity-0 pointer-events-none group-hover:opacity-100 group-hover:pointer-events-auto transition-opacity z-50">
-              <button onClick={handleExportCSV} className="text-left px-3 py-2 text-xs text-white hover:bg-neon-pink/20 hover:text-neon-pink rounded font-bold transition-colors">CSV İndir</button>
+              <button onClick={handleExportCSV} className="text-left px-3 py-2 text-xs text-foreground hover:bg-neon-pink/20 hover:text-neon-pink rounded font-bold transition-colors">CSV İndir</button>
             </div>
           </div>
         </div>
@@ -294,15 +294,15 @@ export default function DashboardView({ products, setActiveTab }: { products: an
 
       {/* Main Charts & Activity Feed Row */}
       <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
-        <div className="lg:col-span-2 glass-panel p-6 md:p-8 clip-angled relative border border-white/5 h-[450px]">
+        <div className="lg:col-span-2 glass-panel p-6 md:p-8 clip-angled relative border border-glass-border h-[450px]">
           <div className="flex justify-between items-center mb-6">
             <div>
-              <h3 className="text-white font-bold uppercase tracking-widest">Gelir ve Hedef Analizi</h3>
-              <p className="text-gray-500 text-xs mt-1">Aylık gerçekleşen gelir vs hedefler</p>
+              <h3 className="text-foreground font-bold uppercase tracking-widest">Gelir ve Hedef Analizi</h3>
+              <p className="text-foreground/60 text-xs mt-1">Aylık gerçekleşen gelir vs hedefler</p>
             </div>
             <div className="flex gap-4">
-              <div className="flex items-center gap-2"><div className="w-3 h-3 bg-neon-pink rounded-sm"></div><span className="text-gray-400 text-xs font-bold">Gerçekleşen</span></div>
-              <div className="flex items-center gap-2"><div className="w-3 h-3 bg-holo-gold rounded-full"></div><span className="text-gray-400 text-xs font-bold">Hedef</span></div>
+              <div className="flex items-center gap-2"><div className="w-3 h-3 bg-neon-pink rounded-sm"></div><span className="text-foreground/50 text-xs font-bold">Gerçekleşen</span></div>
+              <div className="flex items-center gap-2"><div className="w-3 h-3 bg-holo-gold rounded-full"></div><span className="text-foreground/50 text-xs font-bold">Hedef</span></div>
             </div>
           </div>
           <div className="w-full h-80">
@@ -324,9 +324,9 @@ export default function DashboardView({ products, setActiveTab }: { products: an
         </div>
 
         {/* Live Activity Feed */}
-        <div className="glass-panel p-6 md:p-8 clip-angled relative border border-white/5 h-[450px] flex flex-col">
+        <div className="glass-panel p-6 md:p-8 clip-angled relative border border-glass-border h-[450px] flex flex-col">
           <div className="flex justify-between items-center mb-6">
-            <h3 className="text-white font-bold uppercase tracking-widest">Canlı Akış</h3>
+            <h3 className="text-foreground font-bold uppercase tracking-widest">Canlı Akış</h3>
             <div className="flex items-center gap-1 text-xs text-green-400">
                <span className="relative flex h-2 w-2 mr-1">
                  <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-green-400 opacity-75"></span>
@@ -344,7 +344,7 @@ export default function DashboardView({ products, setActiveTab }: { products: an
                   animate={{ opacity: 1, x: 0 }}
                   exit={{ opacity: 0, height: 0 }}
                   transition={{ duration: 0.3 }}
-                  className="flex items-start gap-4 p-3 rounded-lg bg-white/5 border border-white/5 hover:bg-white/10 transition-colors"
+                  className="flex items-start gap-4 p-3 rounded-lg bg-foreground/5 border border-glass-border hover:bg-foreground/10 transition-colors"
                 >
                   <div className={`p-2 rounded-full bg-${act.color}/20 text-${act.color}`}>
                      <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -352,8 +352,8 @@ export default function DashboardView({ products, setActiveTab }: { products: an
                      </svg>
                   </div>
                   <div className="flex-1">
-                    <p className="text-white text-sm font-medium">{act.text}</p>
-                    <span className="text-gray-500 text-[10px]">{act.time}</span>
+                    <p className="text-foreground text-sm font-medium">{act.text}</p>
+                    <span className="text-foreground/60 text-[10px]">{act.time}</span>
                   </div>
                 </motion.div>
               ))}
@@ -367,22 +367,22 @@ export default function DashboardView({ products, setActiveTab }: { products: an
       {/* Heatmap & Funnel Row */}
       <div className="grid grid-cols-1 lg:grid-cols-2 gap-6 mt-8">
         {/* Hourly Sales Heatmap */}
-        <div className="glass-panel p-6 md:p-8 clip-angled relative border border-white/5 min-h-[400px]">
-          <h3 className="text-white font-bold uppercase tracking-widest mb-1">Satış Yoğunluk Haritası</h3>
-          <p className="text-gray-500 text-xs mb-6">Gün ve saat bazında müşteri aktivitesi</p>
+        <div className="glass-panel p-6 md:p-8 clip-angled relative border border-glass-border min-h-[400px]">
+          <h3 className="text-foreground font-bold uppercase tracking-widest mb-1">Satış Yoğunluk Haritası</h3>
+          <p className="text-foreground/60 text-xs mb-6">Gün ve saat bazında müşteri aktivitesi</p>
           
           <div className="w-full overflow-x-auto">
              <div className="min-w-[600px] grid grid-cols-[auto_repeat(24,1fr)] gap-1 mb-2">
                 <div />
-                {hours.map(h => <div key={h} className="text-[10px] text-gray-500 text-center">{h}</div>)}
+                {hours.map(h => <div key={h} className="text-[10px] text-foreground/60 text-center">{h}</div>)}
                 {days.map((day, i) => (
                   <React.Fragment key={day}>
-                    <div className="text-[10px] text-gray-400 pr-2 text-right self-center">{day}</div>
+                    <div className="text-[10px] text-foreground/50 pr-2 text-right self-center">{day}</div>
                     {heatmapData[i].map((val, j) => {
                       const colorOp = Math.max(0.1, val);
                       return (
                         <div key={j} className="relative group cursor-pointer w-full aspect-square rounded-sm transition-all hover:scale-125 hover:z-10 hover:rounded" style={{ backgroundColor: `rgba(255, 0, 127, ${colorOp})` }}>
-                           <div className="absolute opacity-0 group-hover:opacity-100 -top-10 left-1/2 -translate-x-1/2 bg-black text-white text-[10px] py-1 px-2 rounded pointer-events-none whitespace-nowrap z-50 shadow-lg border border-white/10">
+                           <div className="absolute opacity-0 group-hover:opacity-100 -top-10 left-1/2 -translate-x-1/2 bg-black text-foreground text-[10px] py-1 px-2 rounded pointer-events-none whitespace-nowrap z-50 shadow-lg border border-glass-border">
                               {day} {j}:00<br/>Yoğunluk: {(val*100).toFixed(0)}%
                            </div>
                         </div>
@@ -392,15 +392,15 @@ export default function DashboardView({ products, setActiveTab }: { products: an
                 ))}
              </div>
           </div>
-          <div className="flex items-center justify-end gap-2 mt-4 text-[10px] text-gray-400">
+          <div className="flex items-center justify-end gap-2 mt-4 text-[10px] text-foreground/50">
              Düşük <div className="w-16 h-2 bg-gradient-to-r from-[rgba(255,0,127,0.1)] to-[rgba(255,0,127,1)] rounded"></div> Yüksek
           </div>
         </div>
 
         {/* Customer Funnel */}
-        <div className="glass-panel p-6 md:p-8 clip-angled relative border border-white/5 min-h-[400px] flex flex-col justify-center">
-          <h3 className="text-white font-bold uppercase tracking-widest mb-1 absolute top-6 left-6 md:left-8">Müşteri Dönüşüm Hunisi</h3>
-          <p className="text-gray-500 text-xs mb-8 absolute top-12 left-6 md:left-8">Sitenize gelen ziyaretçilerin satışa dönüşme yolculuğu</p>
+        <div className="glass-panel p-6 md:p-8 clip-angled relative border border-glass-border min-h-[400px] flex flex-col justify-center">
+          <h3 className="text-foreground font-bold uppercase tracking-widest mb-1 absolute top-6 left-6 md:left-8">Müşteri Dönüşüm Hunisi</h3>
+          <p className="text-foreground/60 text-xs mb-8 absolute top-12 left-6 md:left-8">Sitenize gelen ziyaretçilerin satışa dönüşme yolculuğu</p>
           
           <div className="flex flex-col items-center w-full gap-4 mt-16 px-4">
             {funnelData.map((d, i) => {
@@ -409,23 +409,23 @@ export default function DashboardView({ products, setActiveTab }: { products: an
               
               return (
                 <div key={d.step} className="w-full flex items-center gap-4 relative">
-                   <div className="w-20 text-right text-xs font-bold text-gray-400">{d.step}</div>
+                   <div className="w-20 text-right text-xs font-bold text-foreground/50">{d.step}</div>
                    <div className="flex-1 flex justify-center flex-col relative group">
                       <motion.div 
                          initial={{ width: 0 }}
                          whileInView={{ width: `${width}%` }}
                          viewport={{ once: true }}
                          transition={{ duration: 1, delay: i * 0.2, ease: "easeOut" }}
-                         className="h-10 rounded flex items-center justify-center text-xs font-bold text-white relative overflow-hidden shadow-lg mx-auto"
+                         className="h-10 rounded flex items-center justify-center text-xs font-bold text-foreground relative overflow-hidden shadow-lg mx-auto"
                          style={{ backgroundColor: d.color }}
                       >
                          <span className="z-10 tracking-widest">{d.value.toLocaleString()}</span>
-                         <div className="absolute inset-0 bg-white/20" style={{ clipPath: 'polygon(0 0, 100% 0, 95% 100%, 5% 100%)' }}></div>
+                         <div className="absolute inset-0 bg-foreground/20" style={{ clipPath: 'polygon(0 0, 100% 0, 95% 100%, 5% 100%)' }}></div>
                       </motion.div>
                       
                       {/* Drop-off indicator */}
                       {dropOff && (
-                        <div className="absolute -top-4 right-0 text-[10px] text-red-400 opacity-0 group-hover:opacity-100 transition-opacity flex items-center gap-1 bg-black/80 px-2 py-1 rounded">
+                        <div className="absolute -top-4 right-0 text-[10px] text-red-400 opacity-0 group-hover:opacity-100 transition-opacity flex items-center gap-1 bg-background/80 px-2 py-1 rounded">
                            <svg className="w-3 h-3" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M19 14l-7 7m0 0l-7-7m7 7V3"></path></svg>
                            {dropOff}% kayıp
                         </div>
@@ -441,9 +441,9 @@ export default function DashboardView({ products, setActiveTab }: { products: an
 
       {/* Advanced Analytics Row (Pie & Bars) */}
       <div className="grid grid-cols-1 lg:grid-cols-2 gap-6 mt-8">
-        <div className="glass-panel p-6 md:p-8 clip-angled relative border border-white/5 h-[400px] flex flex-col">
-          <h3 className="text-white font-bold uppercase tracking-widest mb-2">Kategori Dağılımı</h3>
-          <p className="text-gray-500 text-xs mb-6">Satışların ürün kategorilerine göre oranları</p>
+        <div className="glass-panel p-6 md:p-8 clip-angled relative border border-glass-border h-[400px] flex flex-col">
+          <h3 className="text-foreground font-bold uppercase tracking-widest mb-2">Kategori Dağılımı</h3>
+          <p className="text-foreground/60 text-xs mb-6">Satışların ürün kategorilerine göre oranları</p>
           <div className="flex-1 w-full">
             <ResponsiveContainer width="100%" height="100%">
               <PieChart>
@@ -465,15 +465,15 @@ export default function DashboardView({ products, setActiveTab }: { products: an
             {catData.map((entry, index) => (
               <div key={entry.name} className="flex items-center gap-2">
                 <div className="w-3 h-3 rounded-full" style={{ backgroundColor: COLORS[index % COLORS.length] }}></div>
-                <span className="text-gray-400 text-[10px] font-bold uppercase">{entry.name}</span>
+                <span className="text-foreground/50 text-[10px] font-bold uppercase">{entry.name}</span>
               </div>
             ))}
           </div>
         </div>
 
-        <div className="glass-panel p-6 md:p-8 clip-angled relative border border-white/5 h-[400px]">
-          <h3 className="text-white font-bold uppercase tracking-widest mb-1">En Çok Satanlar</h3>
-          <p className="text-gray-500 text-xs mb-4">Bu ayın en popüler ürün satışları</p>
+        <div className="glass-panel p-6 md:p-8 clip-angled relative border border-glass-border h-[400px]">
+          <h3 className="text-foreground font-bold uppercase tracking-widest mb-1">En Çok Satanlar</h3>
+          <p className="text-foreground/60 text-xs mb-4">Bu ayın en popüler ürün satışları</p>
           <div className="w-full h-72">
             <ResponsiveContainer width="100%" height="100%">
               <BarChart data={topSellingProductsData} margin={{ top: 5, right: 10, left: -20, bottom: 5 }} layout="vertical">

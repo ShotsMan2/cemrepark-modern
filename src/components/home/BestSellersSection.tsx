@@ -19,7 +19,7 @@ export default memo(function BestSellersSection({ bestSellers, setQuickViewProdu
             <p className="text-secondary tracking-widest text-xs uppercase font-bold mb-2">
               En Çok Tercih Edilenler
             </p>
-            <h2 className="text-3xl md:text-4xl font-black text-gray-900 dark:text-white font-display">
+            <h2 className="text-3xl md:text-4xl font-black text-foreground font-display">
               Trend Ürünler
             </h2>
           </div>
@@ -28,7 +28,7 @@ export default memo(function BestSellersSection({ bestSellers, setQuickViewProdu
             className="group flex items-center gap-2 text-sm font-bold uppercase tracking-widest hover:text-primary transition-colors mt-4 md:mt-0"
           >
             Tümünü Gör
-            <span className="w-7 h-7 rounded-full bg-primary/10 flex items-center justify-center group-hover:bg-primary group-hover:text-white transition-colors">
+            <span className="w-7 h-7 rounded-full bg-primary/10 flex items-center justify-center group-hover:bg-primary group-hover:text-foreground transition-colors">
               →
             </span>
           </Link>

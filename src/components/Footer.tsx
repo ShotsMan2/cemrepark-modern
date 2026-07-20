@@ -63,7 +63,7 @@ export default function Footer() {
                 href="https://instagram.com/cemrepark"
                 target="_blank"
                 rel="noopener noreferrer"
-                className="w-10 h-10 rounded-full border border-gray-800 flex items-center justify-center text-gray-400 hover:text-white hover:border-primary hover:bg-primary hover:scale-110 hover:shadow-[0_0_15px_hsla(var(--primary),0.5)] transition-all duration-300"
+                className="w-10 h-10 rounded-full border border-gray-800 flex items-center justify-center text-gray-400 hover:text-foreground hover:border-primary hover:bg-primary hover:scale-110 hover:shadow-[0_0_15px_hsla(var(--primary),0.5)] transition-all duration-300"
                 aria-label="Instagram"
               >
                 <svg
@@ -85,14 +85,14 @@ export default function Footer() {
           </div>
 
           <div>
-            <h4 className="text-white font-bold uppercase tracking-wider mb-6 text-sm">
+            <h4 className="text-foreground font-bold uppercase tracking-wider mb-6 text-sm">
               {t("explore")}
             </h4>
             <ul className="space-y-3">
               <li>
                 <Link
                   href="/search"
-                  className="text-gray-400 hover:text-white text-sm transition-all duration-300 hover:translate-x-1 inline-block"
+                  className="text-gray-400 hover:text-foreground text-sm transition-all duration-300 hover:translate-x-1 inline-block"
                 >
                   {t("explore_menu_new")}
                 </Link>
@@ -100,7 +100,7 @@ export default function Footer() {
               <li>
                 <Link
                   href="/search"
-                  className="text-gray-400 hover:text-white text-sm transition-all duration-300 hover:translate-x-1 inline-block"
+                  className="text-gray-400 hover:text-foreground text-sm transition-all duration-300 hover:translate-x-1 inline-block"
                 >
                   {t("explore_menu_best")}
                 </Link>
@@ -108,7 +108,7 @@ export default function Footer() {
               <li>
                 <Link
                   href="/search"
-                  className="text-gray-400 hover:text-white text-sm transition-all duration-300 hover:translate-x-1 inline-block"
+                  className="text-gray-400 hover:text-foreground text-sm transition-all duration-300 hover:translate-x-1 inline-block"
                 >
                   {t("explore_menu_coats")}
                 </Link>
@@ -116,7 +116,7 @@ export default function Footer() {
               <li>
                 <Link
                   href="/search"
-                  className="text-gray-400 hover:text-white text-sm transition-all duration-300 hover:translate-x-1 inline-block"
+                  className="text-gray-400 hover:text-foreground text-sm transition-all duration-300 hover:translate-x-1 inline-block"
                 >
                   {t("explore_menu_accessories")}
                 </Link>
@@ -125,14 +125,14 @@ export default function Footer() {
           </div>
 
           <div>
-            <h4 className="text-white font-bold uppercase tracking-wider mb-6 text-sm">
+            <h4 className="text-foreground font-bold uppercase tracking-wider mb-6 text-sm">
               {t("corporate")}
             </h4>
             <ul className="space-y-3">
               <li>
                 <Link
                   href="/kurumsal/hakkimizda"
-                  className="text-gray-400 hover:text-white text-sm transition-all duration-300 hover:translate-x-1 inline-block"
+                  className="text-gray-400 hover:text-foreground text-sm transition-all duration-300 hover:translate-x-1 inline-block"
                 >
                   {t("about_us")}
                 </Link>
@@ -140,7 +140,7 @@ export default function Footer() {
               <li>
                 <Link
                   href="/kurumsal/iletisim"
-                  className="text-gray-400 hover:text-white text-sm transition-all duration-300 hover:translate-x-1 inline-block"
+                  className="text-gray-400 hover:text-foreground text-sm transition-all duration-300 hover:translate-x-1 inline-block"
                 >
                   {t("contact_us")}
                 </Link>
@@ -148,7 +148,7 @@ export default function Footer() {
               <li>
                 <Link
                   href="/kurumsal/mesafeli-satis-sozlesmesi"
-                  className="text-gray-400 hover:text-white text-sm transition-all duration-300 hover:translate-x-1 inline-block"
+                  className="text-gray-400 hover:text-foreground text-sm transition-all duration-300 hover:translate-x-1 inline-block"
                 >
                   {t("distance_selling")}
                 </Link>
@@ -156,7 +156,7 @@ export default function Footer() {
               <li>
                 <Link
                   href="/kurumsal/iade-ve-degisim-kosullari"
-                  className="text-gray-400 hover:text-white text-sm transition-all duration-300 hover:translate-x-1 inline-block"
+                  className="text-gray-400 hover:text-foreground text-sm transition-all duration-300 hover:translate-x-1 inline-block"
                 >
                   {t("return_policy")}
                 </Link>
@@ -164,7 +164,7 @@ export default function Footer() {
               <li>
                 <Link
                   href="/kurumsal/gizlilik-politikasi"
-                  className="text-gray-400 hover:text-white text-sm transition-all duration-300 hover:translate-x-1 inline-block"
+                  className="text-gray-400 hover:text-foreground text-sm transition-all duration-300 hover:translate-x-1 inline-block"
                 >
                   {t("privacy_policy")}
                 </Link>
@@ -173,7 +173,7 @@ export default function Footer() {
           </div>
 
           <div>
-            <h4 className="text-white font-bold uppercase tracking-wider mb-6 text-sm">
+            <h4 className="text-foreground font-bold uppercase tracking-wider mb-6 text-sm">
               {t("newsletter")}
             </h4>
             <p className="text-gray-400 text-sm mb-4">{t("newsletter_desc")}</p>
@@ -184,7 +184,7 @@ export default function Footer() {
                 required
                 placeholder={t("email_placeholder")}
                 aria-label={t("email_placeholder")}
-                className="w-full bg-transparent border-b border-gray-700 py-3 pr-10 text-sm text-white focus:outline-none focus:border-primary transition-all duration-300 focus:shadow-[0_4px_15px_hsla(var(--primary),0.1)]"
+                className="w-full bg-transparent border-b border-gray-700 py-3 pr-10 text-sm text-foreground focus:outline-none focus:border-primary transition-all duration-300 focus:shadow-[0_4px_15px_hsla(var(--primary),0.1)]"
               />
               <button
                 type="submit"
@@ -217,13 +217,13 @@ export default function Footer() {
             <span className="text-xs text-gray-500 font-bold uppercase tracking-widest mr-2">
               {t("secure_100")}
             </span>
-            <div className="px-2 py-1 border border-white/20 text-[10px] text-white font-bold rounded">
+            <div className="px-2 py-1 border border-white/20 text-[10px] text-foreground font-bold rounded">
               VISA
             </div>
-            <div className="px-2 py-1 border border-white/20 text-[10px] text-white font-bold rounded">
+            <div className="px-2 py-1 border border-white/20 text-[10px] text-foreground font-bold rounded">
               MASTERCARD
             </div>
-            <div className="px-2 py-1 border border-white/20 text-[10px] text-white font-bold rounded">
+            <div className="px-2 py-1 border border-white/20 text-[10px] text-foreground font-bold rounded">
               TROY
             </div>
           </div>

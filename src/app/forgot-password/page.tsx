@@ -63,23 +63,23 @@ export default function ForgotPasswordPage() {
     <div className="min-h-screen pt-32 pb-20 flex items-center justify-center bg-background relative overflow-hidden px-4">
       <div className="max-w-md w-full glass-panel p-8 rounded-xl shadow-2xl relative overflow-hidden">
         <div className="absolute top-0 left-0 w-full h-1 bg-gradient-to-r from-neon-pink to-holo-gold"></div>
-        <h2 className="text-3xl font-black text-gray-900 dark:text-white mb-2 text-center">
+        <h2 className="text-3xl font-black text-foreground mb-2 text-center">
           {t("reset_password_title") || "ŞİFREYİ SIFIRLA"}
         </h2>
-        <p className="text-center text-gray-600 dark:text-gray-400 mb-6 font-medium">
+        <p className="text-center text-foreground/70 mb-6 font-medium">
           {t("forgot_password_desc") || "E-posta adresinizi girin, size şifre sıfırlama bağlantısı gönderelim."}
         </p>
 
         <form onSubmit={handleSubmit} className="space-y-6">
           <div>
-            <label className="block text-gray-600 dark:text-gray-400 text-sm font-bold mb-2 uppercase tracking-wider">
+            <label className="block text-foreground/70 text-sm font-bold mb-2 uppercase tracking-wider">
               {t("email") || "E-posta Adresi"}
             </label>
             <input
               type="email"
               value={email}
               onChange={(e) => setEmail(e.target.value)}
-              className="w-full bg-black/5 dark:bg-black/50 border border-black/10 dark:border-gray-700 text-gray-900 dark:text-white px-4 py-3 rounded-lg focus:outline-none focus:border-neon-pink transition-colors font-medium"
+              className="w-full bg-black/5 dark:bg-black/50 border border-black/10 dark:border-gray-700 text-foreground px-4 py-3 rounded-lg focus:outline-none focus:border-neon-pink transition-colors font-medium"
               required
             />
           </div>
@@ -93,7 +93,7 @@ export default function ForgotPasswordPage() {
           </button>
         </form>
 
-        <p className="mt-6 text-center text-gray-600 dark:text-gray-400 font-medium">
+        <p className="mt-6 text-center text-foreground/70 font-medium">
           <Link href="/login" className="text-holo-gold hover:underline font-bold">
             ← {t("back_to_login") || "Giriş Ekranına Dön"}
           </Link>

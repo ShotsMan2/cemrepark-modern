@@ -81,6 +81,7 @@ const orderSchema = z.object({
   discountAmount: z.number().optional().nullable(),
   trackingNumber: z.string().optional().nullable(),
   carrier: z.string().optional().nullable(),
+  paymentMethod: z.string().optional().nullable(),
 });
 
 /**
@@ -104,11 +105,11 @@ export const POST = apiHandler(async (req: Request) => {
   }
 
   const body = await req.json();
-  const { customer, userId, total, items, couponCode, discountAmount, trackingNumber, carrier } =
+  const { customer, userId, total, items, couponCode, discountAmount, trackingNumber, carrier, paymentMethod } =
     body;
 
   const newOrder = await orderService.createOrder(
-    { customer, userId, total, couponCode, discountAmount, trackingNumber, carrier } as any,
+    { customer, userId, total, couponCode, discountAmount, trackingNumber, carrier, paymentMethod } as any,
     items || []
   );
 

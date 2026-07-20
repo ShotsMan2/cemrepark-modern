@@ -20,7 +20,7 @@ export default function AdminSidebar({ activeTab, setActiveTab, isOpen, setIsOpe
       {/* Mobile Overlay */}
       {isOpen && (
         <div 
-          className="fixed inset-0 bg-black/50 backdrop-blur-sm z-40 lg:hidden"
+          className="fixed inset-0 bg-background/50 backdrop-blur-sm z-40 lg:hidden"
           onClick={() => setIsOpen(false)}
         />
       )}
@@ -35,7 +35,7 @@ export default function AdminSidebar({ activeTab, setActiveTab, isOpen, setIsOpe
           {/* Close button for mobile */}
           <button 
             onClick={() => setIsOpen(false)}
-            className="absolute top-4 right-4 lg:hidden text-gray-500 hover:text-white"
+            className="absolute top-4 right-4 lg:hidden text-foreground/60 hover:text-foreground"
           >
             <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M6 18L18 6M6 6l12 12"></path></svg>
           </button>
@@ -75,7 +75,7 @@ export default function AdminSidebar({ activeTab, setActiveTab, isOpen, setIsOpe
                 item.isSubItem ? "pl-12 border-l-2 border-transparent hover:border-primary text-xs" : "clip-angled"
               } ${
                 isActive 
-                  ? (item.isSubItem ? "text-primary border-primary bg-primary/5" : "bg-primary text-white shadow-[0_0_15px_hsla(var(--primary),0.4)]") 
+                  ? (item.isSubItem ? "text-primary border-primary bg-primary/5" : "bg-primary text-foreground shadow-[0_0_15px_hsla(var(--primary),0.4)]") 
                   : "text-foreground/70 hover:text-foreground hover:bg-primary/10"
               }`;
 
@@ -106,7 +106,7 @@ export default function AdminSidebar({ activeTab, setActiveTab, isOpen, setIsOpe
           </nav>
 
           <div className="mt-4 pt-4 border-t border-glass-border">
-            <div className="flex items-center gap-3 p-2 rounded-lg hover:bg-white/5 transition-colors cursor-pointer">
+            <div className="flex items-center gap-3 p-2 rounded-lg hover:bg-foreground/5 transition-colors cursor-pointer">
               <div className="w-10 h-10 bg-secondary/20 border border-secondary text-secondary flex items-center justify-center font-bold clip-angled">
                 AD
               </div>

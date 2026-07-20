@@ -32,7 +32,7 @@ export default function AdminError({
         <div className="flex flex-col space-y-3 pt-6">
           <button
             onClick={() => reset()}
-            className="w-full py-3.5 px-4 bg-slate-900 hover:bg-slate-800 text-white rounded-xl font-medium transition-all shadow-md focus:ring-2 focus:ring-offset-2 focus:ring-slate-900"
+            className="w-full py-3.5 px-4 bg-slate-900 hover:bg-slate-800 text-foreground rounded-xl font-medium transition-all shadow-md focus:ring-2 focus:ring-offset-2 focus:ring-slate-900"
           >
             Yeniden Yükle
           </button>

@@ -57,6 +57,8 @@ export default function OrdersView() {
           tutar: `${o.total} ₺`,
           durum: o.status === "Bekliyor" ? "Beklemede" : o.status,
           odeme: o.paymentStatus || "Ödendi",
+          trackingNumber: o.trackingNumber || "",
+          carrier: o.carrier || "",
           ...getStatusStyles(o.status === "Bekliyor" ? "Beklemede" : o.status)
         }));
         setOrders(mappedOrders);
@@ -85,7 +87,7 @@ export default function OrdersView() {
       case "Kargolandı": return { renk: "text-purple-400", border: "border-purple-400/30", bg: "bg-purple-400/10" };
       case "Teslim Edildi": return { renk: "text-green-500", border: "border-green-500/30", bg: "bg-green-500/10" };
       case "İptal": return { renk: "text-red-500", border: "border-red-500/30", bg: "bg-red-500/10" };
-      default: return { renk: "text-gray-400", border: "border-gray-400/30", bg: "bg-gray-400/10" };
+      default: return { renk: "text-foreground/50", border: "border-gray-400/30", bg: "bg-gray-400/10" };
     }
   };
 
@@ -133,6 +135,31 @@ export default function OrdersView() {
       } catch (err) {
         Swal.fire("Hata", "Güncelleme başarısız", "error");
       }
+    }
+  };
+
+  const handleTrackingUpdate = async () => {
+    if (!selectedOrder) return;
+    
+    try {
+      const res = await fetch(`/api/orders`, {
+        method: "PATCH",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ 
+          id: Number(selectedOrder.id), 
+          trackingNumber: selectedOrder.trackingNumber, 
+          carrier: selectedOrder.carrier 
+        }),
+      });
+      
+      if (res.ok) {
+        fetchOrders();
+        Swal.fire("Başarılı", "Kargo bilgileri güncellendi", "success");
+      } else {
+        Swal.fire("Hata", "Kargo bilgileri güncellenemedi", "error");
+      }
+    } catch (err) {
+      Swal.fire("Hata", "Kargo bilgileri güncellenemedi", "error");
     }
   };
 
@@ -208,7 +235,7 @@ export default function OrdersView() {
               Tüm siparişlerinizi ve süreçleri yönetin.
             </p>
           </div>
-          <button onClick={handleExport} className="bg-primary hover:bg-secondary text-white font-bold py-2 px-6 uppercase tracking-widest text-sm transition-colors clip-angled shadow-[0_0_15px_hsla(var(--primary),0.3)] flex items-center gap-2">
+          <button onClick={handleExport} className="bg-primary hover:bg-secondary text-foreground font-bold py-2 px-6 uppercase tracking-widest text-sm transition-colors clip-angled shadow-[0_0_15px_hsla(var(--primary),0.3)] flex items-center gap-2">
             <svg width={20} height={20} viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth={2}><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4M7 10l5 5 5-5M12 15V3"/></svg>
             Dışa Aktar
           </button>
@@ -240,7 +267,7 @@ export default function OrdersView() {
             <input type="checkbox" checked={sendNotification} onChange={(e) => setSendNotification(e.target.checked)} className="accent-primary" />
             Bildirim
           </label>
-          <button onClick={handleBulkStatusUpdate} disabled={!bulkStatus || selectedOrdersIds.length===0} className="bg-primary/20 text-primary hover:bg-primary hover:text-white px-3 py-1 text-xs font-bold uppercase transition-colors disabled:opacity-50">
+          <button onClick={handleBulkStatusUpdate} disabled={!bulkStatus || selectedOrdersIds.length===0} className="bg-primary/20 text-primary hover:bg-primary hover:text-foreground px-3 py-1 text-xs font-bold uppercase transition-colors disabled:opacity-50">
             Uygula
           </button>
         </div>
@@ -315,7 +342,7 @@ export default function OrdersView() {
                       </select>
                     </td>
                     <td className="p-4 text-right">
-                      <button onClick={() => setSelectedOrder(order)} className="bg-foreground/5 hover:bg-primary hover:text-white px-3 py-1.5 text-xs font-bold uppercase tracking-widest transition-colors border border-glass-border">
+                      <button onClick={() => setSelectedOrder(order)} className="bg-foreground/5 hover:bg-primary hover:text-foreground px-3 py-1.5 text-xs font-bold uppercase tracking-widest transition-colors border border-glass-border">
                         Detay
                       </button>
                     </td>
@@ -360,7 +387,7 @@ export default function OrdersView() {
                 </div>
                 <p className="text-foreground/50 text-sm">{selectedOrder.id} • {selectedOrder.tarih}</p>
               </div>
-              <button onClick={() => setSelectedOrder(null)} className="w-8 h-8 flex items-center justify-center bg-foreground/10 hover:bg-danger hover:text-white transition-colors rounded">
+              <button onClick={() => setSelectedOrder(null)} className="w-8 h-8 flex items-center justify-center bg-foreground/10 hover:bg-danger hover:text-foreground transition-colors rounded">
                 <svg width={20} height={20} viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth={2}><line x1="18" y1="6" x2="6" y2="18"></line><line x1="6" y1="6" x2="18" y2="18"></line></svg>
               </button>
             </div>
@@ -381,7 +408,7 @@ export default function OrdersView() {
                       const isCurrent = selectedOrder.durum === st;
                       return (
                         <div key={st} className="flex flex-col items-center gap-2 bg-background p-1">
-                          <div className={`w-6 h-6 rounded-full flex items-center justify-center border-2 ${isActive ? 'bg-primary border-primary text-white shadow-[0_0_10px_hsla(var(--primary),0.5)]' : 'bg-background border-glass-border text-foreground/30'} ${isCurrent ? 'ring-4 ring-primary/20' : ''}`}>
+                          <div className={`w-6 h-6 rounded-full flex items-center justify-center border-2 ${isActive ? 'bg-primary border-primary text-foreground shadow-[0_0_10px_hsla(var(--primary),0.5)]' : 'bg-background border-glass-border text-foreground/30'} ${isCurrent ? 'ring-4 ring-primary/20' : ''}`}>
                             {isActive ? <svg width={20} height={20} viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth={2}><polyline points="20 6 9 17 4 12"></polyline></svg> : <div className="w-2 h-2 rounded-full bg-foreground/20"></div>}
                           </div>
                           <span className={`text-[10px] uppercase font-bold tracking-widest ${isActive ? 'text-primary' : 'text-foreground/50'}`}>{st}</span>
@@ -456,11 +483,38 @@ export default function OrdersView() {
                 {/* Shipping & Billing */}
                 <div className="border border-glass-border p-4 bg-foreground/5 rounded">
                   <h3 className="text-xs font-bold uppercase text-foreground/50 mb-3 tracking-widest border-b border-glass-border pb-2">Teslimat Adresi</h3>
-                  <p className="text-sm leading-relaxed">
+                  <p className="text-sm leading-relaxed mb-4">
                     Örnek Mahallesi, Test Sokak, No: 123 Daire: 4<br/>
                     Kadıköy / İstanbul<br/>
                     Türkiye
                   </p>
+                  
+                  <h3 className="text-xs font-bold uppercase text-foreground/50 mb-3 tracking-widest border-b border-glass-border pb-2">Kargo Bilgileri</h3>
+                  <div className="space-y-3">
+                    <div>
+                      <div className="text-[10px] text-foreground/50 uppercase mb-1">Kargo Firması</div>
+                      <input 
+                        type="text" 
+                        value={selectedOrder.carrier || ""} 
+                        onChange={(e) => setSelectedOrder({...selectedOrder, carrier: e.target.value})}
+                        className="w-full bg-background border border-glass-border px-3 py-1.5 text-sm outline-none"
+                        placeholder="Örn: Yurtiçi Kargo"
+                      />
+                    </div>
+                    <div>
+                      <div className="text-[10px] text-foreground/50 uppercase mb-1">Takip Numarası</div>
+                      <input 
+                        type="text" 
+                        value={selectedOrder.trackingNumber || ""} 
+                        onChange={(e) => setSelectedOrder({...selectedOrder, trackingNumber: e.target.value})}
+                        className="w-full bg-background border border-glass-border px-3 py-1.5 text-sm outline-none"
+                        placeholder="Örn: 1234567890"
+                      />
+                    </div>
+                    <button onClick={handleTrackingUpdate} className="w-full bg-primary/20 text-primary hover:bg-primary hover:text-foreground py-2 text-xs font-bold uppercase tracking-widest transition-colors mt-2">
+                      Kargo Bilgilerini Kaydet
+                    </button>
+                  </div>
                 </div>
 
                 {/* Summary */}
@@ -504,7 +558,7 @@ export default function OrdersView() {
                 <svg width={20} height={20} viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth={2}><polyline points="6 9 6 2 18 2 18 9"></polyline><path d="M6 18H4a2 2 0 0 1-2-2v-5a2 2 0 0 1 2-2h16a2 2 0 0 1 2 2v5a2 2 0 0 1-2 2h-2"></path><rect x="6" y="14" width={12} height={8}></rect></svg>
                 Fatura Yazdır
               </button>
-              <button onClick={() => setSelectedOrder(null)} className="bg-primary hover:bg-secondary text-white px-8 py-2 uppercase tracking-widest text-xs font-bold transition-colors clip-angled">
+              <button onClick={() => setSelectedOrder(null)} className="bg-primary hover:bg-secondary text-foreground px-8 py-2 uppercase tracking-widest text-xs font-bold transition-colors clip-angled">
                 Kapat
               </button>
             </div>

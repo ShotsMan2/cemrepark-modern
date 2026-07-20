@@ -92,7 +92,7 @@ export function DataTable({
               {columns.map((col, i) => (
                 <th 
                   key={i} 
-                  className={`p-4 font-bold ${col.sortable !== false ? 'cursor-pointer hover:text-white transition-colors select-none' : ''}`}
+                  className={`p-4 font-bold ${col.sortable !== false ? 'cursor-pointer hover:text-foreground transition-colors select-none' : ''}`}
                   onClick={() => col.sortable !== false && requestSort(col.key)}
                 >
                   <div className="flex items-center gap-1">
@@ -140,7 +140,7 @@ export function DataTable({
               >
                 &lt; Önceki
               </Button>
-              <span className="text-white">Sayfa {currentPage} / {totalPages}</span>
+              <span className="text-foreground">Sayfa {currentPage} / {totalPages}</span>
               <Button 
                 variant="outline" 
                 size="sm"

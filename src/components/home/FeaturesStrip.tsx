@@ -4,7 +4,7 @@ import { motion } from "framer-motion";
 import { memo } from "react";
 export default memo(function FeaturesStrip() {
   return (
-    <section className="py-8 bg-background relative z-10 border-b border-gray-200 dark:border-white/5">
+    <section className="py-8 bg-background relative z-10 border-b border-glass-border">
       <div className="container-premium">
         <div className="flex gap-4 md:justify-between overflow-x-auto no-scrollbar pb-4 md:pb-0 snap-x">
           {[
@@ -25,10 +25,10 @@ export default memo(function FeaturesStrip() {
                 {feat.icon}
               </div>
               <div>
-                <h4 className="font-bold text-gray-900 dark:text-white text-sm uppercase tracking-wide">
+                <h4 className="font-bold text-foreground text-sm uppercase tracking-wide">
                   {feat.title}
                 </h4>
-                <p className="text-xs text-gray-500 dark:text-gray-400 mt-1">{feat.desc}</p>
+                <p className="text-xs text-foreground/60 mt-1">{feat.desc}</p>
               </div>
             </motion.div>
           ))}
