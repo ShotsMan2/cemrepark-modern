@@ -129,6 +129,9 @@ export const POST = apiHandler(async (request: NextRequest) => {
 
   const body = await request.json();
   const newProduct = await productService.addProduct(body);
+  
+  const { cacheDel } = await import("@/lib/redis");
+  await cacheDel("products:*");
 
   const ipAddress = request.headers.get("x-forwarded-for") || "unknown";
   const userAgent = request.headers.get("user-agent") || "unknown";

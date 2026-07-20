@@ -228,7 +228,7 @@ export default function CouponsView() {
       return <span className="bg-orange-500/20 text-orange-400 px-2 py-1 text-xs rounded border border-orange-500/30 flex items-center gap-1 w-max"><AlertTriangle size={12}/> Kullanım Doldu</span>;
     }
     if (!coupon.isActive) {
-      return <span className="bg-gray-500/20 text-gray-400 px-2 py-1 text-xs rounded border border-gray-500/30 flex items-center gap-1 w-max">Pasif</span>;
+      return <span className="bg-gray-500/20 text-foreground/50 px-2 py-1 text-xs rounded border border-gray-500/30 flex items-center gap-1 w-max">Pasif</span>;
     }
     return <span className="bg-green-500/20 text-green-400 px-2 py-1 text-xs rounded border border-green-500/30 flex items-center gap-1 w-max"><CheckCircle size={12}/> Aktif</span>;
   };
@@ -261,39 +261,39 @@ export default function CouponsView() {
             animate={{ opacity: 1, y: 0 }}
             transition={{ delay: i * 0.1 }}
             key={i} 
-            className="glass-card p-4 flex items-center gap-4 border border-white/5"
+            className="glass-card p-4 flex items-center gap-4 border border-glass-border"
           >
             <div className={`w-12 h-12 rounded-full flex items-center justify-center ${s.bg} ${s.color}`}>
               <s.icon size={24} />
             </div>
             <div>
-              <p className="text-gray-400 text-xs font-bold uppercase tracking-wider">{s.label}</p>
-              <h3 className="text-2xl font-bold text-white mt-1">{s.value}</h3>
+              <p className="text-foreground/50 text-xs font-bold uppercase tracking-wider">{s.label}</p>
+              <h3 className="text-2xl font-bold text-foreground mt-1">{s.value}</h3>
             </div>
           </motion.div>
         ))}
       </div>
 
-      <div className="glass-panel p-6 clip-angled border border-white/5">
-        <h2 className="text-xl font-bold text-white uppercase tracking-widest mb-6">
+      <div className="glass-panel p-6 clip-angled border border-glass-border">
+        <h2 className="text-xl font-bold text-foreground uppercase tracking-widest mb-6">
           {isEditing ? "Kupon Düzenle" : "Yeni Kupon Ekle"}
         </h2>
         <form onSubmit={handleSubmit} className="grid grid-cols-1 md:grid-cols-3 gap-6">
           <div>
-            <label className="block text-gray-400 text-xs font-bold mb-2 uppercase tracking-wider">Kupon Kodu</label>
+            <label className="block text-foreground/50 text-xs font-bold mb-2 uppercase tracking-wider">Kupon Kodu</label>
             <div className="flex">
               <input
                 type="text"
                 name="code"
                 value={formData.code}
                 onChange={handleInputChange}
-                className="w-full bg-black/50 border border-white/10 text-white px-4 py-3 focus:border-neon-pink uppercase outline-none rounded-l"
+                className="w-full bg-background/50 border border-glass-border text-foreground px-4 py-3 focus:border-neon-pink uppercase outline-none rounded-l"
                 required
               />
               <button 
                 type="button" 
                 onClick={generateRandomCode}
-                className="bg-white/10 hover:bg-white/20 px-4 border border-l-0 border-white/10 rounded-r transition-colors text-white"
+                className="bg-foreground/10 hover:bg-foreground/20 px-4 border border-l-0 border-glass-border rounded-r transition-colors text-foreground"
                 title="Rastgele Kod Üret"
               >
                 <Shuffle size={18} />
@@ -302,12 +302,12 @@ export default function CouponsView() {
           </div>
           
           <div>
-            <label className="block text-gray-400 text-xs font-bold mb-2 uppercase tracking-wider">İndirim Tipi</label>
+            <label className="block text-foreground/50 text-xs font-bold mb-2 uppercase tracking-wider">İndirim Tipi</label>
             <select
               name="discountType"
               value={formData.discountType}
               onChange={handleInputChange}
-              className="w-full bg-black/50 border border-white/10 text-white px-4 py-3 focus:border-neon-pink outline-none rounded appearance-none"
+              className="w-full bg-background/50 border border-glass-border text-foreground px-4 py-3 focus:border-neon-pink outline-none rounded appearance-none"
             >
               <option value="PERCENTAGE">Yüzde İndirim (%)</option>
               <option value="FIXED">Sabit İndirim (TL)</option>
@@ -316,7 +316,7 @@ export default function CouponsView() {
           </div>
 
           <div>
-            <label className="block text-gray-400 text-xs font-bold mb-2 uppercase tracking-wider">
+            <label className="block text-foreground/50 text-xs font-bold mb-2 uppercase tracking-wider">
               Değer {formData.discountType === 'PERCENTAGE' ? '(%)' : formData.discountType === 'FIXED' ? '(TL)' : '(Geçersiz)'}
             </label>
             <input
@@ -325,7 +325,7 @@ export default function CouponsView() {
               value={formData.discountValue}
               onChange={handleInputChange}
               disabled={formData.discountType === 'FREE_SHIPPING'}
-              className="w-full bg-black/50 border border-white/10 text-white px-4 py-3 focus:border-neon-pink outline-none rounded disabled:opacity-50"
+              className="w-full bg-background/50 border border-glass-border text-foreground px-4 py-3 focus:border-neon-pink outline-none rounded disabled:opacity-50"
               required={formData.discountType !== 'FREE_SHIPPING'}
               step="0.01"
               min="0"
@@ -333,43 +333,43 @@ export default function CouponsView() {
           </div>
 
           <div>
-            <label className="block text-gray-400 text-xs font-bold mb-2 uppercase tracking-wider">Min. Sepet Tutarı (TL)</label>
+            <label className="block text-foreground/50 text-xs font-bold mb-2 uppercase tracking-wider">Min. Sepet Tutarı (TL)</label>
             <input
               type="number"
               name="minCartValue"
               value={formData.minCartValue}
               onChange={handleInputChange}
-              className="w-full bg-black/50 border border-white/10 text-white px-4 py-3 focus:border-neon-pink outline-none rounded"
+              className="w-full bg-background/50 border border-glass-border text-foreground px-4 py-3 focus:border-neon-pink outline-none rounded"
               step="0.01"
               min="0"
             />
           </div>
 
           <div>
-            <label className="block text-gray-400 text-xs font-bold mb-2 uppercase tracking-wider">Kullanım Limiti</label>
+            <label className="block text-foreground/50 text-xs font-bold mb-2 uppercase tracking-wider">Kullanım Limiti</label>
             <input
               type="number"
               name="maxUses"
               value={formData.maxUses}
               onChange={handleInputChange}
               placeholder="Örn: 100"
-              className="w-full bg-black/50 border border-white/10 text-white px-4 py-3 focus:border-neon-pink outline-none rounded"
+              className="w-full bg-background/50 border border-glass-border text-foreground px-4 py-3 focus:border-neon-pink outline-none rounded"
               min="1"
             />
           </div>
 
           <div>
-            <label className="block text-gray-400 text-xs font-bold mb-2 uppercase tracking-wider">Son Kullanma Tarihi</label>
+            <label className="block text-foreground/50 text-xs font-bold mb-2 uppercase tracking-wider">Son Kullanma Tarihi</label>
             <input
               type="datetime-local"
               name="expiresAt"
               value={formData.expiresAt}
               onChange={handleInputChange}
-              className="w-full bg-black/50 border border-white/10 text-white px-4 py-3 focus:border-neon-pink outline-none rounded [color-scheme:dark]"
+              className="w-full bg-background/50 border border-glass-border text-foreground px-4 py-3 focus:border-neon-pink outline-none rounded [color-scheme:dark]"
             />
           </div>
 
-          <div className="md:col-span-3 flex items-center justify-between border-t border-white/10 pt-4 mt-2">
+          <div className="md:col-span-3 flex items-center justify-between border-t border-glass-border pt-4 mt-2">
             <div className="flex items-center gap-3">
               <input
                 type="checkbox"
@@ -379,7 +379,7 @@ export default function CouponsView() {
                 className="w-5 h-5 accent-neon-pink"
                 id="isActiveToggle"
               />
-              <label htmlFor="isActiveToggle" className="text-gray-300 font-bold uppercase cursor-pointer">
+              <label htmlFor="isActiveToggle" className="text-foreground/70 font-bold uppercase cursor-pointer">
                 Kuponu Aktifleştir
               </label>
             </div>
@@ -389,14 +389,14 @@ export default function CouponsView() {
                 <button
                   type="button"
                   onClick={resetForm}
-                  className="bg-transparent border border-gray-500 text-gray-400 px-6 py-2 font-bold uppercase tracking-widest rounded hover:text-white hover:border-white transition-colors"
+                  className="bg-transparent border border-gray-500 text-foreground/50 px-6 py-2 font-bold uppercase tracking-widest rounded hover:text-foreground hover:border-white transition-colors"
                 >
                   İptal
                 </button>
               )}
               <button
                 type="submit"
-                className="bg-neon-pink text-white px-8 py-2 font-bold uppercase tracking-widest clip-angled hover:bg-white hover:text-black transition-colors"
+                className="bg-neon-pink text-foreground px-8 py-2 font-bold uppercase tracking-widest clip-angled hover:bg-white hover:text-black transition-colors"
               >
                 {isEditing ? "Güncelle" : "Oluştur"}
               </button>
@@ -405,18 +405,18 @@ export default function CouponsView() {
         </form>
       </div>
 
-      <div className="glass-panel p-6 clip-angled border border-white/5">
-        <h2 className="text-xl font-bold text-white uppercase tracking-widest mb-6">Mevcut Kuponlar</h2>
+      <div className="glass-panel p-6 clip-angled border border-glass-border">
+        <h2 className="text-xl font-bold text-foreground uppercase tracking-widest mb-6">Mevcut Kuponlar</h2>
         {isLoading ? (
           <div className="flex justify-center py-8">
             <div className="w-8 h-8 border-4 border-neon-pink border-t-transparent rounded-full animate-spin"></div>
           </div>
         ) : coupons.length === 0 ? (
-          <p className="text-gray-400 italic text-center py-8">Henüz kupon eklenmemiş.</p>
+          <p className="text-foreground/50 italic text-center py-8">Henüz kupon eklenmemiş.</p>
         ) : (
           <div className="overflow-x-auto">
             <table className="w-full text-left text-sm">
-              <thead className="text-xs uppercase bg-black/40 text-gray-400 border-b border-white/10">
+              <thead className="text-xs uppercase bg-black/40 text-foreground/50 border-b border-glass-border">
                 <tr>
                   <th className="px-4 py-4 font-bold">Kupon Kodu</th>
                   <th className="px-4 py-4 font-bold">İndirim</th>
@@ -428,14 +428,14 @@ export default function CouponsView() {
               </thead>
               <tbody className="divide-y divide-white/5">
                 {coupons.map((coupon) => (
-                  <tr key={coupon.id} className="hover:bg-white/5 transition-colors group">
+                  <tr key={coupon.id} className="hover:bg-foreground/5 transition-colors group">
                     <td className="px-4 py-4">
-                      <div className="font-bold text-white flex items-center gap-2">
+                      <div className="font-bold text-foreground flex items-center gap-2">
                         {coupon.code}
                         <button onClick={() => {
                           navigator.clipboard.writeText(coupon.code);
                           Swal.fire({ toast: true, position: 'top-end', showConfirmButton: false, timer: 1500, icon: 'success', title: 'Kopyalandı!', background: '#1a1a1a', color: '#fff' });
-                        }} className="text-gray-500 hover:text-white transition-colors" title="Kopyala">
+                        }} className="text-foreground/60 hover:text-foreground transition-colors" title="Kopyala">
                           <Copy size={14} />
                         </button>
                       </div>
@@ -447,12 +447,12 @@ export default function CouponsView() {
                          'Ücretsiz Kargo'}
                       </span>
                     </td>
-                    <td className="px-4 py-4 text-gray-300 text-xs space-y-1">
-                      <div>Min Sepet: <span className="text-white">{coupon.minCartValue ? `₺${coupon.minCartValue}` : 'Yok'}</span></div>
-                      <div>Bitiş: <span className="text-white">{coupon.expiresAt ? new Date(coupon.expiresAt).toLocaleDateString("tr-TR") : 'Süresiz'}</span></div>
+                    <td className="px-4 py-4 text-foreground/70 text-xs space-y-1">
+                      <div>Min Sepet: <span className="text-foreground">{coupon.minCartValue ? `₺${coupon.minCartValue}` : 'Yok'}</span></div>
+                      <div>Bitiş: <span className="text-foreground">{coupon.expiresAt ? new Date(coupon.expiresAt).toLocaleDateString("tr-TR") : 'Süresiz'}</span></div>
                     </td>
-                    <td className="px-4 py-4 text-gray-300 text-xs space-y-1">
-                      <div>Kullanım: <span className="text-white">{coupon.usedCount} / {coupon.maxUses || '∞'}</span></div>
+                    <td className="px-4 py-4 text-foreground/70 text-xs space-y-1">
+                      <div>Kullanım: <span className="text-foreground">{coupon.usedCount} / {coupon.maxUses || '∞'}</span></div>
                       <div>Gelir: <span className="text-green-400">₺{coupon.revenueGenerated?.toLocaleString("tr-TR") || 0}</span></div>
                     </td>
                     <td className="px-4 py-4">
@@ -462,18 +462,18 @@ export default function CouponsView() {
                       <div className="flex items-center justify-end gap-3 opacity-80 group-hover:opacity-100 transition-opacity">
                         <button 
                           onClick={() => toggleStatus(coupon)} 
-                          className={`${coupon.isActive ? 'text-orange-400' : 'text-green-400'} hover:text-white transition-colors`}
+                          className={`${coupon.isActive ? 'text-orange-400' : 'text-green-400'} hover:text-foreground transition-colors`}
                           title={coupon.isActive ? "Pasife Al" : "Aktife Al"}
                         >
                           <RefreshCw size={16} />
                         </button>
-                        <button onClick={() => handleEdit(coupon)} className="text-holo-gold hover:text-white transition-colors" title="Düzenle">
+                        <button onClick={() => handleEdit(coupon)} className="text-holo-gold hover:text-foreground transition-colors" title="Düzenle">
                           <Edit size={16} />
                         </button>
-                        <button onClick={() => duplicateCoupon(coupon)} className="text-blue-400 hover:text-white transition-colors" title="Çoğalt">
+                        <button onClick={() => duplicateCoupon(coupon)} className="text-blue-400 hover:text-foreground transition-colors" title="Çoğalt">
                           <Copy size={16} />
                         </button>
-                        <button onClick={() => handleDelete(coupon.id)} className="text-red-500 hover:text-white transition-colors" title="Sil">
+                        <button onClick={() => handleDelete(coupon.id)} className="text-red-500 hover:text-foreground transition-colors" title="Sil">
                           <Trash2 size={16} />
                         </button>
                       </div>

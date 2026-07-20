@@ -37,7 +37,7 @@ export default function NotFound() {
         <div className="flex flex-col sm:flex-row gap-4 w-full sm:w-auto">
           <Link 
             href="/"
-            className="bg-primary text-white font-bold px-8 py-4 uppercase tracking-widest text-sm hover:bg-secondary transition-colors clip-angled shadow-[0_0_20px_hsla(var(--primary),0.4)] flex items-center justify-center gap-2"
+            className="bg-primary text-foreground font-bold px-8 py-4 uppercase tracking-widest text-sm hover:bg-secondary transition-colors clip-angled shadow-[0_0_20px_hsla(var(--primary),0.4)] flex items-center justify-center gap-2"
           >
             <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M10 19l-7-7m0 0l7-7m-7 7h18"></path></svg>
             Ana Sayfaya Dön

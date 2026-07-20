@@ -1,7 +1,5 @@
-import { Jost, Marcellus } from "next/font/google";
+import { Jost, Marcellus, Inter } from "next/font/google";
 import "./globals.css";
-// Removed old theme
-// Removed old style
 import "swiper/css";
 import "aos/dist/aos.css";
 import Header from "../components/Header";
@@ -19,6 +17,7 @@ import { authOptions } from "@/lib/authOptions";
 
 const jost = Jost({ subsets: ["latin"], variable: "--font-jost" });
 const marcellus = Marcellus({ weight: "400", subsets: ["latin"], variable: "--font-marcellus" });
+const inter = Inter({ subsets: ["latin"], variable: "--font-inter" });
 
 import { getSettings } from "../data/settings";
 
@@ -57,6 +56,9 @@ export async function generateMetadata() {
       description: defaultDescription,
       images: ["/assets/siteimg/cemre park.png"],
     },
+    alternates: {
+      canonical: "/",
+    },
   };
 }
 
@@ -70,7 +72,7 @@ export default async function RootLayout({ children }) {
   }
   return (
     <html lang="tr" suppressHydrationWarning>
-      <body className={`${jost.variable} ${marcellus.variable} homepage`}>
+      <body className={`${jost.variable} ${marcellus.variable} ${inter.variable} homepage`}>
         {settings.ozelCss ? <style dangerouslySetInnerHTML={{ __html: settings.ozelCss }} /> : null}
         <AuthProvider session={session}>
           <StoreProvider>

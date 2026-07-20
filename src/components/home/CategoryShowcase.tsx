@@ -38,7 +38,7 @@ export default memo(function CategoryShowcase({ categories }: { categories: any[
                   />
                   <div className="absolute inset-0 bg-black/20 group-hover:bg-black/0 transition-colors duration-500"></div>
                 </div>
-                <div className="absolute top-0 right-0 badge-premium bg-primary text-white shadow-lg z-10 translate-x-2 -translate-y-2 opacity-0 group-hover:opacity-100 transition-opacity duration-300">
+                <div className="absolute top-0 right-0 badge-premium bg-primary text-foreground shadow-lg z-10 translate-x-2 -translate-y-2 opacity-0 group-hover:opacity-100 transition-opacity duration-300">
                   {cat.count}
                 </div>
               </div>

@@ -22,18 +22,18 @@ import { motion, AnimatePresence } from "framer-motion";
 
 import { z } from "zod";
 
-import { ShieldCheck, Truck, RotateCcw, CreditCard, Banknote, Calendar } from "lucide-react";
+import { ShieldCheck, Truck, RotateCcw, CreditCard, Banknote, Calendar, Check, User, ChevronDown } from "lucide-react";
 
 const checkoutSchema = z.object({
-  fullName: z.string().min(3, "Ad Soyad en az 3 karakter olmal\u0131d\u0131r"),
+  fullName: z.string().min(3, "Ad Soyad en az 3 karakter olmalıdır"),
 
-  email: z.string().email("Ge\u00e7erli bir e-posta adresi giriniz"),
+  email: z.string().email("Geçerli bir e-posta adresi giriniz"),
 
-  phone: z.string().min(10, "Ge\u00e7erli bir telefon numaras\u0131 giriniz"),
+  phone: z.string().min(10, "Geçerli bir telefon numarası giriniz"),
 
-  city: z.string().min(2, "\u0130l/\u0130l\u00e7e zorunludur"),
+  city: z.string().min(2, "İl/İlçe zorunludur"),
 
-  address: z.string().min(10, "A\u00e7\u0131k adres en az 10 karakter olmal\u0131d\u0131r"),
+  address: z.string().min(10, "Açık adres en az 10 karakter olmalıdır"),
 
   cardNumber: z.string().optional(),
 
@@ -81,6 +81,8 @@ export default function CheckoutPage() {
   const [shippingMethod, setShippingMethod] = useState<"standard" | "express">("standard");
 
   const [isCvvFocused, setIsCvvFocused] = useState(false);
+
+  const [activeStep, setActiveStep] = useState(1);
 
   useEffect(() => {
     AOS.init({ duration: 800, once: true });
@@ -195,16 +197,16 @@ export default function CheckoutPage() {
           toast: true,
           position: "bottom-end",
           icon: "success",
-          title: "Kupon uyguland\u0131!",
+          title: "Kupon uygulandı!",
           showConfirmButton: false,
           timer: 3000,
           background: "#18181b",
           color: "#fff",
           iconColor: "#ff007f",
         });
-      } else setCouponError(data.error || "Ge\u00e7ersiz kupon kodu.");
+      } else setCouponError(data.error || "Geçersiz kupon kodu.");
     } catch (err) {
-      setCouponError("Hata olu\u015ftu.");
+      setCouponError("Hata oluştu.");
     } finally {
       setIsApplyingCoupon(false);
     }
@@ -232,7 +234,7 @@ export default function CheckoutPage() {
         toast: true,
         position: "top-end",
         icon: "error",
-        title: "L\u00fcften formdaki hatalar\u0131 d\u00fczeltin.",
+        title: "Lüften formdaki hataları düzeltin.",
         showConfirmButton: false,
         timer: 3000,
         background: "#18181b",
@@ -252,7 +254,7 @@ export default function CheckoutPage() {
         toast: true,
         position: "top-end",
         icon: "error",
-        title: "L\u00fcften kart bilgilerini eksiksiz girin.",
+        title: "Lüften kart bilgilerini eksiksiz girin.",
         showConfirmButton: false,
         timer: 3000,
         background: "#18181b",
@@ -268,7 +270,7 @@ export default function CheckoutPage() {
         userId: (session?.user as any)?.id ? parseInt((session.user as any).id as string) : null,
 
         total: totalAmount,
-        items: cartItems.map((i: any) => ({ productId: i.id, quantity: i.quantity })),
+        items: cartItems.map((i: any) => ({ productId: i.id, quantity: i.quantity, price: i.fiyat })),
 
         couponCode: appliedCoupon?.code || null,
         discountAmount,
@@ -290,12 +292,12 @@ export default function CheckoutPage() {
       if (!response.ok) {
         const errorData = await response.json().catch(() => null);
 
-        throw new Error(errorData?.error || "Sipari\u015f olu\u015fturulamad\u0131.");
+        throw new Error(errorData?.error || "Sipariş oluşturulamadı.");
       }
 
       Swal.fire({
-        title: "Sipari\u015finiz Al\u0131nd\u0131!",
-        text: "Sipari\u015finiz ba\u015far\u0131yla olu\u015fturuldu.",
+        title: "Siparişiniz Alındı!",
+        text: "Siparişiniz başarıyla oluşturuldu.",
         icon: "success",
         background: "#18181b",
         color: "#fff",
@@ -321,7 +323,7 @@ export default function CheckoutPage() {
   const handleFastPayment = async (provider: "Apple Pay" | "Google Pay") => {
     setIsProcessing(true);
 
-    setPaymentStatus(`${provider} ba\u015flat\u0131l\u0131yor...`);
+    setPaymentStatus(`${provider} başlatılıyor...`);
 
     try {
       await new Promise((resolve) => setTimeout(resolve, 800));
@@ -330,14 +332,14 @@ export default function CheckoutPage() {
 
       await new Promise((resolve) => setTimeout(resolve, 1000));
 
-      setPaymentStatus("Sipari\u015f olu\u015fturuluyor...");
+      setPaymentStatus("Sipariş oluşturuluyor...");
 
       const payload = {
-        customer: formData.fullName || (session?.user as any)?.name || `${provider} Kullan\u0131c\u0131s\u0131`,
+        customer: formData.fullName || (session?.user as any)?.name || `${provider} Kullanıcısı`,
         userId: (session?.user as any)?.id ? parseInt((session.user as any).id as string) : null,
 
         total: totalAmount,
-        items: cartItems.map((i: any) => ({ productId: i.id, quantity: i.quantity })),
+        items: cartItems.map((i: any) => ({ productId: i.id, quantity: i.quantity, price: i.fiyat })),
 
         couponCode: appliedCoupon?.code || null,
         discountAmount,
@@ -355,16 +357,16 @@ export default function CheckoutPage() {
       if (!response.ok) {
         const errorData = await response.json().catch(() => null);
 
-        throw new Error(errorData?.error || "Sipari\u015f olu\u015fturulamad\u0131.");
+        throw new Error(errorData?.error || "Sipariş oluşturulamadı.");
       }
 
-      setPaymentStatus("Ba\u015far\u0131l\u0131!");
+      setPaymentStatus("Başarılı!");
 
       await Swal.fire({
         toast: true,
         position: "top-end",
         icon: "success",
-        title: `${provider} ile \u00f6deme ba\u015far\u0131l\u0131!`,
+        title: `${provider} ile ödeme başarılı!`,
         showConfirmButton: false,
         timer: 1500,
         background: "#18181b",
@@ -404,7 +406,7 @@ export default function CheckoutPage() {
           </div>
 
           <div className="text-xl font-bold uppercase tracking-widest text-gray-500 animate-pulse">
-            \u00d6deme Sayfas\u0131 Haz\u0131rlan\u0131yor...
+            Ödeme Sayfası Hazırlanıyor...
           </div>
         </div>
       </div>
@@ -427,7 +429,7 @@ export default function CheckoutPage() {
             <div className="absolute left-0 top-1/2 -translate-y-1/2 w-1/2 h-1 bg-gradient-to-r from-neon-pink to-holo-gold -z-10 rounded-full transition-all duration-500"></div>
 
             <div className="flex flex-col items-center gap-2">
-              <div className="w-10 h-10 rounded-full bg-neon-pink text-white flex items-center justify-center font-bold shadow-lg shadow-neon-pink/30">
+              <div className="w-10 h-10 rounded-full bg-neon-pink text-foreground flex items-center justify-center font-bold shadow-lg shadow-neon-pink/30">
                 <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                   <path
                     strokeLinecap="round"
@@ -438,18 +440,18 @@ export default function CheckoutPage() {
                 </svg>
               </div>
 
-              <span className="text-[10px] uppercase tracking-widest font-bold text-gray-900 dark:text-white">
+              <span className="text-[10px] uppercase tracking-widest font-bold text-foreground">
                 Sepet
               </span>
             </div>
 
             <div className="flex flex-col items-center gap-2">
-              <div className="w-10 h-10 rounded-full bg-gradient-to-br from-neon-pink to-holo-gold text-white flex items-center justify-center font-bold shadow-lg shadow-holo-gold/30 animate-pulse">
+              <div className="w-10 h-10 rounded-full bg-gradient-to-br from-neon-pink to-holo-gold text-foreground flex items-center justify-center font-bold shadow-lg shadow-holo-gold/30 animate-pulse">
                 2
               </div>
 
-              <span className="text-[10px] uppercase tracking-widest font-bold text-gray-900 dark:text-white">
-                Teslimat & \u00d6deme
+              <span className="text-[10px] uppercase tracking-widest font-bold text-foreground">
+                Teslimat & Ödeme
               </span>
             </div>
 
@@ -494,14 +496,13 @@ export default function CheckoutPage() {
 
               <div className="relative z-10 space-y-10">
                 {/* EXPRESS CHECKOUT */}
-
                 <motion.div
                   whileHover={{ scale: 1.005 }}
-
-                  className="glass-card p-6 rounded-[2rem] border border-white/20 dark:border-white/5 shadow-inner"
+                  className="glass-card p-6 rounded-[2rem] border border-primary/20 bg-background/50 backdrop-blur-md shadow-[0_10px_30px_rgb(0,0,0,0.05)]"
                 >
-                  <h3 className="text-xs font-bold text-gray-500 dark:text-gray-400 mb-4 uppercase tracking-widest text-center">
-                    H\u0131zl\u0131 \u00d6deme
+                  <h3 className="text-xs font-bold text-foreground mb-4 uppercase tracking-[0.15em] text-center flex items-center justify-center gap-2">
+                    <svg className="w-4 h-4 text-primary" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M13 10V3L4 14h7v7l9-11h-7z"></path></svg>
+                    Hızlı Ödeme ile Tek Tıkla Tamamla
                   </h3>
 
                   <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
@@ -509,7 +510,7 @@ export default function CheckoutPage() {
                       type="button"
                       onClick={() => handleFastPayment("Apple Pay")}
                       disabled={isProcessing}
-                      className="flex items-center justify-center gap-3 bg-black dark:bg-white text-white dark:text-black rounded-2xl py-4 font-bold hover:scale-[1.02] active:scale-[0.98] transition-all duration-300 shadow-lg hover:shadow-xl hover:shadow-black/20 dark:hover:shadow-white/20 disabled:opacity-50 disabled:cursor-not-allowed border border-transparent"
+                      className="flex items-center justify-center gap-3 bg-black dark:bg-white text-foreground dark:text-black rounded-2xl py-4 font-bold hover:scale-[1.02] active:scale-[0.98] transition-all duration-300 shadow-lg hover:shadow-xl hover:shadow-black/20 dark:hover:shadow-white/20 disabled:opacity-50 disabled:cursor-not-allowed border border-transparent"
                     >
                       {isProcessing && paymentStatus?.includes("Apple") ? (
                         <span className="text-xs tracking-widest uppercase opacity-80">
@@ -530,7 +531,7 @@ export default function CheckoutPage() {
                       type="button"
                       onClick={() => handleFastPayment("Google Pay")}
                       disabled={isProcessing}
-                      className="flex items-center justify-center gap-3 bg-white dark:bg-zinc-900 border border-gray-200 dark:border-zinc-700 text-gray-900 dark:text-white rounded-2xl py-4 font-bold hover:scale-[1.02] active:scale-[0.98] transition-all duration-300 shadow-lg hover:shadow-xl hover:shadow-gray-200 dark:hover:shadow-black/50 disabled:opacity-50 disabled:cursor-not-allowed"
+                      className="flex items-center justify-center gap-3 bg-white dark:bg-zinc-900 border border-gray-200 dark:border-zinc-700 text-foreground rounded-2xl py-4 font-bold hover:scale-[1.02] active:scale-[0.98] transition-all duration-300 shadow-lg hover:shadow-xl hover:shadow-gray-200 dark:hover:shadow-black/50 disabled:opacity-50 disabled:cursor-not-allowed"
                     >
                       {isProcessing && paymentStatus?.includes("Google") ? (
                         <span className="text-xs tracking-widest uppercase opacity-80">
@@ -565,27 +566,44 @@ export default function CheckoutPage() {
 
                   <div className="relative mt-6 text-center">
                     <div className="absolute inset-0 flex items-center">
-                      <div className="w-full border-t border-gray-300 dark:border-white/10"></div>
+                      <div className="w-full border-t border-foreground/10"></div>
                     </div>
-
-                    <span className="relative glass-card px-4 text-[10px] font-bold text-gray-400 uppercase tracking-widest backdrop-blur-md">
-                      Veya Klasik Y\u00f6ntemle
+                    <span className="relative bg-background px-4 text-[10px] font-bold text-foreground/50 uppercase tracking-[0.2em] rounded-full">
+                      Veya Manuel Olarak Devam Et
                     </span>
                   </div>
                 </motion.div>
 
-                {/* DELIVERY ADDRESS */}
-
-                <motion.div className="space-y-6">
-                  <h2 className="text-xl font-black text-gray-900 dark:text-white flex items-center gap-2 uppercase tracking-widest border-b border-gray-200 dark:border-white/10 pb-4">
-                    <Truck className="w-5 h-5 text-neon-pink" />
-                    Teslimat Bilgileri
-                  </h2>
-
-                  <div className="grid grid-cols-1 md:grid-cols-2 gap-5">
+                {/* ACCORDION STEP 1: DELIVERY ADDRESS */}
+                <div className={`glass-card rounded-[2rem] border transition-all duration-500 ${activeStep === 1 ? 'border-primary shadow-[0_0_20px_var(--color-primary)]' : activeStep > 1 ? 'border-emerald-500/30 bg-emerald-500/5' : 'border-white/20 dark:border-white/5 opacity-70'} overflow-hidden relative backdrop-blur-xl`}>
+                  <button 
+                    type="button" 
+                    onClick={() => setActiveStep(1)}
+                    className="w-full flex items-center justify-between p-6 bg-transparent group"
+                  >
+                    <div className="flex items-center gap-4">
+                      <div className={`w-10 h-10 rounded-full flex items-center justify-center font-bold text-sm transition-colors ${activeStep === 1 ? 'bg-primary text-background' : activeStep > 1 ? 'bg-emerald-500 text-white' : 'bg-foreground/10 text-foreground/50'}`}>
+                        {activeStep > 1 ? <Check className="w-5 h-5"/> : '1'}
+                      </div>
+                      <h2 className="text-lg font-bold uppercase tracking-[0.15em] text-foreground flex items-center gap-3">
+                        <User className={`w-5 h-5 transition-colors ${activeStep === 1 ? 'text-primary' : 'text-foreground/50'}`} />
+                        Kişisel & Teslimat Bilgileri
+                      </h2>
+                    </div>
+                    <ChevronDown className={`w-5 h-5 transition-transform duration-500 ${activeStep === 1 ? 'rotate-180 text-primary' : 'text-foreground/30'}`} />
+                  </button>
+                  <AnimatePresence>
+                    {activeStep === 1 && (
+                      <motion.div 
+                        initial={{ height: 0, opacity: 0 }}
+                        animate={{ height: "auto", opacity: 1 }}
+                        exit={{ height: 0, opacity: 0 }}
+                        className="px-6 pb-6"
+                      >
+                        <div className="grid grid-cols-1 md:grid-cols-2 gap-5 mt-2">
                     {["fullName", "email", "phone", "city"].map((field) => (
                       <div key={field} className="relative group/input">
-                        <label className="block text-[10px] font-black text-gray-500 dark:text-gray-400 mb-1.5 uppercase tracking-[0.2em] group-focus-within/input:text-primary transition-colors">
+                        <label className="block text-[10px] font-black text-foreground/60 mb-1.5 uppercase tracking-[0.2em] group-focus-within/input:text-primary transition-colors">
                           {t(
                             field === "fullName"
                               ? "full_name"
@@ -601,7 +619,7 @@ export default function CheckoutPage() {
                           name={field}
                           value={(formData as any)[field]}
                           onChange={handleInputChange}
-                          className={`w-full glass-panel border ${errors[field] ? "border-red-500" : "border-gray-200 dark:border-white/10"} text-gray-900 dark:text-white rounded-xl px-4 py-3 text-sm focus:outline-none focus:ring-2 focus:ring-primary focus:border-transparent transition-all backdrop-blur-sm shadow-inner font-semibold`}
+                          className={`w-full glass-panel border ${errors[field] ? "border-red-500" : "border-glass-border"} text-foreground rounded-xl px-4 py-3 text-sm focus:outline-none focus:ring-2 focus:ring-primary focus:border-transparent transition-all backdrop-blur-sm shadow-inner font-semibold`}
                         />
 
                         <AnimatePresence>
@@ -620,7 +638,7 @@ export default function CheckoutPage() {
                     ))}
 
                     <div className="md:col-span-2 relative group/input">
-                      <label className="block text-[10px] font-black text-gray-500 dark:text-gray-400 mb-1.5 uppercase tracking-[0.2em] group-focus-within/input:text-neon-pink transition-colors">
+                      <label className="block text-[10px] font-black text-foreground/60 mb-1.5 uppercase tracking-[0.2em] group-focus-within/input:text-neon-pink transition-colors">
                         {t("address")}
                       </label>
 
@@ -630,22 +648,59 @@ export default function CheckoutPage() {
                         value={formData.address}
                         onChange={handleInputChange}
                         rows={3}
-                        className={`w-full glass-panel border ${errors.address ? "border-red-500" : "border-gray-200 dark:border-white/10"} text-gray-900 dark:text-white rounded-xl px-4 py-3 text-sm focus:outline-none focus:ring-2 focus:ring-neon-pink focus:border-transparent transition-all resize-none backdrop-blur-sm shadow-inner font-semibold`}
+                        className={`w-full glass-panel border ${errors.address ? "border-red-500" : "border-glass-border"} text-foreground rounded-xl px-4 py-3 text-sm focus:outline-none focus:ring-2 focus:ring-neon-pink focus:border-transparent transition-all resize-none backdrop-blur-sm shadow-inner font-semibold`}
                       ></textarea>
+                        </div>
+                        <div className="mt-8 flex justify-end">
+                          <button 
+                            type="button" 
+                            onClick={() => {
+                              // Basic validation check before proceeding
+                              if (formData.fullName.length > 2 && formData.email.includes("@") && formData.address.length > 5) {
+                                setActiveStep(2);
+                              } else {
+                                Swal.fire({ toast: true, position: 'top-end', icon: 'warning', title: 'Lütfen bilgileri eksiksiz doldurun.', showConfirmButton: false, timer: 2000, background: '#18181b', color: '#fff' });
+                              }
+                            }} 
+                            className="bg-foreground text-background px-8 py-3 rounded-xl font-bold uppercase tracking-widest text-xs hover:scale-[1.02] active:scale-[0.98] transition-all flex items-center gap-2"
+                          >
+                            Kargo Seçimine Geç <ChevronDown className="w-4 h-4 -rotate-90" />
+                          </button>
+                        </div>
+                      </motion.div>
+                    )}
+                  </AnimatePresence>
+                </div>
+
+                {/* ACCORDION STEP 2: SHIPPING METHOD */}
+                <div className={`glass-card rounded-[2rem] border transition-all duration-500 ${activeStep === 2 ? 'border-primary shadow-[0_0_20px_var(--color-primary)]' : activeStep > 2 ? 'border-emerald-500/30 bg-emerald-500/5' : 'border-white/20 dark:border-white/5 opacity-70'} overflow-hidden relative backdrop-blur-xl`}>
+                  <button 
+                    type="button" 
+                    onClick={() => setActiveStep(2)}
+                    className="w-full flex items-center justify-between p-6 bg-transparent group"
+                  >
+                    <div className="flex items-center gap-4">
+                      <div className={`w-10 h-10 rounded-full flex items-center justify-center font-bold text-sm transition-colors ${activeStep === 2 ? 'bg-primary text-background' : activeStep > 2 ? 'bg-emerald-500 text-white' : 'bg-foreground/10 text-foreground/50'}`}>
+                        {activeStep > 2 ? <Check className="w-5 h-5"/> : '2'}
+                      </div>
+                      <h2 className="text-lg font-bold uppercase tracking-[0.15em] text-foreground flex items-center gap-3">
+                        <Truck className={`w-5 h-5 transition-colors ${activeStep === 2 ? 'text-primary' : 'text-foreground/50'}`} />
+                        Kargo Seçenekleri
+                      </h2>
                     </div>
-                  </div>
-                </motion.div>
-
-                {/* SHIPPING METHOD */}
-
-                <motion.div className="space-y-4">
-                  <h2 className="text-xl font-black text-gray-900 dark:text-white flex items-center gap-2 uppercase tracking-widest border-b border-gray-200 dark:border-white/10 pb-4">
-                    Kargo Se\u00e7enekleri
-                  </h2>
-
-                  <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                    <ChevronDown className={`w-5 h-5 transition-transform duration-500 ${activeStep === 2 ? 'rotate-180 text-primary' : 'text-foreground/30'}`} />
+                  </button>
+                  <AnimatePresence>
+                    {activeStep === 2 && (
+                      <motion.div 
+                        initial={{ height: 0, opacity: 0 }}
+                        animate={{ height: "auto", opacity: 1 }}
+                        exit={{ height: 0, opacity: 0 }}
+                        className="px-6 pb-6"
+                      >
+                        <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 mt-2">
                     <label
-                      className={`cursor-pointer flex flex-col p-4 rounded-2xl border-2 transition-all ${shippingMethod === "standard" ? "border-neon-pink bg-neon-pink/5" : "border-gray-200 dark:border-white/10 hover:border-neon-pink/50"}`}
+                      className={`cursor-pointer flex flex-col p-4 rounded-2xl border-2 transition-all ${shippingMethod === "standard" ? "border-neon-pink bg-neon-pink/5" : "border-glass-border hover:border-neon-pink/50"}`}
                     >
                       <div className="flex justify-between items-center mb-2">
                         <span className="font-bold flex items-center gap-2">
@@ -662,23 +717,23 @@ export default function CheckoutPage() {
                         />
                       </div>
 
-                      <span className="text-xs text-gray-500 dark:text-gray-400 mb-2">
-                        2-4 i\u015f g\u00fcn\u00fc i\u00e7inde teslimat
+                      <span className="text-xs text-foreground/60 mb-2">
+                        2-4 iş günü içinde teslimat
                       </span>
 
                       <span className="font-black text-neon-pink mt-auto">
                         {subtotalAfterDiscount >= FREE_SHIPPING_THRESHOLD
-                          ? "\u00dccretsiz"
+                          ? "Ücretsiz"
                           : formatPrice(BASE_SHIPPING_FEE)}
                       </span>
                     </label>
 
                     <label
-                      className={`cursor-pointer flex flex-col p-4 rounded-2xl border-2 transition-all ${shippingMethod === "express" ? "border-holo-gold bg-holo-gold/5" : "border-gray-200 dark:border-white/10 hover:border-holo-gold/50"}`}
+                      className={`cursor-pointer flex flex-col p-4 rounded-2xl border-2 transition-all ${shippingMethod === "express" ? "border-holo-gold bg-holo-gold/5" : "border-glass-border hover:border-holo-gold/50"}`}
                     >
                       <div className="flex justify-between items-center mb-2">
                         <span className="font-bold flex items-center gap-2 text-holo-gold">
-                          <Truck className="w-4 h-4" /> H\u0131zl\u0131 Kargo
+                          <Truck className="w-4 h-4" /> Hızlı Kargo
                         </span>
 
                         <input
@@ -691,8 +746,8 @@ export default function CheckoutPage() {
                         />
                       </div>
 
-                      <span className="text-xs text-gray-500 dark:text-gray-400 mb-2">
-                        Ertesi g\u00fcn teslimat avantaj\u0131
+                      <span className="text-xs text-foreground/60 mb-2">
+                        Ertesi gün teslimat avantajı
                       </span>
 
                       <span className="font-black text-holo-gold mt-auto">
@@ -701,29 +756,56 @@ export default function CheckoutPage() {
                     </label>
                   </div>
 
-                  <div className="flex items-center gap-2 text-xs font-bold text-gray-500 dark:text-gray-400 bg-gray-100 dark:bg-zinc-800/50 p-3 rounded-xl">
-                    <Calendar className="w-4 h-4 text-neon-pink" />
+                        </div>
 
-                    <span>
-                      Tahmini Teslimat:{" "}
-                      <span className="text-gray-900 dark:text-white">
-                        {getEstimatedDelivery()}
-                      </span>
-                    </span>
-                  </div>
-                </motion.div>
+                        <div className="flex items-center gap-2 text-xs font-bold text-foreground/60 bg-foreground/5 p-4 rounded-xl mt-6 border border-foreground/5">
+                          <Calendar className="w-4 h-4 text-primary" />
+                          <span>Tahmini Teslimat: <span className="text-foreground">{getEstimatedDelivery()}</span></span>
+                        </div>
 
-                {/* PAYMENT METHOD */}
+                        <div className="mt-8 flex justify-end">
+                          <button 
+                            type="button" 
+                            onClick={() => setActiveStep(3)} 
+                            className="bg-foreground text-background px-8 py-3 rounded-xl font-bold uppercase tracking-widest text-xs hover:scale-[1.02] active:scale-[0.98] transition-all flex items-center gap-2"
+                          >
+                            Ödemeye Geç <ChevronDown className="w-4 h-4 -rotate-90" />
+                          </button>
+                        </div>
+                      </motion.div>
+                    )}
+                  </AnimatePresence>
+                </div>
 
-                <motion.div className="space-y-6">
-                  <h2 className="text-xl font-black text-gray-900 dark:text-white flex items-center gap-2 uppercase tracking-widest border-b border-gray-200 dark:border-white/10 pb-4">
-                    <CreditCard className="w-5 h-5 text-holo-gold" />
-                    \u00d6deme Y\u00f6ntemi
-                  </h2>
-
-                  <div className="flex gap-4">
+                {/* ACCORDION STEP 3: PAYMENT METHOD */}
+                <div className={`glass-card rounded-[2rem] border transition-all duration-500 ${activeStep === 3 ? 'border-primary shadow-[0_0_20px_var(--color-primary)]' : 'border-white/20 dark:border-white/5 opacity-70'} overflow-hidden relative backdrop-blur-xl`}>
+                  <button 
+                    type="button" 
+                    onClick={() => setActiveStep(3)}
+                    className="w-full flex items-center justify-between p-6 bg-transparent group"
+                  >
+                    <div className="flex items-center gap-4">
+                      <div className={`w-10 h-10 rounded-full flex items-center justify-center font-bold text-sm transition-colors ${activeStep === 3 ? 'bg-primary text-background' : 'bg-foreground/10 text-foreground/50'}`}>
+                        3
+                      </div>
+                      <h2 className="text-lg font-bold uppercase tracking-[0.15em] text-foreground flex items-center gap-3">
+                        <CreditCard className={`w-5 h-5 transition-colors ${activeStep === 3 ? 'text-primary' : 'text-foreground/50'}`} />
+                        Ödeme Yöntemi
+                      </h2>
+                    </div>
+                    <ChevronDown className={`w-5 h-5 transition-transform duration-500 ${activeStep === 3 ? 'rotate-180 text-primary' : 'text-foreground/30'}`} />
+                  </button>
+                  <AnimatePresence>
+                    {activeStep === 3 && (
+                      <motion.div 
+                        initial={{ height: 0, opacity: 0 }}
+                        animate={{ height: "auto", opacity: 1 }}
+                        exit={{ height: 0, opacity: 0 }}
+                        className="px-6 pb-6"
+                      >
+                        <div className="flex gap-4 mt-2">
                     <label
-                      className={`flex-1 cursor-pointer flex items-center justify-center gap-2 p-3 rounded-xl border-2 transition-all ${paymentMethod === "card" ? "border-holo-gold bg-holo-gold/5 text-holo-gold" : "border-gray-200 dark:border-white/10 text-gray-500 dark:text-gray-400"}`}
+                      className={`flex-1 cursor-pointer flex items-center justify-center gap-2 p-3 rounded-xl border-2 transition-all ${paymentMethod === "card" ? "border-holo-gold bg-holo-gold/5 text-holo-gold" : "border-glass-border text-foreground/60"}`}
                     >
                       <input
                         type="radio"
@@ -734,11 +816,11 @@ export default function CheckoutPage() {
                         className="hidden"
                       />
                       <CreditCard className="w-4 h-4" />{" "}
-                      <span className="font-bold text-sm">Kredi Kart\u0131</span>
+                      <span className="font-bold text-sm">Kredi Kartı</span>
                     </label>
 
                     <label
-                      className={`flex-1 cursor-pointer flex items-center justify-center gap-2 p-3 rounded-xl border-2 transition-all ${paymentMethod === "cod" ? "border-primary bg-primary/5 text-primary" : "border-gray-200 dark:border-white/10 text-gray-500 dark:text-gray-400"}`}
+                      className={`flex-1 cursor-pointer flex items-center justify-center gap-2 p-3 rounded-xl border-2 transition-all ${paymentMethod === "cod" ? "border-primary bg-primary/5 text-primary" : "border-glass-border text-foreground/60"}`}
                     >
                       <input
                         type="radio"
@@ -749,7 +831,7 @@ export default function CheckoutPage() {
                         className="hidden"
                       />
                       <Banknote className="w-4 h-4" />{" "}
-                      <span className="font-bold text-sm">Kap\u0131da \u00d6deme</span>
+                      <span className="font-bold text-sm">Kapıda Ödeme</span>
                     </label>
                   </div>
 
@@ -789,9 +871,9 @@ export default function CheckoutPage() {
                                 </div>
                               </div>
 
-                              <div className="text-white text-xl tracking-[0.15em] font-mono drop-shadow-md">
+                              <div className="text-foreground text-xl tracking-[0.15em] font-mono drop-shadow-md">
                                 {formData.cardNumber ||
-                                  "\u2022\u2022\u2022\u2022 \u2022\u2022\u2022\u2022 \u2022\u2022\u2022\u2022 \u2022\u2022\u2022\u2022"}
+                                  "•••• •••• •••• ••••"}
                               </div>
 
                               <div className="flex justify-between text-gray-300">
@@ -828,8 +910,8 @@ export default function CheckoutPage() {
                                 </div>
 
                                 <p className="text-[8px] text-gray-500 mt-2 pr-12">
-                                  Bu kart sadece g\u00fcvenli al\u0131\u015fveri\u015f i\u00e7indir. Arka y\u00fczdeki
-                                  g\u00fcvenlik kodu (CVV) ile i\u015flem yapabilirsiniz.
+                                  Bu kart sadece güvenli alışveriş içindir. Arka yüzdeki
+                                  güvenlik kodu (CVV) ile işlem yapabilirsiniz.
                                 </p>
                               </div>
                             </div>
@@ -838,8 +920,8 @@ export default function CheckoutPage() {
 
                         <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                           <div className="md:col-span-2 relative group/input">
-                            <label className="block text-[10px] font-black text-gray-500 dark:text-gray-400 mb-1.5 uppercase tracking-[0.2em] group-focus-within/input:text-holo-gold transition-colors">
-                              Kart Numaras\u0131
+                            <label className="block text-[10px] font-black text-foreground/60 mb-1.5 uppercase tracking-[0.2em] group-focus-within/input:text-holo-gold transition-colors">
+                              Kart Numarası
                             </label>
 
                             <input
@@ -850,13 +932,13 @@ export default function CheckoutPage() {
                               onChange={handleInputChange}
                               onFocus={() => setIsCvvFocused(false)}
                               maxLength={19}
-                              className={`w-full glass-panel border ${errors.cardNumber ? "border-red-500" : "border-gray-200 dark:border-white/10"} text-gray-900 dark:text-white rounded-xl px-4 py-3 font-mono font-bold tracking-widest text-sm focus:ring-2 focus:ring-holo-gold focus:outline-none transition-all shadow-inner`}
+                              className={`w-full glass-panel border ${errors.cardNumber ? "border-red-500" : "border-glass-border"} text-foreground rounded-xl px-4 py-3 font-mono font-bold tracking-widest text-sm focus:ring-2 focus:ring-holo-gold focus:outline-none transition-all shadow-inner`}
                               placeholder="0000 0000 0000 0000"
                             />
                           </div>
 
                           <div className="relative group/input">
-                            <label className="block text-[10px] font-black text-gray-500 dark:text-gray-400 mb-1.5 uppercase tracking-[0.2em] group-focus-within/input:text-holo-gold transition-colors">
+                            <label className="block text-[10px] font-black text-foreground/60 mb-1.5 uppercase tracking-[0.2em] group-focus-within/input:text-holo-gold transition-colors">
                               SKT
                             </label>
 
@@ -868,13 +950,13 @@ export default function CheckoutPage() {
                               onChange={handleInputChange}
                               onFocus={() => setIsCvvFocused(false)}
                               maxLength={5}
-                              className={`w-full glass-panel border ${errors.cardExpiry ? "border-red-500" : "border-gray-200 dark:border-white/10"} text-gray-900 dark:text-white rounded-xl px-4 py-3 font-mono font-bold tracking-widest text-sm focus:ring-2 focus:ring-holo-gold focus:outline-none transition-all shadow-inner text-center`}
+                              className={`w-full glass-panel border ${errors.cardExpiry ? "border-red-500" : "border-glass-border"} text-foreground rounded-xl px-4 py-3 font-mono font-bold tracking-widest text-sm focus:ring-2 focus:ring-holo-gold focus:outline-none transition-all shadow-inner text-center`}
                               placeholder="MM/YY"
                             />
                           </div>
 
                           <div className="relative group/input">
-                            <label className="block text-[10px] font-black text-gray-500 dark:text-gray-400 mb-1.5 uppercase tracking-[0.2em] group-focus-within/input:text-holo-gold transition-colors">
+                            <label className="block text-[10px] font-black text-foreground/60 mb-1.5 uppercase tracking-[0.2em] group-focus-within/input:text-holo-gold transition-colors">
                               CVV
                             </label>
 
@@ -887,61 +969,59 @@ export default function CheckoutPage() {
                               onFocus={() => setIsCvvFocused(true)}
                               onBlur={() => setIsCvvFocused(false)}
                               maxLength={3}
-                              className={`w-full glass-panel border ${errors.cardCvv ? "border-red-500" : "border-gray-200 dark:border-white/10"} text-gray-900 dark:text-white rounded-xl px-4 py-3 font-mono font-bold tracking-widest text-sm focus:ring-2 focus:ring-holo-gold focus:outline-none transition-all shadow-inner text-center`}
+                              className={`w-full glass-panel border ${errors.cardCvv ? "border-red-500" : "border-glass-border"} text-foreground rounded-xl px-4 py-3 font-mono font-bold tracking-widest text-sm focus:ring-2 focus:ring-holo-gold focus:outline-none transition-all shadow-inner text-center`}
                               placeholder="***"
                             />
                           </div>
                         </div>
                       </motion.div>
-                    )}
-                  </AnimatePresence>
-                </motion.div>
+                          </motion.div>
+                        )}
+                      </AnimatePresence>
+
+                      {/* Submit Button Inside Step 3 */}
+                      <motion.button
+                        whileHover={{ scale: 1.02 }}
+                        whileTap={{ scale: 0.95 }}
+                        type="submit"
+                        disabled={isProcessing}
+                        className="w-full bg-gradient-to-r from-primary to-secondary text-white py-5 rounded-2xl font-bold text-lg uppercase tracking-[0.2em] shadow-xl hover:shadow-primary/40 transition-all duration-300 flex items-center justify-center gap-4 mt-10 relative overflow-hidden group/btn"
+                      >
+                        <span className="absolute inset-0 w-full h-full bg-white/20 translate-y-full group-hover/btn:translate-y-0 transition-transform duration-300"></span>
+                        <span className="relative z-10 flex items-center justify-center gap-4">
+                          {isProcessing ? (
+                            "İşleniyor..."
+                          ) : (
+                            <>
+                              Ödemeyi Tamamla
+                              <span className="opacity-50 font-normal">|</span>
+                              {formatPrice(totalAmount)}
+                              <svg className="w-5 h-5 ml-2 animate-bounce-x" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M14 5l7 7m0 0l-7 7m7-7H3"></path>
+                              </svg>
+                            </>
+                          )}
+                        </span>
+                      </motion.button>
+                      
+                    </motion.div>
+                  )}
+                </AnimatePresence>
               </div>
 
-              <motion.button
-                whileHover={{ scale: 1.02 }}
-
-                whileTap={{ scale: 0.95 }}
-
-                type="submit"
-                disabled={isProcessing}
-                className="w-full bg-gradient-to-r from-neon-pink to-holo-gold text-white py-5 rounded-2xl font-black text-lg uppercase tracking-[0.2em] shadow-xl hover:shadow-neon-pink/40 transition-all duration-300 flex items-center justify-center gap-4 mt-6"
-              >
-                {isProcessing ? (
-                  "\u0130\u015fleniyor..."
-                ) : (
-                  <>
-                    \u00d6DEMEY\u0130 TAMAMLA
-                    <span className="opacity-50 font-normal">|</span>
-                    {formatPrice(totalAmount)}
-                    <svg
-                      className="w-5 h-5 ml-2 animate-bounce-x"
-                      fill="none"
-                      stroke="currentColor"
-                      viewBox="0 0 24 24"
-                    >
-                      <path
-                        strokeLinecap="round"
-                        strokeLinejoin="round"
-                        strokeWidth="2"
-                        d="M14 5l7 7m0 0l-7 7m7-7H3"
-                      ></path>
-                    </svg>
-                  </>
-                )}
-              </motion.button>
+              {/* End of Accordion List */}
 
               {/* Trust Badges */}
 
-              <div className="flex justify-center items-center gap-6 mt-6 pt-6 border-t border-gray-200 dark:border-white/10 opacity-70">
-                <div className="flex items-center gap-2 text-[10px] uppercase font-bold text-gray-600 dark:text-gray-400">
+              <div className="flex justify-center items-center gap-6 mt-6 pt-6 border-t border-glass-border opacity-70">
+                <div className="flex items-center gap-2 text-[10px] uppercase font-bold text-foreground/70">
                   <ShieldCheck className="w-4 h-4 text-emerald-500" />
-                  256-bit SSL G\u00fcvenli\u011fi
+                  256-bit SSL Güvenliği
                 </div>
 
-                <div className="flex items-center gap-2 text-[10px] uppercase font-bold text-gray-600 dark:text-gray-400">
+                <div className="flex items-center gap-2 text-[10px] uppercase font-bold text-foreground/70">
                   <RotateCcw className="w-4 h-4 text-blue-500" />
-                  Kolay \u0130ade
+                  Kolay İade
                 </div>
               </div>
             </form>
@@ -959,8 +1039,8 @@ export default function CheckoutPage() {
             <div className="glass-panel p-6 md:p-8 rounded-[2.5rem] shadow-2xl border border-white/50 dark:border-white/10 lg:sticky lg:top-32">
               {/* Order Summary Accordion on Mobile (Hidden implementation here, visually simplified) */}
 
-              <h2 className="text-lg font-black text-gray-900 dark:text-white mb-6 uppercase tracking-[0.2em] border-b border-gray-200 dark:border-white/10 pb-4">
-                Sipari\u015f \u00d6zeti
+              <h2 className="text-lg font-black text-foreground mb-6 uppercase tracking-[0.2em] border-b border-glass-border pb-4">
+                Sipariş Özeti
               </h2>
 
               <div className="space-y-4 mb-6 max-h-[300px] overflow-y-auto pr-2 custom-scrollbar">
@@ -986,11 +1066,11 @@ export default function CheckoutPage() {
                       </div>
 
                       <div className="flex-1">
-                        <h4 className="text-xs font-black text-gray-900 dark:text-white line-clamp-2 mb-1 group-hover:text-neon-pink transition-colors">
+                        <h4 className="text-xs font-black text-foreground line-clamp-2 mb-1 group-hover:text-neon-pink transition-colors">
                           {t(item.ad)}
                         </h4>
 
-                        <div className="flex gap-1.5 text-[9px] uppercase font-bold text-gray-500 dark:text-gray-400 mb-1.5">
+                        <div className="flex gap-1.5 text-[9px] uppercase font-bold text-foreground/60 mb-1.5">
                           <span className="bg-white/80 dark:bg-zinc-900/80 px-1.5 py-0.5 rounded-md">
                             {item.beden}
                           </span>
@@ -1000,7 +1080,7 @@ export default function CheckoutPage() {
                           </span>
                         </div>
 
-                        <p className="text-xs font-black text-gray-900 dark:text-white">
+                        <p className="text-xs font-black text-foreground">
                           {item.quantity} <span className="text-gray-400 mx-1">x</span>{" "}
                           {formatPrice(item.fiyat)}
                         </p>
@@ -1018,14 +1098,14 @@ export default function CheckoutPage() {
                       placeholder="Kupon Kodu"
                       value={couponCode}
                       onChange={(e) => setCouponCode(e.target.value)}
-                      className="flex-1 glass-panel border border-gray-200 dark:border-white/10 rounded-xl px-4 py-3 focus:ring-2 focus:ring-neon-pink outline-none uppercase text-xs font-bold tracking-widest text-gray-900 dark:text-white shadow-inner"
+                      className="flex-1 glass-panel border border-glass-border rounded-xl px-4 py-3 focus:ring-2 focus:ring-neon-pink outline-none uppercase text-xs font-bold tracking-widest text-foreground shadow-inner"
                     />
 
                     <button
                       type="button"
                       onClick={applyCoupon}
                       disabled={isApplyingCoupon || !couponCode}
-                      className="bg-gray-900 dark:bg-white text-white dark:text-black px-4 rounded-xl font-black text-[10px] uppercase tracking-[0.2em] hover:bg-neon-pink dark:hover:bg-neon-pink hover:text-white dark:hover:text-white transition-all duration-300 shadow-md active:scale-95 disabled:opacity-50 disabled:cursor-not-allowed"
+                      className="bg-gray-900 dark:bg-white text-foreground dark:text-black px-4 rounded-xl font-black text-[10px] uppercase tracking-[0.2em] hover:bg-neon-pink dark:hover:bg-neon-pink hover:text-foreground dark:hover:text-foreground transition-all duration-300 shadow-md active:scale-95 disabled:opacity-50 disabled:cursor-not-allowed"
                     >
                       Uygula
                     </button>
@@ -1043,14 +1123,14 @@ export default function CheckoutPage() {
                         {appliedCoupon.code}
                       </p>
 
-                      <p className="text-gray-500 dark:text-gray-400 text-[10px] font-bold mt-0.5">
-                        \u0130ndirim uyguland\u0131
+                      <p className="text-foreground/60 text-[10px] font-bold mt-0.5">
+                        İndirim uygulandı
                       </p>
                     </div>
 
                     <button
                       onClick={() => setAppliedCoupon(null)}
-                      className="w-6 h-6 rounded-full bg-red-500/10 text-red-500 flex items-center justify-center hover:bg-red-500 hover:text-white transition-all duration-300"
+                      className="w-6 h-6 rounded-full bg-red-500/10 text-red-500 flex items-center justify-center hover:bg-red-500 hover:text-foreground transition-all duration-300"
                     >
                       <svg
                         className="w-3 h-3"
@@ -1077,20 +1157,20 @@ export default function CheckoutPage() {
               <div className="space-y-3 text-xs font-bold text-gray-600 dark:text-gray-300 mb-6 glass-card p-5 rounded-[1.5rem] border border-white/20 dark:border-white/5 shadow-inner">
                 <div className="flex justify-between items-center">
                   <span className="uppercase tracking-widest">{t("subtotal")}</span>
-                  <span className="text-gray-900 dark:text-white text-sm">
+                  <span className="text-foreground text-sm">
                     {formatPrice(cartTotal)}
                   </span>
                 </div>
 
                 <div className="flex justify-between items-center">
                   <span className="uppercase tracking-widest">
-                    {t("shipping")} ({shippingMethod === "express" ? "H\u0131zl\u0131" : "Standart"})
+                    {t("shipping")} ({shippingMethod === "express" ? "Hızlı" : "Standart"})
                   </span>
                   <span
                     className={
                       shippingCost === 0
                         ? "text-pink-500 uppercase tracking-widest text-[10px] bg-pink-500/10 px-2 py-1 rounded-md"
-                        : "text-gray-900 dark:text-white text-sm"
+                        : "text-foreground text-sm"
                     }
                   >
                     {shippingCost === 0 ? t("free") : formatPrice(shippingCost)}
@@ -1098,15 +1178,15 @@ export default function CheckoutPage() {
                 </div>
 
                 {appliedCoupon && (
-                  <div className="flex justify-between items-center text-neon-pink pt-3 border-t border-gray-200 dark:border-white/10 mt-3">
-                    <span className="uppercase tracking-widest">\u0130ndirim</span>
+                  <div className="flex justify-between items-center text-neon-pink pt-3 border-t border-glass-border mt-3">
+                    <span className="uppercase tracking-widest">İndirim</span>
                     <span className="text-sm">-{formatPrice(discountAmount)}</span>
                   </div>
                 )}
               </div>
 
-              <div className="flex flex-col gap-1.5 pt-4 border-t border-gray-200 dark:border-white/10">
-                <span className="text-gray-500 dark:text-gray-400 font-black uppercase tracking-[0.3em] text-[10px]">
+              <div className="flex flex-col gap-1.5 pt-4 border-t border-glass-border">
+                <span className="text-foreground/60 font-black uppercase tracking-[0.3em] text-[10px]">
                   Toplam
                 </span>
 

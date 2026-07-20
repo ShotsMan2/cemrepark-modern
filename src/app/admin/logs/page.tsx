@@ -36,18 +36,18 @@ export default function LogsPage() {
     <div className="p-6 space-y-6">
       <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4">
         <div>
-          <h1 className="text-2xl font-bold text-gray-800 dark:text-white">System Logs</h1>
-          <p className="text-sm text-gray-500 dark:text-gray-400 mt-1">
+          <h1 className="text-2xl font-bold text-gray-800 dark:text-foreground">System Logs</h1>
+          <p className="text-sm text-foreground/60 dark:text-foreground/50 mt-1">
             Monitor authentication and administrative activities
           </p>
         </div>
-        <div className="flex space-x-1 bg-gray-100 dark:bg-gray-800 p-1 rounded-lg">
+        <div className="flex space-x-1 bg-foreground/10 p-1 rounded-lg">
           <button
             onClick={() => { setActiveTab("login"); setPage(1); }}
             className={`px-4 py-2 rounded-md font-medium text-sm transition-colors ${
               activeTab === "login" 
                 ? "bg-white dark:bg-gray-700 shadow text-brand-600 dark:text-brand-400" 
-                : "text-gray-600 dark:text-gray-400 hover:text-gray-900 dark:hover:text-white"
+                : "text-gray-600 dark:text-foreground/50 hover:text-gray-900 dark:hover:text-foreground"
             }`}
           >
             Login History
@@ -57,7 +57,7 @@ export default function LogsPage() {
             className={`px-4 py-2 rounded-md font-medium text-sm transition-colors ${
               activeTab === "audit" 
                 ? "bg-white dark:bg-gray-700 shadow text-brand-600 dark:text-brand-400" 
-                : "text-gray-600 dark:text-gray-400 hover:text-gray-900 dark:hover:text-white"
+                : "text-gray-600 dark:text-foreground/50 hover:text-gray-900 dark:hover:text-foreground"
             }`}
           >
             Audit Logs
@@ -65,31 +65,31 @@ export default function LogsPage() {
         </div>
       </div>
 
-      <div className="bg-white dark:bg-gray-900 shadow-sm rounded-xl overflow-hidden border border-gray-200 dark:border-gray-800">
+      <div className="bg-background shadow-sm rounded-xl overflow-hidden border border-gray-200 dark:border-gray-800">
         <div className="overflow-x-auto">
           <table className="min-w-full divide-y divide-gray-200 dark:divide-gray-800">
             <thead className="bg-gray-50 dark:bg-gray-800/50">
               <tr>
-                <th className="px-6 py-4 text-left text-xs font-semibold text-gray-500 dark:text-gray-400 uppercase tracking-wider">Date & Time</th>
-                <th className="px-6 py-4 text-left text-xs font-semibold text-gray-500 dark:text-gray-400 uppercase tracking-wider">User</th>
+                <th className="px-6 py-4 text-left text-xs font-semibold text-foreground/60 dark:text-foreground/50 uppercase tracking-wider">Date & Time</th>
+                <th className="px-6 py-4 text-left text-xs font-semibold text-foreground/60 dark:text-foreground/50 uppercase tracking-wider">User</th>
                 {activeTab === "login" ? (
                   <>
-                    <th className="px-6 py-4 text-left text-xs font-semibold text-gray-500 dark:text-gray-400 uppercase tracking-wider">Status</th>
-                    <th className="px-6 py-4 text-left text-xs font-semibold text-gray-500 dark:text-gray-400 uppercase tracking-wider">IP Address</th>
+                    <th className="px-6 py-4 text-left text-xs font-semibold text-foreground/60 dark:text-foreground/50 uppercase tracking-wider">Status</th>
+                    <th className="px-6 py-4 text-left text-xs font-semibold text-foreground/60 dark:text-foreground/50 uppercase tracking-wider">IP Address</th>
                   </>
                 ) : (
                   <>
-                    <th className="px-6 py-4 text-left text-xs font-semibold text-gray-500 dark:text-gray-400 uppercase tracking-wider">Action</th>
-                    <th className="px-6 py-4 text-left text-xs font-semibold text-gray-500 dark:text-gray-400 uppercase tracking-wider">Details</th>
-                    <th className="px-6 py-4 text-left text-xs font-semibold text-gray-500 dark:text-gray-400 uppercase tracking-wider">IP Address</th>
+                    <th className="px-6 py-4 text-left text-xs font-semibold text-foreground/60 dark:text-foreground/50 uppercase tracking-wider">Action</th>
+                    <th className="px-6 py-4 text-left text-xs font-semibold text-foreground/60 dark:text-foreground/50 uppercase tracking-wider">Details</th>
+                    <th className="px-6 py-4 text-left text-xs font-semibold text-foreground/60 dark:text-foreground/50 uppercase tracking-wider">IP Address</th>
                   </>
                 )}
               </tr>
             </thead>
-            <tbody className="bg-white dark:bg-gray-900 divide-y divide-gray-200 dark:divide-gray-800">
+            <tbody className="bg-background divide-y divide-gray-200 dark:divide-gray-800">
               {loading ? (
                 <tr>
-                  <td colSpan={activeTab === "login" ? 4 : 5} className="px-6 py-12 text-center text-sm text-gray-500 dark:text-gray-400">
+                  <td colSpan={activeTab === "login" ? 4 : 5} className="px-6 py-12 text-center text-sm text-foreground/60 dark:text-foreground/50">
                     <div className="flex flex-col items-center justify-center space-y-3">
                       <div className="animate-spin rounded-full h-8 w-8 border-b-2 border-brand-600"></div>
                       <p>Loading records...</p>
@@ -98,22 +98,22 @@ export default function LogsPage() {
                 </tr>
               ) : logs.length === 0 ? (
                 <tr>
-                  <td colSpan={activeTab === "login" ? 4 : 5} className="px-6 py-12 text-center text-sm text-gray-500 dark:text-gray-400">
+                  <td colSpan={activeTab === "login" ? 4 : 5} className="px-6 py-12 text-center text-sm text-foreground/60 dark:text-foreground/50">
                     No records found for {activeTab === "login" ? "login history" : "audit logs"}.
                   </td>
                 </tr>
               ) : (
                 logs.map((log) => (
                   <tr key={log.id} className="hover:bg-gray-50 dark:hover:bg-gray-800/50 transition-colors">
-                    <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-600 dark:text-gray-300">
+                    <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-600 dark:text-foreground/70">
                       {new Date(log.createdAt).toLocaleString("tr-TR")}
                     </td>
                     <td className="px-6 py-4 whitespace-nowrap">
                       <div className="flex flex-col">
-                        <span className="text-sm font-medium text-gray-900 dark:text-white">
+                        <span className="text-sm font-medium text-gray-900 dark:text-foreground">
                           {log.user?.name || "Unknown User"}
                         </span>
-                        <span className="text-xs text-gray-500 dark:text-gray-400">
+                        <span className="text-xs text-foreground/60 dark:text-foreground/50">
                           {log.user?.email || "-"}
                         </span>
                       </div>
@@ -130,7 +130,7 @@ export default function LogsPage() {
                             {log.success ? "Success" : "Failed"}
                           </span>
                         </td>
-                        <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-500 dark:text-gray-400 font-mono">
+                        <td className="px-6 py-4 whitespace-nowrap text-sm text-foreground/60 dark:text-foreground/50 font-mono">
                           {log.ipAddress || "-"}
                         </td>
                       </>
@@ -141,10 +141,10 @@ export default function LogsPage() {
                             {log.action}
                           </span>
                         </td>
-                        <td className="px-6 py-4 text-sm text-gray-600 dark:text-gray-300 max-w-xs truncate" title={log.details}>
+                        <td className="px-6 py-4 text-sm text-gray-600 dark:text-foreground/70 max-w-xs truncate" title={log.details}>
                           {log.details || "-"}
                         </td>
-                        <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-500 dark:text-gray-400 font-mono">
+                        <td className="px-6 py-4 whitespace-nowrap text-sm text-foreground/60 dark:text-foreground/50 font-mono">
                           {log.ipAddress || "-"}
                         </td>
                       </>
@@ -159,21 +159,21 @@ export default function LogsPage() {
         {/* Pagination */}
         {!loading && total > pageSize && (
           <div className="bg-gray-50 dark:bg-gray-800/50 px-6 py-4 flex flex-col sm:flex-row items-center justify-between border-t border-gray-200 dark:border-gray-800 gap-4">
-            <div className="text-sm text-gray-500 dark:text-gray-400">
-              Showing <span className="font-medium text-gray-900 dark:text-white">{(page - 1) * pageSize + 1}</span> to <span className="font-medium text-gray-900 dark:text-white">{Math.min(page * pageSize, total)}</span> of <span className="font-medium text-gray-900 dark:text-white">{total}</span> records
+            <div className="text-sm text-foreground/60 dark:text-foreground/50">
+              Showing <span className="font-medium text-gray-900 dark:text-foreground">{(page - 1) * pageSize + 1}</span> to <span className="font-medium text-gray-900 dark:text-foreground">{Math.min(page * pageSize, total)}</span> of <span className="font-medium text-gray-900 dark:text-foreground">{total}</span> records
             </div>
             <nav className="inline-flex rounded-md shadow-sm space-x-2">
               <button
                 onClick={() => setPage(Math.max(1, page - 1))}
                 disabled={page === 1}
-                className="inline-flex items-center px-3 py-2 rounded-md border border-gray-300 dark:border-gray-700 bg-white dark:bg-gray-800 text-sm font-medium text-gray-700 dark:text-gray-300 hover:bg-gray-50 dark:hover:bg-gray-700 disabled:opacity-50 disabled:cursor-not-allowed transition-colors"
+                className="inline-flex items-center px-3 py-2 rounded-md border border-glass-border bg-white dark:bg-gray-800 text-sm font-medium text-gray-700 dark:text-foreground/70 hover:bg-gray-50 dark:hover:bg-gray-700 disabled:opacity-50 disabled:cursor-not-allowed transition-colors"
               >
                 Previous
               </button>
               <button
                 onClick={() => setPage(Math.min(Math.ceil(total / pageSize), page + 1))}
                 disabled={page >= Math.ceil(total / pageSize)}
-                className="inline-flex items-center px-3 py-2 rounded-md border border-gray-300 dark:border-gray-700 bg-white dark:bg-gray-800 text-sm font-medium text-gray-700 dark:text-gray-300 hover:bg-gray-50 dark:hover:bg-gray-700 disabled:opacity-50 disabled:cursor-not-allowed transition-colors"
+                className="inline-flex items-center px-3 py-2 rounded-md border border-glass-border bg-white dark:bg-gray-800 text-sm font-medium text-gray-700 dark:text-foreground/70 hover:bg-gray-50 dark:hover:bg-gray-700 disabled:opacity-50 disabled:cursor-not-allowed transition-colors"
               >
                 Next
               </button>

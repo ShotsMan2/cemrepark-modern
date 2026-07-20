@@ -94,23 +94,26 @@ export default function InstantFilter({
   };
 
   return (
-    <div
-      className="bg-white/40 dark:bg-zinc-900/40 backdrop-blur-3xl p-8 rounded-[2.5rem] shadow-2xl border border-white/50 dark:border-white/10 relative overflow-hidden group transition-all duration-500 hover:shadow-neon-pink/10"
-      data-aos="fade-right"
+    <motion.div
+      initial={{ opacity: 0, x: -20 }}
+      animate={{ opacity: 1, x: 0 }}
+      transition={{ duration: 0.6, ease: [0.22, 1, 0.36, 1] }}
+      className="bg-white/70 dark:bg-zinc-900/70 backdrop-blur-2xl p-8 rounded-[2rem] shadow-[0_8px_30px_rgb(0,0,0,0.04)] dark:shadow-[0_8px_30px_rgb(0,0,0,0.1)] border border-white/20 dark:border-white/5 relative overflow-hidden group"
     >
-      <div className="absolute top-0 right-0 w-48 h-48 bg-gradient-to-br from-neon-pink/20 to-holo-gold/20 rounded-full blur-[60px] pointer-events-none group-hover:scale-150 transition-transform duration-1000"></div>
-      <div className="absolute bottom-0 left-0 w-32 h-32 bg-gradient-to-tr from-blue-500/10 to-purple-500/10 rounded-full blur-[50px] pointer-events-none group-hover:scale-150 transition-transform duration-1000"></div>
+      <div className="absolute -top-24 -right-24 w-64 h-64 bg-gradient-to-br from-primary/20 via-secondary/10 to-transparent rounded-full blur-[60px] pointer-events-none group-hover:scale-110 transition-transform duration-1000"></div>
+      <div className="absolute -bottom-24 -left-24 w-48 h-48 bg-gradient-to-tr from-secondary/20 to-primary/10 rounded-full blur-[50px] pointer-events-none group-hover:scale-110 transition-transform duration-1000"></div>
 
-      <h3 className="text-2xl font-black text-transparent bg-clip-text bg-gradient-to-r from-gray-900 to-gray-500 dark:from-white dark:to-gray-400 mb-8 uppercase tracking-[0.15em] border-b border-gray-200 dark:border-white/10 pb-4 relative z-10">
+      <h3 className="text-xl font-bold bg-clip-text text-transparent bg-gradient-to-r from-foreground to-foreground/70 mb-8 tracking-wide border-b border-foreground/5 pb-4 relative z-10 flex items-center gap-3">
+        <svg className="w-5 h-5 text-primary" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M12 6V4m0 2a2 2 0 100 4m0-4a2 2 0 110 4m-6 8a2 2 0 100-4m0 4a2 2 0 110-4m0 4v2m0-6V4m6 6v10m6-2a2 2 0 100-4m0 4a2 2 0 110-4m0 4v2m0-6V4"></path></svg>
         Filtreler
       </h3>
 
       {/* Category Tree */}
       <div className="mb-8 relative z-10">
-        <h4 className="font-black text-xs text-gray-500 dark:text-gray-400 mb-4 uppercase tracking-[0.2em]">
+        <h4 className="font-semibold text-xs text-foreground/60 mb-4 uppercase tracking-[0.15em]">
           Kategoriler
         </h4>
-        <div className="space-y-1 bg-white/30 dark:bg-zinc-950/30 p-2 rounded-2xl border border-white/20 dark:border-white/5 shadow-inner">
+        <div className="space-y-1">
           {["Tümü", ...categories].map((cat, idx) => {
             const val = cat === "Tümü" ? "" : cat;
             const isSelected = filters.category === val;
@@ -118,15 +121,15 @@ export default function InstantFilter({
               <button
                 key={idx}
                 onClick={() => handleChange("category", val)}
-                className={`w-full flex items-center justify-between px-4 py-2.5 rounded-xl transition-all duration-300 ${isSelected ? "bg-gradient-to-r from-neon-pink/10 to-holo-gold/10 text-neon-pink font-black shadow-sm" : "hover:bg-white/50 dark:hover:bg-zinc-800/50 text-gray-600 dark:text-gray-300 font-bold"}`}
+                className={`w-full flex items-center justify-between px-4 py-2.5 rounded-xl transition-all duration-300 ${isSelected ? "bg-primary/10 text-primary font-bold shadow-sm" : "hover:bg-foreground/5 text-foreground/80 font-medium"}`}
               >
-                <div className="flex items-center gap-2">
+                <div className="flex items-center gap-3">
                   <div
-                    className={`w-1.5 h-1.5 rounded-full transition-all ${isSelected ? "bg-neon-pink scale-150 shadow-[0_0_8px_rgba(255,0,127,0.8)]" : "bg-gray-300 dark:bg-zinc-600"}`}
+                    className={`w-1.5 h-1.5 rounded-full transition-all duration-300 ${isSelected ? "bg-primary scale-125 shadow-[0_0_8px_var(--color-primary)]" : "bg-foreground/20"}`}
                   ></div>
                   <span className="text-sm">{cat}</span>
                 </div>
-                {isSelected && <ChevronRight className="w-4 h-4 text-neon-pink animate-pulse" />}
+                {isSelected && <ChevronRight className="w-4 h-4 text-primary" />}
               </button>
             );
           })}
@@ -136,10 +139,10 @@ export default function InstantFilter({
       {/* Dynamic Price Slider */}
       <div className="mb-8 relative z-10">
         <div className="flex justify-between items-center mb-4">
-          <h4 className="font-black text-xs text-gray-500 dark:text-gray-400 uppercase tracking-[0.2em]">
-            Fiyat (₺)
+          <h4 className="font-semibold text-xs text-foreground/60 uppercase tracking-[0.15em]">
+            Fiyat
           </h4>
-          <span className="text-[10px] font-bold text-neon-pink bg-neon-pink/10 px-2 py-1 rounded-md">
+          <span className="text-[11px] font-bold text-primary bg-primary/10 px-2.5 py-1 rounded-md">
             {tempPrice.min}₺ - {tempPrice.max}₺
           </span>
         </div>
@@ -151,9 +154,9 @@ export default function InstantFilter({
             step="50"
             value={tempPrice.max}
             onChange={(e) => handlePriceSlide("max", Number(e.target.value))}
-            className="w-full h-2 bg-gray-200 dark:bg-zinc-700 rounded-lg appearance-none cursor-pointer accent-neon-pink hover:accent-holo-gold transition-all"
+            className="w-full h-1.5 bg-foreground/10 rounded-lg appearance-none cursor-pointer accent-primary hover:accent-primary/80 transition-all"
           />
-          <div className="flex justify-between text-[10px] font-bold text-gray-400 mt-2">
+          <div className="flex justify-between text-[11px] font-medium text-foreground/50 mt-3">
             <span>0₺</span>
             <span>10,000₺</span>
           </div>
@@ -162,10 +165,10 @@ export default function InstantFilter({
 
       {/* Color Swatches */}
       <div className="mb-8 relative z-10">
-        <h4 className="font-black text-xs text-gray-500 dark:text-gray-400 mb-4 uppercase tracking-[0.2em]">
+        <h4 className="font-semibold text-xs text-foreground/60 mb-4 uppercase tracking-[0.15em]">
           Renkler
         </h4>
-        <div className="flex flex-wrap gap-3">
+        <div className="flex flex-wrap gap-2.5">
           {colors.map((color, idx) => {
             const isSelected = filters.color === color;
             const hex = colorMap[color] || "#cccccc";
@@ -174,10 +177,10 @@ export default function InstantFilter({
                 key={idx}
                 onClick={() => handleChange("color", isSelected ? "" : color)}
                 title={color}
-                className={`relative w-8 h-8 rounded-full shadow-md transition-all duration-300 transform active:scale-95 flex items-center justify-center ${
+                className={`relative w-8 h-8 rounded-full transition-all duration-300 transform flex items-center justify-center ${
                   isSelected
-                    ? "ring-2 ring-neon-pink ring-offset-2 ring-offset-gray-50 dark:ring-offset-zinc-900 scale-110"
-                    : "border border-gray-200 dark:border-zinc-700 hover:scale-110"
+                    ? "ring-2 ring-primary ring-offset-2 ring-offset-background scale-110 shadow-lg"
+                    : "border border-foreground/10 hover:scale-110 hover:shadow-md"
                 }`}
                 style={{ backgroundColor: hex }}
               >
@@ -185,7 +188,7 @@ export default function InstantFilter({
                   <motion.div
                     initial={{ scale: 0 }}
                     animate={{ scale: 1 }}
-                    className={`w-3 h-3 rounded-full ${hex === "#FFFFFF" || hex === "#F5F5DC" ? "bg-black" : "bg-white"}`}
+                    className={`w-2.5 h-2.5 rounded-full ${hex === "#FFFFFF" || hex === "#F5F5DC" ? "bg-black" : "bg-white"}`}
                   ></motion.div>
                 )}
               </button>
@@ -196,20 +199,20 @@ export default function InstantFilter({
 
       {/* Sizes */}
       <div className="mb-8 relative z-10">
-        <h4 className="font-black text-xs text-gray-500 dark:text-gray-400 mb-4 uppercase tracking-[0.2em]">
+        <h4 className="font-semibold text-xs text-foreground/60 mb-4 uppercase tracking-[0.15em]">
           Bedenler
         </h4>
-        <div className="grid grid-cols-4 gap-3">
+        <div className="grid grid-cols-4 gap-2.5">
           {sizes.map((size, idx) => {
             const isSelected = filters.size === size;
             return (
               <button
                 key={idx}
                 onClick={() => handleChange("size", isSelected ? "" : size)}
-                className={`flex items-center justify-center aspect-square text-sm font-black rounded-2xl transition-all duration-300 transform active:scale-95 ${
+                className={`flex items-center justify-center py-2.5 text-xs font-semibold rounded-xl transition-all duration-300 ${
                   isSelected
-                    ? "bg-gradient-to-br from-gray-900 to-black dark:from-white dark:to-gray-200 text-white dark:text-black shadow-xl shadow-black/20 dark:shadow-white/20 scale-110"
-                    : "bg-white/80 dark:bg-zinc-800/80 text-gray-700 dark:text-gray-300 border border-gray-200 dark:border-zinc-700 hover:border-gray-900 dark:hover:border-white hover:shadow-md"
+                    ? "bg-foreground text-background shadow-md scale-[1.02]"
+                    : "bg-foreground/5 text-foreground/80 hover:bg-foreground/10 hover:text-foreground"
                 }`}
               >
                 {size}
@@ -221,9 +224,9 @@ export default function InstantFilter({
 
       {/* In Stock Toggle */}
       <div className="mb-8 relative z-10">
-        <label className="flex items-center justify-between cursor-pointer p-4 rounded-2xl bg-white/50 dark:bg-zinc-800/50 border border-gray-200 dark:border-zinc-700 hover:shadow-md transition-all">
-          <span className="text-xs font-black text-gray-700 dark:text-gray-300 uppercase tracking-widest">
-            Sadece Stoktakiler
+        <label className="flex items-center justify-between cursor-pointer p-4 rounded-xl bg-foreground/5 hover:bg-foreground/10 transition-colors">
+          <span className="text-xs font-semibold text-foreground/80 uppercase tracking-widest">
+            Stoktakiler
           </span>
           <div className="relative">
             <input
@@ -232,7 +235,7 @@ export default function InstantFilter({
               onChange={(e) => handleChange("inStock", e.target.checked)}
               className="sr-only peer"
             />
-            <div className="w-11 h-6 bg-gray-300 dark:bg-zinc-600 rounded-full peer peer-checked:bg-neon-pink transition-colors duration-300 after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-white after:rounded-full after:h-5 after:w-5 after:transition-all after:duration-300 peer-checked:after:translate-x-full peer-checked:after:border-white"></div>
+            <div className="w-10 h-5 bg-foreground/20 rounded-full peer peer-checked:bg-primary transition-colors duration-300 after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-white after:rounded-full after:h-4 after:w-4 after:transition-all after:duration-300 peer-checked:after:translate-x-5"></div>
           </div>
         </label>
       </div>
@@ -251,25 +254,23 @@ export default function InstantFilter({
           setTempPrice({ min: 0, max: 10000 });
           onFilterChange(reset);
         }}
-        className="w-full py-4 text-xs font-black uppercase tracking-[0.2em] text-gray-600 dark:text-gray-400 bg-gray-100/50 dark:bg-zinc-800/50 hover:bg-red-50 dark:hover:bg-red-500/10 hover:text-red-500 dark:hover:text-red-400 rounded-2xl transition-all duration-300 active:scale-95 relative z-10 group"
+        className="w-full py-4 text-xs font-bold uppercase tracking-[0.15em] text-foreground bg-foreground/5 hover:bg-red-500/10 hover:text-red-500 rounded-xl transition-all duration-300 relative z-10 group flex items-center justify-center gap-2"
       >
-        <span className="flex items-center justify-center gap-2">
-          <svg
-            className="w-4 h-4 group-hover:rotate-180 transition-transform duration-500"
-            fill="none"
-            stroke="currentColor"
-            viewBox="0 0 24 24"
-          >
-            <path
-              strokeLinecap="round"
-              strokeLinejoin="round"
-              strokeWidth="2"
-              d="M6 18L18 6M6 6l12 12"
-            ></path>
-          </svg>
-          Filtreleri Temizle
-        </span>
+        <svg
+          className="w-4 h-4 group-hover:rotate-180 transition-transform duration-500"
+          fill="none"
+          stroke="currentColor"
+          viewBox="0 0 24 24"
+        >
+          <path
+            strokeLinecap="round"
+            strokeLinejoin="round"
+            strokeWidth="2"
+            d="M6 18L18 6M6 6l12 12"
+          ></path>
+        </svg>
+        Filtreleri Temizle
       </button>
-    </div>
+    </motion.div>
   );
 }

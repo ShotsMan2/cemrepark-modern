@@ -15,13 +15,13 @@ export const Button = React.forwardRef<HTMLButtonElement, ButtonProps>(({
   disabled,
   ...props 
 }, ref) => {
-  const baseStyles = "inline-flex items-center justify-center font-bold uppercase tracking-widest transition-all duration-300 disabled:opacity-50 disabled:cursor-not-allowed";
+  const baseStyles = "inline-flex items-center justify-center font-bold uppercase tracking-widest transition-all duration-300 disabled:opacity-50 disabled:cursor-not-allowed focus-visible:ring-2 focus-visible:ring-neon-pink focus-visible:outline-none focus-visible:ring-offset-2 focus-visible:ring-offset-background";
   
   const variants = {
-    solid: "bg-neon-pink text-white hover:bg-black hover:text-white dark:hover:bg-white dark:hover:text-neon-pink clip-angled",
-    outline: "border border-neon-pink text-neon-pink hover:bg-neon-pink hover:text-white clip-angled",
-    glass: "glass-panel text-gray-900 dark:text-white hover:bg-neon-pink hover:border-neon-pink clip-angled shadow-lg hover:shadow-neon-pink/30",
-    ghost: "text-gray-600 dark:text-gray-400 hover:text-holo-gold hover:translate-x-2 transform",
+    solid: "bg-neon-pink text-foreground hover:bg-black hover:text-foreground dark:hover:bg-white dark:hover:text-neon-pink clip-angled",
+    outline: "border border-neon-pink text-neon-pink hover:bg-neon-pink hover:text-foreground clip-angled",
+    glass: "glass-panel text-foreground hover:bg-neon-pink hover:border-neon-pink clip-angled shadow-lg hover:shadow-neon-pink/30",
+    ghost: "text-foreground/70 hover:text-holo-gold hover:translate-x-2 transform",
   };
 
   const sizes = {
@@ -38,9 +38,17 @@ export const Button = React.forwardRef<HTMLButtonElement, ButtonProps>(({
       ref={ref}
       className={`${baseStyles} ${variantStyles} ${sizeStyles} ${className}`}
       disabled={isLoading || disabled}
+      aria-disabled={isLoading || disabled ? "true" : undefined}
+      aria-busy={isLoading ? "true" : undefined}
       {...props}
     >
-      {isLoading ? "..." : children}
+      {isLoading ? (
+        <span className="flex items-center gap-2">
+          <span className="w-4 h-4 border-2 border-current border-t-transparent rounded-full animate-spin" aria-hidden="true" />
+          <span className="sr-only">Yükleniyor...</span>
+          <span aria-hidden="true">...</span>
+        </span>
+      ) : children}
     </button>
   );
 });

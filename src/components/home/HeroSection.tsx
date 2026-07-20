@@ -1,4 +1,4 @@
-﻿"use client";
+"use client";
 import { useState, useEffect } from "react";
 import { motion } from "framer-motion";
 import Image from "next/image";
@@ -24,8 +24,8 @@ export default memo(function HeroSection({ activeBanners }: { activeBanners: any
 
   return (
     <section className="relative min-h-[60vh] flex items-center justify-center pt-20 pb-8 overflow-hidden mb-12">
-      <div className="absolute top-1/4 left-1/4 w-[350px] h-[350px] bg-primary opacity-20 rounded-full blur-[100px] mix-blend-screen pointer-events-none"></div>
-      <div className="absolute bottom-1/4 right-1/4 w-[350px] h-[350px] bg-secondary opacity-15 rounded-full blur-[100px] mix-blend-screen pointer-events-none"></div>
+      <div className="absolute top-1/4 left-1/4 w-[500px] h-[500px] bg-primary/20 rounded-full blur-[120px] mix-blend-screen pointer-events-none"></div>
+      <div className="absolute bottom-1/4 right-1/4 w-[500px] h-[500px] bg-secondary/15 rounded-full blur-[120px] mix-blend-screen pointer-events-none"></div>
 
       <div className="w-full max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 z-10 relative h-[400px] md:h-[450px]">
         {activeBanners.map((slide, index) => {
@@ -85,32 +85,40 @@ export default memo(function HeroSection({ activeBanners }: { activeBanners: any
                 >
                   <Link
                     href={slide.linkUrl || "/search"}
-                    className="glass-panel px-8 py-4 bg-foreground text-background dark:bg-white dark:text-black font-bold uppercase tracking-widest hover:bg-primary dark:hover:bg-primary hover:text-white hover:border-primary transition-all duration-300 clip-angled text-center inline-flex items-center gap-2 group"
+                    className="group relative inline-flex items-center justify-center gap-3 px-8 py-4 bg-foreground text-background font-bold uppercase tracking-[0.15em] rounded-2xl overflow-hidden transition-all duration-300 hover:shadow-[0_0_20px_var(--color-primary)] hover:scale-105"
                   >
-                    {t("explore_collection")}
-                    <svg className="w-5 h-5 group-hover:translate-x-2 transition-transform" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M17 8l4 4m0 0l-4 4m4-4H3"></path></svg>
+                    <span className="absolute inset-0 w-full h-full bg-gradient-to-r from-primary to-secondary opacity-0 group-hover:opacity-100 transition-opacity duration-300"></span>
+                    <span className="relative z-10 flex items-center gap-2 group-hover:text-white transition-colors duration-300">
+                      {t("explore_collection")}
+                      <svg className="w-5 h-5 group-hover:translate-x-1 transition-transform" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M17 8l4 4m0 0l-4 4m4-4H3"></path></svg>
+                    </span>
                   </Link>
-                  <SearchTrigger />
+                  <div className="bg-background/80 backdrop-blur-md rounded-2xl border border-foreground/5 shadow-sm p-1">
+                    <SearchTrigger />
+                  </div>
                 </motion.div>
               </motion.div>
 
-              <div className="w-full md:w-1/2 relative h-full flex justify-center float-fx hidden md:flex">
-                <div className="absolute top-10 right-10 w-20 h-20 border-2 border-primary opacity-30 clip-hexa float-fx-delay animate-spin-slow"></div>
-                <div className="absolute bottom-20 left-10 w-14 h-14 border-2 border-secondary opacity-40 clip-angled float-fx"></div>
+              <div className="w-full md:w-1/2 relative h-full flex justify-center hidden md:flex items-center">
+                <div className="absolute top-10 right-10 w-24 h-24 border border-primary/30 rounded-full opacity-40 animate-spin-slow pointer-events-none"></div>
+                <div className="absolute bottom-20 left-10 w-16 h-16 border border-secondary/40 rounded-lg opacity-40 float-fx pointer-events-none rotate-12"></div>
                 
-                <div className="relative w-[85%] h-full clip-angled glass-frosted p-3 shadow-2xl">
-                  <div className="relative w-full h-full clip-angled overflow-hidden group skeleton">
-                    <Image
-                      src={getValidImageUrl(slide.imageUrl)}
-                      alt={slide.title}
-                      fill
-                      className="object-cover scale-105 group-hover:scale-110 transition-transform duration-[2000ms] ease-out"
-                      priority
-                      sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
-                    />
-                    <div className="absolute inset-0 bg-gradient-to-t from-black/60 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500"></div>
-                  </div>
-                </div>
+                <motion.div 
+                  className="relative w-[90%] aspect-[4/5] rounded-[2.5rem] overflow-hidden shadow-[0_20px_50px_rgb(0,0,0,0.15)] dark:shadow-[0_20px_50px_rgb(0,0,0,0.4)] border border-white/20 dark:border-white/5 bg-background/50 backdrop-blur-sm"
+                  initial={{ opacity: 0, scale: 0.95, rotate: -2 }}
+                  animate={{ opacity: isActive ? 1 : 0, scale: isActive ? 1 : 0.95, rotate: isActive ? 0 : -2 }}
+                  transition={{ duration: 1, ease: [0.22, 1, 0.36, 1], delay: 0.2 }}
+                >
+                  <Image
+                    src={getValidImageUrl(slide.imageUrl)}
+                    alt={slide.title}
+                    fill
+                    className="object-cover hover:scale-105 transition-transform duration-[2000ms] ease-out"
+                    priority
+                    sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
+                  />
+                  <div className="absolute inset-0 bg-gradient-to-t from-black/50 via-transparent to-transparent pointer-events-none"></div>
+                </motion.div>
               </div>
             </div>
           );
@@ -125,7 +133,7 @@ export default memo(function HeroSection({ activeBanners }: { activeBanners: any
               onClick={() => setCurrentSlide(index)}
               className={`relative h-2 rounded-full transition-all duration-500 overflow-hidden ${
                 index === currentSlide 
-                  ? "w-16 bg-gray-200 dark:bg-gray-700" 
+                  ? "w-16 bg-foreground/20" 
                   : "w-4 bg-gray-300 dark:bg-gray-600 hover:bg-primary/50"
               }`}
               aria-label={`Slayt ${index + 1}`}

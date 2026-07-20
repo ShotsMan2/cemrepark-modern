@@ -110,7 +110,7 @@ export default function CustomersView() {
     switch (segment) {
       case "VIP": return "text-holo-gold border-holo-gold/30 bg-holo-gold/10";
       case "New": return "text-green-400 border-green-400/30 bg-green-400/10";
-      default: return "text-gray-300 border-gray-600 bg-gray-800";
+      default: return "text-foreground/70 border-gray-600 bg-gray-800";
     }
   };
 
@@ -194,14 +194,14 @@ export default function CustomersView() {
             animate={{ opacity: 1, y: 0 }}
             transition={{ delay: i * 0.1 }}
             key={i} 
-            className="glass-card p-4 flex items-center gap-4 border border-white/5"
+            className="glass-card p-4 flex items-center gap-4 border border-glass-border"
           >
             <div className={`w-12 h-12 rounded-full flex items-center justify-center ${s.bg} ${s.color}`}>
               <s.icon size={24} />
             </div>
             <div>
-              <p className="text-gray-400 text-xs font-bold uppercase tracking-wider">{s.label}</p>
-              <h3 className="text-2xl font-bold text-white mt-1">{s.value}</h3>
+              <p className="text-foreground/50 text-xs font-bold uppercase tracking-wider">{s.label}</p>
+              <h3 className="text-2xl font-bold text-foreground mt-1">{s.value}</h3>
             </div>
           </motion.div>
         ))}
@@ -214,7 +214,7 @@ export default function CustomersView() {
               key={tab}
               onClick={() => { setActiveTab(tab); setCurrentPage(1); }}
               className={`px-4 py-2 text-sm font-bold uppercase tracking-wider rounded transition-all ${
-                activeTab === tab ? "bg-neon-pink text-white" : "text-gray-400 hover:text-white hover:bg-white/5"
+                activeTab === tab ? "bg-neon-pink text-foreground" : "text-foreground/50 hover:text-foreground hover:bg-foreground/5"
               }`}
             >
               {tab} 
@@ -230,14 +230,14 @@ export default function CustomersView() {
             placeholder="İsim, E-posta Ara..."
             value={searchTerm}
             onChange={(e) => setSearchTerm(e.target.value)}
-            className="flex-1 md:flex-none bg-black/50 border border-white/10 text-white px-4 py-2 focus:outline-none focus:border-neon-pink text-sm rounded"
+            className="flex-1 md:flex-none bg-background/50 border border-glass-border text-foreground px-4 py-2 focus:outline-none focus:border-neon-pink text-sm rounded"
           />
-          <button onClick={exportCSV} className="bg-black/50 border border-white/10 hover:border-white/30 text-white p-2 rounded transition-colors" title="CSV İndir">
+          <button onClick={exportCSV} className="bg-background/50 border border-glass-border hover:border-white/30 text-foreground p-2 rounded transition-colors" title="CSV İndir">
             <Download size={20} />
           </button>
           <button
             onClick={handleSendEmail}
-            className="bg-neon-pink text-white font-bold py-2 px-6 uppercase tracking-widest text-sm hover:bg-white hover:text-black transition-colors rounded clip-angled"
+            className="bg-neon-pink text-foreground font-bold py-2 px-6 uppercase tracking-widest text-sm hover:bg-white hover:text-black transition-colors rounded clip-angled"
           >
             E-posta Gönder
           </button>
@@ -248,18 +248,18 @@ export default function CustomersView() {
         <div className="overflow-x-auto">
           <table className="w-full text-left border-collapse">
             <thead>
-              <tr className="border-b border-white/10 bg-black/40 text-gray-400 text-xs uppercase tracking-wider">
-                <th className="p-4 font-bold cursor-pointer hover:text-white" onClick={() => handleSort('isim')}>
+              <tr className="border-b border-glass-border bg-black/40 text-foreground/50 text-xs uppercase tracking-wider">
+                <th className="p-4 font-bold cursor-pointer hover:text-foreground" onClick={() => handleSort('isim')}>
                   <div className="flex items-center gap-1">Müşteri <ArrowUpDown size={14}/></div>
                 </th>
-                <th className="p-4 font-bold cursor-pointer hover:text-white" onClick={() => handleSort('email')}>
+                <th className="p-4 font-bold cursor-pointer hover:text-foreground" onClick={() => handleSort('email')}>
                   <div className="flex items-center gap-1">İletişim <ArrowUpDown size={14}/></div>
                 </th>
                 <th className="p-4 font-bold">Segment</th>
-                <th className="p-4 font-bold cursor-pointer hover:text-white" onClick={() => handleSort('kayitDate')}>
+                <th className="p-4 font-bold cursor-pointer hover:text-foreground" onClick={() => handleSort('kayitDate')}>
                   <div className="flex items-center gap-1">Kayıt & Sipariş <ArrowUpDown size={14}/></div>
                 </th>
-                <th className="p-4 font-bold text-right cursor-pointer hover:text-white" onClick={() => handleSort('harcama')}>
+                <th className="p-4 font-bold text-right cursor-pointer hover:text-foreground" onClick={() => handleSort('harcama')}>
                   <div className="flex items-center justify-end gap-1"><ArrowUpDown size={14}/> Toplam Değer</div>
                 </th>
                 <th className="p-4 font-bold text-right">İşlem</th>
@@ -268,38 +268,38 @@ export default function CustomersView() {
             <tbody className="divide-y divide-white/5">
               {loading ? (
                 <tr>
-                  <td colSpan={6} className="p-8 text-center text-gray-400">
+                  <td colSpan={6} className="p-8 text-center text-foreground/50">
                     <div className="w-8 h-8 border-4 border-neon-pink border-t-transparent rounded-full animate-spin mx-auto mb-4"></div>
                     Müşteriler Yükleniyor...
                   </td>
                 </tr>
               ) : paginatedCustomers.length === 0 ? (
                 <tr>
-                  <td colSpan={6} className="p-8 text-center text-gray-400">Müşteri bulunamadı.</td>
+                  <td colSpan={6} className="p-8 text-center text-foreground/50">Müşteri bulunamadı.</td>
                 </tr>
               ) : (
                 paginatedCustomers.map((c, i) => (
-                  <tr key={i} className="hover:bg-white/5 transition-colors group">
+                  <tr key={i} className="hover:bg-foreground/5 transition-colors group">
                     <td className="p-4">
                       <div className="flex items-center gap-3">
-                        <div className="w-10 h-10 rounded-full bg-gradient-to-br from-neon-pink/50 to-holo-gold/50 flex items-center justify-center text-white font-bold uppercase">
+                        <div className="w-10 h-10 rounded-full bg-gradient-to-br from-neon-pink/50 to-holo-gold/50 flex items-center justify-center text-foreground font-bold uppercase">
                           {c.isim.charAt(0)}
                         </div>
                         <div>
-                          <p className="font-bold text-white text-sm">{c.isim}</p>
-                          <p className="text-gray-500 text-xs">{c.id}</p>
+                          <p className="font-bold text-foreground text-sm">{c.isim}</p>
+                          <p className="text-foreground/60 text-xs">{c.id}</p>
                         </div>
                       </div>
                     </td>
-                    <td className="p-4 text-gray-300 text-sm">{c.email}</td>
+                    <td className="p-4 text-foreground/70 text-sm">{c.email}</td>
                     <td className="p-4">
                       <span className={`px-3 py-1 text-xs border rounded-full font-bold uppercase tracking-wider ${getSegmentColor(c.segment)}`}>
                         {c.segment}
                       </span>
                     </td>
                     <td className="p-4">
-                      <p className="text-gray-400 text-sm">{c.kayit}</p>
-                      <p className="text-gray-500 text-xs">{c.siparisSayisi} Sipariş</p>
+                      <p className="text-foreground/50 text-sm">{c.kayit}</p>
+                      <p className="text-foreground/60 text-xs">{c.siparisSayisi} Sipariş</p>
                     </td>
                     <td className="p-4 text-holo-gold font-bold text-sm text-right">
                       {c.harcama.toLocaleString("tr-TR")} ₺
@@ -307,7 +307,7 @@ export default function CustomersView() {
                     <td className="p-4 text-right">
                       <button
                         onClick={() => setSelectedCustomer(c)}
-                        className="text-gray-400 hover:text-white transition-colors text-sm underline decoration-white/20 mr-4"
+                        className="text-foreground/50 hover:text-foreground transition-colors text-sm underline decoration-white/20 mr-4"
                       >
                         Profili Gör
                       </button>
@@ -326,22 +326,22 @@ export default function CustomersView() {
         </div>
         
         {totalPages > 1 && (
-          <div className="p-4 border-t border-white/10 flex items-center justify-between">
-            <span className="text-sm text-gray-400">
+          <div className="p-4 border-t border-glass-border flex items-center justify-between">
+            <span className="text-sm text-foreground/50">
               Toplam {totalCustomers} kayıttan {(currentPage - 1) * itemsPerPage + 1}-{Math.min(currentPage * itemsPerPage, totalCustomers)} gösteriliyor.
             </span>
             <div className="flex gap-2">
               <button 
                 onClick={() => setCurrentPage(p => Math.max(1, p - 1))}
                 disabled={currentPage === 1}
-                className="p-2 glass-card hover:bg-white/10 disabled:opacity-50 text-white"
+                className="p-2 glass-card hover:bg-foreground/10 disabled:opacity-50 text-foreground"
               >
                 <ChevronLeft size={16} />
               </button>
               <button 
                 onClick={() => setCurrentPage(p => Math.min(totalPages, p + 1))}
                 disabled={currentPage === totalPages}
-                className="p-2 glass-card hover:bg-white/10 disabled:opacity-50 text-white"
+                className="p-2 glass-card hover:bg-foreground/10 disabled:opacity-50 text-foreground"
               >
                 <ChevronRight size={16} />
               </button>
@@ -361,70 +361,70 @@ export default function CustomersView() {
             <motion.div 
               initial={{ x: "100%" }} animate={{ x: 0 }} exit={{ x: "100%" }}
               transition={{ type: "spring", damping: 25, stiffness: 200 }}
-              className="fixed inset-y-0 right-0 w-full max-w-md bg-[#111] border-l border-white/10 shadow-2xl z-50 p-6 flex flex-col"
+              className="fixed inset-y-0 right-0 w-full max-w-md bg-[#111] border-l border-glass-border shadow-2xl z-50 p-6 flex flex-col"
             >
               <button 
                 onClick={() => setSelectedCustomer(null)}
-                className="absolute top-4 right-4 p-2 text-gray-400 hover:text-white bg-white/5 rounded-full"
+                className="absolute top-4 right-4 p-2 text-foreground/50 hover:text-foreground bg-foreground/5 rounded-full"
               >
                 <X size={20} />
               </button>
               
               <div className="flex flex-col items-center mt-6 mb-8">
-                <div className="w-24 h-24 rounded-full bg-gradient-to-br from-neon-pink to-purple-600 flex items-center justify-center text-4xl text-white font-bold shadow-lg shadow-neon-pink/20 mb-4">
+                <div className="w-24 h-24 rounded-full bg-gradient-to-br from-neon-pink to-purple-600 flex items-center justify-center text-4xl text-foreground font-bold shadow-lg shadow-neon-pink/20 mb-4">
                   {selectedCustomer.isim.charAt(0)}
                 </div>
-                <h2 className="text-2xl font-bold text-white">{selectedCustomer.isim}</h2>
-                <p className="text-gray-400">{selectedCustomer.id}</p>
+                <h2 className="text-2xl font-bold text-foreground">{selectedCustomer.isim}</h2>
+                <p className="text-foreground/50">{selectedCustomer.id}</p>
                 <span className={`mt-2 px-4 py-1 text-xs border rounded-full font-bold uppercase tracking-wider ${getSegmentColor(selectedCustomer.segment)}`}>
                   {selectedCustomer.segment} Müşteri
                 </span>
               </div>
 
               <div className="space-y-6 flex-1 overflow-y-auto pr-2">
-                <div className="glass-card p-4 space-y-3 border border-white/5">
-                  <h3 className="text-white font-bold uppercase text-sm border-b border-white/10 pb-2">İletişim</h3>
-                  <div className="flex items-center gap-3 text-gray-300">
+                <div className="glass-card p-4 space-y-3 border border-glass-border">
+                  <h3 className="text-foreground font-bold uppercase text-sm border-b border-glass-border pb-2">İletişim</h3>
+                  <div className="flex items-center gap-3 text-foreground/70">
                     <Mail size={16} className="text-neon-pink" /> {selectedCustomer.email}
                   </div>
-                  <div className="flex items-center gap-3 text-gray-300">
+                  <div className="flex items-center gap-3 text-foreground/70">
                     <Phone size={16} className="text-neon-pink" /> {selectedCustomer.phone}
                   </div>
                 </div>
 
                 <div className="grid grid-cols-2 gap-4">
-                  <div className="glass-card p-4 text-center border border-white/5">
+                  <div className="glass-card p-4 text-center border border-glass-border">
                     <ShoppingBag size={20} className="mx-auto mb-2 text-holo-gold" />
-                    <p className="text-2xl font-bold text-white">{selectedCustomer.siparisSayisi}</p>
-                    <p className="text-xs text-gray-400 uppercase">Sipariş</p>
+                    <p className="text-2xl font-bold text-foreground">{selectedCustomer.siparisSayisi}</p>
+                    <p className="text-xs text-foreground/50 uppercase">Sipariş</p>
                   </div>
-                  <div className="glass-card p-4 text-center border border-white/5">
+                  <div className="glass-card p-4 text-center border border-glass-border">
                     <DollarSign size={20} className="mx-auto mb-2 text-green-400" />
-                    <p className="text-xl font-bold text-white">{selectedCustomer.harcama.toLocaleString("tr-TR")} ₺</p>
-                    <p className="text-xs text-gray-400 uppercase">Harcama</p>
+                    <p className="text-xl font-bold text-foreground">{selectedCustomer.harcama.toLocaleString("tr-TR")} ₺</p>
+                    <p className="text-xs text-foreground/50 uppercase">Harcama</p>
                   </div>
                 </div>
 
-                <div className="glass-card p-4 space-y-2 border border-white/5">
-                  <h3 className="text-white font-bold uppercase text-sm border-b border-white/10 pb-2">Notlar</h3>
+                <div className="glass-card p-4 space-y-2 border border-glass-border">
+                  <h3 className="text-foreground font-bold uppercase text-sm border-b border-glass-border pb-2">Notlar</h3>
                   <textarea
                     value={customerNotes}
                     onChange={(e) => setCustomerNotes(e.target.value)}
                     placeholder="Müşteri hakkında not ekle..."
-                    className="w-full bg-black/30 border border-white/10 rounded p-3 text-sm text-white focus:border-neon-pink focus:outline-none min-h-[100px]"
+                    className="w-full bg-black/30 border border-glass-border rounded p-3 text-sm text-foreground focus:border-neon-pink focus:outline-none min-h-[100px]"
                   />
-                  <button className="w-full bg-white/10 hover:bg-white/20 text-white py-2 rounded text-sm transition-colors">
+                  <button className="w-full bg-foreground/10 hover:bg-foreground/20 text-foreground py-2 rounded text-sm transition-colors">
                     Notu Kaydet
                   </button>
                 </div>
               </div>
 
-              <div className="pt-6 border-t border-white/10 mt-auto">
+              <div className="pt-6 border-t border-glass-border mt-auto">
                 <button 
                   onClick={() => {
                     Swal.fire({ title: "Başarılı!", text: "E-posta gönderme ekranı açılıyor.", icon: "success", background: '#1a1a1a', color: '#fff' });
                   }}
-                  className="w-full bg-neon-pink text-white font-bold py-3 rounded uppercase tracking-widest text-sm hover:bg-white hover:text-black transition-colors flex items-center justify-center gap-2"
+                  className="w-full bg-neon-pink text-foreground font-bold py-3 rounded uppercase tracking-widest text-sm hover:bg-white hover:text-black transition-colors flex items-center justify-center gap-2"
                 >
                   <Mail size={18} /> E-posta Gönder
                 </button>

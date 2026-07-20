@@ -20,7 +20,7 @@ export default memo(function NewsletterSignup() {
           <div className="absolute -bottom-24 -left-24 w-48 h-48 bg-secondary/20 blur-3xl rounded-full"></div>
 
           <span className="badge-premium bg-primary/10 text-primary mb-6">Özel Fırsatlar</span>
-          <h2 className="text-3xl md:text-5xl font-display font-black text-gray-900 dark:text-white mb-4">
+          <h2 className="text-3xl md:text-5xl font-display font-black text-foreground mb-4">
             VIP Bültenimize Katılın
           </h2>
           <p className="text-gray-600 dark:text-gray-300 max-w-xl mx-auto mb-8 font-medium">

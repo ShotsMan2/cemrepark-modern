@@ -17,6 +17,17 @@ export default async function SiparislerimPage() {
   const orders = await prisma.order.findMany({
     where: { customer: session.user.email },
     orderBy: { createdAt: "desc" },
+    include: {
+      items: {
+        include: {
+          product: {
+            select: {
+              ad: true
+            }
+          }
+        }
+      }
+    }
   });
 
   // Serialize orders to pass safely to Client Component (Prisma dates & decimals)
@@ -25,6 +36,13 @@ export default async function SiparislerimPage() {
     createdAt: order.createdAt.toISOString(),
     total: Number(order.total),
     status: order.status,
+    trackingNumber: order.trackingNumber,
+    carrier: order.carrier,
+    items: order.items.map(item => ({
+      quantity: item.quantity,
+      price: Number(item.price),
+      product: { ad: item.product?.ad || 'Ürün' }
+    }))
   }));
 
   return (

@@ -89,12 +89,12 @@ export default function SearchClient({ initialResults, query, isSearch }: { init
 
   return (
     <div className="container mx-auto px-4 relative z-10">
-      <div className="bg-white/40 dark:bg-zinc-900/40 backdrop-blur-3xl p-10 rounded-[2.5rem] shadow-2xl mb-12 text-center border border-white/50 dark:border-white/10 relative overflow-hidden group" data-aos="fade-down">
+      <div className="glass-panel p-10 rounded-[2.5rem] shadow-2xl mb-12 text-center border-glass-border relative overflow-hidden group" data-aos="fade-down">
         <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-96 h-96 bg-neon-pink/10 rounded-full blur-[100px] pointer-events-none group-hover:scale-150 transition-transform duration-1000"></div>
         <h1 className="text-4xl md:text-6xl font-black mb-4 uppercase tracking-widest text-transparent bg-clip-text bg-gradient-to-r from-neon-pink to-holo-gold relative z-10">
           {isSearch ? `${t('search_results')}: "${query}"` : t('collection')}
         </h1>
-        {isSearch && <p className="text-gray-600 dark:text-gray-300 font-medium text-lg relative z-10">{t('total_products_listed', { count: results.length })}</p>}
+        {isSearch && <p className="text-foreground/70 font-medium text-lg relative z-10">{t('total_products_listed', { count: results.length })}</p>}
       </div>
 
       <div className="flex flex-col lg:flex-row gap-10">
@@ -106,13 +106,13 @@ export default function SearchClient({ initialResults, query, isSearch }: { init
 
         <div className="w-full lg:w-3/4 min-h-screen">
           {results.length === 0 ? (
-            <div className="bg-white/40 dark:bg-zinc-900/40 backdrop-blur-3xl p-16 rounded-[3rem] flex flex-col items-center justify-center text-center shadow-2xl border border-white/50 dark:border-white/10 relative overflow-hidden group" data-aos="zoom-in">
+            <div className="glass-panel p-16 rounded-[3rem] flex flex-col items-center justify-center text-center shadow-2xl relative overflow-hidden group" data-aos="zoom-in">
               <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-64 h-64 bg-gradient-to-tr from-neon-pink/20 to-holo-gold/20 rounded-full blur-[80px] pointer-events-none group-hover:scale-150 transition-transform duration-1000"></div>
-              <div className="w-32 h-32 mb-8 bg-white/50 dark:bg-zinc-800/50 rounded-full flex items-center justify-center shadow-inner relative z-10">
+              <div className="w-32 h-32 mb-8 bg-foreground/5 rounded-full flex items-center justify-center shadow-inner relative z-10">
                 <svg className="w-16 h-16 text-neon-pink opacity-80" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="1.5" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"></path></svg>
               </div>
-              <h2 className="text-4xl font-black text-gray-900 dark:text-white mb-4 relative z-10">{t('no_products_found')}</h2>
-              <p className="text-gray-500 dark:text-gray-400 relative z-10 text-xl font-medium max-w-md">{t('no_products_found_desc')}</p>
+              <h2 className="text-4xl font-black text-foreground mb-4 relative z-10">{t('no_products_found')}</h2>
+              <p className="text-foreground/60 relative z-10 text-xl font-medium max-w-md">{t('no_products_found_desc')}</p>
             </div>
           ) : (
             <>
@@ -120,11 +120,11 @@ export default function SearchClient({ initialResults, query, isSearch }: { init
                 {results.slice(0, visibleCount).map((product, index) => {
                   const images = product.resim ? product.resim.split(',') : (product.gorsel ? product.gorsel.split(',') : []);
                   return (
-                    <div key={product.id} className="bg-white/60 dark:bg-zinc-900/40 backdrop-blur-xl p-4 rounded-[2rem] group hover:shadow-2xl hover:shadow-neon-pink/20 transition-all duration-500 relative transform hover:-translate-y-2 flex flex-col border border-white/50 dark:border-white/10" data-aos="fade-up" data-aos-delay={(index % 3) * 100}>
+                    <div key={product.id} className="glass-card p-4 rounded-[2rem] group hover:shadow-2xl hover:shadow-neon-pink/20 transition-all duration-500 relative transform hover:-translate-y-2 flex flex-col" data-aos="fade-up" data-aos-delay={(index % 3) * 100}>
                       <div className="relative aspect-[3/4] mb-4 overflow-hidden rounded-2xl transform-gpu">
                         {product.etiket && (
                           <div className="absolute top-3 left-3 z-20">
-                            <span className="text-[10px] font-black uppercase tracking-widest bg-gradient-to-r from-neon-pink to-holo-gold text-white px-4 py-1.5 rounded-full shadow-lg">
+                            <span className="text-[10px] font-black uppercase tracking-widest bg-gradient-to-r from-neon-pink to-holo-gold text-foreground px-4 py-1.5 rounded-full shadow-lg">
                               {t(product.etiket)}
                             </span>
                           </div>
@@ -166,7 +166,7 @@ export default function SearchClient({ initialResults, query, isSearch }: { init
                         <div className="absolute bottom-6 left-0 w-full px-6 flex justify-center opacity-0 group-hover:opacity-100 transition-all duration-500 translate-y-8 group-hover:translate-y-0 z-30">
                           <button
                             onClick={(e) => { e.preventDefault(); setQuickViewProduct(product); }}
-                            className="text-xs uppercase tracking-[0.2em] font-black text-gray-900 dark:text-white hover:text-white hover:bg-neon-pink transition-all duration-300 bg-white/95 dark:bg-black/95 px-8 py-3.5 rounded-full backdrop-blur-xl shadow-xl w-full active:scale-95 transform hover:-translate-y-1"
+                            className="text-xs uppercase tracking-[0.2em] font-black text-foreground hover:text-foreground hover:bg-neon-pink transition-all duration-300 glass-panel px-8 py-3.5 rounded-full backdrop-blur-xl shadow-xl w-full active:scale-95 transform hover:-translate-y-1"
                           >
                             {t('quick_view')}
                           </button>
@@ -174,11 +174,11 @@ export default function SearchClient({ initialResults, query, isSearch }: { init
                       </div>
 
                       <div className="p-2 flex-1 flex flex-col relative z-20">
-                        <p className="text-gray-500 dark:text-gray-400 text-[10px] font-black uppercase tracking-[0.2em] mb-2 group-hover:text-neon-pink transition-colors">
+                        <p className="text-foreground/60 text-[10px] font-black uppercase tracking-[0.2em] mb-2 group-hover:text-neon-pink transition-colors">
                           {t(product.kategori)}
                         </p>
                         <Link href={`/urundetay/${product.id}`} className="block">
-                          <h3 className="text-gray-900 dark:text-white font-black text-lg mb-2 line-clamp-2 leading-tight group-hover:text-transparent group-hover:bg-clip-text group-hover:bg-gradient-to-r group-hover:from-neon-pink group-hover:to-holo-gold transition-all duration-300">
+                          <h3 className="text-foreground font-black text-lg mb-2 line-clamp-2 leading-tight group-hover:text-transparent group-hover:bg-clip-text group-hover:bg-gradient-to-r group-hover:from-neon-pink group-hover:to-holo-gold transition-all duration-300">
                             {t(product.ad)}
                           </h3>
                         </Link>

@@ -7,7 +7,7 @@ import { getValidImageUrl } from "../../utils/imageHelper";
 import { memo } from "react";
 export default memo(function BentoBoxShowcase({ discounted }: { discounted: any[] }) {
   return (
-    <section className="py-16 bg-gray-100 dark:bg-[#0a0a0a] text-gray-900 dark:text-white relative overflow-hidden">
+    <section className="py-16 bg-gray-100 dark:bg-[#0a0a0a] text-foreground relative overflow-hidden">
       {/* Background Effects */}
       <div className="absolute top-0 left-0 w-full h-full overflow-hidden pointer-events-none">
         <div className="absolute -top-[20%] -left-[10%] w-[50%] h-[50%] bg-primary/20 blur-[150px] rounded-full"></div>
@@ -37,12 +37,12 @@ export default memo(function BentoBoxShowcase({ discounted }: { discounted: any[
                   Özel Tasarım
                 </span>
               </div>
-              <h3 className="text-4xl md:text-5xl font-display font-black text-white mb-4 transform translate-y-8 group-hover:translate-y-0 transition-transform duration-500 delay-100">
+              <h3 className="text-4xl md:text-5xl font-display font-black text-foreground mb-4 transform translate-y-8 group-hover:translate-y-0 transition-transform duration-500 delay-100">
                 Premium Koleksiyon
               </h3>
               <Link
                 href="/search"
-                className="flex items-center gap-3 text-white border-b-2 border-primary pb-2 w-max hover:text-secondary hover:border-secondary transition-colors font-bold uppercase tracking-widest text-sm transform translate-y-8 group-hover:translate-y-0 opacity-0 group-hover:opacity-100 transition-all duration-500 delay-200"
+                className="flex items-center gap-3 text-foreground border-b-2 border-primary pb-2 w-max hover:text-secondary hover:border-secondary transition-colors font-bold uppercase tracking-widest text-sm transform translate-y-8 group-hover:translate-y-0 opacity-0 group-hover:opacity-100 transition-all duration-500 delay-200"
               >
                 Koleksiyonu Keşfet{" "}
                 <svg
@@ -76,10 +76,10 @@ export default memo(function BentoBoxShowcase({ discounted }: { discounted: any[
                 className="object-cover opacity-60 group-hover:scale-110 transition-transform duration-700 ease-out"
               />
               <div className="absolute inset-0 flex flex-col items-center justify-center text-center p-6 bg-black/30 group-hover:bg-black/50 transition-colors duration-500">
-                <h4 className="text-2xl font-display font-black text-white mb-3">Minimalist</h4>
+                <h4 className="text-2xl font-display font-black text-foreground mb-3">Minimalist</h4>
                 <Link
                   href="/search"
-                  className="glass-frosted text-xs uppercase tracking-[0.2em] font-bold text-white px-6 py-2 rounded-full hover:bg-white hover:text-black transition-all transform translate-y-4 opacity-0 group-hover:translate-y-0 group-hover:opacity-100 duration-500"
+                  className="glass-frosted text-xs uppercase tracking-[0.2em] font-bold text-foreground px-6 py-2 rounded-full hover:bg-white hover:text-black transition-all transform translate-y-4 opacity-0 group-hover:translate-y-0 group-hover:opacity-100 duration-500"
                 >
                   Keşfet
                 </Link>
@@ -95,12 +95,12 @@ export default memo(function BentoBoxShowcase({ discounted }: { discounted: any[
                 sizes="(max-width: 768px) 100vw, 33vw"
               />
               <div className="absolute inset-0 flex flex-col items-center justify-center text-center p-6 bg-black/30 group-hover:bg-black/50 transition-colors duration-500">
-                <h4 className="text-2xl font-display font-black text-white mb-3">
+                <h4 className="text-2xl font-display font-black text-foreground mb-3">
                   Modern Çizgiler
                 </h4>
                 <Link
                   href="/search"
-                  className="glass-frosted text-xs uppercase tracking-[0.2em] font-bold text-white px-6 py-2 rounded-full hover:bg-secondary hover:text-black transition-all transform translate-y-4 opacity-0 group-hover:translate-y-0 group-hover:opacity-100 duration-500"
+                  className="glass-frosted text-xs uppercase tracking-[0.2em] font-bold text-foreground px-6 py-2 rounded-full hover:bg-secondary hover:text-black transition-all transform translate-y-4 opacity-0 group-hover:translate-y-0 group-hover:opacity-100 duration-500"
                 >
                   Keşfet
                 </Link>

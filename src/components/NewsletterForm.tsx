@@ -48,9 +48,10 @@ export default function NewsletterForm() {
       <div className="flex-1 max-w-md">
         <Input
           type="email"
+          aria-label={t("email_placeholder") as string}
           placeholder={t("email_placeholder") as string}
           required
-          className="bg-white/5 border-white/20 text-white min-w-[300px] h-full"
+          className="bg-white/5 border-white/20 text-foreground min-w-[300px] h-full"
         />
       </div>
       <Button

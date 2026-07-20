@@ -44,11 +44,11 @@ export default function FavoritesPage() {
                 <path d="M12 21.35l-1.45-1.32C5.4 15.36 2 12.28 2 8.5 2 5.42 4.42 3 7.5 3c1.74 0 3.41.81 4.5 2.09C13.09 3.81 14.76 3 16.5 3 19.58 3 22 5.42 22 8.5c0 3.78-3.4 6.86-8.55 11.54L12 21.35z"></path>
               </svg>
             </div>
-            <h2 className="text-3xl font-black text-gray-800 dark:text-white mb-4 tracking-wide">{t('no_favorites')}</h2>
-            <p className="text-gray-500 dark:text-gray-400 mb-10 text-center max-w-md text-lg">{t('no_favorites_desc')}</p>
+            <h2 className="text-3xl font-black text-foreground mb-4 tracking-wide">{t('no_favorites')}</h2>
+            <p className="text-foreground/60 mb-10 text-center max-w-md text-lg">{t('no_favorites_desc')}</p>
             <Link
               href="/search"
-              className="bg-gradient-to-r from-neon-pink to-holo-gold text-white px-12 py-5 rounded-full uppercase tracking-[0.2em] text-sm font-black shadow-xl shadow-neon-pink/30 transition-all duration-300 transform hover:-translate-y-1 hover:shadow-neon-pink/50 active:scale-95"
+              className="bg-gradient-to-r from-neon-pink to-holo-gold text-foreground px-12 py-5 rounded-full uppercase tracking-[0.2em] text-sm font-black shadow-xl shadow-neon-pink/30 transition-all duration-300 transform hover:-translate-y-1 hover:shadow-neon-pink/50 active:scale-95"
             >
               {t('explore_collection_btn')}
             </Link>
@@ -67,7 +67,7 @@ export default function FavoritesPage() {
                   <div className="relative aspect-[3/4] mb-4 overflow-hidden rounded-2xl transform-gpu">
                     {product.etiket && (
                       <div className="absolute top-3 left-3 z-20">
-                        <span className="text-[10px] font-black uppercase tracking-widest bg-gradient-to-r from-neon-pink to-holo-gold text-white px-4 py-1.5 rounded-full shadow-lg">
+                        <span className="text-[10px] font-black uppercase tracking-widest bg-gradient-to-r from-neon-pink to-holo-gold text-foreground px-4 py-1.5 rounded-full shadow-lg">
                           {t(product.etiket)}
                         </span>
                       </div>
@@ -109,7 +109,7 @@ export default function FavoritesPage() {
                     <div className="absolute bottom-6 left-0 w-full px-6 flex justify-center opacity-0 group-hover:opacity-100 transition-all duration-500 translate-y-8 group-hover:translate-y-0 z-30">
                       <button
                         onClick={(e) => { e.preventDefault(); setQuickViewProduct(product); }}
-                        className="text-xs uppercase tracking-[0.2em] font-black text-gray-900 dark:text-white hover:text-white hover:bg-neon-pink transition-all duration-300 bg-white/95 dark:bg-black/95 px-8 py-3.5 rounded-full backdrop-blur-xl shadow-xl w-full active:scale-95 transform hover:-translate-y-1"
+                        className="text-xs uppercase tracking-[0.2em] font-black text-foreground hover:text-foreground hover:bg-neon-pink transition-all duration-300 glass-panel px-8 py-3.5 rounded-full backdrop-blur-xl shadow-xl w-full active:scale-95 transform hover:-translate-y-1"
                       >
                         {t('quick_view')}
                       </button>
@@ -117,11 +117,11 @@ export default function FavoritesPage() {
                   </div>
 
                   <div className="p-2 flex-1 flex flex-col relative z-20">
-                    <p className="text-gray-500 dark:text-gray-400 text-[10px] font-black uppercase tracking-[0.2em] mb-2 group-hover:text-neon-pink transition-colors">
+                    <p className="text-foreground/60 text-[10px] font-black uppercase tracking-[0.2em] mb-2 group-hover:text-neon-pink transition-colors">
                       {t(product.kategori)}
                     </p>
                     <Link href={`/urundetay/${product.id}`} className="block">
-                      <h3 className="text-gray-900 dark:text-white font-black text-lg mb-2 line-clamp-2 leading-tight group-hover:text-transparent group-hover:bg-clip-text group-hover:bg-gradient-to-r group-hover:from-neon-pink group-hover:to-holo-gold transition-all duration-300">
+                      <h3 className="text-foreground font-black text-lg mb-2 line-clamp-2 leading-tight group-hover:text-transparent group-hover:bg-clip-text group-hover:bg-gradient-to-r group-hover:from-neon-pink group-hover:to-holo-gold transition-all duration-300">
                         {t(product.ad)}
                       </h3>
                     </Link>

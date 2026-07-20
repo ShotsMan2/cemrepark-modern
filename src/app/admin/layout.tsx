@@ -63,7 +63,7 @@ export default async function AdminLayout({ children }: { children: React.ReactN
         .admin-wrapper .bg-white\\/5 {
           background-color: var(--local-glass-bg) !important;
         }
-        .admin-wrapper .text-white {
+        .admin-wrapper .text-foreground {
           color: var(--foreground) !important;
         }
         .admin-wrapper .border-white\\/10,

@@ -33,7 +33,7 @@ export default async function LoginHistoryPage() {
           <h2 className="text-3xl font-black text-transparent bg-clip-text bg-gradient-to-r from-neon-pink to-pink-600 uppercase tracking-widest">
             Giriş Geçmişi
           </h2>
-          <p className="text-gray-400 text-sm mt-1">
+          <p className="text-foreground/50 text-sm mt-1">
             Kullanıcı oturum açma kayıtları (Son 100 işlem)
           </p>
         </div>
@@ -49,11 +49,11 @@ export default async function LoginHistoryPage() {
         />
       </div>
 
-      <div className="glass-panel p-0 clip-angled border border-white/5 overflow-hidden shadow-2xl bg-black/40 backdrop-blur-xl">
+      <div className="glass-panel p-0 clip-angled border border-glass-border overflow-hidden shadow-2xl bg-black/40 backdrop-blur-xl">
         <div className="overflow-x-auto custom-scrollbar">
           <table className="w-full text-left border-collapse">
             <thead>
-              <tr className="border-b border-white/10 text-xs uppercase tracking-widest text-gray-400 bg-white/5">
+              <tr className="border-b border-glass-border text-xs uppercase tracking-widest text-foreground/50 bg-foreground/5">
                 <th className="py-4 px-6">Tarih</th>
                 <th className="py-4 px-6">Kullanıcı</th>
                 <th className="py-4 px-6 text-center">Durum</th>
@@ -64,24 +64,24 @@ export default async function LoginHistoryPage() {
             <tbody className="text-sm">
               {logs.length === 0 ? (
                 <tr>
-                  <td colSpan={5} className="py-8 text-center text-gray-500">
+                  <td colSpan={5} className="py-8 text-center text-foreground/60">
                     Kayıt bulunamadı.
                   </td>
                 </tr>
               ) : (
                 logs.map((log) => (
-                  <tr key={log.id} className="border-b border-white/5 hover:bg-white/5 transition-all duration-300 group">
-                    <td className="py-4 px-6 text-gray-400 font-mono text-xs group-hover:text-white transition-colors">
+                  <tr key={log.id} className="border-b border-glass-border hover:bg-foreground/5 transition-all duration-300 group">
+                    <td className="py-4 px-6 text-foreground/50 font-mono text-xs group-hover:text-foreground transition-colors">
                       {new Date(log.createdAt).toLocaleString("tr-TR")}
                     </td>
                     <td className="py-4 px-6">
-                      <div className="font-black text-white flex items-center gap-2">
+                      <div className="font-black text-foreground flex items-center gap-2">
                         <div className="w-8 h-8 rounded-full bg-pink-500/20 flex items-center justify-center text-xs text-pink-400 uppercase border border-pink-500/30">
                           {log.user?.email ? log.user.email.substring(0, 2) : "?"}
                         </div>
                         <div className="flex flex-col">
                           <span>{log.user?.name || "Bilinmiyor"}</span>
-                          <span className="text-[10px] text-gray-500 font-mono">{log.user?.email || "Silinmiş Kullanıcı"}</span>
+                          <span className="text-[10px] text-foreground/60 font-mono">{log.user?.email || "Silinmiş Kullanıcı"}</span>
                         </div>
                       </div>
                     </td>
@@ -98,7 +98,7 @@ export default async function LoginHistoryPage() {
                         </span>
                       )}
                     </td>
-                    <td className="py-4 px-6 text-gray-500 font-mono text-xs">
+                    <td className="py-4 px-6 text-foreground/60 font-mono text-xs">
                       <div className="flex items-center gap-1">
                         <svg className="w-3 h-3" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                           <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M21 12a9 9 0 01-9 9m9-9a9 9 0 00-9-9m9 9H3m9 9a9 9 0 01-9-9m9 9c1.657 0 3-4.03 3-9s-1.343-9-3-9m0 18c-1.657 0-3-4.03-3-9s1.343-9 3-9m-9 9a9 9 0 019-9"></path>
@@ -106,7 +106,7 @@ export default async function LoginHistoryPage() {
                         {log.ipAddress || "Bilinmiyor"}
                       </div>
                     </td>
-                    <td className="py-4 px-6 text-gray-400 text-xs truncate max-w-[200px]" title={log.userAgent || ""}>
+                    <td className="py-4 px-6 text-foreground/50 text-xs truncate max-w-[200px]" title={log.userAgent || ""}>
                       {log.userAgent || "-"}
                     </td>
                   </tr>

@@ -44,7 +44,7 @@ export default function SocialProofCounter() {
                 <Counter value={stat.value} isVisible={isVisible} isFloat={stat.isFloat} />
                 <span className="text-xl md:text-2xl ml-1">{stat.suffix}</span>
               </div>
-              <p className="text-xs md:text-sm text-gray-600 dark:text-gray-400 font-bold uppercase tracking-widest">{stat.label}</p>
+              <p className="text-xs md:text-sm text-foreground/70 font-bold uppercase tracking-widest">{stat.label}</p>
             </div>
           ))}
         </div>

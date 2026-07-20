@@ -519,7 +519,7 @@ export default function SecurityView() {
                     onClick={() => setStatusFilter(opt.key)}
                     className={`px-3 py-1.5 text-xs font-bold rounded-md transition-all ${
                       statusFilter === opt.key
-                        ? 'bg-primary text-white shadow-sm'
+                        ? 'bg-primary text-foreground shadow-sm'
                         : 'text-foreground/50 hover:text-foreground/80'
                     }`}
                   >

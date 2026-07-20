@@ -46,41 +46,41 @@ export default function Header() {
     <>
       <header className="w-full z-50 transition-all duration-300">
         {/* SCROLLING ANNOUNCEMENT BAR */}
-        <div className="bg-gradient-to-r from-primary to-secondary text-white text-[10px] md:text-[11px] font-bold py-1.5 overflow-hidden border-b border-black/20 shadow-lg shadow-primary/20">
+        <div className="bg-gradient-to-r from-primary to-secondary text-foreground text-[10px] md:text-[11px] font-bold py-1.5 overflow-hidden border-b border-black/20 shadow-lg shadow-primary/20">
           <div className="w-full whitespace-nowrap animate-marquee hover-pause flex gap-12 md:gap-24 min-w-max drop-shadow-md">
             <span className="flex items-center gap-2">
-              <span className="text-white">✨</span> {t("discover_new_season")}
+              <span className="text-foreground">✨</span> {t("discover_new_season")}
             </span>
             <span className="flex items-center gap-2">
-              <span className="text-white">🚀</span> {t("free_shipping")}
+              <span className="text-foreground">🚀</span> {t("free_shipping")}
             </span>
             <span className="flex items-center gap-2">
-              <span className="text-white">🎁</span> {t("discount")}
+              <span className="text-foreground">🎁</span> {t("discount")}
             </span>
             <span className="flex items-center gap-2">
-              <span className="text-white">💳</span> {t("installment")}
+              <span className="text-foreground">💳</span> {t("installment")}
             </span>
 
             {/* Duplicated for seamless scrolling */}
             <span className="flex items-center gap-2">
-              <span className="text-white">✨</span> {t("discover_new_season")}
+              <span className="text-foreground">✨</span> {t("discover_new_season")}
             </span>
             <span className="flex items-center gap-2">
-              <span className="text-white">🚀</span> {t("free_shipping")}
+              <span className="text-foreground">🚀</span> {t("free_shipping")}
             </span>
             <span className="flex items-center gap-2">
-              <span className="text-white">🎁</span> {t("discount")}
+              <span className="text-foreground">🎁</span> {t("discount")}
             </span>
             <span className="flex items-center gap-2">
-              <span className="text-white">💳</span> {t("installment")}
+              <span className="text-foreground">💳</span> {t("installment")}
             </span>
           </div>
         </div>
 
         {/* TOP BAR */}
-        <div className="bg-white dark:bg-[#120a10] backdrop-blur-md border-b border-gray-200 dark:border-white/5 text-gray-500 dark:text-gray-400 text-[11px] md:text-xs py-2 hidden md:block transition-colors duration-300">
-          <div className="w-full px-4 md:px-6 flex justify-between items-center">
-            <div className="flex gap-4 items-center">
+        <div className="bg-background/80 dark:bg-background/80 backdrop-blur-xl border-b border-foreground/5 text-foreground/60 text-[11px] md:text-xs py-2 hidden md:block transition-colors duration-300">
+          <div className="w-full max-w-screen-2xl mx-auto px-4 md:px-8 flex justify-between items-center">
+            <div className="flex gap-6 items-center">
               <a
                 href={`https://wa.me/90${(settings?.destekTelefonu || "0554 169 89 09").replace(/\s+/g, "")}`}
                 className="flex items-center gap-1.5 hover:text-primary transition-colors"
@@ -128,7 +128,7 @@ export default function Header() {
                 <select
                   value={currency}
                   onChange={(e) => setCurrency(e.target.value)}
-                  className="bg-transparent border-none text-gray-500 dark:text-gray-400 text-[11px] focus:outline-none cursor-pointer uppercase font-bold hover:text-gray-900 dark:hover:text-white transition-colors"
+                  className="bg-transparent border-none text-foreground/60 text-[11px] focus:outline-none cursor-pointer uppercase font-bold hover:text-gray-900 dark:hover:text-foreground transition-colors"
                   aria-label="Currency"
                 >
                   <option className="bg-background text-foreground" value="TL">
@@ -148,7 +148,7 @@ export default function Header() {
                 href="https://www.shopier.com/CEMREPARKK"
                 target="_blank"
                 rel="noopener noreferrer"
-                className="flex items-center gap-1.5 hover:text-black dark:hover:text-white transition-colors"
+                className="flex items-center gap-1.5 hover:text-black dark:hover:text-foreground transition-colors"
                 aria-label="Shopier Store"
               >
                 <svg
@@ -174,8 +174,9 @@ export default function Header() {
         </div>
 
         {/* LOGO ROW */}
-        <div className="bg-white dark:bg-[#120a10] backdrop-blur-xl border-b border-gray-200 dark:border-white/5 flex justify-center py-4 md:py-6 shadow-sm transition-colors duration-300">
-          <Link href="/" className="flex items-center group">
+        <div className="bg-background dark:bg-background flex justify-center py-6 shadow-sm transition-colors duration-300 relative overflow-hidden">
+          <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-96 h-32 bg-primary/10 rounded-full blur-[80px] pointer-events-none"></div>
+          <Link href="/" className="flex items-center group relative z-10">
             <div className="relative w-[220px] h-[75px] md:w-[360px] md:h-[120px] group-hover:scale-105 transition-all duration-500 ease-out">
               <Image
                 src="/assets/siteimg/cemre park.png"
@@ -191,15 +192,15 @@ export default function Header() {
       </header>
 
       {/* MAIN NAV (Original layout) */}
-      <div className="w-full bg-white dark:bg-[#120a10] border-b border-gray-200 dark:border-white/5 py-1 sticky top-0 z-[60] shadow-xl">
-        <div className="w-full px-4 md:px-6 flex justify-between items-center relative">
+      <div className="w-full bg-white/90 dark:bg-[#120a10]/90 backdrop-blur-2xl border-b border-foreground/5 py-2 sticky top-0 z-[60] shadow-sm transition-all duration-300">
+        <div className="w-full max-w-screen-2xl mx-auto px-4 md:px-8 flex justify-between items-center relative">
           {/* Desktop Menu */}
           <div className="hidden lg:flex items-center gap-6">
             {/* Mega Menu Wrapper */}
             <div className="group py-3">
               <Link
                 href="/search"
-                className="text-gray-700 dark:text-gray-300 hover:text-primary text-sm uppercase tracking-widest transition-all duration-300 hover:scale-105 font-medium flex items-center gap-1"
+                className="text-foreground/80 hover:text-primary text-sm uppercase tracking-widest transition-all duration-300 hover:scale-105 font-medium flex items-center gap-1"
               >
                 {t("collections_menu")}
                 <svg
@@ -218,18 +219,18 @@ export default function Header() {
               </Link>
 
               {/* Mega Menu Dropdown */}
-              <div className="absolute top-full left-0 w-full bg-white/95 dark:bg-black/95 backdrop-blur-xl border-t border-gray-200 dark:border-white/10 opacity-0 invisible group-hover:opacity-100 group-hover:visible transition-all duration-300 shadow-2xl z-50">
-                <div className="container mx-auto px-4 py-12">
+              <div className="absolute top-full left-0 w-full bg-background/95 backdrop-blur-3xl border-t border-foreground/5 opacity-0 invisible group-hover:opacity-100 group-hover:visible transition-all duration-300 shadow-[0_20px_40px_rgb(0,0,0,0.08)] dark:shadow-[0_20px_40px_rgb(0,0,0,0.3)] z-50 rounded-b-[2rem]">
+                <div className="max-w-screen-xl mx-auto px-8 py-14">
                   <div className="grid grid-cols-4 gap-8">
                     <div>
-                      <h3 className="text-gray-900 dark:text-white font-bold tracking-widest uppercase mb-6 border-b border-gray-200 dark:border-white/10 pb-2">
+                      <h3 className="text-foreground font-bold tracking-widest uppercase mb-6 border-b border-glass-border pb-2">
                         {t("menu_clothing")}
                       </h3>
                       <ul className="space-y-4">
                         <li>
                           <Link
                             href="/search?q=Takım"
-                            className="text-gray-600 dark:text-gray-400 hover:text-primary transition-colors text-sm block"
+                            className="text-foreground/70 hover:text-primary transition-colors text-sm block"
                           >
                             {t("menu_two_piece")}
                           </Link>
@@ -237,7 +238,7 @@ export default function Header() {
                         <li>
                           <Link
                             href="/search?q=Elbise"
-                            className="text-gray-600 dark:text-gray-400 hover:text-primary transition-colors text-sm block"
+                            className="text-foreground/70 hover:text-primary transition-colors text-sm block"
                           >
                             {t("menu_dresses")}
                           </Link>
@@ -245,7 +246,7 @@ export default function Header() {
                         <li>
                           <Link
                             href="/search?q=Tunik"
-                            className="text-gray-600 dark:text-gray-400 hover:text-primary transition-colors text-sm block"
+                            className="text-foreground/70 hover:text-primary transition-colors text-sm block"
                           >
                             {t("menu_tunics")}
                           </Link>
@@ -253,7 +254,7 @@ export default function Header() {
                         <li>
                           <Link
                             href="/search?q=Pantolon"
-                            className="text-gray-600 dark:text-gray-400 hover:text-primary transition-colors text-sm block"
+                            className="text-foreground/70 hover:text-primary transition-colors text-sm block"
                           >
                             {t("menu_trousers")}
                           </Link>
@@ -262,14 +263,14 @@ export default function Header() {
                     </div>
 
                     <div>
-                      <h3 className="text-gray-900 dark:text-white font-bold tracking-widest uppercase mb-6 border-b border-gray-200 dark:border-white/10 pb-2">
+                      <h3 className="text-foreground font-bold tracking-widest uppercase mb-6 border-b border-glass-border pb-2">
                         {t("menu_outerwear")}
                       </h3>
                       <ul className="space-y-4">
                         <li>
                           <Link
                             href="/search?q=Ceket"
-                            className="text-gray-600 dark:text-gray-400 hover:text-secondary transition-colors text-sm block"
+                            className="text-foreground/70 hover:text-secondary transition-colors text-sm block"
                           >
                             {t("menu_jacket_blazer")}
                           </Link>
@@ -277,7 +278,7 @@ export default function Header() {
                         <li>
                           <Link
                             href="/search?q=Trenç"
-                            className="text-gray-600 dark:text-gray-400 hover:text-secondary transition-colors text-sm block"
+                            className="text-foreground/70 hover:text-secondary transition-colors text-sm block"
                           >
                             {t("menu_trench")}
                           </Link>
@@ -285,7 +286,7 @@ export default function Header() {
                         <li>
                           <Link
                             href="/search?q=Kaban"
-                            className="text-gray-600 dark:text-gray-400 hover:text-secondary transition-colors text-sm block"
+                            className="text-foreground/70 hover:text-secondary transition-colors text-sm block"
                           >
                             {t("menu_coat_jacket")}
                           </Link>
@@ -303,12 +304,12 @@ export default function Header() {
                         className="object-cover group-hover/img:scale-110 transition-transform duration-700"
                       />
                       <div className="absolute inset-0 z-20 p-8 flex flex-col justify-end bg-gradient-to-t from-black/80 to-transparent">
-                        <h4 className="text-white font-black text-2xl uppercase tracking-widest">
+                        <h4 className="text-foreground font-black text-2xl uppercase tracking-widest">
                           {t("new_season")}
                         </h4>
                         <Link
                           href="/search"
-                          className="text-primary text-sm uppercase tracking-widest mt-2 hover:text-white transition-colors"
+                          className="text-primary text-sm uppercase tracking-widest mt-2 hover:text-foreground transition-colors"
                         >
                           {t("discover_collection")} →
                         </Link>
@@ -321,31 +322,31 @@ export default function Header() {
 
             <Link
               href="/search?q=Takım"
-              className="text-gray-700 dark:text-gray-300 hover:text-primary text-sm uppercase tracking-widest transition-all duration-300 hover:scale-105 font-medium inline-block"
+              className="text-foreground/80 hover:text-primary text-sm uppercase tracking-widest transition-all duration-300 hover:scale-105 font-medium inline-block"
             >
               {t("sets")}
             </Link>
             <Link
               href="/search?q=Tunik"
-              className="text-gray-700 dark:text-gray-300 hover:text-primary text-sm uppercase tracking-widest transition-all duration-300 hover:scale-105 font-medium inline-block"
+              className="text-foreground/80 hover:text-primary text-sm uppercase tracking-widest transition-all duration-300 hover:scale-105 font-medium inline-block"
             >
               {t("tunics")}
             </Link>
             <Link
               href="/search?q=Ceket"
-              className="text-gray-700 dark:text-gray-300 hover:text-primary text-sm uppercase tracking-widest transition-all duration-300 hover:scale-105 font-medium inline-block"
+              className="text-foreground/80 hover:text-primary text-sm uppercase tracking-widest transition-all duration-300 hover:scale-105 font-medium inline-block"
             >
               {t("jackets")}
             </Link>
             <Link
               href="/search?q=Elbise"
-              className="text-gray-700 dark:text-gray-300 hover:text-primary text-sm uppercase tracking-widest transition-all duration-300 hover:scale-105 font-medium inline-block"
+              className="text-foreground/80 hover:text-primary text-sm uppercase tracking-widest transition-all duration-300 hover:scale-105 font-medium inline-block"
             >
               {t("dresses")}
             </Link>
             <Link
               href="/search?q=Pantolon"
-              className="text-gray-700 dark:text-gray-300 hover:text-primary text-sm uppercase tracking-widest transition-all duration-300 hover:scale-105 font-medium inline-block"
+              className="text-foreground/80 hover:text-primary text-sm uppercase tracking-widest transition-all duration-300 hover:scale-105 font-medium inline-block"
             >
               {t("trousers")}
             </Link>
@@ -359,7 +360,7 @@ export default function Header() {
               {status === "loading" ? null : session ? (
                 <Link
                   href="/hesabim"
-                  className="text-gray-700 dark:text-gray-300 hover:text-primary transition-all duration-300 hover:scale-105 uppercase tracking-widest inline-block"
+                  className="text-foreground/80 hover:text-primary transition-all duration-300 hover:scale-105 uppercase tracking-widest inline-block"
                 >
                   {t("my_account")}
                 </Link>
@@ -367,7 +368,7 @@ export default function Header() {
                 <>
                   <Link
                     href="/login"
-                  className="text-gray-700 dark:text-gray-300 hover:text-primary transition-all duration-300 hover:scale-105 uppercase tracking-widest inline-block"
+                  className="text-foreground/80 hover:text-primary transition-all duration-300 hover:scale-105 uppercase tracking-widest inline-block"
                   >
                     {t("login")}
                   </Link>
@@ -446,7 +447,7 @@ export default function Header() {
                 <path d="M16 10a4 4 0 0 1-8 0"></path>
               </svg>
               {isLoaded && cartItems.length > 0 && (
-                <span className="absolute -top-2 -right-2 bg-primary text-white text-[10px] font-bold px-1.5 py-0.5 rounded-full">
+                <span className="absolute -top-2 -right-2 bg-primary text-foreground text-[10px] font-bold px-1.5 py-0.5 rounded-full">
                   {cartItems.length}
                 </span>
               )}
@@ -486,7 +487,7 @@ export default function Header() {
 
       {/* Search Popup Area */}
       <div
-        className={`fixed inset-0 bg-white/95 dark:bg-black/95 backdrop-blur-xl z-[100] flex items-center justify-center transition-all duration-500 ${isSearchOpen ? "opacity-100 pointer-events-auto" : "opacity-0 pointer-events-none"}`}
+        className={`fixed inset-0 glass-panel backdrop-blur-xl z-[100] flex items-center justify-center transition-all duration-500 ${isSearchOpen ? "opacity-100 pointer-events-auto" : "opacity-0 pointer-events-none"}`}
       >
         <div
           className={`w-full max-w-2xl px-4 relative transition-transform duration-500 ${isSearchOpen ? "scale-100 translate-y-0" : "scale-95 translate-y-4"}`}
@@ -521,7 +522,7 @@ export default function Header() {
               type="search"
               id="search-form"
               autoFocus={isSearchOpen}
-              className="w-full bg-transparent border-b border-gray-300 dark:border-gray-800 py-4 pr-12 text-2xl text-gray-900 dark:text-white focus:outline-none placeholder-gray-400 dark:placeholder-gray-700 transition-colors [&::-webkit-search-cancel-button]:cursor-pointer"
+              className="w-full bg-transparent border-b border-glass-border py-4 pr-12 text-2xl text-foreground focus:outline-none placeholder-gray-400 dark:placeholder-gray-700 transition-colors [&::-webkit-search-cancel-button]:cursor-pointer"
               placeholder={t("search_placeholder")}
               aria-label="Search"
               defaultValue=""
@@ -568,7 +569,7 @@ export default function Header() {
                     if (el) el.value = t(item.label) as string;
                   }}
                   type="button"
-                  className="inline-block px-4 py-2 border border-gray-300 dark:border-gray-800 text-gray-600 dark:text-gray-400 text-sm hover:border-primary hover:text-primary clip-angled transition-all duration-300 cursor-pointer"
+                  className="inline-block px-4 py-2 border border-glass-border text-foreground/70 text-sm hover:border-primary hover:text-primary clip-angled transition-all duration-300 cursor-pointer"
                 >
                   {t(item.label)}
                 </button>

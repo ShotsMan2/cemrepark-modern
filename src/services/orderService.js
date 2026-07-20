@@ -81,6 +81,17 @@ export const orderService = {
         data: orderItemsData
       });
 
+      // Phase 4: Create PaymentTransaction
+      const provider = orderData.paymentMethod || "unknown";
+      await tx.paymentTransaction.create({
+        data: {
+          orderId: newOrder.id,
+          provider: provider,
+          amount: finalTotal,
+          status: "COMPLETED", // or PENDING for some providers
+        }
+      });
+
       // Return order with items
       return tx.order.findUnique({
         where: { id: newOrder.id },

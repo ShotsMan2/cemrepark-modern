@@ -13,7 +13,7 @@ export default function MaintenanceGuard({ children }: { children: React.ReactNo
 
   if (settings.bakimModu && !isAdmin) {
     return (
-      <div className="min-h-screen bg-[#0a0a0a] text-white flex flex-col items-center justify-center p-6 text-center relative overflow-hidden">
+      <div className="min-h-screen bg-[#0a0a0a] text-foreground flex flex-col items-center justify-center p-6 text-center relative overflow-hidden">
         <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[600px] h-[600px] bg-neon-pink opacity-[0.05] rounded-full blur-[120px] pointer-events-none"></div>
 
         <div className="glass-panel p-12 max-w-xl w-full clip-angled relative z-10 border border-white/10">
