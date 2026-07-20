@@ -39,6 +39,9 @@ export async function generateMetadata({ params }) {
       description: `${product.ad} ürünü - ${product.fiyat} ₺`,
       images: [ogImage],
     },
+    alternates: {
+      canonical: `${baseUrl}/urundetay/${product.id}`,
+    },
   };
 }
 

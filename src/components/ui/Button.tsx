@@ -15,7 +15,7 @@ export const Button = React.forwardRef<HTMLButtonElement, ButtonProps>(({
   disabled,
   ...props 
 }, ref) => {
-  const baseStyles = "inline-flex items-center justify-center font-bold uppercase tracking-widest transition-all duration-300 disabled:opacity-50 disabled:cursor-not-allowed";
+  const baseStyles = "inline-flex items-center justify-center font-bold uppercase tracking-widest transition-all duration-300 disabled:opacity-50 disabled:cursor-not-allowed focus-visible:ring-2 focus-visible:ring-neon-pink focus-visible:outline-none focus-visible:ring-offset-2 focus-visible:ring-offset-background";
   
   const variants = {
     solid: "bg-neon-pink text-foreground hover:bg-black hover:text-foreground dark:hover:bg-white dark:hover:text-neon-pink clip-angled",
@@ -38,9 +38,17 @@ export const Button = React.forwardRef<HTMLButtonElement, ButtonProps>(({
       ref={ref}
       className={`${baseStyles} ${variantStyles} ${sizeStyles} ${className}`}
       disabled={isLoading || disabled}
+      aria-disabled={isLoading || disabled ? "true" : undefined}
+      aria-busy={isLoading ? "true" : undefined}
       {...props}
     >
-      {isLoading ? "..." : children}
+      {isLoading ? (
+        <span className="flex items-center gap-2">
+          <span className="w-4 h-4 border-2 border-current border-t-transparent rounded-full animate-spin" aria-hidden="true" />
+          <span className="sr-only">Yükleniyor...</span>
+          <span aria-hidden="true">...</span>
+        </span>
+      ) : children}
     </button>
   );
 });

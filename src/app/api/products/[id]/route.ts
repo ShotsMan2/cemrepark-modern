@@ -19,6 +19,10 @@ export const PUT = apiHandler(async (request: NextRequest, { params }: { params:
 
   const updatedProduct = await productService.updateProduct(id, body);
 
+  const { cacheDel } = await import("@/lib/redis");
+  await cacheDel("products:*");
+  await cacheDel(`product:${id}`); // In case individual product is cached elsewhere
+
   const ipAddress = request.headers.get("x-forwarded-for") || "unknown";
   const userAgent = request.headers.get("user-agent") || "unknown";
   const userId = (session?.user as any)?.id ? parseInt((session.user as any).id) : null;
@@ -51,6 +55,10 @@ export const DELETE = apiHandler(async (request: NextRequest, { params }: { para
   }
 
   const result = await productService.deleteProduct(id);
+
+  const { cacheDel } = await import("@/lib/redis");
+  await cacheDel("products:*");
+  await cacheDel(`product:${id}`);
 
   const ipAddress = request.headers.get("x-forwarded-for") || "unknown";
   const userAgent = request.headers.get("user-agent") || "unknown";

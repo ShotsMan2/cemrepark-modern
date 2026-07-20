@@ -56,6 +56,9 @@ export async function generateMetadata() {
       description: defaultDescription,
       images: ["/assets/siteimg/cemre park.png"],
     },
+    alternates: {
+      canonical: "/",
+    },
   };
 }
 

@@ -68,9 +68,10 @@ export default function LanguageSwitcher() {
       <button
         ref={buttonRef}
         onClick={() => setIsOpen(!isOpen)}
-        className="flex items-center gap-1.5 px-2 py-1 rounded-full border border-gray-300 dark:border-white/20 bg-white/50 dark:bg-black/50 hover:bg-white dark:hover:bg-background/80 transition-all duration-300 backdrop-blur-md text-xs font-bold text-foreground/80 focus:outline-none focus:ring-1 focus:ring-primary/50"
+        className="flex items-center gap-1.5 px-2 py-1 rounded-full border border-gray-300 dark:border-white/20 bg-white/50 dark:bg-black/50 hover:bg-white dark:hover:bg-background/80 transition-all duration-300 backdrop-blur-md text-xs font-bold text-foreground/80 focus:outline-none focus-visible:ring-2 focus-visible:ring-primary focus-visible:ring-offset-1 focus-visible:ring-offset-background"
         aria-haspopup="true"
         aria-expanded={isOpen}
+        aria-label="Dil Seçimi"
         type="button"
       >
         <Globe className="w-3.5 h-3.5 text-primary" />

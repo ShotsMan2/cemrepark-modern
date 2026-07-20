@@ -22,7 +22,7 @@ import { motion, AnimatePresence } from "framer-motion";
 
 import { z } from "zod";
 
-import { ShieldCheck, Truck, RotateCcw, CreditCard, Banknote, Calendar } from "lucide-react";
+import { ShieldCheck, Truck, RotateCcw, CreditCard, Banknote, Calendar, Check, User, ChevronDown } from "lucide-react";
 
 const checkoutSchema = z.object({
   fullName: z.string().min(3, "Ad Soyad en az 3 karakter olmalıdır"),
@@ -81,6 +81,8 @@ export default function CheckoutPage() {
   const [shippingMethod, setShippingMethod] = useState<"standard" | "express">("standard");
 
   const [isCvvFocused, setIsCvvFocused] = useState(false);
+
+  const [activeStep, setActiveStep] = useState(1);
 
   useEffect(() => {
     AOS.init({ duration: 800, once: true });
@@ -494,14 +496,13 @@ export default function CheckoutPage() {
 
               <div className="relative z-10 space-y-10">
                 {/* EXPRESS CHECKOUT */}
-
                 <motion.div
                   whileHover={{ scale: 1.005 }}
-
-                  className="glass-card p-6 rounded-[2rem] border border-white/20 dark:border-white/5 shadow-inner"
+                  className="glass-card p-6 rounded-[2rem] border border-primary/20 bg-background/50 backdrop-blur-md shadow-[0_10px_30px_rgb(0,0,0,0.05)]"
                 >
-                  <h3 className="text-xs font-bold text-foreground/60 mb-4 uppercase tracking-widest text-center">
-                    Hızlı Ödeme
+                  <h3 className="text-xs font-bold text-foreground mb-4 uppercase tracking-[0.15em] text-center flex items-center justify-center gap-2">
+                    <svg className="w-4 h-4 text-primary" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M13 10V3L4 14h7v7l9-11h-7z"></path></svg>
+                    Hızlı Ödeme ile Tek Tıkla Tamamla
                   </h3>
 
                   <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
@@ -565,24 +566,41 @@ export default function CheckoutPage() {
 
                   <div className="relative mt-6 text-center">
                     <div className="absolute inset-0 flex items-center">
-                      <div className="w-full border-t border-gray-300 dark:border-white/10"></div>
+                      <div className="w-full border-t border-foreground/10"></div>
                     </div>
-
-                    <span className="relative glass-card px-4 text-[10px] font-bold text-gray-400 uppercase tracking-widest backdrop-blur-md">
-                      Veya Klasik Yöntemle
+                    <span className="relative bg-background px-4 text-[10px] font-bold text-foreground/50 uppercase tracking-[0.2em] rounded-full">
+                      Veya Manuel Olarak Devam Et
                     </span>
                   </div>
                 </motion.div>
 
-                {/* DELIVERY ADDRESS */}
-
-                <motion.div className="space-y-6">
-                  <h2 className="text-xl font-black text-foreground flex items-center gap-2 uppercase tracking-widest border-b border-glass-border pb-4">
-                    <Truck className="w-5 h-5 text-neon-pink" />
-                    Teslimat Bilgileri
-                  </h2>
-
-                  <div className="grid grid-cols-1 md:grid-cols-2 gap-5">
+                {/* ACCORDION STEP 1: DELIVERY ADDRESS */}
+                <div className={`glass-card rounded-[2rem] border transition-all duration-500 ${activeStep === 1 ? 'border-primary shadow-[0_0_20px_var(--color-primary)]' : activeStep > 1 ? 'border-emerald-500/30 bg-emerald-500/5' : 'border-white/20 dark:border-white/5 opacity-70'} overflow-hidden relative backdrop-blur-xl`}>
+                  <button 
+                    type="button" 
+                    onClick={() => setActiveStep(1)}
+                    className="w-full flex items-center justify-between p-6 bg-transparent group"
+                  >
+                    <div className="flex items-center gap-4">
+                      <div className={`w-10 h-10 rounded-full flex items-center justify-center font-bold text-sm transition-colors ${activeStep === 1 ? 'bg-primary text-background' : activeStep > 1 ? 'bg-emerald-500 text-white' : 'bg-foreground/10 text-foreground/50'}`}>
+                        {activeStep > 1 ? <Check className="w-5 h-5"/> : '1'}
+                      </div>
+                      <h2 className="text-lg font-bold uppercase tracking-[0.15em] text-foreground flex items-center gap-3">
+                        <User className={`w-5 h-5 transition-colors ${activeStep === 1 ? 'text-primary' : 'text-foreground/50'}`} />
+                        Kişisel & Teslimat Bilgileri
+                      </h2>
+                    </div>
+                    <ChevronDown className={`w-5 h-5 transition-transform duration-500 ${activeStep === 1 ? 'rotate-180 text-primary' : 'text-foreground/30'}`} />
+                  </button>
+                  <AnimatePresence>
+                    {activeStep === 1 && (
+                      <motion.div 
+                        initial={{ height: 0, opacity: 0 }}
+                        animate={{ height: "auto", opacity: 1 }}
+                        exit={{ height: 0, opacity: 0 }}
+                        className="px-6 pb-6"
+                      >
+                        <div className="grid grid-cols-1 md:grid-cols-2 gap-5 mt-2">
                     {["fullName", "email", "phone", "city"].map((field) => (
                       <div key={field} className="relative group/input">
                         <label className="block text-[10px] font-black text-foreground/60 mb-1.5 uppercase tracking-[0.2em] group-focus-within/input:text-primary transition-colors">
@@ -632,18 +650,55 @@ export default function CheckoutPage() {
                         rows={3}
                         className={`w-full glass-panel border ${errors.address ? "border-red-500" : "border-glass-border"} text-foreground rounded-xl px-4 py-3 text-sm focus:outline-none focus:ring-2 focus:ring-neon-pink focus:border-transparent transition-all resize-none backdrop-blur-sm shadow-inner font-semibold`}
                       ></textarea>
+                        </div>
+                        <div className="mt-8 flex justify-end">
+                          <button 
+                            type="button" 
+                            onClick={() => {
+                              // Basic validation check before proceeding
+                              if (formData.fullName.length > 2 && formData.email.includes("@") && formData.address.length > 5) {
+                                setActiveStep(2);
+                              } else {
+                                Swal.fire({ toast: true, position: 'top-end', icon: 'warning', title: 'Lütfen bilgileri eksiksiz doldurun.', showConfirmButton: false, timer: 2000, background: '#18181b', color: '#fff' });
+                              }
+                            }} 
+                            className="bg-foreground text-background px-8 py-3 rounded-xl font-bold uppercase tracking-widest text-xs hover:scale-[1.02] active:scale-[0.98] transition-all flex items-center gap-2"
+                          >
+                            Kargo Seçimine Geç <ChevronDown className="w-4 h-4 -rotate-90" />
+                          </button>
+                        </div>
+                      </motion.div>
+                    )}
+                  </AnimatePresence>
+                </div>
+
+                {/* ACCORDION STEP 2: SHIPPING METHOD */}
+                <div className={`glass-card rounded-[2rem] border transition-all duration-500 ${activeStep === 2 ? 'border-primary shadow-[0_0_20px_var(--color-primary)]' : activeStep > 2 ? 'border-emerald-500/30 bg-emerald-500/5' : 'border-white/20 dark:border-white/5 opacity-70'} overflow-hidden relative backdrop-blur-xl`}>
+                  <button 
+                    type="button" 
+                    onClick={() => setActiveStep(2)}
+                    className="w-full flex items-center justify-between p-6 bg-transparent group"
+                  >
+                    <div className="flex items-center gap-4">
+                      <div className={`w-10 h-10 rounded-full flex items-center justify-center font-bold text-sm transition-colors ${activeStep === 2 ? 'bg-primary text-background' : activeStep > 2 ? 'bg-emerald-500 text-white' : 'bg-foreground/10 text-foreground/50'}`}>
+                        {activeStep > 2 ? <Check className="w-5 h-5"/> : '2'}
+                      </div>
+                      <h2 className="text-lg font-bold uppercase tracking-[0.15em] text-foreground flex items-center gap-3">
+                        <Truck className={`w-5 h-5 transition-colors ${activeStep === 2 ? 'text-primary' : 'text-foreground/50'}`} />
+                        Kargo Seçenekleri
+                      </h2>
                     </div>
-                  </div>
-                </motion.div>
-
-                {/* SHIPPING METHOD */}
-
-                <motion.div className="space-y-4">
-                  <h2 className="text-xl font-black text-foreground flex items-center gap-2 uppercase tracking-widest border-b border-glass-border pb-4">
-                    Kargo Seçenekleri
-                  </h2>
-
-                  <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                    <ChevronDown className={`w-5 h-5 transition-transform duration-500 ${activeStep === 2 ? 'rotate-180 text-primary' : 'text-foreground/30'}`} />
+                  </button>
+                  <AnimatePresence>
+                    {activeStep === 2 && (
+                      <motion.div 
+                        initial={{ height: 0, opacity: 0 }}
+                        animate={{ height: "auto", opacity: 1 }}
+                        exit={{ height: 0, opacity: 0 }}
+                        className="px-6 pb-6"
+                      >
+                        <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 mt-2">
                     <label
                       className={`cursor-pointer flex flex-col p-4 rounded-2xl border-2 transition-all ${shippingMethod === "standard" ? "border-neon-pink bg-neon-pink/5" : "border-glass-border hover:border-neon-pink/50"}`}
                     >
@@ -701,27 +756,54 @@ export default function CheckoutPage() {
                     </label>
                   </div>
 
-                  <div className="flex items-center gap-2 text-xs font-bold text-foreground/60 bg-gray-100 dark:bg-zinc-800/50 p-3 rounded-xl">
-                    <Calendar className="w-4 h-4 text-neon-pink" />
+                        </div>
 
-                    <span>
-                      Tahmini Teslimat:{" "}
-                      <span className="text-foreground">
-                        {getEstimatedDelivery()}
-                      </span>
-                    </span>
-                  </div>
-                </motion.div>
+                        <div className="flex items-center gap-2 text-xs font-bold text-foreground/60 bg-foreground/5 p-4 rounded-xl mt-6 border border-foreground/5">
+                          <Calendar className="w-4 h-4 text-primary" />
+                          <span>Tahmini Teslimat: <span className="text-foreground">{getEstimatedDelivery()}</span></span>
+                        </div>
 
-                {/* PAYMENT METHOD */}
+                        <div className="mt-8 flex justify-end">
+                          <button 
+                            type="button" 
+                            onClick={() => setActiveStep(3)} 
+                            className="bg-foreground text-background px-8 py-3 rounded-xl font-bold uppercase tracking-widest text-xs hover:scale-[1.02] active:scale-[0.98] transition-all flex items-center gap-2"
+                          >
+                            Ödemeye Geç <ChevronDown className="w-4 h-4 -rotate-90" />
+                          </button>
+                        </div>
+                      </motion.div>
+                    )}
+                  </AnimatePresence>
+                </div>
 
-                <motion.div className="space-y-6">
-                  <h2 className="text-xl font-black text-foreground flex items-center gap-2 uppercase tracking-widest border-b border-glass-border pb-4">
-                    <CreditCard className="w-5 h-5 text-holo-gold" />
-                    Ödeme Yöntemi
-                  </h2>
-
-                  <div className="flex gap-4">
+                {/* ACCORDION STEP 3: PAYMENT METHOD */}
+                <div className={`glass-card rounded-[2rem] border transition-all duration-500 ${activeStep === 3 ? 'border-primary shadow-[0_0_20px_var(--color-primary)]' : 'border-white/20 dark:border-white/5 opacity-70'} overflow-hidden relative backdrop-blur-xl`}>
+                  <button 
+                    type="button" 
+                    onClick={() => setActiveStep(3)}
+                    className="w-full flex items-center justify-between p-6 bg-transparent group"
+                  >
+                    <div className="flex items-center gap-4">
+                      <div className={`w-10 h-10 rounded-full flex items-center justify-center font-bold text-sm transition-colors ${activeStep === 3 ? 'bg-primary text-background' : 'bg-foreground/10 text-foreground/50'}`}>
+                        3
+                      </div>
+                      <h2 className="text-lg font-bold uppercase tracking-[0.15em] text-foreground flex items-center gap-3">
+                        <CreditCard className={`w-5 h-5 transition-colors ${activeStep === 3 ? 'text-primary' : 'text-foreground/50'}`} />
+                        Ödeme Yöntemi
+                      </h2>
+                    </div>
+                    <ChevronDown className={`w-5 h-5 transition-transform duration-500 ${activeStep === 3 ? 'rotate-180 text-primary' : 'text-foreground/30'}`} />
+                  </button>
+                  <AnimatePresence>
+                    {activeStep === 3 && (
+                      <motion.div 
+                        initial={{ height: 0, opacity: 0 }}
+                        animate={{ height: "auto", opacity: 1 }}
+                        exit={{ height: 0, opacity: 0 }}
+                        className="px-6 pb-6"
+                      >
+                        <div className="flex gap-4 mt-2">
                     <label
                       className={`flex-1 cursor-pointer flex items-center justify-center gap-2 p-3 rounded-xl border-2 transition-all ${paymentMethod === "card" ? "border-holo-gold bg-holo-gold/5 text-holo-gold" : "border-glass-border text-foreground/60"}`}
                     >
@@ -893,43 +975,41 @@ export default function CheckoutPage() {
                           </div>
                         </div>
                       </motion.div>
-                    )}
-                  </AnimatePresence>
-                </motion.div>
+                          </motion.div>
+                        )}
+                      </AnimatePresence>
+
+                      {/* Submit Button Inside Step 3 */}
+                      <motion.button
+                        whileHover={{ scale: 1.02 }}
+                        whileTap={{ scale: 0.95 }}
+                        type="submit"
+                        disabled={isProcessing}
+                        className="w-full bg-gradient-to-r from-primary to-secondary text-white py-5 rounded-2xl font-bold text-lg uppercase tracking-[0.2em] shadow-xl hover:shadow-primary/40 transition-all duration-300 flex items-center justify-center gap-4 mt-10 relative overflow-hidden group/btn"
+                      >
+                        <span className="absolute inset-0 w-full h-full bg-white/20 translate-y-full group-hover/btn:translate-y-0 transition-transform duration-300"></span>
+                        <span className="relative z-10 flex items-center justify-center gap-4">
+                          {isProcessing ? (
+                            "İşleniyor..."
+                          ) : (
+                            <>
+                              Ödemeyi Tamamla
+                              <span className="opacity-50 font-normal">|</span>
+                              {formatPrice(totalAmount)}
+                              <svg className="w-5 h-5 ml-2 animate-bounce-x" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M14 5l7 7m0 0l-7 7m7-7H3"></path>
+                              </svg>
+                            </>
+                          )}
+                        </span>
+                      </motion.button>
+                      
+                    </motion.div>
+                  )}
+                </AnimatePresence>
               </div>
 
-              <motion.button
-                whileHover={{ scale: 1.02 }}
-
-                whileTap={{ scale: 0.95 }}
-
-                type="submit"
-                disabled={isProcessing}
-                className="w-full bg-gradient-to-r from-neon-pink to-holo-gold text-foreground py-5 rounded-2xl font-black text-lg uppercase tracking-[0.2em] shadow-xl hover:shadow-neon-pink/40 transition-all duration-300 flex items-center justify-center gap-4 mt-6"
-              >
-                {isProcessing ? (
-                  "İşleniyor..."
-                ) : (
-                  <>
-                    ÖDEMEYİ TAMAMLA
-                    <span className="opacity-50 font-normal">|</span>
-                    {formatPrice(totalAmount)}
-                    <svg
-                      className="w-5 h-5 ml-2 animate-bounce-x"
-                      fill="none"
-                      stroke="currentColor"
-                      viewBox="0 0 24 24"
-                    >
-                      <path
-                        strokeLinecap="round"
-                        strokeLinejoin="round"
-                        strokeWidth="2"
-                        d="M14 5l7 7m0 0l-7 7m7-7H3"
-                      ></path>
-                    </svg>
-                  </>
-                )}
-              </motion.button>
+              {/* End of Accordion List */}
 
               {/* Trust Badges */}
 

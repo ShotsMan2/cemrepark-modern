@@ -78,9 +78,9 @@ export default function Header() {
         </div>
 
         {/* TOP BAR */}
-        <div className="bg-white dark:bg-[#120a10] backdrop-blur-md border-b border-glass-border text-foreground/60 text-[11px] md:text-xs py-2 hidden md:block transition-colors duration-300">
-          <div className="w-full px-4 md:px-6 flex justify-between items-center">
-            <div className="flex gap-4 items-center">
+        <div className="bg-background/80 dark:bg-background/80 backdrop-blur-xl border-b border-foreground/5 text-foreground/60 text-[11px] md:text-xs py-2 hidden md:block transition-colors duration-300">
+          <div className="w-full max-w-screen-2xl mx-auto px-4 md:px-8 flex justify-between items-center">
+            <div className="flex gap-6 items-center">
               <a
                 href={`https://wa.me/90${(settings?.destekTelefonu || "0554 169 89 09").replace(/\s+/g, "")}`}
                 className="flex items-center gap-1.5 hover:text-primary transition-colors"
@@ -174,8 +174,9 @@ export default function Header() {
         </div>
 
         {/* LOGO ROW */}
-        <div className="bg-white dark:bg-[#120a10] backdrop-blur-xl border-b border-glass-border flex justify-center py-4 md:py-6 shadow-sm transition-colors duration-300">
-          <Link href="/" className="flex items-center group">
+        <div className="bg-background dark:bg-background flex justify-center py-6 shadow-sm transition-colors duration-300 relative overflow-hidden">
+          <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-96 h-32 bg-primary/10 rounded-full blur-[80px] pointer-events-none"></div>
+          <Link href="/" className="flex items-center group relative z-10">
             <div className="relative w-[220px] h-[75px] md:w-[360px] md:h-[120px] group-hover:scale-105 transition-all duration-500 ease-out">
               <Image
                 src="/assets/siteimg/cemre park.png"
@@ -191,8 +192,8 @@ export default function Header() {
       </header>
 
       {/* MAIN NAV (Original layout) */}
-      <div className="w-full bg-white dark:bg-[#120a10] border-b border-glass-border py-1 sticky top-0 z-[60] shadow-xl">
-        <div className="w-full px-4 md:px-6 flex justify-between items-center relative">
+      <div className="w-full bg-white/90 dark:bg-[#120a10]/90 backdrop-blur-2xl border-b border-foreground/5 py-2 sticky top-0 z-[60] shadow-sm transition-all duration-300">
+        <div className="w-full max-w-screen-2xl mx-auto px-4 md:px-8 flex justify-between items-center relative">
           {/* Desktop Menu */}
           <div className="hidden lg:flex items-center gap-6">
             {/* Mega Menu Wrapper */}
@@ -218,8 +219,8 @@ export default function Header() {
               </Link>
 
               {/* Mega Menu Dropdown */}
-              <div className="absolute top-full left-0 w-full glass-panel backdrop-blur-xl border-t border-glass-border opacity-0 invisible group-hover:opacity-100 group-hover:visible transition-all duration-300 shadow-2xl z-50">
-                <div className="container mx-auto px-4 py-12">
+              <div className="absolute top-full left-0 w-full bg-background/95 backdrop-blur-3xl border-t border-foreground/5 opacity-0 invisible group-hover:opacity-100 group-hover:visible transition-all duration-300 shadow-[0_20px_40px_rgb(0,0,0,0.08)] dark:shadow-[0_20px_40px_rgb(0,0,0,0.3)] z-50 rounded-b-[2rem]">
+                <div className="max-w-screen-xl mx-auto px-8 py-14">
                   <div className="grid grid-cols-4 gap-8">
                     <div>
                       <h3 className="text-foreground font-bold tracking-widest uppercase mb-6 border-b border-glass-border pb-2">

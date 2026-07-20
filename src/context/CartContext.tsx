@@ -1,7 +1,8 @@
 "use client";
-import { createContext, useContext, useState, useEffect, useRef } from "react";
+import { createContext, useContext, useState, useEffect, useRef, ReactNode } from "react";
 import Swal from "sweetalert2";
 import { useSession } from "next-auth/react";
+import { Product } from "@/types";
 
 const Toast = Swal.mixin({
   toast: true,
@@ -17,21 +18,40 @@ const Toast = Swal.mixin({
   },
 });
 
-const CartContext = createContext();
+export interface CartContextProduct extends Product {
+  cartItemId?: number;
+  quantity: number;
+  beden?: string;
+  renk?: string;
+  variantId?: number;
+}
 
-export function CartProvider({ children }) {
-  const [cartItems, setCartItems] = useState([]);
-  const [isLoaded, setIsLoaded] = useState(false);
+interface CartContextType {
+  cartItems: CartContextProduct[];
+  isCartLoaded: boolean;
+  isSyncing: boolean;
+  addToCart: (product: Product, beden?: string, renk?: string) => Promise<void>;
+  removeFromCart: (productId: number, beden?: string, renk?: string) => Promise<void>;
+  clearCart: () => Promise<void>;
+  updateQuantity: (productId: number, beden?: string, renk?: string, newQuantity: number) => Promise<void>;
+}
+
+const CartContext = createContext<CartContextType | undefined>(undefined);
+
+export function CartProvider({ children }: { children: ReactNode }) {
+  const [cartItems, setCartItems] = useState<CartContextProduct[]>([]);
+  const [isLoaded, setIsLoaded] = useState<boolean>(false);
   const { data: session, status } = useSession();
-  const prevSessionStatus = useRef(status);
-  const [isSyncing, setIsSyncing] = useState(false);
+  const prevSessionStatus = useRef<string>(status);
+  const [isSyncing, setIsSyncing] = useState<boolean>(false);
 
   const fetchServerCart = async () => {
     try {
       const res = await fetch("/api/cart");
       if (res.ok) {
         const data = await res.json();
-        const mappedItems = data.items.map((item) => ({
+        // eslint-disable-next-line @typescript-eslint/no-explicit-any
+        const mappedItems: CartContextProduct[] = data.items.map((item: any) => ({
           ...item.product,
           cartItemId: item.id,
           beden: item.size,
@@ -55,18 +75,18 @@ export function CartProvider({ children }) {
       const syncCart = async () => {
         setIsSyncing(true);
         if (savedCart && prevSessionStatus.current !== "authenticated") {
-          const parsed = JSON.parse(savedCart);
-          if (parsed.length > 0) {
-            try {
+          try {
+            const parsed: CartContextProduct[] = JSON.parse(savedCart);
+            if (parsed.length > 0) {
               await fetch("/api/cart/sync", {
                 method: "POST",
                 headers: { "Content-Type": "application/json" },
                 body: JSON.stringify({ cartItems: parsed })
               });
               localStorage.removeItem("cemrepark_cart");
-            } catch (e) {
-              console.error("Sepet eşitlenirken hata:", e);
             }
+          } catch (e) {
+            console.error("Sepet eşitlenirken hata veya parse hatası:", e);
           }
         }
         await fetchServerCart();
@@ -77,8 +97,16 @@ export function CartProvider({ children }) {
       syncCart();
     } else if (status === "unauthenticated") {
       const savedCart = localStorage.getItem("cemrepark_cart");
-      if (savedCart) setCartItems(JSON.parse(savedCart));
-      else setCartItems([]);
+      if (savedCart) {
+        try {
+          setCartItems(JSON.parse(savedCart));
+        } catch(e) {
+          console.error("Sepet parse hatası:", e);
+          setCartItems([]);
+        }
+      } else {
+        setCartItems([]);
+      }
       setIsLoaded(true);
     }
     prevSessionStatus.current = status;
@@ -90,7 +118,7 @@ export function CartProvider({ children }) {
     }
   }, [cartItems, isLoaded, status]);
 
-  const addToCart = async (product, beden, renk) => {
+  const addToCart = async (product: Product, beden?: string, renk?: string) => {
     if (status === "authenticated") {
       try {
         const res = await fetch("/api/cart", {
@@ -123,13 +151,13 @@ export function CartProvider({ children }) {
               : item
           );
         }
-        return [...prev, { ...product, beden, renk, quantity: 1 }];
+        return [...prev, { ...product, beden, renk, quantity: 1 } as CartContextProduct];
       });
       Toast.fire({ icon: "success", title: `${product.ad} sepete eklendi!` });
     }
   };
 
-  const removeFromCart = async (productId, beden, renk) => {
+  const removeFromCart = async (productId: number, beden?: string, renk?: string) => {
     if (status === "authenticated") {
       const itemToRemove = cartItems.find(
         (item) => item.id === productId && item.beden === beden && item.renk === renk
@@ -173,7 +201,7 @@ export function CartProvider({ children }) {
     }
   };
 
-  const updateQuantity = async (productId, beden, renk, newQuantity) => {
+  const updateQuantity = async (productId: number, beden?: string, renk?: string, newQuantity: number) => {
     if (newQuantity <= 0) {
       removeFromCart(productId, beden, renk);
       return;
@@ -236,6 +264,10 @@ export function CartProvider({ children }) {
   );
 }
 
-export function useCart() {
-  return useContext(CartContext);
+export function useCart(): CartContextType {
+  const context = useContext(CartContext);
+  if (context === undefined) {
+    throw new Error("useCart must be used within a CartProvider");
+  }
+  return context;
 }

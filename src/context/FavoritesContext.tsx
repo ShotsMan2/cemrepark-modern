@@ -1,6 +1,7 @@
 "use client";
-import { createContext, useContext, useState, useEffect } from "react";
+import { createContext, useContext, useState, useEffect, ReactNode } from "react";
 import Swal from "sweetalert2";
+import { Product } from "@/types";
 
 const Toast = Swal.mixin({
   toast: true,
@@ -16,15 +17,28 @@ const Toast = Swal.mixin({
   },
 });
 
-const FavoritesContext = createContext();
+interface FavoritesContextType {
+  favoriteItems: Product[];
+  isFavoritesLoaded: boolean;
+  addToFavorites: (product: Product) => void;
+  removeFromFavorites: (productId: number) => void;
+}
 
-export function FavoritesProvider({ children }) {
-  const [favoriteItems, setFavoriteItems] = useState([]);
-  const [isLoaded, setIsLoaded] = useState(false);
+const FavoritesContext = createContext<FavoritesContextType | undefined>(undefined);
+
+export function FavoritesProvider({ children }: { children: ReactNode }) {
+  const [favoriteItems, setFavoriteItems] = useState<Product[]>([]);
+  const [isLoaded, setIsLoaded] = useState<boolean>(false);
 
   useEffect(() => {
     const savedFavorites = localStorage.getItem("cemrepark_favorites");
-    if (savedFavorites) setFavoriteItems(JSON.parse(savedFavorites));
+    if (savedFavorites) {
+      try {
+        setFavoriteItems(JSON.parse(savedFavorites));
+      } catch (error) {
+        console.error("Failed to parse favorites from localStorage", error);
+      }
+    }
     setIsLoaded(true);
   }, []);
 
@@ -34,7 +48,7 @@ export function FavoritesProvider({ children }) {
     }
   }, [favoriteItems, isLoaded]);
 
-  const addToFavorites = (product) => {
+  const addToFavorites = (product: Product) => {
     setFavoriteItems((prev) => {
       const existing = prev.find((item) => item.id === product.id);
       if (existing) return prev;
@@ -47,7 +61,7 @@ export function FavoritesProvider({ children }) {
     });
   };
 
-  const removeFromFavorites = (productId) => {
+  const removeFromFavorites = (productId: number) => {
     setFavoriteItems((prev) => prev.filter((item) => item.id !== productId));
   };
 
@@ -65,6 +79,10 @@ export function FavoritesProvider({ children }) {
   );
 }
 
-export function useFavorites() {
-  return useContext(FavoritesContext);
+export function useFavorites(): FavoritesContextType {
+  const context = useContext(FavoritesContext);
+  if (context === undefined) {
+    throw new Error("useFavorites must be used within a FavoritesProvider");
+  }
+  return context;
 }

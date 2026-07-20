@@ -3,9 +3,11 @@ import { checkAdminAndLog } from "@/lib/adminAuth";
 import { apiHandler } from "@/lib/apiHandler";
 import { bannerService } from "@/services/bannerService";
 
+import { fetchWithCache, cacheDel } from "@/lib/redis";
+
 export const GET = apiHandler(async (req: NextRequest, { params }: { params: Promise<{ id: string }> }) => {
   const resolvedParams = await params;
-  const banner = await bannerService.getBannerById(resolvedParams.id);
+  const banner = await fetchWithCache(`banner:${resolvedParams.id}`, () => bannerService.getBannerById(resolvedParams.id), 300);
   return NextResponse.json(banner);
 });
 
@@ -26,6 +28,8 @@ export const PUT = apiHandler(async (req: NextRequest, { params }: { params: Pro
 
   const body = await req.json();
   const banner = await bannerService.updateBanner(resolvedParams.id, body);
+  await cacheDel("banners:all");
+  await cacheDel(`banner:${resolvedParams.id}`);
   return NextResponse.json(banner);
 });
 
@@ -46,5 +50,7 @@ export const DELETE = apiHandler(async (req: NextRequest, { params }: { params: 
   }
 
   const result = await bannerService.deleteBanner(bannerId);
+  await cacheDel("banners:all");
+  await cacheDel(`banner:${bannerId}`);
   return NextResponse.json(result);
 });
