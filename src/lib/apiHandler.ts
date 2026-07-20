@@ -9,15 +9,15 @@ export function apiHandler(handler: HandlerFn, schema?: ZodSchema<any> | null) {
   return async (req: NextRequest, ...args: any[]) => {
     try {
       // Anti-CSRF Check for state-mutating methods
-      if (['POST', 'PUT', 'PATCH', 'DELETE'].includes(req.method)) {
-        const csrfToken = req.headers.get('x-csrf-token');
+      if (["POST", "PUT", "PATCH", "DELETE"].includes(req.method)) {
+        const csrfToken = req.headers.get("x-csrf-token");
         // In a real scenario, compare this token with the one stored in session/cookie
-        if (!csrfToken && process.env.NODE_ENV === 'production') {
+        if (!csrfToken && process.env.NODE_ENV === "production") {
           return errorResponse("CSRF token missing or invalid.", undefined, 403);
         }
       }
 
-      if (schema && ['POST', 'PUT', 'PATCH'].includes(req.method)) {
+      if (schema && ["POST", "PUT", "PATCH"].includes(req.method)) {
         // We clone the request to read body without consuming it entirely
         const clonedReq = req.clone();
         const body = await clonedReq.json();
@@ -39,7 +39,11 @@ export function apiHandler(handler: HandlerFn, schema?: ZodSchema<any> | null) {
       const statusCode = error.statusCode || 500;
       const message = error.isOperational ? error.message : "Internal Server Error";
 
-      return errorResponse(message, process.env.NODE_ENV === 'development' ? error : undefined, statusCode);
+      return errorResponse(
+        message,
+        process.env.NODE_ENV === "development" ? error : undefined,
+        statusCode
+      );
     }
   };
 }

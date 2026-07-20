@@ -52,12 +52,16 @@ export default async function SearchPage({ searchParams }) {
     try {
       const enDict = require("@/utils/locales/en.json");
       const arDict = require("@/utils/locales/ar.json");
-      
+
       const allDicts = [enDict, arDict];
-      
+
       for (const dict of allDicts) {
         for (const [trName, translatedName] of Object.entries(dict)) {
-          if (translatedName && typeof translatedName === 'string' && translatedName.toLowerCase().includes(lowerQuery)) {
+          if (
+            translatedName &&
+            typeof translatedName === "string" &&
+            translatedName.toLowerCase().includes(lowerQuery)
+          ) {
             matchedTurkishNames.push(trName);
           }
         }
@@ -81,7 +85,7 @@ export default async function SearchPage({ searchParams }) {
       { etiket: { contains: mappedQuery } },
       { ad: { contains: lowerQuery } },
       { kategori: { contains: lowerQuery } },
-      { etiket: { contains: lowerQuery } }
+      { etiket: { contains: lowerQuery } },
     ];
 
     if (matchedTurkishNames.length > 0) {
@@ -91,8 +95,8 @@ export default async function SearchPage({ searchParams }) {
 
     results = await prisma.product.findMany({
       where: {
-        OR: orConditions
-      }
+        OR: orConditions,
+      },
     });
   }
 

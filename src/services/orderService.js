@@ -12,12 +12,12 @@ export const orderService = {
       let calculatedTotal = 0;
 
       // Pre-fetch all products
-      const productIds = items.map(item => item.productId);
+      const productIds = items.map((item) => item.productId);
       const products = await tx.product.findMany({
-        where: { id: { in: productIds } }
+        where: { id: { in: productIds } },
       });
 
-      const productMap = new Map(products.map(p => [p.id, p]));
+      const productMap = new Map(products.map((p) => [p.id, p]));
 
       // Deduct stock for each item and calculate total
       for (const item of items) {
@@ -31,7 +31,9 @@ export const orderService = {
         }
 
         if (product.stok < item.quantity) {
-          const error = new Error(`Insufficient stock for product ${product.ad}. Available: ${product.stok}, Requested: ${item.quantity}`);
+          const error = new Error(
+            `Insufficient stock for product ${product.ad}. Available: ${product.stok}, Requested: ${item.quantity}`
+          );
           error.statusCode = 400;
           error.isOperational = true;
           throw error;
@@ -42,9 +44,9 @@ export const orderService = {
           where: { id: item.productId },
           data: {
             stok: {
-              decrement: item.quantity
-            }
-          }
+              decrement: item.quantity,
+            },
+          },
         });
 
         calculatedTotal += product.fiyat * item.quantity;
@@ -63,11 +65,11 @@ export const orderService = {
           couponCode: orderData.couponCode || null,
           discountAmount: orderData.discountAmount || 0,
           status: OrderStatus.PENDING,
-        }
+        },
       });
 
       // Create all order items in a single query
-      const orderItemsData = items.map(item => {
+      const orderItemsData = items.map((item) => {
         const product = productMap.get(item.productId);
         return {
           orderId: newOrder.id,
@@ -78,7 +80,7 @@ export const orderService = {
       });
 
       await tx.orderItem.createMany({
-        data: orderItemsData
+        data: orderItemsData,
       });
 
       // Phase 4: Create PaymentTransaction
@@ -89,13 +91,13 @@ export const orderService = {
           provider: provider,
           amount: finalTotal,
           status: "COMPLETED", // or PENDING for some providers
-        }
+        },
       });
 
       // Return order with items
       return tx.order.findUnique({
         where: { id: newOrder.id },
-        include: { items: true }
+        include: { items: true },
       });
     });
   },
@@ -107,7 +109,7 @@ export const orderService = {
    */
   async updateOrderStatus(orderId, newStatus) {
     const order = await prisma.order.findUnique({
-      where: { id: orderId }
+      where: { id: orderId },
     });
 
     if (!order) {
@@ -118,7 +120,7 @@ export const orderService = {
     }
 
     const stateMachine = new OrderStateMachine(order.status);
-    
+
     // Throws an error if the transition is invalid
     try {
       stateMachine.transitionTo(newStatus);
@@ -131,13 +133,13 @@ export const orderService = {
 
     return prisma.order.update({
       where: { id: orderId },
-      data: { status: newStatus }
+      data: { status: newStatus },
     });
   },
 
   async getOrderById(orderId) {
     return prisma.order.findUnique({
-      where: { id: orderId }
+      where: { id: orderId },
     });
   },
 
@@ -147,7 +149,13 @@ export const orderService = {
     });
   },
 
-  async getOrdersPaginated(filters = {}, page = 1, limit = 10, sortBy = "createdAt", sortOrder = "desc") {
+  async getOrdersPaginated(
+    filters = {},
+    page = 1,
+    limit = 10,
+    sortBy = "createdAt",
+    sortOrder = "desc"
+  ) {
     try {
       const { search, status } = filters;
       const whereClause = {};
@@ -155,11 +163,11 @@ export const orderService = {
       if (search) {
         whereClause.OR = [
           { customer: { contains: search } },
-          { trackingNumber: { contains: search } }
+          { trackingNumber: { contains: search } },
         ];
       }
-      
-      if (status && status !== 'all') {
+
+      if (status && status !== "all") {
         whereClause.status = status;
       }
 
@@ -171,9 +179,9 @@ export const orderService = {
           skip,
           take: limit,
           orderBy: { [sortBy]: sortOrder },
-          include: { items: true }
+          include: { items: true },
         }),
-        prisma.order.count({ where: whereClause })
+        prisma.order.count({ where: whereClause }),
       ]);
 
       return {
@@ -181,11 +189,11 @@ export const orderService = {
         total,
         page,
         limit,
-        totalPages: Math.ceil(total / limit)
+        totalPages: Math.ceil(total / limit),
       };
     } catch (error) {
       console.error("Failed to fetch paginated orders from DB", { error: error.message });
       return { data: [], total: 0, page, limit, totalPages: 0 };
     }
-  }
+  },
 };

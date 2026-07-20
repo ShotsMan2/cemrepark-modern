@@ -10,12 +10,12 @@ const QuickViewModal = dynamic(() => import("../../../components/QuickViewModal"
 import { getValidImageUrl } from "../../../utils/imageHelper";
 import { useSession } from "next-auth/react";
 import { useRouter } from "next/navigation";
-import { Swiper, SwiperSlide } from 'swiper/react';
-import { Navigation, Pagination, EffectFade, Autoplay } from 'swiper/modules';
-import 'swiper/css';
-import 'swiper/css/navigation';
-import 'swiper/css/pagination';
-import 'swiper/css/effect-fade';
+import { Swiper, SwiperSlide } from "swiper/react";
+import { Navigation, Pagination, EffectFade, Autoplay } from "swiper/modules";
+import "swiper/css";
+import "swiper/css/navigation";
+import "swiper/css/pagination";
+import "swiper/css/effect-fade";
 export default function ProductDetailsClient({
   product,
   relatedProducts = [],
@@ -41,24 +41,35 @@ export default function ProductDetailsClient({
 
   const bedenList = product.beden ? product.beden.split(",").map((s) => s.trim()) : ["Standart"];
   const hasColors = product.colors && product.colors.length > 0;
-  const renkList = hasColors 
-    ? product.colors.map(c => c.renkAdi) 
-    : (product.renk ? product.renk.split(",").map((s) => s.trim()) : ["Standart"]);
+  const renkList = hasColors
+    ? product.colors.map((c) => c.renkAdi)
+    : product.renk
+      ? product.renk.split(",").map((s) => s.trim())
+      : ["Standart"];
 
-  const selectedColorObj = hasColors ? product.colors.find(c => c.renkAdi === (renk || renkList[0])) : null;
-  const activeImageUrl = selectedColorObj?.gorselUrl || product.resim || product.gorsel?.split(',')[0];
+  const selectedColorObj = hasColors
+    ? product.colors.find((c) => c.renkAdi === (renk || renkList[0]))
+    : null;
+  const activeImageUrl =
+    selectedColorObj?.gorselUrl || product.resim || product.gorsel?.split(",")[0];
 
   // Prepare images for Swiper
   let swiperImages = [];
   if (product.gorsel) {
-    swiperImages = product.gorsel.split(',').map(url => url.trim()).filter(Boolean);
+    swiperImages = product.gorsel
+      .split(",")
+      .map((url) => url.trim())
+      .filter(Boolean);
   } else if (product.resim) {
     swiperImages = [product.resim];
   }
-  
+
   if (selectedColorObj && selectedColorObj.gorselUrl) {
     // If a color is selected, put its image first
-    swiperImages = [selectedColorObj.gorselUrl, ...swiperImages.filter(img => img !== selectedColorObj.gorselUrl)];
+    swiperImages = [
+      selectedColorObj.gorselUrl,
+      ...swiperImages.filter((img) => img !== selectedColorObj.gorselUrl),
+    ];
   }
 
   // Ensure there's at least one image
@@ -196,26 +207,13 @@ export default function ProductDetailsClient({
 
         <div className="flex flex-col lg:flex-row gap-8 items-start">
           {/* Image Section - Stacked on Desktop, Swiper on Mobile */}
-          <div className="w-full lg:w-[55%] relative group" data-aos="fade-right" suppressHydrationWarning>
-            {/* Desktop Stacked Gallery */}
-            <div className="hidden lg:flex flex-col gap-4">
-              {swiperImages.map((imgSrc, idx) => (
-                <div key={idx} className="relative w-full aspect-[3/4] overflow-hidden glass-panel clip-angled p-2 group/img">
-                  <div className="absolute -inset-1 bg-gradient-to-r from-primary/20 to-secondary/20 rounded-lg blur opacity-0 group-hover/img:opacity-100 transition duration-500"></div>
-                  <Image
-                    src={getValidImageUrl(imgSrc)}
-                    alt={`${product.ad} - Görsel ${idx + 1}`}
-                    fill
-                    className="object-cover hover:scale-105 transition-transform duration-700 relative z-10"
-                    priority={idx <= 1}
-                    sizes="55vw"
-                  />
-                </div>
-              ))}
-            </div>
-
-            {/* Mobile Swiper Gallery */}
-            <div className="lg:hidden relative glass-panel p-2 clip-angled">
+          <div
+            className="w-full lg:w-[55%] relative group"
+            data-aos="fade-right"
+            suppressHydrationWarning
+          >
+            {/* Desktop & Mobile Swiper Gallery */}
+            <div className="relative glass-panel p-2 clip-angled">
               <div className="absolute -inset-1 bg-gradient-to-r from-neon-pink to-holo-gold rounded-lg blur opacity-20 group-hover:opacity-40 transition duration-1000 group-hover:duration-200"></div>
               <div className="relative w-full aspect-[3/4] clip-angled overflow-hidden group-hover:shadow-[0_0_30px_rgba(255,0,127,0.3)] transition-shadow">
                 <Swiper
@@ -232,9 +230,9 @@ export default function ProductDetailsClient({
                         src={getValidImageUrl(imgSrc)}
                         alt={`${product.ad} - Görsel ${idx + 1}`}
                         fill
-                        className="object-cover transition-transform duration-700"
+                        className="object-cover transition-transform duration-700 hover:scale-105"
                         priority={idx === 0}
-                        sizes="100vw"
+                        sizes="(max-width: 1024px) 100vw, 55vw"
                       />
                     </SwiperSlide>
                   ))}
@@ -247,7 +245,11 @@ export default function ProductDetailsClient({
           </div>
 
           {/* Details Section - Sticky on Desktop */}
-          <div className="w-full lg:w-[45%] lg:sticky lg:top-32 glass-panel p-6 md:p-9 clip-angled self-start" data-aos="fade-left" suppressHydrationWarning>
+          <div
+            className="w-full lg:w-[45%] lg:sticky lg:top-32 glass-panel p-6 md:p-9 clip-angled self-start"
+            data-aos="fade-left"
+            suppressHydrationWarning
+          >
             <span className="text-neon-pink tracking-[0.2em] text-xs font-bold uppercase mb-4 block">
               {product.etiket ? t(product.etiket) : t("new_season")}
             </span>
@@ -322,8 +324,8 @@ export default function ProductDetailsClient({
                         key={r}
                         onClick={() => setRenk(r)}
                         className={`px-6 py-3 text-sm font-semibold uppercase tracking-wider transition-all duration-300 clip-angled border touch-manipulation ${
-                          isSelected 
-                            ? "bg-neon-pink text-foreground border-neon-pink shadow-[0_0_15px_rgba(255,0,127,0.4)]" 
+                          isSelected
+                            ? "bg-neon-pink text-foreground border-neon-pink shadow-[0_0_15px_rgba(255,0,127,0.4)]"
                             : "bg-white/50 dark:bg-black/50 text-gray-700 dark:text-gray-400 border-glass-border hover:border-holo-gold hover:text-gray-900 dark:hover:text-foreground"
                         }`}
                         aria-label={t("select_color")}
@@ -423,7 +425,8 @@ export default function ProductDetailsClient({
                 <div className="w-1.5 h-1.5 bg-holo-gold rounded-full"></div> {t("installment")}
               </li>
               <li className="flex items-center gap-3">
-                <div className="w-1.5 h-1.5 bg-gray-300 dark:bg-white/30 rounded-full"></div> {t("secure_shopping")}
+                <div className="w-1.5 h-1.5 bg-gray-300 dark:bg-white/30 rounded-full"></div>{" "}
+                {t("secure_shopping")}
               </li>
             </ul>
           </div>
@@ -552,7 +555,7 @@ export default function ProductDetailsClient({
                   <div className="relative h-48 md:h-60 w-full overflow-hidden clip-angled mb-3 transform-gpu">
                     <div className="absolute inset-0 bg-black/10 group-hover:bg-transparent transition-colors z-10"></div>
                     <Image
-                      src={getValidImageUrl(rp.resim || rp.gorsel?.split(',')[0])}
+                      src={getValidImageUrl(rp.resim || rp.gorsel?.split(",")[0])}
                       alt={rp.ad}
                       fill
                       sizes="(max-width: 768px) 50vw, (max-width: 1200px) 25vw, 25vw"
@@ -583,7 +586,9 @@ export default function ProductDetailsClient({
                     <p className="text-foreground/50 text-[10px] uppercase tracking-widest mb-1">
                       {t(rp.kategori)}
                     </p>
-                    <h4 className="text-foreground font-bold text-sm truncate mb-2 group-hover:text-primary transition-colors">{t(rp.ad)}</h4>
+                    <h4 className="text-foreground font-bold text-sm truncate mb-2 group-hover:text-primary transition-colors">
+                      {t(rp.ad)}
+                    </h4>
                     <p className="text-primary font-bold text-sm">{formatPrice(rp.fiyat)}</p>
                   </div>
                 </Link>

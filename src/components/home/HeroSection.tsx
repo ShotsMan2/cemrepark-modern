@@ -39,7 +39,7 @@ export default memo(function HeroSection({ activeBanners }: { activeBanners: any
                   : "opacity-0 translate-x-12 z-0 pointer-events-none invisible"
               }`}
             >
-              <motion.div 
+              <motion.div
                 className="w-full md:w-1/2 text-left"
                 initial={{ opacity: 0, x: -50 }}
                 animate={{ opacity: isActive ? 1 : 0, x: isActive ? 0 : -50 }}
@@ -60,15 +60,15 @@ export default memo(function HeroSection({ activeBanners }: { activeBanners: any
                         visible: (i) => ({
                           opacity: 1,
                           y: 0,
-                          transition: { delay: 0.3 + i * 0.1, duration: 0.5, ease: "easeOut" }
-                        })
+                          transition: { delay: 0.3 + i * 0.1, duration: 0.5, ease: "easeOut" },
+                        }),
                       }}
                     >
                       {word}
                     </motion.span>
                   ))}
                 </h1>
-                <motion.p 
+                <motion.p
                   className="text-gray-600 dark:text-gray-300 text-base md:text-lg mb-10 max-w-xl font-light leading-relaxed"
                   initial={{ opacity: 0 }}
                   animate={{ opacity: isActive ? 1 : 0 }}
@@ -77,7 +77,7 @@ export default memo(function HeroSection({ activeBanners }: { activeBanners: any
                   {t("hero_desc")}
                 </motion.p>
 
-                <motion.div 
+                <motion.div
                   className="flex flex-wrap gap-6 items-center"
                   initial={{ opacity: 0, y: 20 }}
                   animate={{ opacity: isActive ? 1 : 0, y: isActive ? 0 : 20 }}
@@ -90,7 +90,19 @@ export default memo(function HeroSection({ activeBanners }: { activeBanners: any
                     <span className="absolute inset-0 w-full h-full bg-gradient-to-r from-primary to-secondary opacity-0 group-hover:opacity-100 transition-opacity duration-300"></span>
                     <span className="relative z-10 flex items-center gap-2 group-hover:text-white transition-colors duration-300">
                       {t("explore_collection")}
-                      <svg className="w-5 h-5 group-hover:translate-x-1 transition-transform" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M17 8l4 4m0 0l-4 4m4-4H3"></path></svg>
+                      <svg
+                        className="w-5 h-5 group-hover:translate-x-1 transition-transform"
+                        fill="none"
+                        stroke="currentColor"
+                        viewBox="0 0 24 24"
+                      >
+                        <path
+                          strokeLinecap="round"
+                          strokeLinejoin="round"
+                          strokeWidth="2"
+                          d="M17 8l4 4m0 0l-4 4m4-4H3"
+                        ></path>
+                      </svg>
                     </span>
                   </Link>
                   <div className="bg-background/80 backdrop-blur-md rounded-2xl border border-foreground/5 shadow-sm p-1">
@@ -102,11 +114,15 @@ export default memo(function HeroSection({ activeBanners }: { activeBanners: any
               <div className="w-full md:w-1/2 relative h-full flex justify-center hidden md:flex items-center">
                 <div className="absolute top-10 right-10 w-24 h-24 border border-primary/30 rounded-full opacity-40 animate-spin-slow pointer-events-none"></div>
                 <div className="absolute bottom-20 left-10 w-16 h-16 border border-secondary/40 rounded-lg opacity-40 float-fx pointer-events-none rotate-12"></div>
-                
-                <motion.div 
+
+                <motion.div
                   className="relative w-[90%] aspect-[4/5] rounded-[2.5rem] overflow-hidden shadow-[0_20px_50px_rgb(0,0,0,0.15)] dark:shadow-[0_20px_50px_rgb(0,0,0,0.4)] border border-white/20 dark:border-white/5 bg-background/50 backdrop-blur-sm"
                   initial={{ opacity: 0, scale: 0.95, rotate: -2 }}
-                  animate={{ opacity: isActive ? 1 : 0, scale: isActive ? 1 : 0.95, rotate: isActive ? 0 : -2 }}
+                  animate={{
+                    opacity: isActive ? 1 : 0,
+                    scale: isActive ? 1 : 0.95,
+                    rotate: isActive ? 0 : -2,
+                  }}
                   transition={{ duration: 1, ease: [0.22, 1, 0.36, 1], delay: 0.2 }}
                 >
                   <Image
@@ -132,14 +148,14 @@ export default memo(function HeroSection({ activeBanners }: { activeBanners: any
               key={index}
               onClick={() => setCurrentSlide(index)}
               className={`relative h-2 rounded-full transition-all duration-500 overflow-hidden ${
-                index === currentSlide 
-                  ? "w-16 bg-foreground/20" 
+                index === currentSlide
+                  ? "w-16 bg-foreground/20"
                   : "w-4 bg-gray-300 dark:bg-gray-600 hover:bg-primary/50"
               }`}
               aria-label={`Slayt ${index + 1}`}
             >
               {index === currentSlide && (
-                <motion.div 
+                <motion.div
                   className="absolute top-0 left-0 h-full bg-primary"
                   initial={{ width: "0%" }}
                   animate={{ width: "100%" }}
@@ -152,5 +168,4 @@ export default memo(function HeroSection({ activeBanners }: { activeBanners: any
       )}
     </section>
   );
-})
-
+});

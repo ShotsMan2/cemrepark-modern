@@ -1,4 +1,4 @@
-import { logger } from '@/lib/logger';
+import { logger } from "@/lib/logger";
 import { NextResponse } from "next/server";
 import { checkAdminAndLog } from "@/lib/adminAuth";
 import { apiHandler } from "@/lib/apiHandler";
@@ -14,11 +14,11 @@ export const PATCH = apiHandler(async (req: Request, { params }: { params: { id:
     error.isOperational = true;
     throw error;
   }
-  
+
   const body = await req.json();
   const { status, trackingNumber, carrier } = body;
 
-  const actionMsg = `Changed order ${id} status to ${status || 'unchanged'}${trackingNumber ? ' and updated tracking' : ''}`;
+  const actionMsg = `Changed order ${id} status to ${status || "unchanged"}${trackingNumber ? " and updated tracking" : ""}`;
   const { errorResponse } = await checkAdminAndLog(req as any, "UPDATE_ORDER_STATUS", actionMsg);
 
   if (errorResponse) {
@@ -40,14 +40,14 @@ export const PATCH = apiHandler(async (req: Request, { params }: { params: { id:
     updatedOrder = await prisma.order.update({
       where: { id: orderId },
       data: updateData,
-      include: { items: true }
+      include: { items: true },
     });
 
     // Handle cancellation or return by restoring stock
-    const isCancelledOrReturned = 
-      status === "İptal Edildi" || 
-      status === "İade Edildi" || 
-      status === "CANCELLED" || 
+    const isCancelledOrReturned =
+      status === "İptal Edildi" ||
+      status === "İade Edildi" ||
+      status === "CANCELLED" ||
       status === "RETURNED";
 
     if (isCancelledOrReturned && updatedOrder.items) {
@@ -56,7 +56,7 @@ export const PATCH = apiHandler(async (req: Request, { params }: { params: { id:
         try {
           await prisma.product.update({
             where: { id: item.productId },
-            data: { stok: { increment: item.quantity } }
+            data: { stok: { increment: item.quantity } },
           });
         } catch (e) {
           logger.error(`Failed to restore stock for product ${item.productId}:`, e);
@@ -80,8 +80,12 @@ export const GET = apiHandler(async (req: Request, { params }: { params: { id: s
     error.isOperational = true;
     throw error;
   }
-  
-  const { errorResponse } = await checkAdminAndLog(req as any, "VIEW_ORDER", `Viewed order ${orderId}`);
+
+  const { errorResponse } = await checkAdminAndLog(
+    req as any,
+    "VIEW_ORDER",
+    `Viewed order ${orderId}`
+  );
   if (errorResponse) {
     // If not admin, maybe check if it's the user's order? We stick to admin check for now as in PATCH
     // Since it's admin/API we can just return

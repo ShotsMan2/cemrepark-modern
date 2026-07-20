@@ -4,7 +4,13 @@ import Link from "next/link";
 import { ProductCard } from "../ui/ProductCard";
 
 import { memo } from "react";
-export default memo(function BestSellersSection({ bestSellers, setQuickViewProduct }: { bestSellers: any[]; setQuickViewProduct: (product: any) => void }) {
+export default memo(function BestSellersSection({
+  bestSellers,
+  setQuickViewProduct,
+}: {
+  bestSellers: any[];
+  setQuickViewProduct: (product: any) => void;
+}) {
   return (
     <section id="collection" className="py-16 relative z-10">
       <div className="absolute top-0 right-0 w-full h-full bg-gradient-to-b from-transparent via-primary/5 to-transparent pointer-events-none"></div>
@@ -47,4 +53,4 @@ export default memo(function BestSellersSection({ bestSellers, setQuickViewProdu
       </div>
     </section>
   );
-})
+});

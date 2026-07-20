@@ -1,4 +1,4 @@
-import { analyticsService } from './src/services/analyticsService.js';
+import { analyticsService } from "./src/services/analyticsService.js";
 
 async function run() {
   try {

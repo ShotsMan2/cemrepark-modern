@@ -1,7 +1,7 @@
 "use client";
 
-import React, { useState, useEffect } from 'react';
-import { motion, AnimatePresence } from 'framer-motion';
+import React, { useState, useEffect } from "react";
+import { motion, AnimatePresence } from "framer-motion";
 
 export default function InstallAppPrompt() {
   const [isVisible, setIsVisible] = useState(false);
@@ -13,13 +13,13 @@ export default function InstallAppPrompt() {
     const checkMobile = () => {
       setIsMobile(window.innerWidth < 768);
     };
-    
+
     checkMobile();
-    window.addEventListener('resize', checkMobile);
+    window.addEventListener("resize", checkMobile);
 
     // Check if the prompt was previously dismissed
-    const hasDismissed = localStorage.getItem('cemrepark_app_prompt_dismissed');
-    
+    const hasDismissed = localStorage.getItem("cemrepark_app_prompt_dismissed");
+
     // Listen for the beforeinstallprompt event (PWA)
     const handleBeforeInstallPrompt = (e: any) => {
       e.preventDefault();
@@ -29,12 +29,13 @@ export default function InstallAppPrompt() {
       }
     };
 
-    window.addEventListener('beforeinstallprompt', handleBeforeInstallPrompt);
+    window.addEventListener("beforeinstallprompt", handleBeforeInstallPrompt);
 
     // Platform and standalone checks
     const isIos = /iPad|iPhone|iPod/.test(navigator.userAgent) && !(window as any).MSStream;
-    const isStandalone = window.matchMedia('(display-mode: standalone)').matches || (navigator as any).standalone;
-    
+    const isStandalone =
+      window.matchMedia("(display-mode: standalone)").matches || (navigator as any).standalone;
+
     if (isMobile && !hasDismissed && !isStandalone && (isIos || !deferredPrompt)) {
       // Small delay so it doesn't pop up immediately on page load
       const timer = setTimeout(() => {
@@ -44,29 +45,31 @@ export default function InstallAppPrompt() {
     }
 
     return () => {
-      window.removeEventListener('resize', checkMobile);
-      window.removeEventListener('beforeinstallprompt', handleBeforeInstallPrompt);
+      window.removeEventListener("resize", checkMobile);
+      window.removeEventListener("beforeinstallprompt", handleBeforeInstallPrompt);
     };
   }, [isMobile, deferredPrompt]);
 
   const handleDismiss = () => {
     setIsVisible(false);
-    localStorage.setItem('cemrepark_app_prompt_dismissed', 'true');
+    localStorage.setItem("cemrepark_app_prompt_dismissed", "true");
   };
 
   const handleInstall = async () => {
     if (deferredPrompt) {
       deferredPrompt.prompt();
       const { outcome } = await deferredPrompt.userChoice;
-      if (outcome === 'accepted') {
-        console.log('User accepted the A2HS prompt');
+      if (outcome === "accepted") {
+        console.log("User accepted the A2HS prompt");
       } else {
-        console.log('User dismissed the A2HS prompt');
+        console.log("User dismissed the A2HS prompt");
       }
       setDeferredPrompt(null);
     } else {
       // iOS or fallback instructions
-      alert("Uygulamamızı yüklemek için tarayıcınızın 'Paylaş' (Share) menüsünden 'Ana Ekrana Ekle' (Add to Home Screen) seçeneğini kullanabilirsiniz.");
+      alert(
+        "Uygulamamızı yüklemek için tarayıcınızın 'Paylaş' (Share) menüsünden 'Ana Ekrana Ekle' (Add to Home Screen) seçeneğini kullanabilirsiniz."
+      );
     }
     setIsVisible(false);
   };
@@ -79,11 +82,10 @@ export default function InstallAppPrompt() {
         initial={{ y: 150, opacity: 0 }}
         animate={{ y: 0, opacity: 1 }}
         exit={{ y: 150, opacity: 0 }}
-        transition={{ type: 'spring', stiffness: 260, damping: 20 }}
+        transition={{ type: "spring", stiffness: 260, damping: 20 }}
         className="fixed bottom-4 left-4 right-4 z-[9999] md:hidden"
       >
         <div className="bg-gradient-to-r from-pink-900 to-pink-950 text-foreground rounded-2xl shadow-2xl p-4 flex items-center justify-between border border-pink-500/30 backdrop-blur-xl relative overflow-hidden">
-          
           {/* Subtle gold accent glow */}
           <div className="absolute top-0 right-0 w-32 h-32 bg-amber-500/10 rounded-full blur-3xl -mr-10 -mt-10 pointer-events-none"></div>
 
@@ -93,9 +95,11 @@ export default function InstallAppPrompt() {
                 CP
               </div>
             </div>
-            
+
             <div className="flex flex-col">
-              <h4 className="font-bold text-sm text-foreground tracking-wide">Cemre Park Uygulaması</h4>
+              <h4 className="font-bold text-sm text-foreground tracking-wide">
+                Cemre Park Uygulaması
+              </h4>
               <p className="text-xs text-pink-200/90 font-medium">Daha hızlı alışveriş deneyimi</p>
             </div>
           </div>
@@ -107,7 +111,12 @@ export default function InstallAppPrompt() {
               aria-label="Kapat"
             >
               <svg className="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M6 18L18 6M6 6l12 12" />
+                <path
+                  strokeLinecap="round"
+                  strokeLinejoin="round"
+                  strokeWidth={2}
+                  d="M6 18L18 6M6 6l12 12"
+                />
               </svg>
             </button>
             <button

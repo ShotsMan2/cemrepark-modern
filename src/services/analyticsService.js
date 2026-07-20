@@ -32,15 +32,15 @@ class AnalyticsService {
 
     // Users by Role
     const users = await prisma.user.groupBy({
-      by: ['role'],
+      by: ["role"],
       _count: {
         _all: true,
       },
     });
-    
-    const usersByRole = users.map(u => ({
+
+    const usersByRole = users.map((u) => ({
       name: u.role,
-      value: u._count._all
+      value: u._count._all,
     }));
 
     // Sales over Time (Last 7 days)
@@ -51,23 +51,26 @@ class AnalyticsService {
     const recentOrders = await prisma.order.findMany({
       where: {
         createdAt: {
-          gte: sevenDaysAgo
-        }
+          gte: sevenDaysAgo,
+        },
       },
-      orderBy: { createdAt: 'asc' },
+      orderBy: { createdAt: "asc" },
     });
-    
+
     // Initialize last 7 days
     const salesMap = {};
     for (let i = 6; i >= 0; i--) {
       const d = new Date();
       d.setDate(d.getDate() - i);
-      const dateStr = d.toLocaleDateString('tr-TR', { month: 'short', day: 'numeric' });
+      const dateStr = d.toLocaleDateString("tr-TR", { month: "short", day: "numeric" });
       salesMap[dateStr] = { total: 0, orders: 0 };
     }
-    
-    recentOrders.forEach(o => {
-      const dateStr = new Date(o.createdAt).toLocaleDateString('tr-TR', { month: 'short', day: 'numeric' });
+
+    recentOrders.forEach((o) => {
+      const dateStr = new Date(o.createdAt).toLocaleDateString("tr-TR", {
+        month: "short",
+        day: "numeric",
+      });
       if (salesMap[dateStr] !== undefined) {
         salesMap[dateStr].total += o.total;
         salesMap[dateStr].orders += 1;
@@ -75,66 +78,66 @@ class AnalyticsService {
         salesMap[dateStr] = { total: o.total, orders: 1 };
       }
     });
-    
-    const salesOverTime = Object.keys(salesMap).map(date => ({
+
+    const salesOverTime = Object.keys(salesMap).map((date) => ({
       name: date,
       total: salesMap[date].total,
-      orders: salesMap[date].orders
+      orders: salesMap[date].orders,
     }));
 
     // Category distribution
     const categoriesGroup = await prisma.product.groupBy({
-      by: ['kategori'],
-      _count: { _all: true }
+      by: ["kategori"],
+      _count: { _all: true },
     });
-    const categoryData = categoriesGroup.map(c => ({
+    const categoryData = categoriesGroup.map((c) => ({
       name: c.kategori || "Bilinmeyen",
-      value: c._count._all
+      value: c._count._all,
     }));
 
     // User Behavior (LoginHistory)
     const logins = await prisma.loginHistory.groupBy({
-      by: ['success'],
-      _count: { _all: true }
+      by: ["status"],
+      _count: { _all: true },
     });
-    const loginStats = logins.map(l => ({
-      name: l.success ? "Başarılı" : "Başarısız",
-      value: l._count._all
+    const loginStats = logins.map((l) => ({
+      name: l.status === "SUCCESS" ? "Başarılı" : "Başarısız",
+      value: l._count._all,
     }));
 
     // Order status (to find cancelled/returned)
     const orderStatuses = await prisma.order.groupBy({
-      by: ['status'],
-      _count: { _all: true }
+      by: ["status"],
+      _count: { _all: true },
     });
-    const orderStats = orderStatuses.map(o => ({
+    const orderStats = orderStatuses.map((o) => ({
       name: o.status,
-      value: o._count._all
+      value: o._count._all,
     }));
 
     // Top Selling Products
     const topSelling = await prisma.orderItem.groupBy({
-      by: ['productId'],
+      by: ["productId"],
       _sum: { quantity: true },
       orderBy: {
         _sum: {
-          quantity: 'desc'
-        }
+          quantity: "desc",
+        },
       },
-      take: 5
+      take: 5,
     });
-    
-    const topProductIds = topSelling.map(t => t.productId);
+
+    const topProductIds = topSelling.map((t) => t.productId);
     const topProductsDetails = await prisma.product.findMany({
       where: { id: { in: topProductIds } },
-      select: { id: true, ad: true }
+      select: { id: true, ad: true },
     });
-    
-    const topSellingProducts = topSelling.map(t => {
-      const product = topProductsDetails.find(p => p.id === t.productId);
+
+    const topSellingProducts = topSelling.map((t) => {
+      const product = topProductsDetails.find((p) => p.id === t.productId);
       return {
         name: product ? product.ad : `Ürün ${t.productId}`,
-        value: t._sum.quantity || 0
+        value: t._sum.quantity || 0,
       };
     });
 
@@ -143,36 +146,39 @@ class AnalyticsService {
     sixMonthsAgo.setMonth(sixMonthsAgo.getMonth() - 5);
     sixMonthsAgo.setDate(1); // Start of that month
     sixMonthsAgo.setHours(0, 0, 0, 0);
-    
+
     const recentUsers = await prisma.user.findMany({
       where: {
         createdAt: {
-          gte: sixMonthsAgo
-        }
+          gte: sixMonthsAgo,
+        },
       },
-      select: { createdAt: true }
+      select: { createdAt: true },
     });
-    
+
     const userMonthMap = {};
     for (let i = 5; i >= 0; i--) {
       const d = new Date();
       d.setMonth(d.getMonth() - i);
-      const monthStr = d.toLocaleDateString('tr-TR', { month: 'short', year: 'numeric' });
+      const monthStr = d.toLocaleDateString("tr-TR", { month: "short", year: "numeric" });
       userMonthMap[monthStr] = 0;
     }
-    
-    recentUsers.forEach(u => {
-      const monthStr = new Date(u.createdAt).toLocaleDateString('tr-TR', { month: 'short', year: 'numeric' });
+
+    recentUsers.forEach((u) => {
+      const monthStr = new Date(u.createdAt).toLocaleDateString("tr-TR", {
+        month: "short",
+        year: "numeric",
+      });
       if (userMonthMap[monthStr] !== undefined) {
         userMonthMap[monthStr] += 1;
       } else {
         userMonthMap[monthStr] = 1;
       }
     });
-    
-    const userGrowth = Object.keys(userMonthMap).map(month => ({
+
+    const userGrowth = Object.keys(userMonthMap).map((month) => ({
       name: month,
-      users: userMonthMap[month]
+      users: userMonthMap[month],
     }));
 
     const result = {
@@ -187,7 +193,7 @@ class AnalyticsService {
       loginStats,
       orderStats,
       topSellingProducts,
-      userGrowth
+      userGrowth,
     };
 
     // Cache the result for 5 minutes (300 seconds)

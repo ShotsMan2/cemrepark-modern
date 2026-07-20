@@ -2221,7 +2221,7 @@ function _eval({ code, url, map }) {
         // See https://stackoverflow.com/a/26603875
         unescape(encodeURIComponent(map)))}`;
     }
-    // eslint-disable-next-line no-eval
+     
     return eval(code);
 }
 const chunksToRegister = globalThis["TURBOPACK"];

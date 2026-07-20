@@ -2,7 +2,7 @@
 import { createContext, useContext, useState, useEffect } from "react";
 import { loadTranslation } from "../utils/translations";
 
-const I18nContext = createContext();
+const I18nContext = createContext<any>({});
 
 export function I18nProvider({ children, settings }) {
   const [language, setLanguage] = useState("TR");
@@ -56,7 +56,7 @@ export function I18nProvider({ children, settings }) {
       return settings.destekTelefonu;
     }
     let text = translations[language]?.[key] || key;
-    if (typeof text === 'string') {
+    if (typeof text === "string") {
       Object.keys(params).forEach((k) => {
         text = text.replace(`{${k}}`, params[k]);
       });

@@ -1,11 +1,15 @@
-import { logger } from '@/lib/logger';
+import { logger } from "@/lib/logger";
 import { NextResponse, NextRequest } from "next/server";
 import { prisma } from "@/lib/prisma";
 import { checkAdminAndLog } from "@/lib/adminAuth";
 
 export async function PUT(req: NextRequest, { params }: { params: Promise<{ id: string }> }) {
   const resolvedParams = await params;
-  const { errorResponse } = await checkAdminAndLog(req, "UPDATE_COUPON", `Kupon güncelledi (ID: ${resolvedParams.id})`);
+  const { errorResponse } = await checkAdminAndLog(
+    req,
+    "UPDATE_COUPON",
+    `Kupon güncelledi (ID: ${resolvedParams.id})`
+  );
   if (errorResponse) return errorResponse;
 
   try {
@@ -15,10 +19,22 @@ export async function PUT(req: NextRequest, { params }: { params: Promise<{ id: 
       data: {
         code: data.code?.toUpperCase(),
         discountType: data.discountType,
-        discountValue: data.discountValue !== undefined ? parseFloat(data.discountValue) : undefined,
-        minCartValue: data.minCartValue !== undefined ? (data.minCartValue ? parseFloat(data.minCartValue) : null) : undefined,
-        maxUses: data.maxUses !== undefined ? (data.maxUses ? parseInt(data.maxUses) : null) : undefined,
-        expiresAt: data.expiresAt !== undefined ? (data.expiresAt ? new Date(data.expiresAt) : null) : undefined,
+        discountValue:
+          data.discountValue !== undefined ? parseFloat(data.discountValue) : undefined,
+        minCartValue:
+          data.minCartValue !== undefined
+            ? data.minCartValue
+              ? parseFloat(data.minCartValue)
+              : null
+            : undefined,
+        maxUses:
+          data.maxUses !== undefined ? (data.maxUses ? parseInt(data.maxUses) : null) : undefined,
+        expiresAt:
+          data.expiresAt !== undefined
+            ? data.expiresAt
+              ? new Date(data.expiresAt)
+              : null
+            : undefined,
         isActive: data.isActive,
       },
     });
@@ -31,7 +47,11 @@ export async function PUT(req: NextRequest, { params }: { params: Promise<{ id: 
 
 export async function DELETE(req: NextRequest, { params }: { params: Promise<{ id: string }> }) {
   const resolvedParams = await params;
-  const { errorResponse } = await checkAdminAndLog(req, "DELETE_COUPON", `Kupon sildi (ID: ${resolvedParams.id})`);
+  const { errorResponse } = await checkAdminAndLog(
+    req,
+    "DELETE_COUPON",
+    `Kupon sildi (ID: ${resolvedParams.id})`
+  );
   if (errorResponse) return errorResponse;
 
   try {

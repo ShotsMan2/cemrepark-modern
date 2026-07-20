@@ -9,8 +9,14 @@ const CACHE_KEY_BANNERS = "all_banners";
 class ProductService {
   async getProducts(filters = {}) {
     const { search, category, minPrice, maxPrice, color, categoryId } = filters;
-    const hasFilters = search || category || minPrice !== undefined || maxPrice !== undefined || color || categoryId !== undefined;
-    
+    const hasFilters =
+      search ||
+      category ||
+      minPrice !== undefined ||
+      maxPrice !== undefined ||
+      color ||
+      categoryId !== undefined;
+
     // Only use the static cache if there are no filters
     if (!hasFilters) {
       const cached = await cacheGet(CACHE_KEY_PRODUCTS);
@@ -45,13 +51,13 @@ class ProductService {
           variants: true,
           colors: true,
           category: true,
-        }
+        },
       });
-      
+
       if (!hasFilters) {
         await cacheSet(CACHE_KEY_PRODUCTS, products, 300);
       }
-      
+
       return products;
     } catch (error) {
       logger.error("Failed to fetch products from DB", { error: error.message });
@@ -59,15 +65,21 @@ class ProductService {
     }
   }
 
-  async getProductsPaginated(filters = {}, page = 1, limit = 10, sortBy = "id", sortOrder = "desc") {
+  async getProductsPaginated(
+    filters = {},
+    page = 1,
+    limit = 10,
+    sortBy = "id",
+    sortOrder = "desc"
+  ) {
     try {
       const { search, category, minPrice, maxPrice, color, categoryId } = filters;
       const whereClause = {};
 
       if (search) {
-        whereClause.ad = { contains: search }; 
+        whereClause.ad = { contains: search };
       }
-      if (category && category !== 'all') {
+      if (category && category !== "all") {
         whereClause.kategori = category;
       }
       if (categoryId !== undefined) {
@@ -79,7 +91,7 @@ class ProductService {
         if (maxPrice !== undefined) whereClause.fiyat.lte = maxPrice;
       }
       if (color) {
-        whereClause.renk = color; 
+        whereClause.renk = color;
       }
 
       const skip = (page - 1) * limit;
@@ -94,9 +106,9 @@ class ProductService {
             variants: true,
             colors: true,
             category: true,
-          }
+          },
         }),
-        prisma.product.count({ where: whereClause })
+        prisma.product.count({ where: whereClause }),
       ]);
 
       return {
@@ -104,7 +116,7 @@ class ProductService {
         total,
         page,
         limit,
-        totalPages: Math.ceil(total / limit)
+        totalPages: Math.ceil(total / limit),
       };
     } catch (error) {
       logger.error("Failed to fetch paginated products from DB", { error: error.message });

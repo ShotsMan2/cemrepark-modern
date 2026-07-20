@@ -1,4 +1,4 @@
-import redis from '../redis';
+import redis from "../redis";
 
 class RedisCache {
   async get(key) {
@@ -16,7 +16,7 @@ class RedisCache {
       const data = JSON.stringify(value);
       if (ttl) {
         // ttl is in milliseconds, convert to seconds for Redis EX
-        await redis.set(key, data, 'EX', Math.floor(ttl / 1000));
+        await redis.set(key, data, "EX", Math.floor(ttl / 1000));
       } else {
         await redis.set(key, data);
       }

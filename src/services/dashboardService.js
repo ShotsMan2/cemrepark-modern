@@ -20,10 +20,10 @@ export async function getSalesOverTime() {
 
   // SQLite returns BigInt for counts which can throw JSON serialization errors.
   // Converting them safely for the frontend response.
-  return salesOverTime.map(item => ({
+  return salesOverTime.map((item) => ({
     date: item.date,
     totalSales: Number(item.totalSales),
-    orderCount: Number(item.orderCount)
+    orderCount: Number(item.orderCount),
   }));
 }
 
@@ -33,7 +33,7 @@ export async function getSalesOverTime() {
  */
 export async function getTopProducts(limit = 5) {
   const topReviews = await prisma.review.groupBy({
-    by: ['productId'],
+    by: ["productId"],
     _count: {
       id: true,
     },
@@ -42,7 +42,7 @@ export async function getTopProducts(limit = 5) {
     },
     orderBy: {
       _count: {
-        id: 'desc',
+        id: "desc",
       },
     },
     take: limit,
@@ -54,7 +54,7 @@ export async function getTopProducts(limit = 5) {
 
   // Fetch the actual product details for the top product IDs
   const productIds = topReviews.map((r) => r.productId);
-  
+
   const products = await prisma.product.findMany({
     where: { id: { in: productIds } },
     select: {
@@ -62,19 +62,19 @@ export async function getTopProducts(limit = 5) {
       ad: true,
       fiyat: true,
       gorsel: true,
-    }
+    },
   });
 
   // Merge the aggregated data with product details
-  return topReviews.map(review => ({
+  return topReviews.map((review) => ({
     ...review,
-    product: products.find(p => p.id === review.productId) || null
+    product: products.find((p) => p.id === review.productId) || null,
   }));
 }
 
 export const dashboardService = {
   getSalesOverTime,
-  getTopProducts
+  getTopProducts,
 };
 
 export default dashboardService;

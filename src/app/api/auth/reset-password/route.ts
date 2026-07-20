@@ -1,4 +1,4 @@
-import { logger } from '@/lib/logger';
+import { logger } from "@/lib/logger";
 import { NextResponse, NextRequest } from "next/server";
 import { PrismaClient } from "@prisma/client";
 import bcrypt from "bcrypt";
@@ -16,7 +16,10 @@ export async function POST(req: NextRequest) {
     }
 
     if (password.length < 6) {
-        return NextResponse.json({ error: "Password must be at least 6 characters" }, { status: 400 });
+      return NextResponse.json(
+        { error: "Password must be at least 6 characters" },
+        { status: 400 }
+      );
     }
 
     // Find the token
@@ -58,7 +61,6 @@ export async function POST(req: NextRequest) {
     });
 
     return NextResponse.json({ message: "Password has been successfully reset" });
-
   } catch (error) {
     logger.error("Reset password error:", error);
     return NextResponse.json({ error: "An unexpected error occurred" }, { status: 500 });

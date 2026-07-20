@@ -20,7 +20,7 @@ function ResetPasswordForm() {
       <div className="text-center">
         <p className="text-red-500 mb-4 font-bold">Geçersiz veya eksik token.</p>
         <Link href="/login" className="text-holo-gold hover:underline font-bold">
-            ← {t("back_to_login") || "Giriş Ekranına Dön"}
+          ← {t("back_to_login") || "Giriş Ekranına Dön"}
         </Link>
       </div>
     );
@@ -72,7 +72,7 @@ function ResetPasswordForm() {
           background: "rgba(10, 10, 10, 0.9)",
           color: "#fff",
         }).then(() => {
-            router.push("/login");
+          router.push("/login");
         });
       } else {
         Swal.fire({
@@ -132,7 +132,9 @@ function ResetPasswordForm() {
         disabled={loading}
         className="w-full bg-gradient-to-r from-neon-pink to-holo-gold text-black font-bold py-3 px-4 rounded-lg hover:opacity-90 transition-opacity uppercase tracking-wider flex justify-center items-center gap-2 cursor-pointer"
       >
-        {loading ? (t("updating") || "Güncelleniyor...") : (t("save_changes") || "Değişiklikleri Kaydet")}
+        {loading
+          ? t("updating") || "Güncelleniyor..."
+          : t("save_changes") || "Değişiklikleri Kaydet"}
       </button>
     </form>
   );
@@ -155,7 +157,6 @@ export default function ResetPasswordPage() {
         <Suspense fallback={<div className="text-center text-gray-500">Yükleniyor...</div>}>
           <ResetPasswordForm />
         </Suspense>
-
       </div>
     </div>
   );

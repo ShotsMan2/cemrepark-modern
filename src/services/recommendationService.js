@@ -75,14 +75,23 @@ export class RuleBasedRecommendationEngine extends RecommendationStrategy {
 
       // 4. Pad with fallback products if we don't have enough recommendations
       if (relatedProducts.length < limit) {
-        const excludeIds = [...Array.from(purchasedProductIds), ...relatedProducts.map(p => p.id)];
-        const fallback = await this._getFallbackProducts(limit - relatedProducts.length, excludeIds);
+        const excludeIds = [
+          ...Array.from(purchasedProductIds),
+          ...relatedProducts.map((p) => p.id),
+        ];
+        const fallback = await this._getFallbackProducts(
+          limit - relatedProducts.length,
+          excludeIds
+        );
         return [...relatedProducts, ...fallback];
       }
 
       return relatedProducts;
     } catch (error) {
-      logger.error("Error in RuleBasedRecommendationEngine", { error: error.message, stack: error.stack });
+      logger.error("Error in RuleBasedRecommendationEngine", {
+        error: error.message,
+        stack: error.stack,
+      });
       return [];
     }
   }
@@ -139,8 +148,8 @@ class RecommendationService {
 
   /**
    * Get recommendations using the current strategy.
-   * @param {number} userId 
-   * @param {number} limit 
+   * @param {number} userId
+   * @param {number} limit
    * @returns {Promise<Array>}
    */
   async getRecommendationsForUser(userId, limit = 5) {

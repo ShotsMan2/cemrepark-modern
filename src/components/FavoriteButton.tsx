@@ -38,7 +38,7 @@ export default function FavoriteButton({ product, className = "" }: FavoriteButt
   const isFavorite = favoriteItems.some((item) => item.id === product.id);
 
   const toggleFavorite = (e: React.MouseEvent<HTMLButtonElement>) => {
-    e.preventDefault(); 
+    e.preventDefault();
 
     if (isFavorite) {
       removeFromFavorites(product.id);

@@ -6,7 +6,10 @@ import { messageService } from "@/services/messageService";
 export const GET = apiHandler(async (req: NextRequest) => {
   const { errorResponse } = await checkAdminAndLog(req, null, null);
   if (errorResponse) {
-    const error = new Error("Yetkisiz Erişim") as Error & { statusCode?: number; isOperational?: boolean };
+    const error = new Error("Yetkisiz Erişim") as Error & {
+      statusCode?: number;
+      isOperational?: boolean;
+    };
     error.statusCode = 403;
     error.isOperational = true;
     throw error;
@@ -14,18 +17,24 @@ export const GET = apiHandler(async (req: NextRequest) => {
 
   const url = new URL(req.url);
   const searchParams = url.searchParams;
-  const page = searchParams.get('page');
+  const page = searchParams.get("page");
 
   if (page) {
     const pageNum = parseInt(page) || 1;
-    const limit = parseInt(searchParams.get('limit') || '10');
-    const sortBy = searchParams.get('sortBy') || 'id';
-    const sortOrder = searchParams.get('sortOrder') || 'desc';
-    const search = searchParams.get('search') || '';
-    
+    const limit = parseInt(searchParams.get("limit") || "10");
+    const sortBy = searchParams.get("sortBy") || "id";
+    const sortOrder = searchParams.get("sortOrder") || "desc";
+    const search = searchParams.get("search") || "";
+
     const filters = { search };
-    
-    const paginatedMessages = await messageService.getMessagesPaginated(filters, pageNum, limit, sortBy, sortOrder);
+
+    const paginatedMessages = await messageService.getMessagesPaginated(
+      filters,
+      pageNum,
+      limit,
+      sortBy,
+      sortOrder
+    );
     return NextResponse.json(paginatedMessages);
   }
 

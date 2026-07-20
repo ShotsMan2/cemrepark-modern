@@ -21,7 +21,10 @@ export default function PriceDisplay({ amount, className = "" }: PriceDisplayPro
     const numPrice = typeof amount === "string" ? parseFloat(amount) : amount;
     return (
       <span className={className}>
-        {(numPrice || 0).toLocaleString("tr-TR", { minimumFractionDigits: 2, maximumFractionDigits: 2 })}{" "}
+        {(numPrice || 0).toLocaleString("tr-TR", {
+          minimumFractionDigits: 2,
+          maximumFractionDigits: 2,
+        })}{" "}
         TL
       </span>
     );

@@ -35,7 +35,7 @@ export default function AccountSettingsPage() {
           const res = await fetch("/api/users/profile");
           if (res.ok) {
             const data = await res.json();
-            // eslint-disable-next-line react-hooks/set-state-in-effect
+
             setFormData((prev) => ({
               ...prev,
               name: data.user.name || "",
@@ -44,7 +44,7 @@ export default function AccountSettingsPage() {
             }));
           } else {
             // Fallback to session data if API fails
-            // eslint-disable-next-line react-hooks/set-state-in-effect
+
             setFormData((prev) => ({
               ...prev,
               name: session.user.name || "",
@@ -53,7 +53,7 @@ export default function AccountSettingsPage() {
           }
         } catch {
           // Fallback to session data
-          // eslint-disable-next-line react-hooks/set-state-in-effect
+
           setFormData((prev) => ({
             ...prev,
             name: session.user.name || "",
@@ -131,10 +131,10 @@ export default function AccountSettingsPage() {
         updatePayload.email !== session?.user?.email ||
         updatePayload.phoneNumber !== session?.user?.phoneNumber
       ) {
-        await update({ 
-          name: updatePayload.name, 
+        await update({
+          name: updatePayload.name,
           email: updatePayload.email,
-          phoneNumber: updatePayload.phoneNumber
+          phoneNumber: updatePayload.phoneNumber,
         });
       }
 

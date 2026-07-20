@@ -105,11 +105,29 @@ export const POST = apiHandler(async (req: Request) => {
   }
 
   const body = await req.json();
-  const { customer, userId, total, items, couponCode, discountAmount, trackingNumber, carrier, paymentMethod } =
-    body;
+  const {
+    customer,
+    userId,
+    total,
+    items,
+    couponCode,
+    discountAmount,
+    trackingNumber,
+    carrier,
+    paymentMethod,
+  } = body;
 
   const newOrder = await orderService.createOrder(
-    { customer, userId, total, couponCode, discountAmount, trackingNumber, carrier, paymentMethod } as any,
+    {
+      customer,
+      userId,
+      total,
+      couponCode,
+      discountAmount,
+      trackingNumber,
+      carrier,
+      paymentMethod,
+    } as any,
     items || []
   );
 
@@ -134,9 +152,6 @@ export const POST = apiHandler(async (req: Request) => {
       entity: "Order",
       entityId: newOrder.id.toString(),
       details: `New order created for customer: ${customer}`,
-      changes: JSON.stringify({ items, total }),
-      ipAddress: ip,
-      userAgent,
     })
   );
 
@@ -240,9 +255,6 @@ export const PATCH = apiHandler(async (req: Request) => {
       entity: "Order",
       entityId: idsToUpdate.join(","),
       details: `Updated orders with IDs: ${idsToUpdate.join(", ")}`,
-      changes: JSON.stringify(updateData),
-      ipAddress: ip,
-      userAgent,
     })
   );
 

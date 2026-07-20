@@ -22,7 +22,17 @@ import { motion, AnimatePresence } from "framer-motion";
 
 import { z } from "zod";
 
-import { ShieldCheck, Truck, RotateCcw, CreditCard, Banknote, Calendar, Check, User, ChevronDown } from "lucide-react";
+import {
+  ShieldCheck,
+  Truck,
+  RotateCcw,
+  CreditCard,
+  Banknote,
+  Calendar,
+  Check,
+  User,
+  ChevronDown,
+} from "lucide-react";
 
 const checkoutSchema = z.object({
   fullName: z.string().min(3, "Ad Soyad en az 3 karakter olmalıdır"),
@@ -270,7 +280,11 @@ export default function CheckoutPage() {
         userId: (session?.user as any)?.id ? parseInt((session.user as any).id as string) : null,
 
         total: totalAmount,
-        items: cartItems.map((i: any) => ({ productId: i.id, quantity: i.quantity, price: i.fiyat })),
+        items: cartItems.map((i: any) => ({
+          productId: i.id,
+          quantity: i.quantity,
+          price: i.fiyat,
+        })),
 
         couponCode: appliedCoupon?.code || null,
         discountAmount,
@@ -339,7 +353,11 @@ export default function CheckoutPage() {
         userId: (session?.user as any)?.id ? parseInt((session.user as any).id as string) : null,
 
         total: totalAmount,
-        items: cartItems.map((i: any) => ({ productId: i.id, quantity: i.quantity, price: i.fiyat })),
+        items: cartItems.map((i: any) => ({
+          productId: i.id,
+          quantity: i.quantity,
+          price: i.fiyat,
+        })),
 
         couponCode: appliedCoupon?.code || null,
         discountAmount,
@@ -501,7 +519,19 @@ export default function CheckoutPage() {
                   className="glass-card p-6 rounded-[2rem] border border-primary/20 bg-background/50 backdrop-blur-md shadow-[0_10px_30px_rgb(0,0,0,0.05)]"
                 >
                   <h3 className="text-xs font-bold text-foreground mb-4 uppercase tracking-[0.15em] text-center flex items-center justify-center gap-2">
-                    <svg className="w-4 h-4 text-primary" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M13 10V3L4 14h7v7l9-11h-7z"></path></svg>
+                    <svg
+                      className="w-4 h-4 text-primary"
+                      fill="none"
+                      stroke="currentColor"
+                      viewBox="0 0 24 24"
+                    >
+                      <path
+                        strokeLinecap="round"
+                        strokeLinejoin="round"
+                        strokeWidth="2"
+                        d="M13 10V3L4 14h7v7l9-11h-7z"
+                      ></path>
+                    </svg>
                     Hızlı Ödeme ile Tek Tıkla Tamamla
                   </h3>
 
@@ -575,94 +605,110 @@ export default function CheckoutPage() {
                 </motion.div>
 
                 {/* ACCORDION STEP 1: DELIVERY ADDRESS */}
-                <div className={`glass-card rounded-[2rem] border transition-all duration-500 ${activeStep === 1 ? 'border-primary shadow-[0_0_20px_var(--color-primary)]' : activeStep > 1 ? 'border-emerald-500/30 bg-emerald-500/5' : 'border-white/20 dark:border-white/5 opacity-70'} overflow-hidden relative backdrop-blur-xl`}>
-                  <button 
-                    type="button" 
-                    onClick={() => setActiveStep(1)}
+                <div className="glass-card rounded-[2rem] border transition-all duration-500 border-primary shadow-[0_0_20px_var(--color-primary)] overflow-hidden relative backdrop-blur-xl mb-6">
+                  <button
+                    type="button"
+
                     className="w-full flex items-center justify-between p-6 bg-transparent group"
                   >
                     <div className="flex items-center gap-4">
-                      <div className={`w-10 h-10 rounded-full flex items-center justify-center font-bold text-sm transition-colors ${activeStep === 1 ? 'bg-primary text-background' : activeStep > 1 ? 'bg-emerald-500 text-white' : 'bg-foreground/10 text-foreground/50'}`}>
-                        {activeStep > 1 ? <Check className="w-5 h-5"/> : '1'}
+                      <div className="w-10 h-10 rounded-full flex items-center justify-center font-bold text-sm transition-colors bg-primary text-background">
+                        "1"
                       </div>
                       <h2 className="text-lg font-bold uppercase tracking-[0.15em] text-foreground flex items-center gap-3">
-                        <User className={`w-5 h-5 transition-colors ${activeStep === 1 ? 'text-primary' : 'text-foreground/50'}`} />
+                        <User
+                          className={`w-5 h-5 transition-colors ${activeStep === 1 ? "text-primary" : "text-foreground/50"}`}
+                        />
                         Kişisel & Teslimat Bilgileri
                       </h2>
                     </div>
-                    <ChevronDown className={`w-5 h-5 transition-transform duration-500 ${activeStep === 1 ? 'rotate-180 text-primary' : 'text-foreground/30'}`} />
+                    <ChevronDown className="w-5 h-5 transition-transform duration-500 rotate-180 text-primary" />
                   </button>
                   <AnimatePresence>
-                    {activeStep === 1 && (
-                      <motion.div 
+                    {true && (
+                      <motion.div
                         initial={{ height: 0, opacity: 0 }}
                         animate={{ height: "auto", opacity: 1 }}
                         exit={{ height: 0, opacity: 0 }}
                         className="px-6 pb-6"
                       >
                         <div className="grid grid-cols-1 md:grid-cols-2 gap-5 mt-2">
-                    {["fullName", "email", "phone", "city"].map((field) => (
-                      <div key={field} className="relative group/input">
-                        <label className="block text-[10px] font-black text-foreground/60 mb-1.5 uppercase tracking-[0.2em] group-focus-within/input:text-primary transition-colors">
-                          {t(
-                            field === "fullName"
-                              ? "full_name"
-                              : field === "city"
-                                ? "district"
-                                : field
-                          )}
-                        </label>
+                          {["fullName", "email", "phone", "city"].map((field) => (
+                            <div key={field} className="relative group/input">
+                              <label className="block text-[10px] font-black text-foreground/60 mb-1.5 uppercase tracking-[0.2em] group-focus-within/input:text-primary transition-colors">
+                                {t(
+                                  field === "fullName"
+                                    ? "full_name"
+                                    : field === "city"
+                                      ? "district"
+                                      : field
+                                )}
+                              </label>
 
-                        <input
-                          required
-                          type={field === "email" ? "email" : "text"}
-                          name={field}
-                          value={(formData as any)[field]}
-                          onChange={handleInputChange}
-                          className={`w-full glass-panel border ${errors[field] ? "border-red-500" : "border-glass-border"} text-foreground rounded-xl px-4 py-3 text-sm focus:outline-none focus:ring-2 focus:ring-primary focus:border-transparent transition-all backdrop-blur-sm shadow-inner font-semibold`}
-                        />
+                              <input
+                                required
+                                type={field === "email" ? "email" : "text"}
+                                name={field}
+                                value={(formData as any)[field]}
+                                onChange={handleInputChange}
+                                className={`w-full glass-panel border ${errors[field] ? "border-red-500" : "border-glass-border"} text-foreground rounded-xl px-4 py-3 text-sm focus:outline-none focus:ring-2 focus:ring-primary focus:border-transparent transition-all backdrop-blur-sm shadow-inner font-semibold`}
+                              />
 
-                        <AnimatePresence>
-                          {errors[field] && (
-                            <motion.p
-                              initial={{ opacity: 0, height: 0 }}
-                              animate={{ opacity: 1, height: "auto" }}
-                              exit={{ opacity: 0, height: 0 }}
-                              className="text-red-500 text-[10px] mt-1 ml-1 font-bold"
-                            >
-                              {errors[field]}
-                            </motion.p>
-                          )}
-                        </AnimatePresence>
-                      </div>
-                    ))}
+                              <AnimatePresence>
+                                {errors[field] && (
+                                  <motion.p
+                                    initial={{ opacity: 0, height: 0 }}
+                                    animate={{ opacity: 1, height: "auto" }}
+                                    exit={{ opacity: 0, height: 0 }}
+                                    className="text-red-500 text-[10px] mt-1 ml-1 font-bold"
+                                  >
+                                    {errors[field]}
+                                  </motion.p>
+                                )}
+                              </AnimatePresence>
+                            </div>
+                          ))}
 
-                    <div className="md:col-span-2 relative group/input">
-                      <label className="block text-[10px] font-black text-foreground/60 mb-1.5 uppercase tracking-[0.2em] group-focus-within/input:text-neon-pink transition-colors">
-                        {t("address")}
-                      </label>
+                          <div className="md:col-span-2 relative group/input">
+                            <label className="block text-[10px] font-black text-foreground/60 mb-1.5 uppercase tracking-[0.2em] group-focus-within/input:text-neon-pink transition-colors">
+                              {t("address")}
+                            </label>
 
-                      <textarea
-                        required
-                        name="address"
-                        value={formData.address}
-                        onChange={handleInputChange}
-                        rows={3}
-                        className={`w-full glass-panel border ${errors.address ? "border-red-500" : "border-glass-border"} text-foreground rounded-xl px-4 py-3 text-sm focus:outline-none focus:ring-2 focus:ring-neon-pink focus:border-transparent transition-all resize-none backdrop-blur-sm shadow-inner font-semibold`}
-                      ></textarea>
+                            <textarea
+                              required
+                              name="address"
+                              value={formData.address}
+                              onChange={handleInputChange}
+                              rows={3}
+                              className={`w-full glass-panel border ${errors.address ? "border-red-500" : "border-glass-border"} text-foreground rounded-xl px-4 py-3 text-sm focus:outline-none focus:ring-2 focus:ring-neon-pink focus:border-transparent transition-all resize-none backdrop-blur-sm shadow-inner font-semibold`}
+                            ></textarea>
+                          </div>
                         </div>
                         <div className="mt-8 flex justify-end">
-                          <button 
-                            type="button" 
+                          <button
+                            type="button"
                             onClick={() => {
                               // Basic validation check before proceeding
-                              if (formData.fullName.length > 2 && formData.email.includes("@") && formData.address.length > 5) {
+                              if (
+                                formData.fullName.length > 2 &&
+                                formData.email.includes("@") &&
+                                formData.address.length > 5
+                              ) {
                                 setActiveStep(2);
                               } else {
-                                Swal.fire({ toast: true, position: 'top-end', icon: 'warning', title: 'Lütfen bilgileri eksiksiz doldurun.', showConfirmButton: false, timer: 2000, background: '#18181b', color: '#fff' });
+                                Swal.fire({
+                                  toast: true,
+                                  position: "top-end",
+                                  icon: "warning",
+                                  title: "Lütfen bilgileri eksiksiz doldurun.",
+                                  showConfirmButton: false,
+                                  timer: 2000,
+                                  background: "#18181b",
+                                  color: "#fff",
+                                });
                               }
-                            }} 
-                            className="bg-foreground text-background px-8 py-3 rounded-xl font-bold uppercase tracking-widest text-xs hover:scale-[1.02] active:scale-[0.98] transition-all flex items-center gap-2"
+                            }}
+                            className="hidden bg-foreground text-background px-8 py-3 rounded-xl font-bold uppercase tracking-widest text-xs hover:scale-[1.02] active:scale-[0.98] transition-all flex items-center gap-2"
                           >
                             Kargo Seçimine Geç <ChevronDown className="w-4 h-4 -rotate-90" />
                           </button>
@@ -673,101 +719,104 @@ export default function CheckoutPage() {
                 </div>
 
                 {/* ACCORDION STEP 2: SHIPPING METHOD */}
-                <div className={`glass-card rounded-[2rem] border transition-all duration-500 ${activeStep === 2 ? 'border-primary shadow-[0_0_20px_var(--color-primary)]' : activeStep > 2 ? 'border-emerald-500/30 bg-emerald-500/5' : 'border-white/20 dark:border-white/5 opacity-70'} overflow-hidden relative backdrop-blur-xl`}>
-                  <button 
-                    type="button" 
-                    onClick={() => setActiveStep(2)}
+                <div className="glass-card rounded-[2rem] border transition-all duration-500 border-primary shadow-[0_0_20px_var(--color-primary)] overflow-hidden relative backdrop-blur-xl mb-6">
+                  <button
+                    type="button"
+
                     className="w-full flex items-center justify-between p-6 bg-transparent group"
                   >
                     <div className="flex items-center gap-4">
-                      <div className={`w-10 h-10 rounded-full flex items-center justify-center font-bold text-sm transition-colors ${activeStep === 2 ? 'bg-primary text-background' : activeStep > 2 ? 'bg-emerald-500 text-white' : 'bg-foreground/10 text-foreground/50'}`}>
-                        {activeStep > 2 ? <Check className="w-5 h-5"/> : '2'}
+                      <div className="w-10 h-10 rounded-full flex items-center justify-center font-bold text-sm transition-colors bg-primary text-background">
+                        "2"
                       </div>
                       <h2 className="text-lg font-bold uppercase tracking-[0.15em] text-foreground flex items-center gap-3">
-                        <Truck className={`w-5 h-5 transition-colors ${activeStep === 2 ? 'text-primary' : 'text-foreground/50'}`} />
+                        <Truck
+                          className={`w-5 h-5 transition-colors ${activeStep === 2 ? "text-primary" : "text-foreground/50"}`}
+                        />
                         Kargo Seçenekleri
                       </h2>
                     </div>
-                    <ChevronDown className={`w-5 h-5 transition-transform duration-500 ${activeStep === 2 ? 'rotate-180 text-primary' : 'text-foreground/30'}`} />
+                    <ChevronDown className="w-5 h-5 transition-transform duration-500 rotate-180 text-primary" />
                   </button>
                   <AnimatePresence>
-                    {activeStep === 2 && (
-                      <motion.div 
+                    {true && (
+                      <motion.div
                         initial={{ height: 0, opacity: 0 }}
                         animate={{ height: "auto", opacity: 1 }}
                         exit={{ height: 0, opacity: 0 }}
                         className="px-6 pb-6"
                       >
                         <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 mt-2">
-                    <label
-                      className={`cursor-pointer flex flex-col p-4 rounded-2xl border-2 transition-all ${shippingMethod === "standard" ? "border-neon-pink bg-neon-pink/5" : "border-glass-border hover:border-neon-pink/50"}`}
-                    >
-                      <div className="flex justify-between items-center mb-2">
-                        <span className="font-bold flex items-center gap-2">
-                          <Truck className="w-4 h-4" /> Standart Kargo
-                        </span>
+                          <label
+                            className={`cursor-pointer flex flex-col p-4 rounded-2xl border-2 transition-all ${shippingMethod === "standard" ? "border-neon-pink bg-neon-pink/5" : "border-glass-border hover:border-neon-pink/50"}`}
+                          >
+                            <div className="flex justify-between items-center mb-2">
+                              <span className="font-bold flex items-center gap-2">
+                                <Truck className="w-4 h-4" /> Standart Kargo
+                              </span>
 
-                        <input
-                          type="radio"
-                          name="shippingMethod"
-                          value="standard"
-                          checked={shippingMethod === "standard"}
-                          onChange={() => setShippingMethod("standard")}
-                          className="text-neon-pink focus:ring-neon-pink"
-                        />
-                      </div>
+                              <input
+                                type="radio"
+                                name="shippingMethod"
+                                value="standard"
+                                checked={shippingMethod === "standard"}
+                                onChange={() => setShippingMethod("standard")}
+                                className="text-neon-pink focus:ring-neon-pink"
+                              />
+                            </div>
 
-                      <span className="text-xs text-foreground/60 mb-2">
-                        2-4 iş günü içinde teslimat
-                      </span>
+                            <span className="text-xs text-foreground/60 mb-2">
+                              2-4 iş günü içinde teslimat
+                            </span>
 
-                      <span className="font-black text-neon-pink mt-auto">
-                        {subtotalAfterDiscount >= FREE_SHIPPING_THRESHOLD
-                          ? "Ücretsiz"
-                          : formatPrice(BASE_SHIPPING_FEE)}
-                      </span>
-                    </label>
+                            <span className="font-black text-neon-pink mt-auto">
+                              {subtotalAfterDiscount >= FREE_SHIPPING_THRESHOLD
+                                ? "Ücretsiz"
+                                : formatPrice(BASE_SHIPPING_FEE)}
+                            </span>
+                          </label>
 
-                    <label
-                      className={`cursor-pointer flex flex-col p-4 rounded-2xl border-2 transition-all ${shippingMethod === "express" ? "border-holo-gold bg-holo-gold/5" : "border-glass-border hover:border-holo-gold/50"}`}
-                    >
-                      <div className="flex justify-between items-center mb-2">
-                        <span className="font-bold flex items-center gap-2 text-holo-gold">
-                          <Truck className="w-4 h-4" /> Hızlı Kargo
-                        </span>
+                          <label
+                            className={`cursor-pointer flex flex-col p-4 rounded-2xl border-2 transition-all ${shippingMethod === "express" ? "border-holo-gold bg-holo-gold/5" : "border-glass-border hover:border-holo-gold/50"}`}
+                          >
+                            <div className="flex justify-between items-center mb-2">
+                              <span className="font-bold flex items-center gap-2 text-holo-gold">
+                                <Truck className="w-4 h-4" /> Hızlı Kargo
+                              </span>
 
-                        <input
-                          type="radio"
-                          name="shippingMethod"
-                          value="express"
-                          checked={shippingMethod === "express"}
-                          onChange={() => setShippingMethod("express")}
-                          className="text-holo-gold focus:ring-holo-gold"
-                        />
-                      </div>
+                              <input
+                                type="radio"
+                                name="shippingMethod"
+                                value="express"
+                                checked={shippingMethod === "express"}
+                                onChange={() => setShippingMethod("express")}
+                                className="text-holo-gold focus:ring-holo-gold"
+                              />
+                            </div>
 
-                      <span className="text-xs text-foreground/60 mb-2">
-                        Ertesi gün teslimat avantajı
-                      </span>
+                            <span className="text-xs text-foreground/60 mb-2">
+                              Ertesi gün teslimat avantajı
+                            </span>
 
-                      <span className="font-black text-holo-gold mt-auto">
-                        {formatPrice(BASE_SHIPPING_FEE * 2)}
-                      </span>
-                    </label>
-                  </div>
-
+                            <span className="font-black text-holo-gold mt-auto">
+                              {formatPrice(BASE_SHIPPING_FEE * 2)}
+                            </span>
+                          </label>
                         </div>
 
                         <div className="flex items-center gap-2 text-xs font-bold text-foreground/60 bg-foreground/5 p-4 rounded-xl mt-6 border border-foreground/5">
                           <Calendar className="w-4 h-4 text-primary" />
-                          <span>Tahmini Teslimat: <span className="text-foreground">{getEstimatedDelivery()}</span></span>
+                          <span>
+                            Tahmini Teslimat:{" "}
+                            <span className="text-foreground">{getEstimatedDelivery()}</span>
+                          </span>
                         </div>
 
                         <div className="mt-8 flex justify-end">
-                          <button 
-                            type="button" 
-                            onClick={() => setActiveStep(3)} 
-                            className="bg-foreground text-background px-8 py-3 rounded-xl font-bold uppercase tracking-widest text-xs hover:scale-[1.02] active:scale-[0.98] transition-all flex items-center gap-2"
+                          <button
+                            type="button"
+
+                            className="hidden bg-foreground text-background px-8 py-3 rounded-xl font-bold uppercase tracking-widest text-xs hover:scale-[1.02] active:scale-[0.98] transition-all flex items-center gap-2"
                           >
                             Ödemeye Geç <ChevronDown className="w-4 h-4 -rotate-90" />
                           </button>
@@ -778,250 +827,260 @@ export default function CheckoutPage() {
                 </div>
 
                 {/* ACCORDION STEP 3: PAYMENT METHOD */}
-                <div className={`glass-card rounded-[2rem] border transition-all duration-500 ${activeStep === 3 ? 'border-primary shadow-[0_0_20px_var(--color-primary)]' : 'border-white/20 dark:border-white/5 opacity-70'} overflow-hidden relative backdrop-blur-xl`}>
-                  <button 
-                    type="button" 
-                    onClick={() => setActiveStep(3)}
+                <div className="glass-card rounded-[2rem] border transition-all duration-500 border-primary shadow-[0_0_20px_var(--color-primary)] overflow-hidden relative backdrop-blur-xl mb-6">
+                  <button
+                    type="button"
+
                     className="w-full flex items-center justify-between p-6 bg-transparent group"
                   >
                     <div className="flex items-center gap-4">
-                      <div className={`w-10 h-10 rounded-full flex items-center justify-center font-bold text-sm transition-colors ${activeStep === 3 ? 'bg-primary text-background' : 'bg-foreground/10 text-foreground/50'}`}>
+                      <div className="w-10 h-10 rounded-full flex items-center justify-center font-bold text-sm transition-colors bg-primary text-background">
                         3
                       </div>
                       <h2 className="text-lg font-bold uppercase tracking-[0.15em] text-foreground flex items-center gap-3">
-                        <CreditCard className={`w-5 h-5 transition-colors ${activeStep === 3 ? 'text-primary' : 'text-foreground/50'}`} />
+                        <CreditCard
+                          className={`w-5 h-5 transition-colors ${activeStep === 3 ? "text-primary" : "text-foreground/50"}`}
+                        />
                         Ödeme Yöntemi
                       </h2>
                     </div>
-                    <ChevronDown className={`w-5 h-5 transition-transform duration-500 ${activeStep === 3 ? 'rotate-180 text-primary' : 'text-foreground/30'}`} />
+                    <ChevronDown className="w-5 h-5 transition-transform duration-500 rotate-180 text-primary" />
                   </button>
                   <AnimatePresence>
-                    {activeStep === 3 && (
-                      <motion.div 
+                    {true && (
+                      <motion.div
                         initial={{ height: 0, opacity: 0 }}
                         animate={{ height: "auto", opacity: 1 }}
                         exit={{ height: 0, opacity: 0 }}
                         className="px-6 pb-6"
                       >
                         <div className="flex gap-4 mt-2">
-                    <label
-                      className={`flex-1 cursor-pointer flex items-center justify-center gap-2 p-3 rounded-xl border-2 transition-all ${paymentMethod === "card" ? "border-holo-gold bg-holo-gold/5 text-holo-gold" : "border-glass-border text-foreground/60"}`}
-                    >
-                      <input
-                        type="radio"
-                        name="paymentMethod"
-                        value="card"
-                        checked={paymentMethod === "card"}
-                        onChange={() => setPaymentMethod("card")}
-                        className="hidden"
-                      />
-                      <CreditCard className="w-4 h-4" />{" "}
-                      <span className="font-bold text-sm">Kredi Kartı</span>
-                    </label>
-
-                    <label
-                      className={`flex-1 cursor-pointer flex items-center justify-center gap-2 p-3 rounded-xl border-2 transition-all ${paymentMethod === "cod" ? "border-primary bg-primary/5 text-primary" : "border-glass-border text-foreground/60"}`}
-                    >
-                      <input
-                        type="radio"
-                        name="paymentMethod"
-                        value="cod"
-                        checked={paymentMethod === "cod"}
-                        onChange={() => setPaymentMethod("cod")}
-                        className="hidden"
-                      />
-                      <Banknote className="w-4 h-4" />{" "}
-                      <span className="font-bold text-sm">Kapıda Ödeme</span>
-                    </label>
-                  </div>
-
-                  <AnimatePresence>
-                    {paymentMethod === "card" && (
-                      <motion.div
-                        initial={{ opacity: 0, height: 0 }}
-
-                        animate={{ opacity: 1, height: "auto" }}
-
-                        exit={{ opacity: 0, height: 0 }}
-
-                        className="overflow-hidden"
-                      >
-                        {/* Modern Card Visual */}
-
-                        <div className="max-w-[360px] mx-auto mb-8 perspective-1000 group">
-                          <motion.div
-                            animate={{ rotateY: isCvvFocused ? 180 : 0 }}
-
-                            transition={{ duration: 0.6, type: "spring" }}
-
-                            className="w-full h-48 relative preserve-3d"
+                          <label
+                            className={`flex-1 cursor-pointer flex items-center justify-center gap-2 p-3 rounded-xl border-2 transition-all ${paymentMethod === "card" ? "border-holo-gold bg-holo-gold/5 text-holo-gold" : "border-glass-border text-foreground/60"}`}
                           >
-                            {/* Card Front */}
+                            <input
+                              type="radio"
+                              name="paymentMethod"
+                              value="card"
+                              checked={paymentMethod === "card"}
+                              onChange={() => setPaymentMethod("card")}
+                              className="hidden"
+                            />
+                            <CreditCard className="w-4 h-4" />{" "}
+                            <span className="font-bold text-sm">Kredi Kartı</span>
+                          </label>
 
-                            <div className="absolute inset-0 backface-hidden bg-gradient-to-br from-gray-900 via-zinc-800 to-black rounded-2xl p-6 shadow-2xl border border-white/10 flex flex-col justify-between">
-                              <div className="flex justify-between items-start">
-                                <div className="w-12 h-8 bg-gradient-to-br from-yellow-300 to-yellow-600 rounded opacity-90 shadow-sm flex items-center justify-center">
-                                  <div className="w-6 h-4 border border-yellow-200/50 rounded-sm"></div>
-                                </div>
-
-                                <div className="flex -space-x-3">
-                                  <div className="w-8 h-8 rounded-full bg-red-500/80 mix-blend-screen"></div>
-
-                                  <div className="w-8 h-8 rounded-full bg-yellow-500/80 mix-blend-screen"></div>
-                                </div>
-                              </div>
-
-                              <div className="text-foreground text-xl tracking-[0.15em] font-mono drop-shadow-md">
-                                {formData.cardNumber ||
-                                  "•••• •••• •••• ••••"}
-                              </div>
-
-                              <div className="flex justify-between text-gray-300">
-                                <div className="flex flex-col">
-                                  <span className="text-[8px] uppercase tracking-widest opacity-70 mb-0.5">
-                                    Card Holder
-                                  </span>
-
-                                  <span className="uppercase tracking-widest text-xs font-bold truncate w-32">
-                                    {formData.fullName || "AD SOYAD"}
-                                  </span>
-                                </div>
-
-                                <div className="flex flex-col text-right">
-                                  <span className="text-[8px] uppercase tracking-widest opacity-70 mb-0.5">
-                                    Expires
-                                  </span>
-
-                                  <span className="font-mono font-bold tracking-widest text-xs">
-                                    {formData.cardExpiry || "MM/YY"}
-                                  </span>
-                                </div>
-                              </div>
-                            </div>
-
-                            {/* Card Back */}
-
-                            <div className="absolute inset-0 backface-hidden bg-gradient-to-br from-gray-900 via-zinc-800 to-black rounded-2xl shadow-2xl border border-white/10 rotate-y-180 flex flex-col">
-                              <div className="w-full h-10 bg-black mt-4"></div>
-
-                              <div className="px-6 mt-4">
-                                <div className="flex justify-end bg-gray-200 h-8 items-center px-3 rounded text-black font-mono font-bold text-sm">
-                                  {formData.cardCvv || "***"}
-                                </div>
-
-                                <p className="text-[8px] text-gray-500 mt-2 pr-12">
-                                  Bu kart sadece güvenli alışveriş içindir. Arka yüzdeki
-                                  güvenlik kodu (CVV) ile işlem yapabilirsiniz.
-                                </p>
-                              </div>
-                            </div>
-                          </motion.div>
+                          <label
+                            className={`flex-1 cursor-pointer flex items-center justify-center gap-2 p-3 rounded-xl border-2 transition-all ${paymentMethod === "cod" ? "border-primary bg-primary/5 text-primary" : "border-glass-border text-foreground/60"}`}
+                          >
+                            <input
+                              type="radio"
+                              name="paymentMethod"
+                              value="cod"
+                              checked={paymentMethod === "cod"}
+                              onChange={() => setPaymentMethod("cod")}
+                              className="hidden"
+                            />
+                            <Banknote className="w-4 h-4" />{" "}
+                            <span className="font-bold text-sm">Kapıda Ödeme</span>
+                          </label>
                         </div>
 
-                        <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-                          <div className="md:col-span-2 relative group/input">
-                            <label className="block text-[10px] font-black text-foreground/60 mb-1.5 uppercase tracking-[0.2em] group-focus-within/input:text-holo-gold transition-colors">
-                              Kart Numarası
-                            </label>
+                        <AnimatePresence>
+                          {paymentMethod === "card" && (
+                            <motion.div
+                              initial={{ opacity: 0, height: 0 }}
 
-                            <input
-                              required={paymentMethod === "card"}
-                              type="text"
-                              name="cardNumber"
-                              value={formData.cardNumber}
-                              onChange={handleInputChange}
-                              onFocus={() => setIsCvvFocused(false)}
-                              maxLength={19}
-                              className={`w-full glass-panel border ${errors.cardNumber ? "border-red-500" : "border-glass-border"} text-foreground rounded-xl px-4 py-3 font-mono font-bold tracking-widest text-sm focus:ring-2 focus:ring-holo-gold focus:outline-none transition-all shadow-inner`}
-                              placeholder="0000 0000 0000 0000"
-                            />
-                          </div>
+                              animate={{ opacity: 1, height: "auto" }}
 
-                          <div className="relative group/input">
-                            <label className="block text-[10px] font-black text-foreground/60 mb-1.5 uppercase tracking-[0.2em] group-focus-within/input:text-holo-gold transition-colors">
-                              SKT
-                            </label>
+                              exit={{ opacity: 0, height: 0 }}
 
-                            <input
-                              required={paymentMethod === "card"}
-                              type="text"
-                              name="cardExpiry"
-                              value={formData.cardExpiry}
-                              onChange={handleInputChange}
-                              onFocus={() => setIsCvvFocused(false)}
-                              maxLength={5}
-                              className={`w-full glass-panel border ${errors.cardExpiry ? "border-red-500" : "border-glass-border"} text-foreground rounded-xl px-4 py-3 font-mono font-bold tracking-widest text-sm focus:ring-2 focus:ring-holo-gold focus:outline-none transition-all shadow-inner text-center`}
-                              placeholder="MM/YY"
-                            />
-                          </div>
+                              className="overflow-hidden"
+                            >
+                              {/* Modern Card Visual */}
 
-                          <div className="relative group/input">
-                            <label className="block text-[10px] font-black text-foreground/60 mb-1.5 uppercase tracking-[0.2em] group-focus-within/input:text-holo-gold transition-colors">
-                              CVV
-                            </label>
+                              <div className="max-w-[360px] mx-auto mb-8 perspective-1000 group">
+                                <motion.div
+                                  animate={{ rotateY: isCvvFocused ? 180 : 0 }}
 
-                            <input
-                              required={paymentMethod === "card"}
-                              type="text"
-                              name="cardCvv"
-                              value={formData.cardCvv}
-                              onChange={handleInputChange}
-                              onFocus={() => setIsCvvFocused(true)}
-                              onBlur={() => setIsCvvFocused(false)}
-                              maxLength={3}
-                              className={`w-full glass-panel border ${errors.cardCvv ? "border-red-500" : "border-glass-border"} text-foreground rounded-xl px-4 py-3 font-mono font-bold tracking-widest text-sm focus:ring-2 focus:ring-holo-gold focus:outline-none transition-all shadow-inner text-center`}
-                              placeholder="***"
-                            />
-                          </div>
-                        </div>
-                      </motion.div>
-                          </motion.div>
-                        )}
-                      </AnimatePresence>
+                                  transition={{ duration: 0.6, type: "spring" }}
 
-                      {/* Submit Button Inside Step 3 */}
-                      <motion.button
-                        whileHover={{ scale: 1.02 }}
-                        whileTap={{ scale: 0.95 }}
-                        type="submit"
-                        disabled={isProcessing}
-                        className="w-full bg-gradient-to-r from-primary to-secondary text-white py-5 rounded-2xl font-bold text-lg uppercase tracking-[0.2em] shadow-xl hover:shadow-primary/40 transition-all duration-300 flex items-center justify-center gap-4 mt-10 relative overflow-hidden group/btn"
-                      >
-                        <span className="absolute inset-0 w-full h-full bg-white/20 translate-y-full group-hover/btn:translate-y-0 transition-transform duration-300"></span>
-                        <span className="relative z-10 flex items-center justify-center gap-4">
-                          {isProcessing ? (
-                            "İşleniyor..."
-                          ) : (
-                            <>
-                              Ödemeyi Tamamla
-                              <span className="opacity-50 font-normal">|</span>
-                              {formatPrice(totalAmount)}
-                              <svg className="w-5 h-5 ml-2 animate-bounce-x" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M14 5l7 7m0 0l-7 7m7-7H3"></path>
-                              </svg>
-                            </>
+                                  className="w-full h-48 relative preserve-3d"
+                                >
+                                  {/* Card Front */}
+
+                                  <div className="absolute inset-0 backface-hidden bg-gradient-to-br from-gray-900 via-zinc-800 to-black rounded-2xl p-6 shadow-2xl border border-white/10 flex flex-col justify-between">
+                                    <div className="flex justify-between items-start">
+                                      <div className="w-12 h-8 bg-gradient-to-br from-yellow-300 to-yellow-600 rounded opacity-90 shadow-sm flex items-center justify-center">
+                                        <div className="w-6 h-4 border border-yellow-200/50 rounded-sm"></div>
+                                      </div>
+
+                                      <div className="flex -space-x-3">
+                                        <div className="w-8 h-8 rounded-full bg-red-500/80 mix-blend-screen"></div>
+
+                                        <div className="w-8 h-8 rounded-full bg-yellow-500/80 mix-blend-screen"></div>
+                                      </div>
+                                    </div>
+
+                                    <div className="text-foreground text-xl tracking-[0.15em] font-mono drop-shadow-md">
+                                      {formData.cardNumber || "•••• •••• •••• ••••"}
+                                    </div>
+
+                                    <div className="flex justify-between text-gray-300">
+                                      <div className="flex flex-col">
+                                        <span className="text-[8px] uppercase tracking-widest opacity-70 mb-0.5">
+                                          Card Holder
+                                        </span>
+
+                                        <span className="uppercase tracking-widest text-xs font-bold truncate w-32">
+                                          {formData.fullName || "AD SOYAD"}
+                                        </span>
+                                      </div>
+
+                                      <div className="flex flex-col text-right">
+                                        <span className="text-[8px] uppercase tracking-widest opacity-70 mb-0.5">
+                                          Expires
+                                        </span>
+
+                                        <span className="font-mono font-bold tracking-widest text-xs">
+                                          {formData.cardExpiry || "MM/YY"}
+                                        </span>
+                                      </div>
+                                    </div>
+                                  </div>
+
+                                  {/* Card Back */}
+
+                                  <div className="absolute inset-0 backface-hidden bg-gradient-to-br from-gray-900 via-zinc-800 to-black rounded-2xl shadow-2xl border border-white/10 rotate-y-180 flex flex-col">
+                                    <div className="w-full h-10 bg-black mt-4"></div>
+
+                                    <div className="px-6 mt-4">
+                                      <div className="flex justify-end bg-gray-200 h-8 items-center px-3 rounded text-black font-mono font-bold text-sm">
+                                        {formData.cardCvv || "***"}
+                                      </div>
+
+                                      <p className="text-[8px] text-gray-500 mt-2 pr-12">
+                                        Bu kart sadece güvenli alışveriş içindir. Arka yüzdeki
+                                        güvenlik kodu (CVV) ile işlem yapabilirsiniz.
+                                      </p>
+                                    </div>
+                                  </div>
+                                </motion.div>
+                              </div>
+
+                              <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                                <div className="md:col-span-2 relative group/input">
+                                  <label className="block text-[10px] font-black text-foreground/60 mb-1.5 uppercase tracking-[0.2em] group-focus-within/input:text-holo-gold transition-colors">
+                                    Kart Numarası
+                                  </label>
+
+                                  <input
+                                    required={paymentMethod === "card"}
+                                    type="text"
+                                    name="cardNumber"
+                                    value={formData.cardNumber}
+                                    onChange={handleInputChange}
+                                    onFocus={() => setIsCvvFocused(false)}
+                                    maxLength={19}
+                                    className={`w-full glass-panel border ${errors.cardNumber ? "border-red-500" : "border-glass-border"} text-foreground rounded-xl px-4 py-3 font-mono font-bold tracking-widest text-sm focus:ring-2 focus:ring-holo-gold focus:outline-none transition-all shadow-inner`}
+                                    placeholder="0000 0000 0000 0000"
+                                  />
+                                </div>
+
+                                <div className="relative group/input">
+                                  <label className="block text-[10px] font-black text-foreground/60 mb-1.5 uppercase tracking-[0.2em] group-focus-within/input:text-holo-gold transition-colors">
+                                    SKT
+                                  </label>
+
+                                  <input
+                                    required={paymentMethod === "card"}
+                                    type="text"
+                                    name="cardExpiry"
+                                    value={formData.cardExpiry}
+                                    onChange={handleInputChange}
+                                    onFocus={() => setIsCvvFocused(false)}
+                                    maxLength={5}
+                                    className={`w-full glass-panel border ${errors.cardExpiry ? "border-red-500" : "border-glass-border"} text-foreground rounded-xl px-4 py-3 font-mono font-bold tracking-widest text-sm focus:ring-2 focus:ring-holo-gold focus:outline-none transition-all shadow-inner text-center`}
+                                    placeholder="MM/YY"
+                                  />
+                                </div>
+
+                                <div className="relative group/input">
+                                  <label className="block text-[10px] font-black text-foreground/60 mb-1.5 uppercase tracking-[0.2em] group-focus-within/input:text-holo-gold transition-colors">
+                                    CVV
+                                  </label>
+
+                                  <input
+                                    required={paymentMethod === "card"}
+                                    type="text"
+                                    name="cardCvv"
+                                    value={formData.cardCvv}
+                                    onChange={handleInputChange}
+                                    onFocus={() => setIsCvvFocused(true)}
+                                    onBlur={() => setIsCvvFocused(false)}
+                                    maxLength={3}
+                                    className={`w-full glass-panel border ${errors.cardCvv ? "border-red-500" : "border-glass-border"} text-foreground rounded-xl px-4 py-3 font-mono font-bold tracking-widest text-sm focus:ring-2 focus:ring-holo-gold focus:outline-none transition-all shadow-inner text-center`}
+                                    placeholder="***"
+                                  />
+                                </div>
+                              </div>
+                            </motion.div>
                           )}
-                        </span>
-                      </motion.button>
-                      
-                    </motion.div>
-                  )}
-                </AnimatePresence>
-              </div>
+                        </AnimatePresence>
 
-              {/* End of Accordion List */}
-
-              {/* Trust Badges */}
-
-              <div className="flex justify-center items-center gap-6 mt-6 pt-6 border-t border-glass-border opacity-70">
-                <div className="flex items-center gap-2 text-[10px] uppercase font-bold text-foreground/70">
-                  <ShieldCheck className="w-4 h-4 text-emerald-500" />
-                  256-bit SSL Güvenliği
+                        {/* Submit Button Inside Step 3 */}
+                        <motion.button
+                          whileHover={{ scale: 1.02 }}
+                          whileTap={{ scale: 0.95 }}
+                          type="submit"
+                          disabled={isProcessing}
+                          className="w-full bg-gradient-to-r from-primary to-secondary text-white py-5 rounded-2xl font-bold text-lg uppercase tracking-[0.2em] shadow-xl hover:shadow-primary/40 transition-all duration-300 flex items-center justify-center gap-4 mt-10 relative overflow-hidden group/btn"
+                        >
+                          <span className="absolute inset-0 w-full h-full bg-white/20 translate-y-full group-hover/btn:translate-y-0 transition-transform duration-300"></span>
+                          <span className="relative z-10 flex items-center justify-center gap-4">
+                            {isProcessing ? (
+                              "İşleniyor..."
+                            ) : (
+                              <>
+                                Ödemeyi Tamamla
+                                <span className="opacity-50 font-normal">|</span>
+                                {formatPrice(totalAmount)}
+                                <svg
+                                  className="w-5 h-5 ml-2 animate-bounce-x"
+                                  fill="none"
+                                  stroke="currentColor"
+                                  viewBox="0 0 24 24"
+                                >
+                                  <path
+                                    strokeLinecap="round"
+                                    strokeLinejoin="round"
+                                    strokeWidth="2"
+                                    d="M14 5l7 7m0 0l-7 7m7-7H3"
+                                  ></path>
+                                </svg>
+                              </>
+                            )}
+                          </span>
+                        </motion.button>
+                      </motion.div>
+                    )}
+                  </AnimatePresence>
                 </div>
 
-                <div className="flex items-center gap-2 text-[10px] uppercase font-bold text-foreground/70">
-                  <RotateCcw className="w-4 h-4 text-blue-500" />
-                  Kolay İade
+                {/* End of Accordion List */}
+
+                {/* Trust Badges */}
+
+                <div className="flex justify-center items-center gap-6 mt-6 pt-6 border-t border-glass-border opacity-70">
+                  <div className="flex items-center gap-2 text-[10px] uppercase font-bold text-foreground/70">
+                    <ShieldCheck className="w-4 h-4 text-emerald-500" />
+                    256-bit SSL Güvenliği
+                  </div>
+
+                  <div className="flex items-center gap-2 text-[10px] uppercase font-bold text-foreground/70">
+                    <RotateCcw className="w-4 h-4 text-blue-500" />
+                    Kolay İade
+                  </div>
                 </div>
               </div>
             </form>
@@ -1157,9 +1216,7 @@ export default function CheckoutPage() {
               <div className="space-y-3 text-xs font-bold text-gray-600 dark:text-gray-300 mb-6 glass-card p-5 rounded-[1.5rem] border border-white/20 dark:border-white/5 shadow-inner">
                 <div className="flex justify-between items-center">
                   <span className="uppercase tracking-widest">{t("subtotal")}</span>
-                  <span className="text-foreground text-sm">
-                    {formatPrice(cartTotal)}
-                  </span>
+                  <span className="text-foreground text-sm">{formatPrice(cartTotal)}</span>
                 </div>
 
                 <div className="flex justify-between items-center">

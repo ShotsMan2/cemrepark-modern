@@ -1,4 +1,4 @@
-import { logger } from '@/lib/logger';
+import { logger } from "@/lib/logger";
 import { NextResponse, NextRequest } from "next/server";
 import { prisma } from "@/lib/prisma";
 import { checkAdminAndLog } from "@/lib/adminAuth";
@@ -39,7 +39,7 @@ export async function POST(req: NextRequest) {
     return NextResponse.json(newCoupon, { status: 201 });
   } catch (error) {
     logger.error("POST /api/coupons error:", error);
-    if (error instanceof Prisma.PrismaClientKnownRequestError && error.code === 'P2002') {
+    if (error instanceof Prisma.PrismaClientKnownRequestError && error.code === "P2002") {
       return NextResponse.json({ error: "Bu kupon kodu zaten mevcut." }, { status: 400 });
     }
     return NextResponse.json({ error: "Sunucu hatası" }, { status: 500 });

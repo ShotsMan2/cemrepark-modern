@@ -3,59 +3,61 @@
 
 :root {
   /* Cemre Park Enterprise Theme */
-  --background: 60 20% 98%;
-  --foreground: 330 20% 15%;
-  
+  --background: 210 25% 98%;
+  --foreground: 220 35% 15%;
+
   /* Brand Colors */
-  --primary: 330 80% 45%;      /* Vibrant Pink */
-  --secondary: 45 85% 55%;     /* Warm Gold */
-  --accent: 250 70% 60%;       /* Deep Purple/Indigo for accents */
-  
+  --primary: 340 85% 50%; /* Vibrant Premium Rose */
+  --secondary: 42 95% 55%; /* Rich Luxury Gold */
+  --accent: 230 85% 60%; /* Vibrant Corporate Indigo */
+
   /* Semantic Colors */
-  --success: 142 71% 45%;
+  --success: 142 76% 36%;
   --warning: 38 92% 50%;
   --danger: 348 83% 47%;
   --info: 214 90% 52%;
-  --muted: 0 0% 40%;
-  
-  /* Legacy mappings (deprecated but kept for fallback) */
-  --neon-pink: 330 80% 45%;
-  --holographic-gold: 45 85% 55%;
+  --muted: 220 15% 45%;
 
-  /* Glassmorphism Variables */
-  --glass-bg: rgba(255, 255, 255, 0.75);
-  --glass-border: rgba(255, 255, 255, 0.5);
-  --glass-card-grad1: rgba(250, 250, 250, 0.85);
-  --glass-card-grad2: rgba(255, 255, 255, 0.95);
-  
-  /* Shadows */
-  --shadow-subtle: 0 4px 20px rgba(0, 0, 0, 0.05);
-  --shadow-elevated: 0 10px 40px rgba(0, 0, 0, 0.08);
+  /* Legacy mappings (deprecated but kept for fallback) */
+  --neon-pink: 340 85% 50%;
+  --holographic-gold: 42 95% 55%;
+
+  /* Premium Glassmorphism Variables */
+  --glass-bg: rgba(255, 255, 255, 0.7);
+  --glass-border: rgba(255, 255, 255, 0.4);
+  --glass-card-grad1: rgba(255, 255, 255, 0.85);
+  --glass-card-grad2: rgba(248, 250, 252, 0.95);
+
+  /* Advanced Shadows */
+  --shadow-subtle: 0 4px 24px -4px rgba(0, 0, 0, 0.05);
+  --shadow-elevated: 0 12px 48px -12px rgba(0, 0, 0, 0.12);
+  --shadow-glow: 0 0 20px hsla(var(--primary), 0.3);
 
   /* Fonts */
-  --font-sans: 'Inter', system-ui, -apple-system, sans-serif;
-  --font-heading: var(--font-jost), 'Jost', sans-serif;
-  --font-display: var(--font-marcellus), 'Marcellus', serif;
+  --font-sans: "Inter", system-ui, -apple-system, sans-serif;
+  --font-heading: var(--font-jost), "Jost", sans-serif;
+  --font-display: var(--font-marcellus), "Marcellus", serif;
 }
 
 .dark {
-  --background: 330 20% 6%;
-  --foreground: 60 20% 95%;
-  
-  --primary: 330 75% 55%; 
-  --secondary: 45 90% 60%;
-  --accent: 250 80% 65%;
-  
-  --neon-pink: 330 75% 55%;
-  --holographic-gold: 45 90% 60%;
+  --background: 225 30% 6%;
+  --foreground: 210 20% 98%;
 
-  --glass-bg: rgba(18, 10, 15, 0.75);
-  --glass-border: rgba(255, 255, 255, 0.1);
-  --glass-card-grad1: rgba(30, 15, 25, 0.8);
-  --glass-card-grad2: rgba(20, 10, 18, 0.9);
-  
-  --shadow-subtle: 0 4px 20px rgba(0, 0, 0, 0.2);
-  --shadow-elevated: 0 10px 40px rgba(0, 0, 0, 0.4);
+  --primary: 340 80% 58%;
+  --secondary: 42 90% 65%;
+  --accent: 230 85% 65%;
+
+  --neon-pink: 340 80% 58%;
+  --holographic-gold: 42 90% 65%;
+
+  --glass-bg: rgba(15, 20, 30, 0.65);
+  --glass-border: rgba(255, 255, 255, 0.08);
+  --glass-card-grad1: rgba(20, 25, 35, 0.8);
+  --glass-card-grad2: rgba(10, 15, 25, 0.9);
+
+  --shadow-subtle: 0 4px 24px -4px rgba(0, 0, 0, 0.3);
+  --shadow-elevated: 0 12px 48px -12px rgba(0, 0, 0, 0.5);
+  --shadow-glow: 0 0 30px hsla(var(--primary), 0.4);
 }
 
 @theme inline {
@@ -64,16 +66,16 @@
   --color-primary: hsl(var(--primary));
   --color-secondary: hsl(var(--secondary));
   --color-accent: hsl(var(--accent));
-  
+
   --color-success: hsl(var(--success));
   --color-warning: hsl(var(--warning));
   --color-danger: hsl(var(--danger));
   --color-info: hsl(var(--info));
-  
+
   /* Legacy compatibility */
   --color-neon-pink: hsl(var(--neon-pink));
   --color-holo-gold: hsl(var(--holographic-gold));
-  
+
   --font-sans: var(--font-sans);
   --font-heading: var(--font-heading);
   --font-display: var(--font-display);
@@ -100,7 +102,7 @@ body {
 /* Aurora & Particle Backgrounds */
 body.homepage::before,
 body.homepage::after {
-  content: '';
+  content: "";
   position: fixed;
   width: 60vw;
   height: 60vw;
@@ -126,16 +128,29 @@ body.homepage::after {
 }
 
 @keyframes aurora-move {
-  0% { transform: scale(1) translate(0, 0); }
-  33% { transform: scale(1.1) translate(5%, 5%); }
-  66% { transform: scale(0.9) translate(-5%, 5%); }
-  100% { transform: scale(1.2) translate(5%, -5%); }
+  0% {
+    transform: scale(1) translate(0, 0);
+  }
+  33% {
+    transform: scale(1.1) translate(5%, 5%);
+  }
+  66% {
+    transform: scale(0.9) translate(-5%, 5%);
+  }
+  100% {
+    transform: scale(1.2) translate(5%, -5%);
+  }
 }
 
 /* ==========================================================================
    Typography Utilities
    ========================================================================== */
-h1, h2, h3, h4, h5, h6 {
+h1,
+h2,
+h3,
+h4,
+h5,
+h6 {
   font-family: var(--font-heading);
 }
 
@@ -175,30 +190,46 @@ h1, h2, h3, h4, h5, h6 {
   background: rgba(255, 255, 255, 0.4);
   backdrop-filter: blur(30px) saturate(200%);
   -webkit-backdrop-filter: blur(30px) saturate(200%);
-  border-bottom: 1px solid rgba(255,255,255, 0.2);
+  border-bottom: 1px solid rgba(255, 255, 255, 0.2);
 }
 
 .dark .glass-frosted {
   background: rgba(15, 10, 15, 0.5);
-  border-bottom: 1px solid rgba(255,255,255, 0.05);
+  border-bottom: 1px solid rgba(255, 255, 255, 0.05);
 }
 
 /* ==========================================================================
    Animations & Micro-interactions
    ========================================================================== */
 @keyframes slideUp {
-  from { opacity: 0; transform: translateY(30px); }
-  to { opacity: 1; transform: translateY(0); }
+  from {
+    opacity: 0;
+    transform: translateY(30px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
 }
 
 @keyframes fadeIn {
-  from { opacity: 0; }
-  to { opacity: 1; }
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
 }
 
 @keyframes scaleIn {
-  from { opacity: 0; transform: scale(0.95); }
-  to { opacity: 1; transform: scale(1); }
+  from {
+    opacity: 0;
+    transform: scale(0.95);
+  }
+  to {
+    opacity: 1;
+    transform: scale(1);
+  }
 }
 
 .animate-slide-up {
@@ -215,8 +246,12 @@ h1, h2, h3, h4, h5, h6 {
 
 /* Infinite Animations */
 @keyframes marquee {
-  0% { transform: translateX(0%); }
-  100% { transform: translateX(-50%); }
+  0% {
+    transform: translateX(0%);
+  }
+  100% {
+    transform: translateX(-50%);
+  }
 }
 
 .animate-marquee {
@@ -228,8 +263,13 @@ h1, h2, h3, h4, h5, h6 {
 }
 
 @keyframes float {
-  0%, 100% { transform: translateY(0px); }
-  50% { transform: translateY(-12px); }
+  0%,
+  100% {
+    transform: translateY(0px);
+  }
+  50% {
+    transform: translateY(-12px);
+  }
 }
 
 .float-fx {
@@ -242,8 +282,13 @@ h1, h2, h3, h4, h5, h6 {
 }
 
 @keyframes pulse-glow {
-  0%, 100% { box-shadow: 0 0 10px hsla(var(--primary), 0.2); }
-  50% { box-shadow: 0 0 25px hsla(var(--primary), 0.5); }
+  0%,
+  100% {
+    box-shadow: 0 0 10px hsla(var(--primary), 0.2);
+  }
+  50% {
+    box-shadow: 0 0 25px hsla(var(--primary), 0.5);
+  }
 }
 
 .animate-pulse-glow {
@@ -252,8 +297,12 @@ h1, h2, h3, h4, h5, h6 {
 
 /* Shimmer Loading Skeleton */
 @keyframes shimmer {
-  0% { transform: translateX(-100%); }
-  100% { transform: translateX(100%); }
+  0% {
+    transform: translateX(-100%);
+  }
+  100% {
+    transform: translateX(100%);
+  }
 }
 
 .skeleton {
@@ -265,23 +314,16 @@ h1, h2, h3, h4, h5, h6 {
 .skeleton::after {
   content: "";
   position: absolute;
-  top: 0; right: 0; bottom: 0; left: 0;
-  background: linear-gradient(
-    90deg,
-    transparent,
-    rgba(255, 255, 255, 0.2),
-    transparent
-  );
+  top: 0;
+  right: 0;
+  bottom: 0;
+  left: 0;
+  background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.2), transparent);
   animation: shimmer 2s infinite;
 }
 
 .dark .skeleton::after {
-  background: linear-gradient(
-    90deg,
-    transparent,
-    rgba(255, 255, 255, 0.05),
-    transparent
-  );
+  background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.05), transparent);
 }
 
 /* ==========================================================================
@@ -305,20 +347,31 @@ h1, h2, h3, h4, h5, h6 {
 .text-glow-primary,
 .text-glow-pink {
   color: hsl(var(--foreground));
-  text-shadow: 0 0 15px hsla(var(--primary), 0.5), 0 0 30px hsla(var(--primary), 0.3);
+  text-shadow:
+    0 0 15px hsla(var(--primary), 0.5),
+    0 0 30px hsla(var(--primary), 0.3);
 }
 
 .text-glow-secondary,
 .text-glow-gold {
   color: hsl(var(--foreground));
-  text-shadow: 0 0 15px hsla(var(--secondary), 0.5), 0 0 30px hsla(var(--secondary), 0.3);
+  text-shadow:
+    0 0 15px hsla(var(--secondary), 0.5),
+    0 0 30px hsla(var(--secondary), 0.3);
 }
 
 /* ==========================================================================
    Geometric Shapes & Masks
    ========================================================================== */
 .clip-angled {
-  clip-path: polygon(12px 0, 100% 0, 100% calc(100% - 12px), calc(100% - 12px) 100%, 0 100%, 0 12px);
+  clip-path: polygon(
+    12px 0,
+    100% 0,
+    100% calc(100% - 12px),
+    calc(100% - 12px) 100%,
+    0 100%,
+    0 12px
+  );
 }
 
 .clip-hexa {
@@ -437,7 +490,7 @@ h1, h2, h3, h4, h5, h6 {
 }
 
 .glow-ring::before {
-  content: '';
+  content: "";
   position: absolute;
   inset: -3px;
   border-radius: inherit;
@@ -492,14 +545,27 @@ h1, h2, h3, h4, h5, h6 {
 
 /* Progress bar animation */
 @keyframes progress {
-  from { width: 0%; }
-  to { width: 100%; }
+  from {
+    width: 0%;
+  }
+  to {
+    width: 100%;
+  }
 }
 
 /* Stagger animation delays */
-.stagger-1 { animation-delay: 0.1s; }
-.stagger-2 { animation-delay: 0.2s; }
-.stagger-3 { animation-delay: 0.3s; }
-.stagger-4 { animation-delay: 0.4s; }
-.stagger-5 { animation-delay: 0.5s; }
-
+.stagger-1 {
+  animation-delay: 0.1s;
+}
+.stagger-2 {
+  animation-delay: 0.2s;
+}
+.stagger-3 {
+  animation-delay: 0.3s;
+}
+.stagger-4 {
+  animation-delay: 0.4s;
+}
+.stagger-5 {
+  animation-delay: 0.5s;
+}

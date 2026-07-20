@@ -1,9 +1,9 @@
-import prisma from '../lib/prisma';
-import logger from '../lib/logger';
+import prisma from "../lib/prisma";
+import logger from "../lib/logger";
 
 class SearchAdapter {
   async searchProducts(query) {
-    throw new Error('searchProducts must be implemented');
+    throw new Error("searchProducts must be implemented");
   }
 }
 
@@ -14,12 +14,9 @@ export class SqliteFuzzySearchAdapter extends SearchAdapter {
     // In a real scenario, this would be replaced by MeiliSearchAdapter
     const products = await prisma.product.findMany({
       where: {
-        OR: [
-          { name: { contains: query } },
-          { description: { contains: query } },
-        ]
+        OR: [{ name: { contains: query } }, { description: { contains: query } }],
       },
-      take: 20
+      take: 20,
     });
     return products;
   }

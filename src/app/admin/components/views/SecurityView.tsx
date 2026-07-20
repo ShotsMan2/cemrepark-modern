@@ -1,17 +1,22 @@
-'use client';
+"use client";
 
-import { useState, useEffect, useMemo, useCallback } from 'react';
-import Link from 'next/link';
-import { motion, AnimatePresence } from 'framer-motion';
-import dynamic from 'next/dynamic';
+import { useState, useEffect, useMemo, useCallback } from "react";
+import Link from "next/link";
+import { motion, AnimatePresence } from "framer-motion";
+import dynamic from "next/dynamic";
 
-const BarChart = dynamic(() => import('recharts').then(mod => mod.BarChart), { ssr: false });
-const Bar = dynamic(() => import('recharts').then(mod => mod.Bar), { ssr: false });
-const XAxis = dynamic(() => import('recharts').then(mod => mod.XAxis), { ssr: false });
-const YAxis = dynamic(() => import('recharts').then(mod => mod.YAxis), { ssr: false });
-const Tooltip = dynamic(() => import('recharts').then(mod => mod.Tooltip), { ssr: false });
-const ResponsiveContainer = dynamic(() => import('recharts').then(mod => mod.ResponsiveContainer), { ssr: false });
-const CartesianGrid = dynamic(() => import('recharts').then(mod => mod.CartesianGrid), { ssr: false });
+const BarChart = dynamic(() => import("recharts").then((mod) => mod.BarChart), { ssr: false });
+const Bar = dynamic(() => import("recharts").then((mod) => mod.Bar), { ssr: false });
+const XAxis = dynamic(() => import("recharts").then((mod) => mod.XAxis), { ssr: false });
+const YAxis = dynamic(() => import("recharts").then((mod) => mod.YAxis), { ssr: false });
+const Tooltip = dynamic(() => import("recharts").then((mod) => mod.Tooltip), { ssr: false });
+const ResponsiveContainer = dynamic(
+  () => import("recharts").then((mod) => mod.ResponsiveContainer),
+  { ssr: false }
+);
+const CartesianGrid = dynamic(() => import("recharts").then((mod) => mod.CartesianGrid), {
+  ssr: false,
+});
 import {
   Shield,
   ShieldAlert,
@@ -30,22 +35,22 @@ import {
   CheckCircle2,
   XCircle,
   ChevronRight,
-} from 'lucide-react';
-import Swal from 'sweetalert2';
+} from "lucide-react";
+import Swal from "sweetalert2";
 
 // ─── Relative timestamp in Turkish ──────────────────────────────────────────
 function timeAgo(dateStr) {
   const now = new Date();
   const date = new Date(dateStr);
   const seconds = Math.floor((now.getTime() - date.getTime()) / 1000);
-  if (seconds < 60) return 'Az önce';
+  if (seconds < 60) return "Az önce";
   const minutes = Math.floor(seconds / 60);
   if (minutes < 60) return `${minutes} dk önce`;
   const hours = Math.floor(minutes / 60);
   if (hours < 24) return `${hours} saat önce`;
   const days = Math.floor(hours / 24);
   if (days < 7) return `${days} gün önce`;
-  return new Date(dateStr).toLocaleDateString('tr-TR');
+  return new Date(dateStr).toLocaleDateString("tr-TR");
 }
 
 // ─── Helpers ────────────────────────────────────────────────────────────────
@@ -59,7 +64,7 @@ function isToday(dateStr) {
   );
 }
 
-const DAY_NAMES_TR = ['Paz', 'Pzt', 'Sal', 'Çar', 'Per', 'Cum', 'Cmt'];
+const DAY_NAMES_TR = ["Paz", "Pzt", "Sal", "Çar", "Per", "Cum", "Cmt"];
 
 function getLast7DaysChart(logs) {
   const now = new Date();
@@ -91,9 +96,7 @@ function getLast7DaysChart(logs) {
 // ─── Skeleton shimmer component ─────────────────────────────────────────────
 function Skeleton({ className = "" }: { className?: string }) {
   return (
-    <div
-      className={`relative overflow-hidden rounded-lg bg-foreground/5 ${className}`}
-    >
+    <div className={`relative overflow-hidden rounded-lg bg-foreground/5 ${className}`}>
       <div className="absolute inset-0 -translate-x-full animate-[shimmer_2s_infinite] bg-gradient-to-r from-transparent via-foreground/10 to-transparent" />
     </div>
   );
@@ -155,13 +158,13 @@ const cardVariants = {
     opacity: 1,
     y: 0,
     scale: 1,
-    transition: { type: 'spring' as const, stiffness: 300, damping: 24 },
+    transition: { type: "spring" as const, stiffness: 300, damping: 24 },
   },
 };
 
 const tabContentVariants = {
   enter: { opacity: 0, x: 20 },
-  center: { opacity: 1, x: 0, transition: { duration: 0.3, ease: 'easeOut' as const } },
+  center: { opacity: 1, x: 0, transition: { duration: 0.3, ease: "easeOut" as const } },
   exit: { opacity: 0, x: -20, transition: { duration: 0.2 } },
 };
 
@@ -169,14 +172,14 @@ const tabContentVariants = {
 // MAIN COMPONENT
 // ═════════════════════════════════════════════════════════════════════════════
 export default function SecurityView() {
-  const [logType, setLogType] = useState('login');
+  const [logType, setLogType] = useState("login");
   const [loginLogs, setLoginLogs] = useState([]);
   const [auditLogs, setAuditLogs] = useState([]);
   const [loginTotal, setLoginTotal] = useState(0);
   const [auditTotal, setAuditTotal] = useState(0);
   const [isLoading, setIsLoading] = useState(true);
-  const [searchQuery, setSearchQuery] = useState('');
-  const [statusFilter, setStatusFilter] = useState('all'); // all | success | failed
+  const [searchQuery, setSearchQuery] = useState("");
+  const [statusFilter, setStatusFilter] = useState("all"); // all | success | failed
 
   // ─── Fetch both log types on mount ──────────────────────────────────────
   useEffect(() => {
@@ -184,8 +187,8 @@ export default function SecurityView() {
       setIsLoading(true);
       try {
         const [loginRes, auditRes] = await Promise.all([
-          fetch('/api/admin/logs?type=login&take=50&skip=0'),
-          fetch('/api/admin/logs?type=audit&take=50&skip=0'),
+          fetch("/api/admin/logs?type=login&take=50&skip=0"),
+          fetch("/api/admin/logs?type=audit&take=50&skip=0"),
         ]);
         if (loginRes.ok) {
           const ld = await loginRes.json();
@@ -198,8 +201,8 @@ export default function SecurityView() {
           setAuditTotal(ad.total || 0);
         }
       } catch (err) {
-        console.error('SecurityView fetch error:', err);
-        Swal.fire('Hata', 'Güvenlik verileri alınamadı', 'error');
+        console.error("SecurityView fetch error:", err);
+        Swal.fire("Hata", "Güvenlik verileri alınamadı", "error");
       } finally {
         setIsLoading(false);
       }
@@ -225,25 +228,23 @@ export default function SecurityView() {
 
   // ─── Filtered logs ──────────────────────────────────────────────────────
   const filteredLogs = useMemo(() => {
-    const source = logType === 'login' ? loginLogs : auditLogs;
+    const source = logType === "login" ? loginLogs : auditLogs;
     let result = source;
 
     // Search
     if (searchQuery.trim()) {
       const q = searchQuery.toLowerCase();
       result = result.filter((log) => {
-        const email = log.user?.email?.toLowerCase() || '';
-        const action = log.action?.toLowerCase() || '';
-        const ip = log.ipAddress?.toLowerCase() || '';
+        const email = log.user?.email?.toLowerCase() || "";
+        const action = log.action?.toLowerCase() || "";
+        const ip = log.ipAddress?.toLowerCase() || "";
         return email.includes(q) || action.includes(q) || ip.includes(q);
       });
     }
 
     // Status filter (login only)
-    if (logType === 'login' && statusFilter !== 'all') {
-      result = result.filter((log) =>
-        statusFilter === 'success' ? log.success : !log.success
-      );
+    if (logType === "login" && statusFilter !== "all") {
+      result = result.filter((log) => (statusFilter === "success" ? log.success : !log.success));
     }
 
     return result;
@@ -256,54 +257,54 @@ export default function SecurityView() {
   // ─── KPI Card config ───────────────────────────────────────────────────
   const kpiCards = [
     {
-      title: 'Bugünkü Girişler',
+      title: "Bugünkü Girişler",
       value: kpis.todayLogins,
-      subtitle: 'Son 24 saat',
+      subtitle: "Son 24 saat",
       icon: LogIn,
-      color: 'text-blue-500',
-      bgColor: 'bg-blue-500/10',
-      borderColor: 'border-blue-500/20',
+      color: "text-blue-500",
+      bgColor: "bg-blue-500/10",
+      borderColor: "border-blue-500/20",
     },
     {
-      title: 'Başarısız Denemeler',
+      title: "Başarısız Denemeler",
       value: kpis.failedAttempts,
-      subtitle: 'Toplam reddedilen',
+      subtitle: "Toplam reddedilen",
       icon: ShieldAlert,
-      color: 'text-red-500',
-      bgColor: 'bg-red-500/10',
-      borderColor: 'border-red-500/20',
+      color: "text-red-500",
+      bgColor: "bg-red-500/10",
+      borderColor: "border-red-500/20",
     },
     {
-      title: 'Bugünkü Aktiviteler',
+      title: "Bugünkü Aktiviteler",
       value: kpis.todayAudit,
-      subtitle: 'Denetim kaydı',
+      subtitle: "Denetim kaydı",
       icon: Activity,
-      color: 'text-amber-500',
-      bgColor: 'bg-amber-500/10',
-      borderColor: 'border-amber-500/20',
+      color: "text-amber-500",
+      bgColor: "bg-amber-500/10",
+      borderColor: "border-amber-500/20",
     },
     {
-      title: 'Toplam Oturum',
+      title: "Toplam Oturum",
       value: kpis.activeSessions,
-      subtitle: 'Kayıtlı giriş',
+      subtitle: "Kayıtlı giriş",
       icon: ShieldCheck,
-      color: 'text-emerald-500',
-      bgColor: 'bg-emerald-500/10',
-      borderColor: 'border-emerald-500/20',
+      color: "text-emerald-500",
+      bgColor: "bg-emerald-500/10",
+      borderColor: "border-emerald-500/20",
     },
   ];
 
   // ─── Tab configuration ─────────────────────────────────────────────────
   const tabs = [
     {
-      key: 'login',
-      label: 'Oturum Geçmişi',
+      key: "login",
+      label: "Oturum Geçmişi",
       icon: LogIn,
       count: loginTotal,
     },
     {
-      key: 'audit',
-      label: 'Denetim Logları',
+      key: "audit",
+      label: "Denetim Logları",
       icon: Activity,
       count: auditTotal,
     },
@@ -365,19 +366,21 @@ export default function SecurityView() {
                 whileHover={{ y: -2, transition: { duration: 0.2 } }}
                 className={`glass-card p-5 rounded-xl border ${kpi.borderColor} relative overflow-hidden group cursor-default`}
               >
-                <div className={`absolute top-0 right-0 w-20 h-20 ${kpi.bgColor} rounded-bl-[40px] opacity-50 group-hover:opacity-80 transition-opacity`} />
+                <div
+                  className={`absolute top-0 right-0 w-20 h-20 ${kpi.bgColor} rounded-bl-[40px] opacity-50 group-hover:opacity-80 transition-opacity`}
+                />
                 <div className="relative z-10">
                   <div className="flex items-center justify-between mb-2">
                     <span className="text-xs font-bold uppercase tracking-wider text-foreground/50">
                       {kpi.title}
                     </span>
-                    <div className={`w-8 h-8 rounded-lg ${kpi.bgColor} flex items-center justify-center`}>
+                    <div
+                      className={`w-8 h-8 rounded-lg ${kpi.bgColor} flex items-center justify-center`}
+                    >
                       <kpi.icon className={`w-4 h-4 ${kpi.color}`} />
                     </div>
                   </div>
-                  <p className={`text-3xl font-black ${kpi.color}`}>
-                    {kpi.value}
-                  </p>
+                  <p className={`text-3xl font-black ${kpi.color}`}>{kpi.value}</p>
                   <p className="text-xs text-foreground/40 mt-1">{kpi.subtitle}</p>
                 </div>
               </motion.div>
@@ -417,20 +420,27 @@ export default function SecurityView() {
         ) : (
           <ResponsiveContainer width="100%" height={180}>
             <BarChart data={chartData} barGap={4}>
-              <CartesianGrid strokeDasharray="3 3" stroke="var(--color-foreground, #888)" opacity={0.08} />
+              <CartesianGrid
+                strokeDasharray="3 3"
+                stroke="var(--color-foreground, #888)"
+                opacity={0.08}
+              />
               <XAxis
                 dataKey="label"
-                tick={{ fill: 'var(--color-foreground, #888)', fontSize: 11, opacity: 0.5 }}
+                tick={{ fill: "var(--color-foreground, #888)", fontSize: 11, opacity: 0.5 }}
                 axisLine={false}
                 tickLine={false}
               />
               <YAxis
-                tick={{ fill: 'var(--color-foreground, #888)', fontSize: 11, opacity: 0.5 }}
+                tick={{ fill: "var(--color-foreground, #888)", fontSize: 11, opacity: 0.5 }}
                 axisLine={false}
                 tickLine={false}
                 allowDecimals={false}
               />
-              <Tooltip content={<ChartTooltip active={undefined} payload={undefined} label={undefined} />} cursor={{ fill: 'var(--color-foreground, #888)', opacity: 0.05 }} />
+              <Tooltip
+                content={<ChartTooltip active={undefined} payload={undefined} label={undefined} />}
+                cursor={{ fill: "var(--color-foreground, #888)", opacity: 0.05 }}
+              />
               <Bar
                 dataKey="basarili"
                 name="Başarılı"
@@ -459,13 +469,11 @@ export default function SecurityView() {
               key={tab.key}
               onClick={() => {
                 setLogType(tab.key);
-                setSearchQuery('');
-                setStatusFilter('all');
+                setSearchQuery("");
+                setStatusFilter("all");
               }}
               className={`relative flex items-center gap-2 px-6 py-3.5 text-sm font-bold transition-colors ${
-                logType === tab.key
-                  ? 'text-primary'
-                  : 'text-foreground/50 hover:text-foreground/80'
+                logType === tab.key ? "text-primary" : "text-foreground/50 hover:text-foreground/80"
               }`}
             >
               <tab.icon className="w-4 h-4" />
@@ -473,8 +481,8 @@ export default function SecurityView() {
               <span
                 className={`ml-1 px-2 py-0.5 rounded-full text-[10px] font-bold ${
                   logType === tab.key
-                    ? 'bg-primary/15 text-primary'
-                    : 'bg-foreground/5 text-foreground/40'
+                    ? "bg-primary/15 text-primary"
+                    : "bg-foreground/5 text-foreground/40"
                 }`}
               >
                 {tab.count}
@@ -483,7 +491,7 @@ export default function SecurityView() {
                 <motion.div
                   layoutId="activeTab"
                   className="absolute bottom-0 left-0 right-0 h-0.5 bg-primary"
-                  transition={{ type: 'spring', stiffness: 400, damping: 30 }}
+                  transition={{ type: "spring", stiffness: 400, damping: 30 }}
                 />
               )}
             </button>
@@ -499,28 +507,26 @@ export default function SecurityView() {
               value={searchQuery}
               onChange={handleSearchChange}
               placeholder={
-                logType === 'login'
-                  ? 'Email veya IP adresi ara...'
-                  : 'Eylem, email veya IP ara...'
+                logType === "login" ? "Email veya IP adresi ara..." : "Eylem, email veya IP ara..."
               }
               className="w-full pl-10 pr-4 py-2.5 bg-background border border-glass-border rounded-lg text-sm text-foreground focus:outline-none focus:border-primary focus:ring-1 focus:ring-primary/20 transition-all placeholder:text-foreground/30"
             />
           </div>
           <div className="flex items-center gap-2">
-            {logType === 'login' && (
+            {logType === "login" && (
               <div className="flex items-center gap-1 p-1 bg-foreground/5 rounded-lg border border-glass-border">
                 {[
-                  { key: 'all', label: 'Tümü' },
-                  { key: 'success', label: 'Başarılı' },
-                  { key: 'failed', label: 'Başarısız' },
+                  { key: "all", label: "Tümü" },
+                  { key: "success", label: "Başarılı" },
+                  { key: "failed", label: "Başarısız" },
                 ].map((opt) => (
                   <button
                     key={opt.key}
                     onClick={() => setStatusFilter(opt.key)}
                     className={`px-3 py-1.5 text-xs font-bold rounded-md transition-all ${
                       statusFilter === opt.key
-                        ? 'bg-primary text-foreground shadow-sm'
-                        : 'text-foreground/50 hover:text-foreground/80'
+                        ? "bg-primary text-foreground shadow-sm"
+                        : "text-foreground/50 hover:text-foreground/80"
                     }`}
                   >
                     {opt.label}
@@ -529,7 +535,7 @@ export default function SecurityView() {
               </div>
             )}
             <Link
-              href={logType === 'login' ? '/admin/login-history' : '/admin/audit-logs'}
+              href={logType === "login" ? "/admin/login-history" : "/admin/audit-logs"}
               className="flex items-center gap-1.5 px-3 py-2 text-xs font-bold text-primary hover:bg-primary/10 rounded-lg transition-colors border border-primary/20"
             >
               Tümünü Gör
@@ -552,9 +558,9 @@ export default function SecurityView() {
               <table className="w-full text-left border-collapse">
                 <thead>
                   <tr className="bg-foreground/[0.03] border-b border-glass-border">
-                    {(logType === 'login'
-                      ? ['Tarih', 'Kullanıcı', 'IP Adresi', 'Durum']
-                      : ['Tarih', 'Kullanıcı', 'Eylem', 'Detay']
+                    {(logType === "login"
+                      ? ["Tarih", "Kullanıcı", "IP Adresi", "Durum"]
+                      : ["Tarih", "Kullanıcı", "Eylem", "Detay"]
                     ).map((h) => (
                       <th
                         key={h}
@@ -571,7 +577,7 @@ export default function SecurityView() {
                   ))}
                 </tbody>
               </table>
-            ) : logType === 'login' ? (
+            ) : logType === "login" ? (
               /* ─── LOGIN TABLE ────────────────────────────────────────────── */
               <table className="w-full text-left border-collapse">
                 <thead>
@@ -593,15 +599,10 @@ export default function SecurityView() {
                 <tbody className="divide-y divide-glass-border">
                   {filteredLogs.length === 0 ? (
                     <tr>
-                      <td
-                        colSpan={4}
-                        className="py-16 text-center text-foreground/40"
-                      >
+                      <td colSpan={4} className="py-16 text-center text-foreground/40">
                         <div className="flex flex-col items-center gap-2">
                           <Shield className="w-10 h-10 text-foreground/20" />
-                          <span className="text-sm font-medium">
-                            Kayıt bulunamadı
-                          </span>
+                          <span className="text-sm font-medium">Kayıt bulunamadı</span>
                           <span className="text-xs text-foreground/30">
                             Arama kriterlerinizi değiştirmeyi deneyin
                           </span>
@@ -625,23 +626,19 @@ export default function SecurityView() {
                             </span>
                           </div>
                           <span className="text-[10px] text-foreground/30 font-mono ml-5.5">
-                            {new Date(log.createdAt).toLocaleString('tr-TR')}
+                            {new Date(log.createdAt).toLocaleString("tr-TR")}
                           </span>
                         </td>
                         <td className="p-4">
                           <div className="flex items-center gap-2.5">
                             <div className="w-8 h-8 rounded-full bg-primary/10 border border-primary/20 flex items-center justify-center text-xs font-bold text-primary uppercase">
-                              {log.user?.email
-                                ? log.user.email.substring(0, 2)
-                                : '??'}
+                              {log.user?.email ? log.user.email.substring(0, 2) : "??"}
                             </div>
                             <div>
                               <p className="text-sm font-semibold text-foreground">
-                                {log.user?.name || log.user?.email || 'Anonim'}
+                                {log.user?.name || log.user?.email || "Anonim"}
                               </p>
-                              <p className="text-xs text-foreground/40">
-                                {log.user?.email || '—'}
-                              </p>
+                              <p className="text-xs text-foreground/40">{log.user?.email || "—"}</p>
                             </div>
                           </div>
                         </td>
@@ -649,7 +646,7 @@ export default function SecurityView() {
                           <div className="flex items-center gap-1.5 text-sm">
                             <Globe className="w-3.5 h-3.5 text-foreground/30" />
                             <span className="font-mono text-foreground/60 text-xs">
-                              {log.ipAddress || 'Bilinmeyen'}
+                              {log.ipAddress || "Bilinmeyen"}
                             </span>
                           </div>
                         </td>
@@ -693,15 +690,10 @@ export default function SecurityView() {
                 <tbody className="divide-y divide-glass-border">
                   {filteredLogs.length === 0 ? (
                     <tr>
-                      <td
-                        colSpan={4}
-                        className="py-16 text-center text-foreground/40"
-                      >
+                      <td colSpan={4} className="py-16 text-center text-foreground/40">
                         <div className="flex flex-col items-center gap-2">
                           <Activity className="w-10 h-10 text-foreground/20" />
-                          <span className="text-sm font-medium">
-                            Kayıt bulunamadı
-                          </span>
+                          <span className="text-sm font-medium">Kayıt bulunamadı</span>
                           <span className="text-xs text-foreground/30">
                             Arama kriterlerinizi değiştirmeyi deneyin
                           </span>
@@ -725,23 +717,21 @@ export default function SecurityView() {
                             </span>
                           </div>
                           <span className="text-[10px] text-foreground/30 font-mono ml-5.5">
-                            {new Date(log.createdAt).toLocaleString('tr-TR')}
+                            {new Date(log.createdAt).toLocaleString("tr-TR")}
                           </span>
                         </td>
                         <td className="p-4">
                           <div className="flex items-center gap-2.5">
                             <div className="w-8 h-8 rounded-full bg-amber-500/10 border border-amber-500/20 flex items-center justify-center text-xs font-bold text-amber-500 uppercase">
-                              {log.user?.email
-                                ? log.user.email.substring(0, 2)
-                                : '??'}
+                              {log.user?.email ? log.user.email.substring(0, 2) : "??"}
                             </div>
                             <div>
                               <p className="text-sm font-semibold text-foreground">
-                                {log.user?.name || log.user?.email || 'Sistem'}
+                                {log.user?.name || log.user?.email || "Sistem"}
                               </p>
                               <p className="text-xs text-foreground/40 flex items-center gap-1">
                                 <Globe className="w-3 h-3" />
-                                {log.ipAddress || '—'}
+                                {log.ipAddress || "—"}
                               </p>
                             </div>
                           </div>
@@ -755,9 +745,9 @@ export default function SecurityView() {
                         <td className="p-4 max-w-xs">
                           <p
                             className="text-sm text-foreground/50 truncate"
-                            title={log.details || ''}
+                            title={log.details || ""}
                           >
-                            {log.details || '—'}
+                            {log.details || "—"}
                           </p>
                         </td>
                       </motion.tr>
@@ -773,11 +763,11 @@ export default function SecurityView() {
         {!isLoading && (
           <div className="p-4 border-t border-glass-border bg-foreground/[0.02] flex items-center justify-between">
             <span className="text-xs text-foreground/40">
-              {filteredLogs.length} / {logType === 'login' ? loginTotal : auditTotal}{' '}
-              kayıt gösteriliyor
+              {filteredLogs.length} / {logType === "login" ? loginTotal : auditTotal} kayıt
+              gösteriliyor
             </span>
             <Link
-              href={logType === 'login' ? '/admin/login-history' : '/admin/audit-logs'}
+              href={logType === "login" ? "/admin/login-history" : "/admin/audit-logs"}
               className="flex items-center gap-1 text-xs font-bold text-primary hover:underline"
             >
               Tüm kayıtları görüntüle

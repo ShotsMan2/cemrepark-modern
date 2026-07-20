@@ -3,7 +3,17 @@
 import { useState, useEffect, useMemo } from "react";
 import Swal from "sweetalert2";
 import { motion } from "framer-motion";
-import { Tag, TrendingUp, AlertTriangle, CheckCircle, RefreshCw, Copy, Trash2, Edit, Shuffle } from "lucide-react";
+import {
+  Tag,
+  TrendingUp,
+  AlertTriangle,
+  CheckCircle,
+  RefreshCw,
+  Copy,
+  Trash2,
+  Edit,
+  Shuffle,
+} from "lucide-react";
 
 export default function CouponsView() {
   const [coupons, setCoupons] = useState([]);
@@ -19,7 +29,7 @@ export default function CouponsView() {
     maxUses: "",
     expiresAt: "",
     isActive: true,
-    restriction: "NONE"
+    restriction: "NONE",
   });
 
   useEffect(() => {
@@ -33,10 +43,10 @@ export default function CouponsView() {
       if (res.ok) {
         const data = await res.json();
         // Add mock performance data if missing
-        const enhancedData = data.map(c => ({
+        const enhancedData = data.map((c) => ({
           ...c,
           revenueGenerated: Math.floor(Math.random() * 5000), // mock revenue
-          usedCount: c.usedCount || 0
+          usedCount: c.usedCount || 0,
         }));
         setCoupons(enhancedData);
       } else {
@@ -65,12 +75,12 @@ export default function CouponsView() {
     for (let i = 0; i < 8; i++) {
       result += chars.charAt(Math.floor(Math.random() * chars.length));
     }
-    setFormData(prev => ({ ...prev, code: result }));
+    setFormData((prev) => ({ ...prev, code: result }));
   };
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    
+
     // Free shipping doesn't need a value, handle it gracefully
     let val = formData.discountType === "FREE_SHIPPING" ? 0 : parseFloat(formData.discountValue);
 
@@ -127,7 +137,7 @@ export default function CouponsView() {
       maxUses: coupon.maxUses || "",
       expiresAt: coupon.expiresAt ? new Date(coupon.expiresAt).toISOString().slice(0, 16) : "",
       isActive: coupon.isActive,
-      restriction: "NONE"
+      restriction: "NONE",
     });
     setEditingId(coupon.id);
     setIsEditing(true);
@@ -211,7 +221,7 @@ export default function CouponsView() {
       maxUses: "",
       expiresAt: "",
       isActive: true,
-      restriction: "NONE"
+      restriction: "NONE",
     });
     setIsEditing(false);
     setEditingId(null);
@@ -222,32 +232,80 @@ export default function CouponsView() {
     const isUsedUp = coupon.maxUses && coupon.usedCount >= coupon.maxUses;
 
     if (isExpired) {
-      return <span className="bg-red-500/20 text-red-400 px-2 py-1 text-xs rounded border border-red-500/30 flex items-center gap-1 w-max"><AlertTriangle size={12}/> Süresi Dolmuş</span>;
+      return (
+        <span className="bg-red-500/20 text-red-400 px-2 py-1 text-xs rounded border border-red-500/30 flex items-center gap-1 w-max">
+          <AlertTriangle size={12} /> Süresi Dolmuş
+        </span>
+      );
     }
     if (isUsedUp) {
-      return <span className="bg-orange-500/20 text-orange-400 px-2 py-1 text-xs rounded border border-orange-500/30 flex items-center gap-1 w-max"><AlertTriangle size={12}/> Kullanım Doldu</span>;
+      return (
+        <span className="bg-orange-500/20 text-orange-400 px-2 py-1 text-xs rounded border border-orange-500/30 flex items-center gap-1 w-max">
+          <AlertTriangle size={12} /> Kullanım Doldu
+        </span>
+      );
     }
     if (!coupon.isActive) {
-      return <span className="bg-gray-500/20 text-foreground/50 px-2 py-1 text-xs rounded border border-gray-500/30 flex items-center gap-1 w-max">Pasif</span>;
+      return (
+        <span className="bg-gray-500/20 text-foreground/50 px-2 py-1 text-xs rounded border border-gray-500/30 flex items-center gap-1 w-max">
+          Pasif
+        </span>
+      );
     }
-    return <span className="bg-green-500/20 text-green-400 px-2 py-1 text-xs rounded border border-green-500/30 flex items-center gap-1 w-max"><CheckCircle size={12}/> Aktif</span>;
+    return (
+      <span className="bg-green-500/20 text-green-400 px-2 py-1 text-xs rounded border border-green-500/30 flex items-center gap-1 w-max">
+        <CheckCircle size={12} /> Aktif
+      </span>
+    );
   };
 
   // Stats calculation
   const stats = useMemo(() => {
-    const active = coupons.filter(c => c.isActive && (!c.expiresAt || new Date(c.expiresAt) >= new Date()) && (!c.maxUses || c.usedCount < c.maxUses)).length;
+    const active = coupons.filter(
+      (c) =>
+        c.isActive &&
+        (!c.expiresAt || new Date(c.expiresAt) >= new Date()) &&
+        (!c.maxUses || c.usedCount < c.maxUses)
+    ).length;
     const totalUsage = coupons.reduce((sum, c) => sum + (c.usedCount || 0), 0);
     const revenue = coupons.reduce((sum, c) => sum + (c.revenueGenerated || 0), 0);
-    
+
     const oneWeekFromNow = new Date();
     oneWeekFromNow.setDate(oneWeekFromNow.getDate() + 7);
-    const expiringSoon = coupons.filter(c => c.expiresAt && new Date(c.expiresAt) > new Date() && new Date(c.expiresAt) <= oneWeekFromNow).length;
+    const expiringSoon = coupons.filter(
+      (c) =>
+        c.expiresAt && new Date(c.expiresAt) > new Date() && new Date(c.expiresAt) <= oneWeekFromNow
+    ).length;
 
     return [
-      { label: "Aktif Kuponlar", value: active, icon: Tag, color: "text-green-400", bg: "bg-green-400/10" },
-      { label: "Toplam Kullanım", value: totalUsage, icon: RefreshCw, color: "text-blue-400", bg: "bg-blue-400/10" },
-      { label: "Kupon Geliri", value: `₺${revenue.toLocaleString("tr-TR")}`, icon: TrendingUp, color: "text-holo-gold", bg: "bg-holo-gold/10" },
-      { label: "Yakında Bitecek", value: expiringSoon, icon: AlertTriangle, color: "text-orange-400", bg: "bg-orange-400/10" }
+      {
+        label: "Aktif Kuponlar",
+        value: active,
+        icon: Tag,
+        color: "text-green-400",
+        bg: "bg-green-400/10",
+      },
+      {
+        label: "Toplam Kullanım",
+        value: totalUsage,
+        icon: RefreshCw,
+        color: "text-blue-400",
+        bg: "bg-blue-400/10",
+      },
+      {
+        label: "Kupon Geliri",
+        value: `₺${revenue.toLocaleString("tr-TR")}`,
+        icon: TrendingUp,
+        color: "text-holo-gold",
+        bg: "bg-holo-gold/10",
+      },
+      {
+        label: "Yakında Bitecek",
+        value: expiringSoon,
+        icon: AlertTriangle,
+        color: "text-orange-400",
+        bg: "bg-orange-400/10",
+      },
     ];
   }, [coupons]);
 
@@ -256,18 +314,22 @@ export default function CouponsView() {
       {/* Stats Header */}
       <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4">
         {stats.map((s, i) => (
-          <motion.div 
+          <motion.div
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ delay: i * 0.1 }}
-            key={i} 
+            key={i}
             className="glass-card p-4 flex items-center gap-4 border border-glass-border"
           >
-            <div className={`w-12 h-12 rounded-full flex items-center justify-center ${s.bg} ${s.color}`}>
+            <div
+              className={`w-12 h-12 rounded-full flex items-center justify-center ${s.bg} ${s.color}`}
+            >
               <s.icon size={24} />
             </div>
             <div>
-              <p className="text-foreground/50 text-xs font-bold uppercase tracking-wider">{s.label}</p>
+              <p className="text-foreground/50 text-xs font-bold uppercase tracking-wider">
+                {s.label}
+              </p>
               <h3 className="text-2xl font-bold text-foreground mt-1">{s.value}</h3>
             </div>
           </motion.div>
@@ -280,7 +342,9 @@ export default function CouponsView() {
         </h2>
         <form onSubmit={handleSubmit} className="grid grid-cols-1 md:grid-cols-3 gap-6">
           <div>
-            <label className="block text-foreground/50 text-xs font-bold mb-2 uppercase tracking-wider">Kupon Kodu</label>
+            <label className="block text-foreground/50 text-xs font-bold mb-2 uppercase tracking-wider">
+              Kupon Kodu
+            </label>
             <div className="flex">
               <input
                 type="text"
@@ -290,8 +354,8 @@ export default function CouponsView() {
                 className="w-full bg-background/50 border border-glass-border text-foreground px-4 py-3 focus:border-neon-pink uppercase outline-none rounded-l"
                 required
               />
-              <button 
-                type="button" 
+              <button
+                type="button"
                 onClick={generateRandomCode}
                 className="bg-foreground/10 hover:bg-foreground/20 px-4 border border-l-0 border-glass-border rounded-r transition-colors text-foreground"
                 title="Rastgele Kod Üret"
@@ -300,9 +364,11 @@ export default function CouponsView() {
               </button>
             </div>
           </div>
-          
+
           <div>
-            <label className="block text-foreground/50 text-xs font-bold mb-2 uppercase tracking-wider">İndirim Tipi</label>
+            <label className="block text-foreground/50 text-xs font-bold mb-2 uppercase tracking-wider">
+              İndirim Tipi
+            </label>
             <select
               name="discountType"
               value={formData.discountType}
@@ -317,23 +383,30 @@ export default function CouponsView() {
 
           <div>
             <label className="block text-foreground/50 text-xs font-bold mb-2 uppercase tracking-wider">
-              Değer {formData.discountType === 'PERCENTAGE' ? '(%)' : formData.discountType === 'FIXED' ? '(TL)' : '(Geçersiz)'}
+              Değer{" "}
+              {formData.discountType === "PERCENTAGE"
+                ? "(%)"
+                : formData.discountType === "FIXED"
+                  ? "(TL)"
+                  : "(Geçersiz)"}
             </label>
             <input
               type="number"
               name="discountValue"
               value={formData.discountValue}
               onChange={handleInputChange}
-              disabled={formData.discountType === 'FREE_SHIPPING'}
+              disabled={formData.discountType === "FREE_SHIPPING"}
               className="w-full bg-background/50 border border-glass-border text-foreground px-4 py-3 focus:border-neon-pink outline-none rounded disabled:opacity-50"
-              required={formData.discountType !== 'FREE_SHIPPING'}
+              required={formData.discountType !== "FREE_SHIPPING"}
               step="0.01"
               min="0"
             />
           </div>
 
           <div>
-            <label className="block text-foreground/50 text-xs font-bold mb-2 uppercase tracking-wider">Min. Sepet Tutarı (TL)</label>
+            <label className="block text-foreground/50 text-xs font-bold mb-2 uppercase tracking-wider">
+              Min. Sepet Tutarı (TL)
+            </label>
             <input
               type="number"
               name="minCartValue"
@@ -346,7 +419,9 @@ export default function CouponsView() {
           </div>
 
           <div>
-            <label className="block text-foreground/50 text-xs font-bold mb-2 uppercase tracking-wider">Kullanım Limiti</label>
+            <label className="block text-foreground/50 text-xs font-bold mb-2 uppercase tracking-wider">
+              Kullanım Limiti
+            </label>
             <input
               type="number"
               name="maxUses"
@@ -359,7 +434,9 @@ export default function CouponsView() {
           </div>
 
           <div>
-            <label className="block text-foreground/50 text-xs font-bold mb-2 uppercase tracking-wider">Son Kullanma Tarihi</label>
+            <label className="block text-foreground/50 text-xs font-bold mb-2 uppercase tracking-wider">
+              Son Kullanma Tarihi
+            </label>
             <input
               type="datetime-local"
               name="expiresAt"
@@ -379,11 +456,14 @@ export default function CouponsView() {
                 className="w-5 h-5 accent-neon-pink"
                 id="isActiveToggle"
               />
-              <label htmlFor="isActiveToggle" className="text-foreground/70 font-bold uppercase cursor-pointer">
+              <label
+                htmlFor="isActiveToggle"
+                className="text-foreground/70 font-bold uppercase cursor-pointer"
+              >
                 Kuponu Aktifleştir
               </label>
             </div>
-            
+
             <div className="flex gap-4">
               {isEditing && (
                 <button
@@ -406,7 +486,9 @@ export default function CouponsView() {
       </div>
 
       <div className="glass-panel p-6 clip-angled border border-glass-border">
-        <h2 className="text-xl font-bold text-foreground uppercase tracking-widest mb-6">Mevcut Kuponlar</h2>
+        <h2 className="text-xl font-bold text-foreground uppercase tracking-widest mb-6">
+          Mevcut Kuponlar
+        </h2>
         {isLoading ? (
           <div className="flex justify-center py-8">
             <div className="w-8 h-8 border-4 border-neon-pink border-t-transparent rounded-full animate-spin"></div>
@@ -432,48 +514,95 @@ export default function CouponsView() {
                     <td className="px-4 py-4">
                       <div className="font-bold text-foreground flex items-center gap-2">
                         {coupon.code}
-                        <button onClick={() => {
-                          navigator.clipboard.writeText(coupon.code);
-                          Swal.fire({ toast: true, position: 'top-end', showConfirmButton: false, timer: 1500, icon: 'success', title: 'Kopyalandı!', background: '#1a1a1a', color: '#fff' });
-                        }} className="text-foreground/60 hover:text-foreground transition-colors" title="Kopyala">
+                        <button
+                          onClick={() => {
+                            navigator.clipboard.writeText(coupon.code);
+                            Swal.fire({
+                              toast: true,
+                              position: "top-end",
+                              showConfirmButton: false,
+                              timer: 1500,
+                              icon: "success",
+                              title: "Kopyalandı!",
+                              background: "#1a1a1a",
+                              color: "#fff",
+                            });
+                          }}
+                          className="text-foreground/60 hover:text-foreground transition-colors"
+                          title="Kopyala"
+                        >
                           <Copy size={14} />
                         </button>
                       </div>
                     </td>
                     <td className="px-4 py-4">
                       <span className="text-neon-pink font-bold">
-                        {coupon.discountType === 'PERCENTAGE' ? `%${coupon.discountValue}` : 
-                         coupon.discountType === 'FIXED' ? `₺${coupon.discountValue}` : 
-                         'Ücretsiz Kargo'}
+                        {coupon.discountType === "PERCENTAGE"
+                          ? `%${coupon.discountValue}`
+                          : coupon.discountType === "FIXED"
+                            ? `₺${coupon.discountValue}`
+                            : "Ücretsiz Kargo"}
                       </span>
                     </td>
                     <td className="px-4 py-4 text-foreground/70 text-xs space-y-1">
-                      <div>Min Sepet: <span className="text-foreground">{coupon.minCartValue ? `₺${coupon.minCartValue}` : 'Yok'}</span></div>
-                      <div>Bitiş: <span className="text-foreground">{coupon.expiresAt ? new Date(coupon.expiresAt).toLocaleDateString("tr-TR") : 'Süresiz'}</span></div>
+                      <div>
+                        Min Sepet:{" "}
+                        <span className="text-foreground">
+                          {coupon.minCartValue ? `₺${coupon.minCartValue}` : "Yok"}
+                        </span>
+                      </div>
+                      <div>
+                        Bitiş:{" "}
+                        <span className="text-foreground">
+                          {coupon.expiresAt
+                            ? new Date(coupon.expiresAt).toLocaleDateString("tr-TR")
+                            : "Süresiz"}
+                        </span>
+                      </div>
                     </td>
                     <td className="px-4 py-4 text-foreground/70 text-xs space-y-1">
-                      <div>Kullanım: <span className="text-foreground">{coupon.usedCount} / {coupon.maxUses || '∞'}</span></div>
-                      <div>Gelir: <span className="text-green-400">₺{coupon.revenueGenerated?.toLocaleString("tr-TR") || 0}</span></div>
+                      <div>
+                        Kullanım:{" "}
+                        <span className="text-foreground">
+                          {coupon.usedCount} / {coupon.maxUses || "∞"}
+                        </span>
+                      </div>
+                      <div>
+                        Gelir:{" "}
+                        <span className="text-green-400">
+                          ₺{coupon.revenueGenerated?.toLocaleString("tr-TR") || 0}
+                        </span>
+                      </div>
                     </td>
-                    <td className="px-4 py-4">
-                      {getStatusBadge(coupon)}
-                    </td>
+                    <td className="px-4 py-4">{getStatusBadge(coupon)}</td>
                     <td className="px-4 py-4 text-right">
                       <div className="flex items-center justify-end gap-3 opacity-80 group-hover:opacity-100 transition-opacity">
-                        <button 
-                          onClick={() => toggleStatus(coupon)} 
-                          className={`${coupon.isActive ? 'text-orange-400' : 'text-green-400'} hover:text-foreground transition-colors`}
+                        <button
+                          onClick={() => toggleStatus(coupon)}
+                          className={`${coupon.isActive ? "text-orange-400" : "text-green-400"} hover:text-foreground transition-colors`}
                           title={coupon.isActive ? "Pasife Al" : "Aktife Al"}
                         >
                           <RefreshCw size={16} />
                         </button>
-                        <button onClick={() => handleEdit(coupon)} className="text-holo-gold hover:text-foreground transition-colors" title="Düzenle">
+                        <button
+                          onClick={() => handleEdit(coupon)}
+                          className="text-holo-gold hover:text-foreground transition-colors"
+                          title="Düzenle"
+                        >
                           <Edit size={16} />
                         </button>
-                        <button onClick={() => duplicateCoupon(coupon)} className="text-blue-400 hover:text-foreground transition-colors" title="Çoğalt">
+                        <button
+                          onClick={() => duplicateCoupon(coupon)}
+                          className="text-blue-400 hover:text-foreground transition-colors"
+                          title="Çoğalt"
+                        >
                           <Copy size={16} />
                         </button>
-                        <button onClick={() => handleDelete(coupon.id)} className="text-red-500 hover:text-foreground transition-colors" title="Sil">
+                        <button
+                          onClick={() => handleDelete(coupon.id)}
+                          className="text-red-500 hover:text-foreground transition-colors"
+                          title="Sil"
+                        >
                           <Trash2 size={16} />
                         </button>
                       </div>

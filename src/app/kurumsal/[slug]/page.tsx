@@ -11,7 +11,7 @@ export async function generateMetadata({ params }) {
 
   const page = await prisma.page.findUnique({ where: { slug } });
 
-  const title = page ? page.title : slug.replace(/-/g, ' ').toUpperCase();
+  const title = page ? page.title : slug.replace(/-/g, " ").toUpperCase();
 
   return {
     title: `${title} | ${siteAdi}`,
@@ -25,7 +25,7 @@ export default async function KurumsalPage({ params }) {
   const settings = getSettings();
 
   const page = await prisma.page.findUnique({
-    where: { slug }
+    where: { slug },
   });
 
   const validSlugs = [
@@ -43,15 +43,15 @@ export default async function KurumsalPage({ params }) {
     notFound();
   }
 
-  const title = page ? page.title : slug.replace(/-/g, ' ').toUpperCase();
+  const title = page ? page.title : slug.replace(/-/g, " ").toUpperCase();
   const baseUrl = process.env.NEXT_PUBLIC_BASE_URL || "http://localhost:3000";
 
   const jsonLd = {
     "@context": "https://schema.org",
     "@type": "WebPage",
-    "name": `${title} - ${settings.siteAdi || "Cemre Park"}`,
-    "url": `${baseUrl}/kurumsal/${slug}`,
-    "description": `${settings.siteAdi || "Cemre Park"} ${title} sayfası.`
+    name: `${title} - ${settings.siteAdi || "Cemre Park"}`,
+    url: `${baseUrl}/kurumsal/${slug}`,
+    description: `${settings.siteAdi || "Cemre Park"} ${title} sayfası.`,
   };
 
   return (

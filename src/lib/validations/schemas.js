@@ -1,4 +1,4 @@
-import { z } from 'zod';
+import { z } from "zod";
 
 export const userRegisterSchema = z.object({
   name: z.string().min(2, "Name must be at least 2 characters").max(50),
@@ -7,10 +7,14 @@ export const userRegisterSchema = z.object({
 });
 
 export const orderCreateSchema = z.object({
-  items: z.array(z.object({
-    productId: z.string().uuid("Invalid product ID"),
-    quantity: z.number().int().positive("Quantity must be positive"),
-  })).min(1, "Order must contain at least one item"),
+  items: z
+    .array(
+      z.object({
+        productId: z.string().uuid("Invalid product ID"),
+        quantity: z.number().int().positive("Quantity must be positive"),
+      })
+    )
+    .min(1, "Order must contain at least one item"),
   shippingAddress: z.string().min(10, "Shipping address is too short"),
 });
 

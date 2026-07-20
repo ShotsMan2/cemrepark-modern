@@ -1,11 +1,15 @@
-import { logger } from '@/lib/logger';
+import { logger } from "@/lib/logger";
 import { NextResponse, NextRequest } from "next/server";
 import { checkAdminAndLog } from "@/lib/adminAuth";
 import { apiHandler } from "@/lib/apiHandler";
 import prisma from "@/lib/prisma";
 
 export const GET = apiHandler(async (req: NextRequest) => {
-  const { errorResponse } = await checkAdminAndLog(req, "VIEW_LOGS", "Güvenlik loglarını görüntüledi");
+  const { errorResponse } = await checkAdminAndLog(
+    req,
+    "VIEW_LOGS",
+    "Güvenlik loglarını görüntüledi"
+  );
   if (errorResponse) return errorResponse;
 
   // Get query params for pagination

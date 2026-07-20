@@ -1,18 +1,18 @@
-const { PrismaClient } = require('@prisma/client');
+const { PrismaClient } = require("@prisma/client");
 const prisma = new PrismaClient();
 
 async function main() {
-  console.log('Eski bannerlar temizleniyor...');
+  console.log("Eski bannerlar temizleniyor...");
   await prisma.banner.deleteMany({});
 
-  console.log('Shopier ürünlerinden yeni bannerlar seçiliyor (Pi Ajanı Mantığı)...');
+  console.log("Shopier ürünlerinden yeni bannerlar seçiliyor (Pi Ajanı Mantığı)...");
   const products = await prisma.product.findMany({
     take: 3,
-    orderBy: { id: 'desc' }
+    orderBy: { id: "desc" },
   });
 
   if (products.length === 0) {
-    console.log('Hiç ürün bulunamadı, banner eklenmedi.');
+    console.log("Hiç ürün bulunamadı, banner eklenmedi.");
     return;
   }
 
@@ -20,30 +20,30 @@ async function main() {
   const slogans = [
     "YENİ SEZONDA ŞIKLIK SİZİNLE",
     "EN ÇOK TERCİH EDİLEN KOMBİNLER",
-    "GÜNLÜK VE ÖZEL GÜNLER İÇİN İDEAL"
+    "GÜNLÜK VE ÖZEL GÜNLER İÇİN İDEAL",
   ];
 
   for (let i = 0; i < products.length; i++) {
     const p = products[i];
     const slogan = slogans[i] || p.ad;
-    
+
     await prisma.banner.create({
       data: {
         title: p.ad.toUpperCase(),
-        imageUrl: p.resim || p.gorsel?.split(',')[0] || '/images/hero-1.jpg',
+        imageUrl: p.resim || p.gorsel?.split(",")[0] || "/images/hero-1.jpg",
         linkUrl: `/urundetay/${p.id}`,
         isActive: true,
-        order: i + 1
-      }
+        order: i + 1,
+      },
     });
     console.log(`[+] Banner eklendi: ${p.ad}`);
   }
 
-  console.log('Banner güncellemesi tamamlandı!');
+  console.log("Banner güncellemesi tamamlandı!");
 }
 
 main()
-  .catch(e => {
+  .catch((e) => {
     console.error(e);
     process.exit(1);
   })

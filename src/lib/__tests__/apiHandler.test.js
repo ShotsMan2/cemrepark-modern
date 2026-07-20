@@ -55,7 +55,10 @@ describe("apiHandler", () => {
       { success: false, message: "Internal Server Error" },
       { status: 500 }
     );
-    expect(result).toEqual({ body: { success: false, message: "Internal Server Error" }, status: 500 });
+    expect(result).toEqual({
+      body: { success: false, message: "Internal Server Error" },
+      status: 500,
+    });
   });
 
   it("should catch errors, log them, and return a custom status code and message for operational errors", async () => {
@@ -74,7 +77,10 @@ describe("apiHandler", () => {
       message: error.message,
       stack: error.stack,
     });
-    expect(NextResponse.json).toHaveBeenCalledWith({ success: false, message: "Bad Request" }, { status: 400 });
+    expect(NextResponse.json).toHaveBeenCalledWith(
+      { success: false, message: "Bad Request" },
+      { status: 400 }
+    );
     expect(result).toEqual({ body: { success: false, message: "Bad Request" }, status: 400 });
   });
 });

@@ -129,7 +129,7 @@ export const POST = apiHandler(async (request: NextRequest) => {
 
   const body = await request.json();
   const newProduct = await productService.addProduct(body);
-  
+
   const { cacheDel } = await import("@/lib/redis");
   await cacheDel("products:*");
 
@@ -144,9 +144,6 @@ export const POST = apiHandler(async (request: NextRequest) => {
       entity: "Product",
       entityId: newProduct.id.toString(),
       details: `Created a new product: ${newProduct.ad}`,
-      changes: JSON.stringify({ new: newProduct }),
-      ipAddress,
-      userAgent,
     })
   );
 

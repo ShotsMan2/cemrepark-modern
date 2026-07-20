@@ -5,9 +5,12 @@ import { analyticsService } from "@/services/analyticsService";
 
 export const GET = apiHandler(async (req: NextRequest) => {
   const { errorResponse } = await checkAdminAndLog(req, null, null);
-  
+
   if (errorResponse) {
-    const error = new Error("Yetkisiz Erişim") as Error & { statusCode?: number; isOperational?: boolean };
+    const error = new Error("Yetkisiz Erişim") as Error & {
+      statusCode?: number;
+      isOperational?: boolean;
+    };
     error.statusCode = 403;
     error.isOperational = true;
     throw error;

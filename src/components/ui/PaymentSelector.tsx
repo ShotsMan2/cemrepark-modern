@@ -24,29 +24,41 @@ export default function PaymentSelector({ selectedMethod, onSelect }: PaymentSel
       >
         <div className="flex items-start justify-between">
           <div className="flex gap-4">
-            <div className={`p-3 rounded-xl transition-colors duration-300 ${
-              selectedMethod === "credit_card" ? "bg-primary text-foreground" : "bg-gray-100 dark:bg-white/10 text-foreground/60 group-hover:text-primary"
-            }`}>
+            <div
+              className={`p-3 rounded-xl transition-colors duration-300 ${
+                selectedMethod === "credit_card"
+                  ? "bg-primary text-foreground"
+                  : "bg-gray-100 dark:bg-white/10 text-foreground/60 group-hover:text-primary"
+              }`}
+            >
               <CreditCard className="w-6 h-6" />
             </div>
             <div>
-              <h4 className={`font-bold text-lg transition-colors duration-300 ${
-                selectedMethod === "credit_card" ? "text-primary" : "text-foreground"
-              }`}>Kredi / Banka Kartı</h4>
+              <h4
+                className={`font-bold text-lg transition-colors duration-300 ${
+                  selectedMethod === "credit_card" ? "text-primary" : "text-foreground"
+                }`}
+              >
+                Kredi / Banka Kartı
+              </h4>
               <p className="text-sm text-foreground/60 mt-1">Iyzico / Stripe Güvencesiyle</p>
             </div>
           </div>
-          <div className={`transition-all duration-300 ${
-            selectedMethod === "credit_card" ? "scale-100 opacity-100" : "scale-0 opacity-0"
-          }`}>
+          <div
+            className={`transition-all duration-300 ${
+              selectedMethod === "credit_card" ? "scale-100 opacity-100" : "scale-0 opacity-0"
+            }`}
+          >
             <CheckCircle2 className="w-6 h-6 text-primary" />
           </div>
         </div>
-        
+
         {/* Animated Background Gradient for Selected State */}
-        <div className={`absolute inset-0 bg-gradient-to-br from-primary/10 via-transparent to-transparent opacity-0 transition-opacity duration-500 ${
-          selectedMethod === "credit_card" ? "opacity-100" : ""
-        }`} />
+        <div
+          className={`absolute inset-0 bg-gradient-to-br from-primary/10 via-transparent to-transparent opacity-0 transition-opacity duration-500 ${
+            selectedMethod === "credit_card" ? "opacity-100" : ""
+          }`}
+        />
       </div>
 
       {/* Bank Transfer Option */}
@@ -60,29 +72,41 @@ export default function PaymentSelector({ selectedMethod, onSelect }: PaymentSel
       >
         <div className="flex items-start justify-between">
           <div className="flex gap-4">
-            <div className={`p-3 rounded-xl transition-colors duration-300 ${
-              selectedMethod === "bank_transfer" ? "bg-secondary text-black" : "bg-gray-100 dark:bg-white/10 text-foreground/60 group-hover:text-secondary"
-            }`}>
+            <div
+              className={`p-3 rounded-xl transition-colors duration-300 ${
+                selectedMethod === "bank_transfer"
+                  ? "bg-secondary text-black"
+                  : "bg-gray-100 dark:bg-white/10 text-foreground/60 group-hover:text-secondary"
+              }`}
+            >
               <Building2 className="w-6 h-6" />
             </div>
             <div>
-              <h4 className={`font-bold text-lg transition-colors duration-300 ${
-                selectedMethod === "bank_transfer" ? "text-secondary" : "text-foreground"
-              }`}>Havale / EFT</h4>
+              <h4
+                className={`font-bold text-lg transition-colors duration-300 ${
+                  selectedMethod === "bank_transfer" ? "text-secondary" : "text-foreground"
+                }`}
+              >
+                Havale / EFT
+              </h4>
               <p className="text-sm text-foreground/60 mt-1">%5 İndirim Fırsatıyla</p>
             </div>
           </div>
-          <div className={`transition-all duration-300 ${
-            selectedMethod === "bank_transfer" ? "scale-100 opacity-100" : "scale-0 opacity-0"
-          }`}>
+          <div
+            className={`transition-all duration-300 ${
+              selectedMethod === "bank_transfer" ? "scale-100 opacity-100" : "scale-0 opacity-0"
+            }`}
+          >
             <CheckCircle2 className="w-6 h-6 text-secondary" />
           </div>
         </div>
 
         {/* Animated Background Gradient for Selected State */}
-        <div className={`absolute inset-0 bg-gradient-to-br from-secondary/10 via-transparent to-transparent opacity-0 transition-opacity duration-500 ${
-          selectedMethod === "bank_transfer" ? "opacity-100" : ""
-        }`} />
+        <div
+          className={`absolute inset-0 bg-gradient-to-br from-secondary/10 via-transparent to-transparent opacity-0 transition-opacity duration-500 ${
+            selectedMethod === "bank_transfer" ? "opacity-100" : ""
+          }`}
+        />
       </div>
     </div>
   );

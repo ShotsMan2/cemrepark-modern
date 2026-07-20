@@ -3,18 +3,31 @@
 import { useState, useEffect, useMemo } from "react";
 import Swal from "sweetalert2";
 import { motion, AnimatePresence } from "framer-motion";
-import { Users, Star, UserPlus, DollarSign, X, Download, ChevronLeft, ChevronRight, ArrowUpDown, Mail, Phone, ShoppingBag } from "lucide-react";
+import {
+  Users,
+  Star,
+  UserPlus,
+  DollarSign,
+  X,
+  Download,
+  ChevronLeft,
+  ChevronRight,
+  ArrowUpDown,
+  Mail,
+  Phone,
+  ShoppingBag,
+} from "lucide-react";
 
 export default function CustomersView() {
   const [customers, setCustomers] = useState([]);
   const [searchTerm, setSearchTerm] = useState("");
   const [loading, setLoading] = useState(true);
   const [activeTab, setActiveTab] = useState("Tümü");
-  
+
   const [currentPage, setCurrentPage] = useState(1);
   const itemsPerPage = 10;
 
-  const [sortConfig, setSortConfig] = useState({ key: null, direction: 'asc' });
+  const [sortConfig, setSortConfig] = useState({ key: null, direction: "asc" });
 
   const [selectedCustomer, setSelectedCustomer] = useState(null);
   const [customerNotes, setCustomerNotes] = useState("");
@@ -34,7 +47,15 @@ export default function CustomersView() {
         limit: String(itemsPerPage),
       });
       if (searchTerm) query.append("search", searchTerm);
-      if (activeTab !== "Tümü") query.append("role", activeTab === "VIP" ? "admin" : (activeTab === "Regular" || activeTab === "New" ? "user" : "")); // Simplistic mapping, real one should be better
+      if (activeTab !== "Tümü")
+        query.append(
+          "role",
+          activeTab === "VIP"
+            ? "admin"
+            : activeTab === "Regular" || activeTab === "New"
+              ? "user"
+              : ""
+        ); // Simplistic mapping, real one should be better
       if (sortConfig.key) {
         query.append("sortBy", sortConfig.key);
         query.append("sortOrder", sortConfig.direction);
@@ -43,15 +64,16 @@ export default function CustomersView() {
       const res = await fetch(`/api/users?${query.toString()}`);
       if (res.ok) {
         const result = await res.json();
-        
+
         const data = result.data || result;
         const total = result.total || data.length;
-        
-        const formatted = data.map(u => {
+
+        const formatted = data.map((u) => {
           let segment = "Regular";
           if (u.role === "admin") segment = "VIP";
-          else if (new Date(u.createdAt) > new Date(Date.now() - 30 * 24 * 60 * 60 * 1000)) segment = "New";
-          
+          else if (new Date(u.createdAt) > new Date(Date.now() - 30 * 24 * 60 * 60 * 1000))
+            segment = "New";
+
           return {
             id: `USR-${u.id}`,
             rawId: u.id,
@@ -61,9 +83,9 @@ export default function CustomersView() {
             kayit: new Date(u.createdAt).toLocaleDateString("tr-TR"),
             kayitDate: new Date(u.createdAt),
             siparisSayisi: u._count?.orders || Math.floor(Math.random() * 20),
-            harcama: Math.floor(Math.random() * 10000), 
+            harcama: Math.floor(Math.random() * 10000),
             phone: "Belirtilmemiş",
-            notes: ""
+            notes: "",
           };
         });
         setCustomers(formatted);
@@ -71,7 +93,7 @@ export default function CustomersView() {
         setTotalCustomers(total);
       }
     } catch (error) {
-      console.error('Kullanıcılar çekilirken hata:', error);
+      console.error("Kullanıcılar çekilirken hata:", error);
     } finally {
       setLoading(false);
     }
@@ -79,15 +101,42 @@ export default function CustomersView() {
 
   const stats = useMemo(() => {
     const total = totalCustomers;
-    const vip = customers.filter(c => c.segment === 'VIP').length; // Local approx
-    const newReg = customers.filter(c => c.segment === 'New').length;
-    const avgOrder = customers.length > 0 ? customers.reduce((acc, c) => acc + c.harcama, 0) / customers.length : 0;
+    const vip = customers.filter((c) => c.segment === "VIP").length; // Local approx
+    const newReg = customers.filter((c) => c.segment === "New").length;
+    const avgOrder =
+      customers.length > 0
+        ? customers.reduce((acc, c) => acc + c.harcama, 0) / customers.length
+        : 0;
 
     return [
-      { label: "Toplam Müşteri", value: total, icon: Users, color: "text-blue-400", bg: "bg-blue-400/10" },
-      { label: "VIP Müşteriler", value: vip, icon: Star, color: "text-holo-gold", bg: "bg-holo-gold/10" },
-      { label: "Yeni Kayıtlar", value: newReg, icon: UserPlus, color: "text-green-400", bg: "bg-green-400/10" },
-      { label: "Ort. Sipariş Değeri", value: `₺${avgOrder.toLocaleString("tr-TR", {maximumFractionDigits: 0})}`, icon: DollarSign, color: "text-neon-pink", bg: "bg-neon-pink/10" }
+      {
+        label: "Toplam Müşteri",
+        value: total,
+        icon: Users,
+        color: "text-blue-400",
+        bg: "bg-blue-400/10",
+      },
+      {
+        label: "VIP Müşteriler",
+        value: vip,
+        icon: Star,
+        color: "text-holo-gold",
+        bg: "bg-holo-gold/10",
+      },
+      {
+        label: "Yeni Kayıtlar",
+        value: newReg,
+        icon: UserPlus,
+        color: "text-green-400",
+        bg: "bg-green-400/10",
+      },
+      {
+        label: "Ort. Sipariş Değeri",
+        value: `₺${avgOrder.toLocaleString("tr-TR", { maximumFractionDigits: 0 })}`,
+        icon: DollarSign,
+        color: "text-neon-pink",
+        bg: "bg-neon-pink/10",
+      },
     ];
   }, [customers, totalCustomers]);
 
@@ -95,11 +144,11 @@ export default function CustomersView() {
 
   const handleSort = (key) => {
     let mappedKey = key;
-    if (key === 'isim') mappedKey = 'name';
-    if (key === 'kayitDate') mappedKey = 'createdAt';
-    let direction = 'asc';
-    if (sortConfig.key === mappedKey && sortConfig.direction === 'asc') {
-      direction = 'desc';
+    if (key === "isim") mappedKey = "name";
+    if (key === "kayitDate") mappedKey = "createdAt";
+    let direction = "asc";
+    if (sortConfig.key === mappedKey && sortConfig.direction === "asc") {
+      direction = "desc";
     }
     setSortConfig({ key: mappedKey, direction });
   };
@@ -108,55 +157,80 @@ export default function CustomersView() {
 
   const getSegmentColor = (segment) => {
     switch (segment) {
-      case "VIP": return "text-holo-gold border-holo-gold/30 bg-holo-gold/10";
-      case "New": return "text-green-400 border-green-400/30 bg-green-400/10";
-      default: return "text-foreground/70 border-gray-600 bg-gray-800";
+      case "VIP":
+        return "text-holo-gold border-holo-gold/30 bg-holo-gold/10";
+      case "New":
+        return "text-green-400 border-green-400/30 bg-green-400/10";
+      default:
+        return "text-foreground/70 border-gray-600 bg-gray-800";
     }
   };
 
   const handleDeleteUser = (id, name) => {
     Swal.fire({
-      title: 'Emin misiniz?',
+      title: "Emin misiniz?",
       text: `${name} kullanıcısını silmek istediğinize emin misiniz?`,
-      icon: 'warning',
+      icon: "warning",
       showCancelButton: true,
-      confirmButtonColor: '#ff007f',
-      cancelButtonColor: '#333',
-      confirmButtonText: 'Evet, Sil!',
-      cancelButtonText: 'İptal',
-      background: '#1a1a1a',
-      color: '#fff',
+      confirmButtonColor: "#ff007f",
+      cancelButtonColor: "#333",
+      confirmButtonText: "Evet, Sil!",
+      cancelButtonText: "İptal",
+      background: "#1a1a1a",
+      color: "#fff",
     }).then(async (result) => {
       if (result.isConfirmed) {
         try {
-          const rawId = id.replace('USR-', '');
+          const rawId = id.replace("USR-", "");
           const res = await fetch(`/api/users/${rawId}`, {
-            method: 'DELETE',
+            method: "DELETE",
           });
           if (res.ok) {
-            setCustomers(customers.filter(c => c.id !== id));
-            Swal.fire({ title: 'Silindi!', text: 'Kullanıcı silindi.', icon: 'success', background: '#1a1a1a', color: '#fff' });
+            setCustomers(customers.filter((c) => c.id !== id));
+            Swal.fire({
+              title: "Silindi!",
+              text: "Kullanıcı silindi.",
+              icon: "success",
+              background: "#1a1a1a",
+              color: "#fff",
+            });
             if (selectedCustomer?.id === id) setSelectedCustomer(null);
           } else {
-            throw new Error('Failed to delete');
+            throw new Error("Failed to delete");
           }
         } catch (error) {
-          Swal.fire({ title: 'Hata!', text: 'Kullanıcı silinemedi.', icon: 'error', background: '#1a1a1a', color: '#fff' });
+          Swal.fire({
+            title: "Hata!",
+            text: "Kullanıcı silinemedi.",
+            icon: "error",
+            background: "#1a1a1a",
+            color: "#fff",
+          });
         }
       }
     });
   };
 
   const exportCSV = () => {
-    const headers = ["ID", "İsim", "E-posta", "Telefon", "Segment", "Kayıt Tarihi", "Sipariş Sayısı", "Toplam Harcama"];
+    const headers = [
+      "ID",
+      "İsim",
+      "E-posta",
+      "Telefon",
+      "Segment",
+      "Kayıt Tarihi",
+      "Sipariş Sayısı",
+      "Toplam Harcama",
+    ];
     const csvContent = [
       headers.join(","),
-      ...paginatedCustomers.map(c => 
-        `${c.id},"${c.isim}","${c.email}","${c.phone}",${c.segment},${c.kayit},${c.siparisSayisi},${c.harcama}`
-      )
+      ...paginatedCustomers.map(
+        (c) =>
+          `${c.id},"${c.isim}","${c.email}","${c.phone}",${c.segment},${c.kayit},${c.siparisSayisi},${c.harcama}`
+      ),
     ].join("\n");
 
-    const blob = new Blob(["\uFEFF" + csvContent], { type: 'text/csv;charset=utf-8;' });
+    const blob = new Blob(["\uFEFF" + csvContent], { type: "text/csv;charset=utf-8;" });
     const url = URL.createObjectURL(blob);
     const link = document.createElement("a");
     link.setAttribute("href", url);
@@ -180,7 +254,14 @@ export default function CustomersView() {
       color: "#fff",
     }).then((result) => {
       if (result.isConfirmed) {
-        Swal.fire({ title: "Başarılı!", text: "E-postalar kuyruğa alındı.", icon: "success", confirmButtonColor: "#ff007f", background: "#1a1a1a", color: "#fff" });
+        Swal.fire({
+          title: "Başarılı!",
+          text: "E-postalar kuyruğa alındı.",
+          icon: "success",
+          confirmButtonColor: "#ff007f",
+          background: "#1a1a1a",
+          color: "#fff",
+        });
       }
     });
   };
@@ -189,18 +270,22 @@ export default function CustomersView() {
     <div className="animate-fade-in space-y-6">
       <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4">
         {stats.map((s, i) => (
-          <motion.div 
+          <motion.div
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ delay: i * 0.1 }}
-            key={i} 
+            key={i}
             className="glass-card p-4 flex items-center gap-4 border border-glass-border"
           >
-            <div className={`w-12 h-12 rounded-full flex items-center justify-center ${s.bg} ${s.color}`}>
+            <div
+              className={`w-12 h-12 rounded-full flex items-center justify-center ${s.bg} ${s.color}`}
+            >
               <s.icon size={24} />
             </div>
             <div>
-              <p className="text-foreground/50 text-xs font-bold uppercase tracking-wider">{s.label}</p>
+              <p className="text-foreground/50 text-xs font-bold uppercase tracking-wider">
+                {s.label}
+              </p>
               <h3 className="text-2xl font-bold text-foreground mt-1">{s.value}</h3>
             </div>
           </motion.div>
@@ -209,15 +294,20 @@ export default function CustomersView() {
 
       <div className="glass-panel p-6 clip-angled flex flex-col md:flex-row justify-between items-start md:items-center gap-4">
         <div className="flex flex-wrap gap-2 bg-black/40 p-1 rounded">
-          {tabs.map(tab => (
+          {tabs.map((tab) => (
             <button
               key={tab}
-              onClick={() => { setActiveTab(tab); setCurrentPage(1); }}
+              onClick={() => {
+                setActiveTab(tab);
+                setCurrentPage(1);
+              }}
               className={`px-4 py-2 text-sm font-bold uppercase tracking-wider rounded transition-all ${
-                activeTab === tab ? "bg-neon-pink text-foreground" : "text-foreground/50 hover:text-foreground hover:bg-foreground/5"
+                activeTab === tab
+                  ? "bg-neon-pink text-foreground"
+                  : "text-foreground/50 hover:text-foreground hover:bg-foreground/5"
               }`}
             >
-              {tab} 
+              {tab}
               <span className="ml-2 bg-black/30 px-2 py-0.5 rounded-full text-xs">
                 {tab === "Tümü" ? totalCustomers : ""}
               </span>
@@ -232,7 +322,11 @@ export default function CustomersView() {
             onChange={(e) => setSearchTerm(e.target.value)}
             className="flex-1 md:flex-none bg-background/50 border border-glass-border text-foreground px-4 py-2 focus:outline-none focus:border-neon-pink text-sm rounded"
           />
-          <button onClick={exportCSV} className="bg-background/50 border border-glass-border hover:border-white/30 text-foreground p-2 rounded transition-colors" title="CSV İndir">
+          <button
+            onClick={exportCSV}
+            className="bg-background/50 border border-glass-border hover:border-white/30 text-foreground p-2 rounded transition-colors"
+            title="CSV İndir"
+          >
             <Download size={20} />
           </button>
           <button
@@ -249,18 +343,38 @@ export default function CustomersView() {
           <table className="w-full text-left border-collapse">
             <thead>
               <tr className="border-b border-glass-border bg-black/40 text-foreground/50 text-xs uppercase tracking-wider">
-                <th className="p-4 font-bold cursor-pointer hover:text-foreground" onClick={() => handleSort('isim')}>
-                  <div className="flex items-center gap-1">Müşteri <ArrowUpDown size={14}/></div>
+                <th
+                  className="p-4 font-bold cursor-pointer hover:text-foreground"
+                  onClick={() => handleSort("isim")}
+                >
+                  <div className="flex items-center gap-1">
+                    Müşteri <ArrowUpDown size={14} />
+                  </div>
                 </th>
-                <th className="p-4 font-bold cursor-pointer hover:text-foreground" onClick={() => handleSort('email')}>
-                  <div className="flex items-center gap-1">İletişim <ArrowUpDown size={14}/></div>
+                <th
+                  className="p-4 font-bold cursor-pointer hover:text-foreground"
+                  onClick={() => handleSort("email")}
+                >
+                  <div className="flex items-center gap-1">
+                    İletişim <ArrowUpDown size={14} />
+                  </div>
                 </th>
                 <th className="p-4 font-bold">Segment</th>
-                <th className="p-4 font-bold cursor-pointer hover:text-foreground" onClick={() => handleSort('kayitDate')}>
-                  <div className="flex items-center gap-1">Kayıt & Sipariş <ArrowUpDown size={14}/></div>
+                <th
+                  className="p-4 font-bold cursor-pointer hover:text-foreground"
+                  onClick={() => handleSort("kayitDate")}
+                >
+                  <div className="flex items-center gap-1">
+                    Kayıt & Sipariş <ArrowUpDown size={14} />
+                  </div>
                 </th>
-                <th className="p-4 font-bold text-right cursor-pointer hover:text-foreground" onClick={() => handleSort('harcama')}>
-                  <div className="flex items-center justify-end gap-1"><ArrowUpDown size={14}/> Toplam Değer</div>
+                <th
+                  className="p-4 font-bold text-right cursor-pointer hover:text-foreground"
+                  onClick={() => handleSort("harcama")}
+                >
+                  <div className="flex items-center justify-end gap-1">
+                    <ArrowUpDown size={14} /> Toplam Değer
+                  </div>
                 </th>
                 <th className="p-4 font-bold text-right">İşlem</th>
               </tr>
@@ -275,7 +389,9 @@ export default function CustomersView() {
                 </tr>
               ) : paginatedCustomers.length === 0 ? (
                 <tr>
-                  <td colSpan={6} className="p-8 text-center text-foreground/50">Müşteri bulunamadı.</td>
+                  <td colSpan={6} className="p-8 text-center text-foreground/50">
+                    Müşteri bulunamadı.
+                  </td>
                 </tr>
               ) : (
                 paginatedCustomers.map((c, i) => (
@@ -293,7 +409,9 @@ export default function CustomersView() {
                     </td>
                     <td className="p-4 text-foreground/70 text-sm">{c.email}</td>
                     <td className="p-4">
-                      <span className={`px-3 py-1 text-xs border rounded-full font-bold uppercase tracking-wider ${getSegmentColor(c.segment)}`}>
+                      <span
+                        className={`px-3 py-1 text-xs border rounded-full font-bold uppercase tracking-wider ${getSegmentColor(c.segment)}`}
+                      >
                         {c.segment}
                       </span>
                     </td>
@@ -324,22 +442,23 @@ export default function CustomersView() {
             </tbody>
           </table>
         </div>
-        
+
         {totalPages > 1 && (
           <div className="p-4 border-t border-glass-border flex items-center justify-between">
             <span className="text-sm text-foreground/50">
-              Toplam {totalCustomers} kayıttan {(currentPage - 1) * itemsPerPage + 1}-{Math.min(currentPage * itemsPerPage, totalCustomers)} gösteriliyor.
+              Toplam {totalCustomers} kayıttan {(currentPage - 1) * itemsPerPage + 1}-
+              {Math.min(currentPage * itemsPerPage, totalCustomers)} gösteriliyor.
             </span>
             <div className="flex gap-2">
-              <button 
-                onClick={() => setCurrentPage(p => Math.max(1, p - 1))}
+              <button
+                onClick={() => setCurrentPage((p) => Math.max(1, p - 1))}
                 disabled={currentPage === 1}
                 className="p-2 glass-card hover:bg-foreground/10 disabled:opacity-50 text-foreground"
               >
                 <ChevronLeft size={16} />
               </button>
-              <button 
-                onClick={() => setCurrentPage(p => Math.min(totalPages, p + 1))}
+              <button
+                onClick={() => setCurrentPage((p) => Math.min(totalPages, p + 1))}
                 disabled={currentPage === totalPages}
                 className="p-2 glass-card hover:bg-foreground/10 disabled:opacity-50 text-foreground"
               >
@@ -353,37 +472,45 @@ export default function CustomersView() {
       <AnimatePresence>
         {selectedCustomer && (
           <>
-            <motion.div 
-              initial={{ opacity: 0 }} animate={{ opacity: 1 }} exit={{ opacity: 0 }}
+            <motion.div
+              initial={{ opacity: 0 }}
+              animate={{ opacity: 1 }}
+              exit={{ opacity: 0 }}
               className="fixed inset-0 bg-black/60 backdrop-blur-sm z-40"
               onClick={() => setSelectedCustomer(null)}
             />
-            <motion.div 
-              initial={{ x: "100%" }} animate={{ x: 0 }} exit={{ x: "100%" }}
+            <motion.div
+              initial={{ x: "100%" }}
+              animate={{ x: 0 }}
+              exit={{ x: "100%" }}
               transition={{ type: "spring", damping: 25, stiffness: 200 }}
               className="fixed inset-y-0 right-0 w-full max-w-md bg-[#111] border-l border-glass-border shadow-2xl z-50 p-6 flex flex-col"
             >
-              <button 
+              <button
                 onClick={() => setSelectedCustomer(null)}
                 className="absolute top-4 right-4 p-2 text-foreground/50 hover:text-foreground bg-foreground/5 rounded-full"
               >
                 <X size={20} />
               </button>
-              
+
               <div className="flex flex-col items-center mt-6 mb-8">
                 <div className="w-24 h-24 rounded-full bg-gradient-to-br from-neon-pink to-purple-600 flex items-center justify-center text-4xl text-foreground font-bold shadow-lg shadow-neon-pink/20 mb-4">
                   {selectedCustomer.isim.charAt(0)}
                 </div>
                 <h2 className="text-2xl font-bold text-foreground">{selectedCustomer.isim}</h2>
                 <p className="text-foreground/50">{selectedCustomer.id}</p>
-                <span className={`mt-2 px-4 py-1 text-xs border rounded-full font-bold uppercase tracking-wider ${getSegmentColor(selectedCustomer.segment)}`}>
+                <span
+                  className={`mt-2 px-4 py-1 text-xs border rounded-full font-bold uppercase tracking-wider ${getSegmentColor(selectedCustomer.segment)}`}
+                >
                   {selectedCustomer.segment} Müşteri
                 </span>
               </div>
 
               <div className="space-y-6 flex-1 overflow-y-auto pr-2">
                 <div className="glass-card p-4 space-y-3 border border-glass-border">
-                  <h3 className="text-foreground font-bold uppercase text-sm border-b border-glass-border pb-2">İletişim</h3>
+                  <h3 className="text-foreground font-bold uppercase text-sm border-b border-glass-border pb-2">
+                    İletişim
+                  </h3>
                   <div className="flex items-center gap-3 text-foreground/70">
                     <Mail size={16} className="text-neon-pink" /> {selectedCustomer.email}
                   </div>
@@ -395,18 +522,24 @@ export default function CustomersView() {
                 <div className="grid grid-cols-2 gap-4">
                   <div className="glass-card p-4 text-center border border-glass-border">
                     <ShoppingBag size={20} className="mx-auto mb-2 text-holo-gold" />
-                    <p className="text-2xl font-bold text-foreground">{selectedCustomer.siparisSayisi}</p>
+                    <p className="text-2xl font-bold text-foreground">
+                      {selectedCustomer.siparisSayisi}
+                    </p>
                     <p className="text-xs text-foreground/50 uppercase">Sipariş</p>
                   </div>
                   <div className="glass-card p-4 text-center border border-glass-border">
                     <DollarSign size={20} className="mx-auto mb-2 text-green-400" />
-                    <p className="text-xl font-bold text-foreground">{selectedCustomer.harcama.toLocaleString("tr-TR")} ₺</p>
+                    <p className="text-xl font-bold text-foreground">
+                      {selectedCustomer.harcama.toLocaleString("tr-TR")} ₺
+                    </p>
                     <p className="text-xs text-foreground/50 uppercase">Harcama</p>
                   </div>
                 </div>
 
                 <div className="glass-card p-4 space-y-2 border border-glass-border">
-                  <h3 className="text-foreground font-bold uppercase text-sm border-b border-glass-border pb-2">Notlar</h3>
+                  <h3 className="text-foreground font-bold uppercase text-sm border-b border-glass-border pb-2">
+                    Notlar
+                  </h3>
                   <textarea
                     value={customerNotes}
                     onChange={(e) => setCustomerNotes(e.target.value)}
@@ -420,9 +553,15 @@ export default function CustomersView() {
               </div>
 
               <div className="pt-6 border-t border-glass-border mt-auto">
-                <button 
+                <button
                   onClick={() => {
-                    Swal.fire({ title: "Başarılı!", text: "E-posta gönderme ekranı açılıyor.", icon: "success", background: '#1a1a1a', color: '#fff' });
+                    Swal.fire({
+                      title: "Başarılı!",
+                      text: "E-posta gönderme ekranı açılıyor.",
+                      icon: "success",
+                      background: "#1a1a1a",
+                      color: "#fff",
+                    });
                   }}
                   className="w-full bg-neon-pink text-foreground font-bold py-3 rounded uppercase tracking-widest text-sm hover:bg-white hover:text-black transition-colors flex items-center justify-center gap-2"
                 >

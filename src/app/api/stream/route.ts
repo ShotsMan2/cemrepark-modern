@@ -1,7 +1,7 @@
-import { NextResponse } from 'next/server';
-import eventBus, { EVENTS } from '@/lib/eventBus';
+import { NextResponse } from "next/server";
+import eventBus, { EVENTS } from "@/lib/eventBus";
 
-export const dynamic = 'force-dynamic';
+export const dynamic = "force-dynamic";
 
 export async function GET() {
   const encoder = new TextEncoder();
@@ -13,7 +13,7 @@ export async function GET() {
         const payload = `data: ${JSON.stringify(data)}\n\n`;
         controller.enqueue(encoder.encode(payload));
       };
-      
+
       // Subscribe to all order status changes
       eventBus.on(EVENTS.ORDER_STATUS_CHANGED, listener);
     },
@@ -26,9 +26,9 @@ export async function GET() {
 
   return new NextResponse(stream, {
     headers: {
-      'Content-Type': 'text/event-stream',
-      'Cache-Control': 'no-cache, no-transform',
-      'Connection': 'keep-alive',
+      "Content-Type": "text/event-stream",
+      "Cache-Control": "no-cache, no-transform",
+      Connection: "keep-alive",
     },
   });
 }

@@ -1,21 +1,21 @@
 "use client";
 import { createContext, useContext, useState, useEffect } from "react";
 
-const CurrencyContext = createContext();
+const CurrencyContext = createContext<any>({});
 
 export function CurrencyProvider({ children }) {
   const [currency, setCurrency] = useState("TL");
   const [isLoaded, setIsLoaded] = useState(false);
   const [exchangeRates, setExchangeRates] = useState({
     USD: 32,
-    EUR: 35
+    EUR: 35,
   });
 
   useEffect(() => {
     const savedCurr = localStorage.getItem("cemrepark_curr");
     if (savedCurr) setCurrency(savedCurr);
     setIsLoaded(true);
-    
+
     // In the future, we could fetch exchange rates from an API here
     // fetchExchangeRates().then(rates => setExchangeRates(rates));
   }, []);

@@ -1,4 +1,4 @@
-import redisCache from './redisCache';
+import redisCache from "./redisCache";
 
 // This is the cache strategy. It now uses Redis caching as per Phase 1.
 const cacheStrategy = redisCache;

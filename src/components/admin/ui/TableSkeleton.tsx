@@ -1,4 +1,4 @@
-import React from 'react';
+import React from "react";
 
 interface TableSkeletonProps {
   columns?: number;
@@ -33,16 +33,16 @@ export default function TableSkeleton({ columns = 5, rows = 10 }: TableSkeletonP
           </thead>
           <tbody>
             {Array.from({ length: rows }).map((_, rowIndex) => (
-              <tr 
-                key={`tr-${rowIndex}`} 
+              <tr
+                key={`tr-${rowIndex}`}
                 className="bg-white dark:bg-gray-800 border-b dark:border-gray-700 hover:bg-gray-50 dark:hover:bg-gray-700 transition-colors"
               >
                 {Array.from({ length: columns }).map((_, colIndex) => (
                   <td key={`td-${rowIndex}-${colIndex}`} className="px-6 py-4">
-                    <div 
+                    <div
                       className={`h-4 bg-foreground/20 rounded animate-pulse ${
-                        colIndex === 0 ? 'w-full' : colIndex === 1 ? 'w-5/6' : 'w-2/3'
-                      }`} 
+                        colIndex === 0 ? "w-full" : colIndex === 1 ? "w-5/6" : "w-2/3"
+                      }`}
                     />
                   </td>
                 ))}

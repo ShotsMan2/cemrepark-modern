@@ -45,10 +45,17 @@ function applySecurityHeaders(response: NextResponse) {
 }
 
 async function authMiddleware(req: NextRequest) {
-  const token = await getToken({ req, secret: process.env.NEXTAUTH_SECRET || "default_secret_key_for_development" });
+  const token = await getToken({
+    req,
+    secret: process.env.NEXTAUTH_SECRET || "default_secret_key_for_development",
+  });
   const isAuth = !!token;
   const path = req.nextUrl.pathname;
-  const isAuthPage = path === "/login" || path.startsWith("/login/") || path === "/register" || path.startsWith("/register/");
+  const isAuthPage =
+    path === "/login" ||
+    path.startsWith("/login/") ||
+    path === "/register" ||
+    path.startsWith("/register/");
 
   if (isAuthPage) {
     if (isAuth) {
@@ -99,14 +106,22 @@ async function authMiddleware(req: NextRequest) {
 export async function proxy(req: NextRequest, event: any) {
   const path = req.nextUrl.pathname;
 
-  if ((path.startsWith('/api/auth') && req.method !== 'GET' && !path.includes('/signout') && !path.includes('/register') && !path.includes('/callback')) || path.startsWith('/api/orders') || path.startsWith('/api/chat')) {
-    const ip = req.headers.get('x-forwarded-for') || (req as any).ip || '127.0.0.1';
+  if (
+    (path.startsWith("/api/auth") &&
+      req.method !== "GET" &&
+      !path.includes("/signout") &&
+      !path.includes("/register") &&
+      !path.includes("/callback")) ||
+    path.startsWith("/api/orders") ||
+    path.startsWith("/api/chat")
+  ) {
+    const ip = req.headers.get("x-forwarded-for") || (req as any).ip || "127.0.0.1";
     try {
       const { success } = await edgeRateLimit(ip, 20, 60);
       if (!success) {
         return new NextResponse(
-          JSON.stringify({ error: 'Too Many Requests', message: 'Hız limiti aşıldı.' }),
-          { status: 429, headers: { 'content-type': 'application/json' } }
+          JSON.stringify({ error: "Too Many Requests", message: "Hız limiti aşıldı." }),
+          { status: 429, headers: { "content-type": "application/json" } }
         );
       }
     } catch (e) {
@@ -115,7 +130,7 @@ export async function proxy(req: NextRequest, event: any) {
   }
 
   const authRoutes = ["/admin", "/api/admin", "/hesabim", "/login", "/register"];
-  const isAuthRoute = authRoutes.some(route => path === route || path.startsWith(`${route}/`));
+  const isAuthRoute = authRoutes.some((route) => path === route || path.startsWith(`${route}/`));
 
   if (isAuthRoute) {
     return await authMiddleware(req);
@@ -126,7 +141,5 @@ export async function proxy(req: NextRequest, event: any) {
 }
 
 export const config = {
-  matcher: [
-    "/((?!_next/static|_next/image|favicon.ico|sitemap.xml|robots.txt).*)"
-  ],
+  matcher: ["/((?!_next/static|_next/image|favicon.ico|sitemap.xml|robots.txt).*)"],
 };

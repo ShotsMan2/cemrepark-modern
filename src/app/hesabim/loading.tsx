@@ -20,7 +20,7 @@ export default function HesabimLoading() {
           </div>
         </div>
       </div>
-      
+
       {/* Main Content Skeleton */}
       <div className="w-full lg:w-3/4">
         <div className="glass-card p-8 space-y-8">
@@ -28,7 +28,7 @@ export default function HesabimLoading() {
             <Skeleton className="h-8 w-48 rounded-lg" />
             <Skeleton className="h-10 w-32 rounded-xl" />
           </div>
-          
+
           <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
             {[...Array(4)].map((_, i) => (
               <div key={i} className="space-y-2">
@@ -37,7 +37,7 @@ export default function HesabimLoading() {
               </div>
             ))}
           </div>
-          
+
           <div className="pt-6">
             <Skeleton className="h-12 w-40 rounded-xl" />
           </div>

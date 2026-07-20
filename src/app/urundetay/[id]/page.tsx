@@ -14,7 +14,8 @@ export async function generateMetadata({ params }) {
   }
 
   const baseUrl = process.env.NEXT_PUBLIC_BASE_URL || "http://localhost:3000";
-  const imageUrl = product.resim || (product.gorsel ? product.gorsel.split(',')[0] : "") || "/images/og-image.jpg";
+  const imageUrl =
+    product.resim || (product.gorsel ? product.gorsel.split(",")[0] : "") || "/images/og-image.jpg";
   const ogImage = imageUrl.startsWith("http") ? imageUrl : `${baseUrl}${imageUrl}`;
 
   return {
@@ -47,9 +48,9 @@ export async function generateMetadata({ params }) {
 
 export default async function UrunDetay({ params }) {
   const { id } = await params;
-  const product = await prisma.product.findUnique({ 
+  const product = await prisma.product.findUnique({
     where: { id: parseInt(id) },
-    include: { colors: true }
+    include: { colors: true },
   });
 
   if (!product) {
@@ -61,9 +62,9 @@ export default async function UrunDetay({ params }) {
   }
 
   const relatedProducts = await prisma.product.findMany({
-    where: { 
+    where: {
       kategori: product.kategori,
-      id: { not: product.id }
+      id: { not: product.id },
     },
     take: 4,
   });
@@ -79,7 +80,7 @@ export default async function UrunDetay({ params }) {
   });
 
   const baseUrl = process.env.NEXT_PUBLIC_BASE_URL || "http://localhost:3000";
-  const imageUrl = product.resim || (product.gorsel ? product.gorsel.split(',')[0] : "");
+  const imageUrl = product.resim || (product.gorsel ? product.gorsel.split(",")[0] : "");
 
   const jsonLd: any = {
     "@context": "https://schema.org",
@@ -127,26 +128,26 @@ export default async function UrunDetay({ params }) {
   const breadcrumbJsonLd = {
     "@context": "https://schema.org",
     "@type": "BreadcrumbList",
-    "itemListElement": [
+    itemListElement: [
       {
         "@type": "ListItem",
-        "position": 1,
-        "name": "Anasayfa",
-        "item": baseUrl
+        position: 1,
+        name: "Anasayfa",
+        item: baseUrl,
       },
       {
         "@type": "ListItem",
-        "position": 2,
-        "name": product.kategori || "Ürünler",
-        "item": `${baseUrl}/search?q=${product.kategori || ""}`
+        position: 2,
+        name: product.kategori || "Ürünler",
+        item: `${baseUrl}/search?q=${product.kategori || ""}`,
       },
       {
         "@type": "ListItem",
-        "position": 3,
-        "name": product.ad,
-        "item": `${baseUrl}/urundetay/${product.id}`
-      }
-    ]
+        position: 3,
+        name: product.ad,
+        item: `${baseUrl}/urundetay/${product.id}`,
+      },
+    ],
   };
 
   const schemaArr = [jsonLd, breadcrumbJsonLd];

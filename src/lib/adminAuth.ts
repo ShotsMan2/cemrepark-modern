@@ -3,7 +3,11 @@ import { getServerSession } from "next-auth/next";
 import { authOptions } from "@/lib/authOptions";
 import { logAuditAction } from "@/lib/auditLogger";
 
-export async function checkAdminAndLog(req: NextRequest | Request | any, action?: string, details?: string) {
+export async function checkAdminAndLog(
+  req: NextRequest | Request | any,
+  action?: string,
+  details?: string
+) {
   const session = await getServerSession(authOptions);
 
   if (!session || (session.user as any)?.role !== "admin") {
@@ -15,17 +19,16 @@ export async function checkAdminAndLog(req: NextRequest | Request | any, action?
 
   // Create audit log asynchronously in the background so it doesn't block
   if (action) {
-    const ipAddress = req.headers.get("x-forwarded-for") || "unknown";
     const userId = (session.user as any)?.id ? parseInt((session.user as any).id) : null;
 
     await logAuditAction({
       action,
       userId,
+      entity: action,
+      entityId: "N/A",
       details,
-      ipAddress,
     });
   }
 
   return { errorResponse: null, session };
 }
-

@@ -1,6 +1,6 @@
-const { PrismaClient } = require('@prisma/client');
-const fs = require('fs');
-const path = require('path');
+const { PrismaClient } = require("@prisma/client");
+const fs = require("fs");
+const path = require("path");
 
 const prisma = new PrismaClient();
 
@@ -8,10 +8,10 @@ async function downloadImage(url, filepath) {
   try {
     const res = await fetch(url);
     if (!res.ok) throw new Error(`HTTP ${res.status} ${res.statusText}`);
-    
+
     const arrayBuffer = await res.arrayBuffer();
     const buffer = Buffer.from(arrayBuffer);
-    
+
     fs.writeFileSync(filepath, buffer);
     return true;
   } catch (error) {
@@ -21,7 +21,7 @@ async function downloadImage(url, filepath) {
 }
 
 async function main() {
-  const imagesDir = path.join(__dirname, '..', 'public', 'images', 'products');
+  const imagesDir = path.join(__dirname, "..", "public", "images", "products");
   if (!fs.existsSync(imagesDir)) {
     fs.mkdirSync(imagesDir, { recursive: true });
   }
@@ -37,11 +37,11 @@ async function main() {
     let newGorsel = p.gorsel;
 
     // Ana Görsel İndirme
-    if (p.resim && p.resim.startsWith('http')) {
-      const ext = path.extname(new URL(p.resim).pathname) || '.jpg';
+    if (p.resim && p.resim.startsWith("http")) {
+      const ext = path.extname(new URL(p.resim).pathname) || ".jpg";
       const filename = `product_${p.id}_main${ext}`;
       const filepath = path.join(imagesDir, filename);
-      
+
       console.log(`İndiriliyor: ${p.resim}`);
       const success = await downloadImage(p.resim, filepath);
       if (success) {
@@ -51,16 +51,19 @@ async function main() {
     }
 
     // Galeri Görselleri İndirme
-    if (p.gorsel && p.gorsel.includes('http')) {
-      const urls = p.gorsel.split(',').map(u => u.trim()).filter(u => u.startsWith('http'));
+    if (p.gorsel && p.gorsel.includes("http")) {
+      const urls = p.gorsel
+        .split(",")
+        .map((u) => u.trim())
+        .filter((u) => u.startsWith("http"));
       const newUrls = [];
       let galleryIndex = 1;
-      
+
       for (const url of urls) {
-        const ext = path.extname(new URL(url).pathname) || '.jpg';
+        const ext = path.extname(new URL(url).pathname) || ".jpg";
         const filename = `product_${p.id}_gallery_${galleryIndex}${ext}`;
         const filepath = path.join(imagesDir, filename);
-        
+
         console.log(`Galeri İndiriliyor: ${url}`);
         const success = await downloadImage(url, filepath);
         if (success) {
@@ -70,9 +73,9 @@ async function main() {
         }
         galleryIndex++;
       }
-      
+
       if (newUrls.length > 0) {
-        newGorsel = newUrls.join(',');
+        newGorsel = newUrls.join(",");
         updateNeeded = true;
       }
     }
@@ -82,8 +85,8 @@ async function main() {
         where: { id: p.id },
         data: {
           resim: newResim,
-          gorsel: newGorsel
-        }
+          gorsel: newGorsel,
+        },
       });
       console.log(`[+] Veritabanı güncellendi: ${p.ad}`);
       updatedCount++;

@@ -76,7 +76,9 @@ export default memo(function BentoBoxShowcase({ discounted }: { discounted: any[
                 className="object-cover opacity-60 group-hover:scale-110 transition-transform duration-700 ease-out"
               />
               <div className="absolute inset-0 flex flex-col items-center justify-center text-center p-6 bg-black/30 group-hover:bg-black/50 transition-colors duration-500">
-                <h4 className="text-2xl font-display font-black text-foreground mb-3">Minimalist</h4>
+                <h4 className="text-2xl font-display font-black text-foreground mb-3">
+                  Minimalist
+                </h4>
                 <Link
                   href="/search"
                   className="glass-frosted text-xs uppercase tracking-[0.2em] font-bold text-foreground px-6 py-2 rounded-full hover:bg-white hover:text-black transition-all transform translate-y-4 opacity-0 group-hover:translate-y-0 group-hover:opacity-100 duration-500"
@@ -111,4 +113,4 @@ export default memo(function BentoBoxShowcase({ discounted }: { discounted: any[
       </div>
     </section>
   );
-})
+});

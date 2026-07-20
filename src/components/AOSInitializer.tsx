@@ -10,7 +10,7 @@ export default function AOSInitializer() {
     const timer = setTimeout(() => {
       AOS.init({ duration: 800, once: true, offset: 100 });
       AOS.refresh();
-      
+
       setTimeout(() => AOS.refresh(), 200);
       setTimeout(() => AOS.refresh(), 500);
     }, 100);

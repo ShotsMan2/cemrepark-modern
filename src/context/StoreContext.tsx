@@ -5,10 +5,11 @@ import { FavoritesProvider, useFavorites } from "./FavoritesContext";
 import { CurrencyProvider, useCurrency } from "./CurrencyContext";
 import { I18nProvider, useI18n } from "./I18nContext";
 
-const StoreContext = createContext();
+const StoreContext = createContext<any>({});
 
 function StoreFacadeProvider({ children }) {
-  const { cartItems, isCartLoaded, addToCart, removeFromCart, clearCart, updateQuantity } = useCart();
+  const { cartItems, isCartLoaded, addToCart, removeFromCart, clearCart, updateQuantity } =
+    useCart();
   const { favoriteItems, isFavoritesLoaded, addToFavorites, removeFromFavorites } = useFavorites();
   const { currency, setCurrency, formatPrice, isCurrencyLoaded } = useCurrency();
   const { language, setLanguage, t, isI18nLoaded } = useI18n();
@@ -73,13 +74,13 @@ function StoreFacadeProvider({ children }) {
 export function StoreProvider({ children }) {
   const [settingsForI18n, setSettingsForI18n] = useState(null);
 
-  // We need to fetch settings at this level too if we want to pass them directly to I18nProvider, 
+  // We need to fetch settings at this level too if we want to pass them directly to I18nProvider,
   // or we can let StoreFacadeProvider handle settings and we just pass a simple context.
   // Actually, I18nProvider takes settings as a prop for the t() function.
   useEffect(() => {
     fetch("/api/settings")
-      .then(res => res.ok ? res.json() : null)
-      .then(data => setSettingsForI18n(data))
+      .then((res) => (res.ok ? res.json() : null))
+      .then((data) => setSettingsForI18n(data))
       .catch(() => {});
   }, []);
 
@@ -88,9 +89,7 @@ export function StoreProvider({ children }) {
       <FavoritesProvider>
         <CurrencyProvider>
           <I18nProvider settings={settingsForI18n}>
-            <StoreFacadeProvider>
-              {children}
-            </StoreFacadeProvider>
+            <StoreFacadeProvider>{children}</StoreFacadeProvider>
           </I18nProvider>
         </CurrencyProvider>
       </FavoritesProvider>
