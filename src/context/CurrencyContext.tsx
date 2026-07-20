@@ -1,12 +1,26 @@
 "use client";
-import { createContext, useContext, useState, useEffect } from "react";
+import { createContext, useContext, useState, useEffect, ReactNode } from "react";
 
-const CurrencyContext = createContext<any>({});
+interface ExchangeRates {
+  USD: number;
+  EUR: number;
+}
 
-export function CurrencyProvider({ children }) {
+interface CurrencyContextType {
+  currency: string;
+  setCurrency: React.Dispatch<React.SetStateAction<string>>;
+  formatPrice: (priceInTL: number | string) => string;
+  exchangeRates: ExchangeRates;
+  setExchangeRates: React.Dispatch<React.SetStateAction<ExchangeRates>>;
+  isCurrencyLoaded: boolean;
+}
+
+const CurrencyContext = createContext<CurrencyContextType>({} as CurrencyContextType);
+
+export function CurrencyProvider({ children }: { children: ReactNode }) {
   const [currency, setCurrency] = useState("TL");
   const [isLoaded, setIsLoaded] = useState(false);
-  const [exchangeRates, setExchangeRates] = useState({
+  const [exchangeRates, setExchangeRates] = useState<ExchangeRates>({
     USD: 32,
     EUR: 35,
   });
@@ -26,8 +40,8 @@ export function CurrencyProvider({ children }) {
     }
   }, [currency, isLoaded]);
 
-  const formatPrice = (priceInTL) => {
-    const numPrice = parseFloat(priceInTL) || 0;
+  const formatPrice = (priceInTL: number | string) => {
+    const numPrice = typeof priceInTL === "string" ? parseFloat(priceInTL) : priceInTL || 0;
     if (currency === "USD") {
       return (
         (numPrice / exchangeRates.USD).toLocaleString("en-US", {

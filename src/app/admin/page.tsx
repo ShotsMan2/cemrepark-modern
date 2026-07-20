@@ -122,7 +122,7 @@ export default function AdminPage() {
   }
 
   // Check if user is authenticated but not an admin
-  if (status === "authenticated" && (session?.user as any)?.role !== "admin") {
+  if (status === "authenticated" && session?.user?.role !== "admin") {
     return (
       <div className="min-h-screen pt-32 pb-24 flex items-center justify-center relative overflow-hidden bg-[#0a0a0a]">
         {/* Glow */}

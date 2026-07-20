@@ -15,6 +15,9 @@ export default function Header() {
   const [isSearchOpen, setIsSearchOpen] = useState(false);
   const [isScrolled, setIsScrolled] = useState(false);
   const [isMegaMenuOpen, setIsMegaMenuOpen] = useState(false);
+  const [lastScrollY, setLastScrollY] = useState(0);
+  const [isHeaderVisible, setIsHeaderVisible] = useState(true);
+  const [scrollProgress, setScrollProgress] = useState(0);
 
   const {
     cartItems,
@@ -28,28 +31,46 @@ export default function Header() {
     settings,
   } = useStore();
 
-  // Handle scroll for sticky header effects
   useEffect(() => {
     const handleScroll = () => {
-      setIsScrolled(window.scrollY > 40);
-    };
-    window.addEventListener("scroll", handleScroll);
-    return () => window.removeEventListener("scroll", handleScroll);
-  }, []);
+      const currentScrollY = window.scrollY;
+      setIsScrolled(currentScrollY > 40);
 
-  // Close search on escape key
+      if (currentScrollY > lastScrollY && currentScrollY > 200) {
+        setIsHeaderVisible(false);
+      } else {
+        setIsHeaderVisible(true);
+      }
+      setLastScrollY(currentScrollY);
+
+      const docHeight = document.documentElement.scrollHeight - window.innerHeight;
+      const progress = docHeight > 0 ? (currentScrollY / docHeight) * 100 : 0;
+      setScrollProgress(progress);
+    };
+    window.addEventListener("scroll", handleScroll, { passive: true });
+    return () => window.removeEventListener("scroll", handleScroll);
+  }, [lastScrollY]);
+
   useEffect(() => {
     const handleEsc = (e: KeyboardEvent) => {
       if (e.key === "Escape") setIsSearchOpen(false);
     };
-    const handleOpenSearch = () => setIsSearchOpen(true);
+    const handleOpenSearch = (e: KeyboardEvent) => {
+      if ((e.metaKey || e.ctrlKey) && e.key === "k") {
+        e.preventDefault();
+        setIsSearchOpen(true);
+      }
+    };
+    const handleCustomSearch = () => setIsSearchOpen(true);
 
     window.addEventListener("keydown", handleEsc);
-    window.addEventListener("open-search", handleOpenSearch);
+    window.addEventListener("keydown", handleOpenSearch);
+    window.addEventListener("open-search", handleCustomSearch);
 
     return () => {
       window.removeEventListener("keydown", handleEsc);
-      window.removeEventListener("open-search", handleOpenSearch);
+      window.removeEventListener("keydown", handleOpenSearch);
+      window.removeEventListener("open-search", handleCustomSearch);
     };
   }, []);
 
@@ -57,7 +78,19 @@ export default function Header() {
 
   return (
     <>
-      <header className="w-full z-50 transition-all duration-300">
+      {/* Scroll Progress Bar */}
+      <div className="fixed top-0 left-0 z-[9999] w-full h-[3px] bg-transparent pointer-events-none">
+        <div
+          className="h-full bg-gradient-to-r from-primary via-accent to-secondary transition-all duration-150 ease-out"
+          style={{ width: `${scrollProgress}%` }}
+        />
+      </div>
+
+      <header
+        className={`w-full z-50 transition-all duration-500 ${
+          isHeaderVisible ? "translate-y-0" : "-translate-y-full"
+        }`}
+      >
         {/* SCROLLING ANNOUNCEMENT BAR */}
         <div className="bg-gradient-to-r from-primary via-accent to-secondary text-white text-[10px] md:text-[11px] font-bold py-2 overflow-hidden shadow-lg border-b border-white/10">
           <div className="w-full whitespace-nowrap animate-marquee hover-pause flex gap-12 md:gap-24 min-w-max drop-shadow-md">
@@ -74,7 +107,6 @@ export default function Header() {
               <span className="text-white/90">💳</span> {t("installment")}
             </span>
 
-            {/* Duplicated for seamless scrolling */}
             <span className="flex items-center gap-2">
               <span className="text-white/90">✨</span> {t("discover_new_season")}
             </span>
@@ -215,6 +247,8 @@ export default function Header() {
             ? "bg-white/80 dark:bg-[#120a10]/80 shadow-[0_4px_30px_rgba(0,0,0,0.1)] border-foreground/10 py-3"
             : "bg-white/95 dark:bg-[#120a10]/95 shadow-sm border-foreground/5 py-4"
         }`}
+        animate={{ y: isHeaderVisible ? 0 : -100 }}
+        transition={{ duration: 0.3 }}
       >
         <div className="w-full max-w-screen-2xl mx-auto px-4 md:px-8 flex justify-between items-center relative">
           {/* Desktop Menu */}
@@ -390,7 +424,7 @@ export default function Header() {
               whileHover={{ scale: 1.1, rotate: 5 }}
               whileTap={{ scale: 0.9 }}
               onClick={() => setIsSearchOpen(true)}
-              className="text-foreground/70 hover:text-primary transition-colors"
+              className="text-foreground/70 hover:text-primary transition-colors relative"
               aria-label="Open Search"
             >
               <svg
@@ -406,6 +440,9 @@ export default function Header() {
                 <circle cx="11" cy="11" r="8"></circle>
                 <line x1="21" y1="21" x2="16.65" y2="16.65"></line>
               </svg>
+              <kbd className="hidden md:inline absolute -bottom-4 left-1/2 -translate-x-1/2 text-[8px] text-foreground/30 font-mono border border-foreground/10 rounded px-1 leading-tight whitespace-nowrap">
+                ⌘K
+              </kbd>
             </motion.button>
 
             <Link href="/favorites" aria-label="Favorites" className="relative group">
@@ -427,6 +464,7 @@ export default function Header() {
               <AnimatePresence>
                 {isLoaded && favoriteItems.length > 0 && (
                   <motion.span
+                    key="favorite-badge"
                     initial={{ scale: 0 }}
                     animate={{ scale: 1 }}
                     exit={{ scale: 0 }}
@@ -439,7 +477,14 @@ export default function Header() {
             </Link>
 
             <Link href="/cart" aria-label="Cart" className="relative group">
-              <motion.div whileHover={{ scale: 1.1 }} whileTap={{ scale: 0.9 }}>
+              <motion.div
+                whileHover={{ scale: 1.1 }}
+                whileTap={{ scale: 0.9 }}
+                animate={cartItems.length > 0 ? {
+                  scale: [1, 1.15, 1],
+                  transition: { duration: 0.5, ease: "easeInOut" },
+                } : {}}
+              >
                 <svg
                   width="22"
                   height="22"
@@ -459,6 +504,7 @@ export default function Header() {
               <AnimatePresence>
                 {isLoaded && cartItems.length > 0 && (
                   <motion.span
+                    key="cart-badge"
                     initial={{ scale: 0 }}
                     animate={{ scale: 1 }}
                     exit={{ scale: 0 }}
@@ -502,6 +548,59 @@ export default function Header() {
         </div>
       </motion.div>
 
+      {/* Mobile Bottom Navigation */}
+      <div className="fixed bottom-0 left-0 right-0 z-50 lg:hidden bg-background/90 dark:bg-background/90 backdrop-blur-2xl border-t border-foreground/10 safe-area-bottom">
+        <div className="flex items-center justify-around py-2 px-2">
+          {[
+            { href: "/", label: t("home"), icon: "home" },
+            { href: "/search", label: t("search"), icon: "search" },
+            { href: "/favorites", label: t("favorites"), icon: "heart", badge: isLoaded ? favoriteItems.length : 0 },
+            { href: "/cart", label: t("cart"), icon: "cart", badge: isLoaded ? cartItems.length : 0 },
+            { href: session ? "/hesabim" : "/login", label: t("account"), icon: "user" },
+          ].map((item, idx) => (
+            <Link
+              key={idx}
+              href={item.href}
+              className={`flex flex-col items-center gap-0.5 px-3 py-1 rounded-xl transition-colors relative ${
+                pathname === item.href ? "text-primary" : "text-foreground/60 hover:text-foreground/80"
+              }`}
+            >
+              {item.icon === "home" && (
+                <svg className="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth="2">
+                  <path d="M3 12l2-2m0 0l7-7 7 7M5 10v10a1 1 0 001 1h3m10-11l2 2m-2-2v10a1 1 0 01-1 1h-3m-6 0a1 1 0 001-1v-4a1 1 0 011-1h2a1 1 0 011 1v4a1 1 0 001 1m-6 0h6" />
+                </svg>
+              )}
+              {item.icon === "search" && (
+                <svg className="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth="2">
+                  <circle cx="11" cy="11" r="8" /><line x1="21" y1="21" x2="16.65" y2="16.65" />
+                </svg>
+              )}
+              {item.icon === "heart" && (
+                <svg className="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth="2">
+                  <path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z" />
+                </svg>
+              )}
+              {item.icon === "cart" && (
+                <svg className="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth="2">
+                  <path d="M6 2L3 6v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2V6l-3-4z" /><line x1="3" y1="6" x2="21" y2="6" /><path d="M16 10a4 4 0 0 1-8 0" />
+                </svg>
+              )}
+              {item.icon === "user" && (
+                <svg className="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth="2">
+                  <path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2" /><circle cx="12" cy="7" r="4" />
+                </svg>
+              )}
+              <span className="text-[10px] font-medium">{item.label}</span>
+              {(item.badge ?? 0) > 0 && (
+                <span className="absolute -top-0.5 right-1 bg-primary text-white text-[8px] font-bold min-w-[16px] h-4 flex items-center justify-center rounded-full px-1 shadow-md">
+                  {item.badge}
+                </span>
+              )}
+            </Link>
+          ))}
+        </div>
+      </div>
+
       {/* Search Popup Area */}
       <AnimatePresence>
         {isSearchOpen && (
@@ -542,7 +641,6 @@ export default function Header() {
 
               <form role="search" method="get" className="relative group" action="/search">
                 <input type="hidden" name="type" value="search" />
-                {/* Glowing underline effect */}
                 <div className="absolute -bottom-0.5 left-0 w-full h-[3px] bg-gradient-to-r from-primary via-accent to-secondary scale-x-0 group-hover:scale-x-100 transition-transform duration-500 origin-left rounded-full"></div>
 
                 <input

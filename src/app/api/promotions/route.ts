@@ -30,14 +30,14 @@ export const POST = apiHandler(async (req: Request) => {
   }
 
   const { errorResponse } = await checkAdminAndLog(
-    req as any,
+    req,
     "CREATE_PROMOTION",
     "Created new promotion"
   );
   if (errorResponse) {
-    const error = new Error("Yetkisiz Erisim") as any;
-    error.statusCode = 403;
-    error.isOperational = true;
+    const error = new Error("Yetkisiz Erisim");
+    (error as unknown as { statusCode: number; isOperational: boolean }).statusCode = 403;
+    (error as unknown as { isOperational: boolean }).isOperational = true;
     throw error;
   }
 
@@ -55,9 +55,9 @@ export const POST = apiHandler(async (req: Request) => {
   } = body;
 
   if (!name || !type) {
-    const error = new Error("Name and type are required for promotion") as any;
-    error.statusCode = 400;
-    error.isOperational = true;
+    const error = new Error("Name and type are required for promotion");
+    (error as unknown as { statusCode: number; isOperational: boolean }).statusCode = 400;
+    (error as unknown as { isOperational: boolean }).isOperational = true;
     throw error;
   }
 

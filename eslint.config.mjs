@@ -12,15 +12,44 @@ const eslintConfig = defineConfig([
     },
     rules: {
       "prettier/prettier": "error",
+      "@typescript-eslint/no-unused-vars": ["warn", { argsIgnorePattern: "^_" }],
+      "@typescript-eslint/no-explicit-any": "warn",
+      "@typescript-eslint/prefer-as-const": "error",
+      "@typescript-eslint/no-unnecessary-type-assertion": "warn",
+      "no-console": ["warn", { allow: ["warn", "error"] }],
+      "prefer-const": "error",
+      "no-var": "error",
+      "eqeqeq": ["error", "always"],
+      "react-hooks/rules-of-hooks": "error",
+      "react-hooks/exhaustive-deps": "warn",
+      "import/order": ["warn", {
+        "groups": ["builtin", "external", "internal", "parent", "sibling", "index"],
+        "newlines-between": "never",
+        "alphabetize": { order: "asc" }
+      }],
+      "import/no-duplicates": "error",
     },
   },
-  // Override default ignores of eslint-config-next.
+  {
+    files: ["**/*.ts", "**/*.tsx"],
+    rules: {
+      "@typescript-eslint/no-unused-vars": ["error", { argsIgnorePattern: "^_" }],
+    },
+  },
+  {
+    files: ["**/*.js"],
+    rules: {
+      "@typescript-eslint/no-var-requires": "off",
+    },
+  },
   globalIgnores([
-    // Default ignores of eslint-config-next:
     ".next/**",
     "out/**",
     "build/**",
     "next-env.d.ts",
+    "node_modules/**",
+    "coverage/**",
+    "public/**",
   ]),
 ]);
 

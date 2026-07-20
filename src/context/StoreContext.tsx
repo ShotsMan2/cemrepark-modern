@@ -1,20 +1,41 @@
 "use client";
-import { createContext, useContext, useState, useEffect } from "react";
+import { createContext, useContext, useState, useEffect, ReactNode } from "react";
 import { CartProvider, useCart } from "./CartContext";
 import { FavoritesProvider, useFavorites } from "./FavoritesContext";
 import { CurrencyProvider, useCurrency } from "./CurrencyContext";
 import { I18nProvider, useI18n } from "./I18nContext";
+import type { Settings, CartContextProduct, Product } from "@/types";
 
-const StoreContext = createContext<any>({});
+interface StoreContextType {
+  cartItems: CartContextProduct[];
+  favoriteItems: Product[];
+  addToCart: (product: Product, beden?: string, renk?: string) => Promise<void>;
+  removeFromCart: (productId: number, beden?: string, renk?: string) => Promise<void>;
+  addToFavorites: (product: Product) => void;
+  removeFromFavorites: (productId: number) => void;
+  clearCart: () => Promise<void>;
+  updateQuantity: (productId: number, beden: string | undefined, renk: string | undefined, newQuantity: number) => Promise<void>;
+  isLoaded: boolean;
+  language: string;
+  setLanguage: (lang: string) => void;
+  currency: string;
+  setCurrency: (curr: string) => void;
+  formatPrice: (price: number | string) => string;
+  t: (key: string, params?: Record<string, string>) => string;
+  settings: Settings;
+  setSettings: React.Dispatch<React.SetStateAction<Settings>>;
+}
 
-function StoreFacadeProvider({ children }) {
+const StoreContext = createContext<StoreContextType>({} as StoreContextType);
+
+function StoreFacadeProvider({ children }: { children: ReactNode }) {
   const { cartItems, isCartLoaded, addToCart, removeFromCart, clearCart, updateQuantity } =
     useCart();
   const { favoriteItems, isFavoritesLoaded, addToFavorites, removeFromFavorites } = useFavorites();
   const { currency, setCurrency, formatPrice, isCurrencyLoaded } = useCurrency();
   const { language, setLanguage, t, isI18nLoaded } = useI18n();
 
-  const [settings, setSettings] = useState({
+  const [settings, setSettings] = useState<Settings>({
     siteAdi: "Cemre Park",
     iletisimEposta: "info@cemrepark.com",
     destekTelefonu: "0554 169 89 09",
@@ -71,8 +92,8 @@ function StoreFacadeProvider({ children }) {
   );
 }
 
-export function StoreProvider({ children }) {
-  const [settingsForI18n, setSettingsForI18n] = useState(null);
+export function StoreProvider({ children }: { children: ReactNode }) {
+  const [settingsForI18n, setSettingsForI18n] = useState<Settings | null>(null);
 
   // We need to fetch settings at this level too if we want to pass them directly to I18nProvider,
   // or we can let StoreFacadeProvider handle settings and we just pass a simple context.

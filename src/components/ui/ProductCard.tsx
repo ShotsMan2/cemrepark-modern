@@ -7,6 +7,7 @@ import FavoriteButton from "../FavoriteButton";
 import { useStore } from "@/context/StoreContext";
 import { getValidImageUrl } from "@/utils/imageHelper";
 import { Product } from "@prisma/client";
+import { motion } from "framer-motion";
 
 interface ProductCardProps {
   product: Product;
@@ -17,14 +18,43 @@ interface ProductCardProps {
 
 export function ProductCard({ product, onQuickView, className = "", delay = 0 }: ProductCardProps) {
   const { t } = useStore();
+  const [isHovered, setIsHovered] = React.useState(false);
+  const [selectedColor, setSelectedColor] = React.useState(0);
+  const [isAddingToCart, setIsAddingToCart] = React.useState(false);
+
+  const p = product as any;
+  const colorVariants = p.renkler ? p.renkler.split(",").slice(0, 4) : [];
+
+  const stockValue = typeof p.stok === "number" ? p.stok : parseInt(p.stok || "0") || 0;
+  const isInStock = stockValue > 0;
+  const isLowStock = stockValue > 0 && stockValue <= 5;
+
+  const discountPercent = p.indirimOrani || p.indirimOrani === 0 ? p.indirimOrani : null;
+
+  const handleQuickAdd = (e: React.MouseEvent) => {
+    e.preventDefault();
+    e.stopPropagation();
+    setIsAddingToCart(true);
+    setTimeout(() => setIsAddingToCart(false), 1000);
+  };
 
   return (
-    <div
-      className={`glass-panel p-4 clip-angled group hover:border-neon-pink hover:shadow-2xl hover:shadow-neon-pink/20 transition-all duration-500 relative transform hover:-translate-y-2 ${className}`}
-      data-aos="fade-up"
-      data-aos-delay={delay}
+    <motion.div
+      initial={{ opacity: 0, y: 30 }}
+      whileInView={{ opacity: 1, y: 0 }}
+      viewport={{ once: true, margin: "-50px" }}
+      transition={{ duration: 0.5, delay: delay / 1000, ease: [0.16, 1, 0.3, 1] }}
+      whileHover={{ y: -8, transition: { duration: 0.3 } }}
+      onHoverStart={() => setIsHovered(true)}
+      onHoverEnd={() => setIsHovered(false)}
+      className={`glass-panel p-4 clip-angled group transition-all duration-500 relative ${className}`}
     >
-      <div className="relative aspect-[3/4] mb-4 overflow-hidden clip-angled transform-gpu skeleton">
+      <motion.div
+        className="absolute -inset-1 bg-gradient-to-r from-primary/20 via-accent/20 to-secondary/20 rounded-2xl blur-xl opacity-0 pointer-events-none"
+        animate={{ opacity: isHovered ? 1 : 0 }}
+        transition={{ duration: 0.4 }}
+      />
+      <div className="relative aspect-[3/4] mb-4 overflow-hidden clip-angled transform-gpu">
         {product.etiket && (
           <div className="absolute top-2 left-2 z-20">
             <span className="text-xs font-bold uppercase tracking-widest bg-gradient-to-r from-neon-pink to-holo-gold text-foreground px-3 py-1 clip-angled shadow-lg">
@@ -33,17 +63,46 @@ export function ProductCard({ product, onQuickView, className = "", delay = 0 }:
           </div>
         )}
 
-        <Image
-          src={getValidImageUrl(product.resim || product.gorsel?.split(",")[0] || "")}
-          alt={product.ad}
-          fill
-          sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 25vw"
-          className="object-cover transition-transform duration-700 group-hover:scale-110 ease-out"
-        />
+        {discountPercent !== null && discountPercent > 0 && (
+          <motion.div
+            initial={{ scale: 0, rotate: -45 }}
+            animate={{ scale: 1, rotate: 0 }}
+            transition={{ type: "spring", stiffness: 300, damping: 15 }}
+            className="absolute top-2 right-2 z-20"
+          >
+            <span className="text-xs font-black bg-danger text-white px-2 py-1 rounded-full shadow-lg">
+              -%{discountPercent}
+            </span>
+          </motion.div>
+        )}
+
+        <Link href={`/urundetay/${product.id}`} className="absolute inset-0 z-20">
+          <Image
+            src={getValidImageUrl(product.resim || product.gorsel?.split(",")[0] || "")}
+            alt={product.ad}
+            fill
+            sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 25vw"
+            className="object-cover transition-transform duration-700 group-hover:scale-110 ease-out"
+            style={{ transform: isHovered ? "scale(1.1)" : "scale(1)" }}
+          />
+        </Link>
+
+        {/* Stock indicator */}
+        <div className="absolute bottom-2 left-2 right-2 z-20">
+          {!isInStock && (
+            <span className="block text-xs font-bold uppercase tracking-widest bg-danger/90 text-white px-3 py-1 rounded-full backdrop-blur-sm text-center">
+              {t("out_of_stock")}
+            </span>
+          )}
+          {isLowStock && (
+            <span className="block text-xs font-bold uppercase tracking-widest bg-warning/90 text-white px-3 py-1 rounded-full backdrop-blur-sm text-center">
+              {t("low_stock")}
+            </span>
+          )}
+        </div>
 
         {/* Hover Overlay */}
         <div className="absolute inset-0 bg-gradient-to-t from-black/60 via-black/20 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex items-center justify-center pointer-events-none z-10"></div>
-        <Link href={`/urundetay/${product.id}`} className="absolute inset-0 z-20"></Link>
 
         {/* Quick View Button - appears on hover */}
         {onQuickView && (
@@ -59,6 +118,29 @@ export function ProductCard({ product, onQuickView, className = "", delay = 0 }:
             </button>
           </div>
         )}
+
+        {/* Quick Add to Cart - floating button */}
+        {isInStock && (
+          <motion.button
+            initial={{ opacity: 0, x: 20 }}
+            animate={{ opacity: isHovered ? 1 : 0, x: isHovered ? 0 : 20 }}
+            transition={{ duration: 0.3 }}
+            onClick={handleQuickAdd}
+            className="absolute top-2 right-2 z-30 w-9 h-9 rounded-full bg-background/80 backdrop-blur-md flex items-center justify-center shadow-lg hover:bg-primary hover:text-foreground transition-colors"
+            aria-label="Sepete ekle"
+          >
+            <motion.svg
+              animate={isAddingToCart ? { scale: [1, 1.3, 0], rotate: [0, 180, 360] } : {}}
+              className="w-4 h-4"
+              fill="none"
+              viewBox="0 0 24 24"
+              stroke="currentColor"
+              strokeWidth="2.5"
+            >
+              <path d="M12 5v14m-7-7h14" />
+            </motion.svg>
+          </motion.button>
+        )}
       </div>
 
       <div className="p-4 relative">
@@ -73,6 +155,26 @@ export function ProductCard({ product, onQuickView, className = "", delay = 0 }:
             {t(product.ad) as string}
           </h3>
         </Link>
+
+        {/* Color Variant Selector */}
+        {colorVariants.length > 0 && (
+          <div className="flex gap-1.5 mb-3">
+            {colorVariants.map((color, idx) => (
+              <button
+                key={idx}
+                onClick={(e) => { e.preventDefault(); e.stopPropagation(); setSelectedColor(idx); }}
+                className={`w-4 h-4 rounded-full border-2 transition-all ${
+                  idx === selectedColor
+                    ? "border-primary scale-125 shadow-md"
+                    : "border-transparent opacity-60 hover:opacity-100"
+                }`}
+                style={{ backgroundColor: color.trim() }}
+                aria-label={`Renk ${idx + 1}`}
+              />
+            ))}
+          </div>
+        )}
+
         <div className="flex justify-between items-center mt-3">
           <PriceDisplay amount={product.fiyat} className="text-foreground font-black text-xl" />
           <FavoriteButton
@@ -81,6 +183,6 @@ export function ProductCard({ product, onQuickView, className = "", delay = 0 }:
           />
         </div>
       </div>
-    </div>
+    </motion.div>
   );
 }

@@ -7,15 +7,20 @@ const globalForPrisma = globalThis as unknown as {
 const logOptions: Prisma.LogLevel[] =
   process.env.NODE_ENV === "development" ? ["query", "error", "warn"] : ["error"];
 
-export const prisma = (
-  globalForPrisma.prisma ??
-  new PrismaClient({
+const createPrismaClient = () => {
+  return new PrismaClient({
     log: logOptions,
-  })
+  });
+};
+
+type ExtendedPrismaClient = ReturnType<typeof createPrismaClient>;
+
+export const prisma: ExtendedPrismaClient = (
+  globalForPrisma.prisma ?? createPrismaClient()
 ).$extends({
   query: {
     $allModels: {
-      async $allOperations({ operation, model, args, query }) {
+      async $allOperations({ operation, model, args, query }: { operation: string; model: string; args: unknown; query: (args: unknown) => Promise<unknown> }) {
         const start = Date.now();
         const result = await query(args);
         const end = Date.now();
@@ -27,7 +32,7 @@ export const prisma = (
       },
     },
   },
-}) as unknown as PrismaClient;
+}) as ExtendedPrismaClient;
 
 if (process.env.NODE_ENV !== "production") globalForPrisma.prisma = prisma;
 

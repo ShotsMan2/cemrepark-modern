@@ -43,7 +43,7 @@ export default function CouponsView() {
       if (res.ok) {
         const data = await res.json();
         // Add mock performance data if missing
-        const enhancedData = data.map((c) => ({
+        const enhancedData = data.map((c: any) => ({
           ...c,
           revenueGenerated: Math.floor(Math.random() * 5000), // mock revenue
           usedCount: c.usedCount || 0,
@@ -61,11 +61,12 @@ export default function CouponsView() {
     }
   };
 
-  const handleInputChange = (e) => {
-    const { name, value, type, checked } = e.target;
+  const handleInputChange = (e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement | HTMLTextAreaElement>) => {
+    const target = e.target;
+    const value = target instanceof HTMLInputElement && target.type === "checkbox" ? target.checked : target.value;
     setFormData((prev) => ({
       ...prev,
-      [name]: type === "checkbox" ? checked : value,
+      [target.name]: value,
     }));
   };
 

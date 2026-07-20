@@ -12,7 +12,7 @@ export const metadata = {
 export default async function AuditLogsPage() {
   const session = await getServerSession(authOptions);
 
-  if (!session || (session.user as any)?.role !== "admin") {
+  if (!session || session.user?.role !== "admin") {
     redirect("/admin");
   }
 
@@ -38,13 +38,20 @@ export default async function AuditLogsPage() {
           </p>
         </div>
         <ExportButton
-          data={logs.map((log) => ({
-            Tarih: new Date(log.createdAt).toLocaleString("tr-TR"),
-            Kullanıcı: log.user?.name || log.user?.email || "Bilinmiyor",
-            Aksiyon: log.action,
-            Detay: log.details || "-",
-            "IP Adresi": log.ipAddress || "Bilinmiyor",
-          }))}
+          data={logs.map((log) => {
+            let ip = "Bilinmiyor";
+            try {
+              const parsed = JSON.parse(log.details || "{}");
+              ip = parsed.ip || "Bilinmiyor";
+            } catch {}
+            return {
+              Tarih: new Date(log.createdAt).toLocaleString("tr-TR"),
+              Kullanıcı: log.user?.name || log.user?.email || "Bilinmiyor",
+              Aksiyon: log.action,
+              Detay: log.details || "-",
+              "IP Adresi": ip,
+            };
+          })}
           filename="audit_logs.csv"
         />
       </div>
@@ -115,7 +122,12 @@ export default async function AuditLogsPage() {
                           d="M21 12a9 9 0 01-9 9m9-9a9 9 0 00-9-9m9 9H3m9 9a9 9 0 01-9-9m9 9c1.657 0 3-4.03 3-9s-1.343-9-3-9m0 18c-1.657 0-3-4.03-3-9s1.343-9 3-9m-9 9a9 9 0 019-9"
                         ></path>
                       </svg>
-                      {log.ipAddress || "Bilinmiyor"}
+                      {(() => {
+                        try {
+                          const p = JSON.parse(log.details || "{}");
+                          return p.ip || "Bilinmiyor";
+                        } catch { return "Bilinmiyor"; }
+                      })()}
                     </td>
                   </tr>
                 ))

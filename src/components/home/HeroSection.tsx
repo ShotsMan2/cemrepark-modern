@@ -1,6 +1,6 @@
 "use client";
-import { useState, useEffect } from "react";
-import { motion } from "framer-motion";
+import { useState, useEffect, useCallback } from "react";
+import { motion, useScroll, useTransform } from "framer-motion";
 import Image from "next/image";
 import Link from "next/link";
 import SearchTrigger from "../SearchTrigger";
@@ -8,9 +8,88 @@ import { useStore } from "../../context/StoreContext";
 import { getValidImageUrl } from "../../utils/imageHelper";
 import { memo } from "react";
 
+function RippleButton({ children, href = "/search", className = "" }: { children: React.ReactNode; href?: string; className?: string }) {
+  const [ripples, setRipples] = useState<{ x: number; y: number; id: number }[]>([]);
+
+  const handleClick = useCallback((e: React.MouseEvent<HTMLAnchorElement>) => {
+    const rect = e.currentTarget.getBoundingClientRect();
+    const x = e.clientX - rect.left;
+    const y = e.clientY - rect.top;
+    const id = Date.now();
+    setRipples((prev) => [...prev, { x, y, id }]);
+    setTimeout(() => setRipples((prev) => prev.filter((r) => r.id !== id)), 1000);
+  }, []);
+
+  return (
+    <Link
+      href={href}
+      onClick={handleClick}
+      className={`group relative inline-flex items-center justify-center gap-3 px-8 py-4 bg-foreground text-background font-bold uppercase tracking-[0.15em] rounded-2xl overflow-hidden transition-all duration-300 hover:shadow-[0_0_20px_var(--color-primary)] hover:scale-105 ${className}`}
+    >
+      <span className="absolute inset-0 w-full h-full bg-gradient-to-r from-primary to-secondary opacity-0 group-hover:opacity-100 transition-opacity duration-300" />
+      {ripples.map((ripple) => (
+        <span
+          key={ripple.id}
+          className="absolute bg-white/30 rounded-full animate-ripple pointer-events-none"
+          style={{
+            left: ripple.x - 10,
+            top: ripple.y - 10,
+            width: 20,
+            height: 20,
+          }}
+        />
+      ))}
+      <span className="relative z-10 flex items-center gap-2 group-hover:text-white transition-colors duration-300">
+        {children}
+      </span>
+    </Link>
+  );
+}
+
+function CountdownTimer({ targetDate }: { targetDate: string }) {
+  const [timeLeft, setTimeLeft] = useState({ days: 0, hours: 0, minutes: 0, seconds: 0 });
+
+  useEffect(() => {
+    const target = new Date(targetDate).getTime();
+    const interval = setInterval(() => {
+      const now = new Date().getTime();
+      const diff = target - now;
+      if (diff <= 0) {
+        clearInterval(interval);
+        return;
+      }
+      setTimeLeft({
+        days: Math.floor(diff / (1000 * 60 * 60 * 24)),
+        hours: Math.floor((diff % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60)),
+        minutes: Math.floor((diff % (1000 * 60 * 60)) / (1000 * 60)),
+        seconds: Math.floor((diff % (1000 * 60)) / 1000),
+      });
+    }, 1000);
+    return () => clearInterval(interval);
+  }, [targetDate]);
+
+  return (
+    <div className="flex gap-3">
+      {Object.entries(timeLeft).map(([unit, value]) => (
+        <div key={unit} className="text-center">
+          <div className="w-12 h-12 md:w-14 md:h-14 rounded-xl bg-background/80 backdrop-blur-md border border-foreground/10 flex items-center justify-center shadow-lg">
+            <span className="text-lg md:text-xl font-black text-foreground">{value}</span>
+          </div>
+          <span className="text-[10px] uppercase tracking-widest text-foreground/50 font-bold mt-1 block">
+            {unit}
+          </span>
+        </div>
+      ))}
+    </div>
+  );
+}
+
 export default memo(function HeroSection({ activeBanners }: { activeBanners: any[] }) {
   const { t } = useStore();
   const [currentSlide, setCurrentSlide] = useState(0);
+  const { scrollY } = useScroll();
+  const parallaxY = useTransform(scrollY, [0, 500], [0, 150]);
+  const parallaxOpacity = useTransform(scrollY, [0, 300], [1, 0.6]);
 
   useEffect(() => {
     if (activeBanners.length <= 1) return;
@@ -23,7 +102,10 @@ export default memo(function HeroSection({ activeBanners }: { activeBanners: any
   if (activeBanners.length === 0) return null;
 
   return (
-    <section className="relative min-h-[60vh] flex items-center justify-center pt-20 pb-8 overflow-hidden mb-12">
+    <motion.section
+      className="relative min-h-[60vh] flex items-center justify-center pt-20 pb-8 overflow-hidden mb-12"
+      style={{ y: parallaxY, opacity: parallaxOpacity }}
+    >
       <div className="absolute top-1/4 left-1/4 w-[500px] h-[500px] bg-primary/20 rounded-full blur-[120px] mix-blend-screen pointer-events-none"></div>
       <div className="absolute bottom-1/4 right-1/4 w-[500px] h-[500px] bg-secondary/15 rounded-full blur-[120px] mix-blend-screen pointer-events-none"></div>
 
@@ -45,9 +127,15 @@ export default memo(function HeroSection({ activeBanners }: { activeBanners: any
                 animate={{ opacity: isActive ? 1 : 0, x: isActive ? 0 : -50 }}
                 transition={{ duration: 0.8, ease: "easeOut" }}
               >
-                <div className="inline-block px-4 py-1.5 rounded-full bg-primary/10 border border-primary/20 text-primary font-bold text-xs uppercase tracking-widest mb-6 animate-pulse-glow">
+                <motion.div
+                  className="inline-block px-4 py-1.5 rounded-full bg-primary/10 border border-primary/20 text-primary font-bold text-xs uppercase tracking-widest mb-6"
+                  initial={{ opacity: 0, y: -10 }}
+                  animate={isActive ? { opacity: 1, y: 0 } : { opacity: 0, y: -10 }}
+                  transition={{ delay: 0.2, duration: 0.5 }}
+                >
                   ✨ {t("new_season")}
-                </div>
+                </motion.div>
+
                 <h1 className="text-4xl md:text-6xl font-display font-black mb-4 leading-none text-glow-primary tracking-tight flex flex-wrap gap-x-3">
                   {slide.title?.split(" ").map((word, i) => (
                     <motion.span
@@ -68,6 +156,7 @@ export default memo(function HeroSection({ activeBanners }: { activeBanners: any
                     </motion.span>
                   ))}
                 </h1>
+
                 <motion.p
                   className="text-gray-600 dark:text-gray-300 text-base md:text-lg mb-10 max-w-xl font-light leading-relaxed"
                   initial={{ opacity: 0 }}
@@ -83,28 +172,27 @@ export default memo(function HeroSection({ activeBanners }: { activeBanners: any
                   animate={{ opacity: isActive ? 1 : 0, y: isActive ? 0 : 20 }}
                   transition={{ delay: 1, duration: 0.5 }}
                 >
-                  <Link
-                    href={slide.linkUrl || "/search"}
-                    className="group relative inline-flex items-center justify-center gap-3 px-8 py-4 bg-foreground text-background font-bold uppercase tracking-[0.15em] rounded-2xl overflow-hidden transition-all duration-300 hover:shadow-[0_0_20px_var(--color-primary)] hover:scale-105"
-                  >
-                    <span className="absolute inset-0 w-full h-full bg-gradient-to-r from-primary to-secondary opacity-0 group-hover:opacity-100 transition-opacity duration-300"></span>
-                    <span className="relative z-10 flex items-center gap-2 group-hover:text-white transition-colors duration-300">
-                      {t("explore_collection")}
-                      <svg
-                        className="w-5 h-5 group-hover:translate-x-1 transition-transform"
-                        fill="none"
-                        stroke="currentColor"
-                        viewBox="0 0 24 24"
-                      >
-                        <path
-                          strokeLinecap="round"
-                          strokeLinejoin="round"
-                          strokeWidth="2"
-                          d="M17 8l4 4m0 0l-4 4m4-4H3"
-                        ></path>
-                      </svg>
-                    </span>
-                  </Link>
+                  <RippleButton href={slide.linkUrl || "/search"}>
+                    {t("explore_collection")}
+                    <svg
+                      className="w-5 h-5 group-hover:translate-x-1 transition-transform"
+                      fill="none"
+                      stroke="currentColor"
+                      viewBox="0 0 24 24"
+                    >
+                      <path
+                        strokeLinecap="round"
+                        strokeLinejoin="round"
+                        strokeWidth="2"
+                        d="M17 8l4 4m0 0l-4 4m4-4H3"
+                      />
+                    </svg>
+                  </RippleButton>
+
+                  {slide.countdownDate && (
+                    <CountdownTimer targetDate={slide.countdownDate} />
+                  )}
+
                   <div className="bg-background/80 backdrop-blur-md rounded-2xl border border-foreground/5 shadow-sm p-1">
                     <SearchTrigger />
                   </div>
@@ -166,6 +254,6 @@ export default memo(function HeroSection({ activeBanners }: { activeBanners: any
           ))}
         </div>
       )}
-    </section>
+    </motion.section>
   );
 });

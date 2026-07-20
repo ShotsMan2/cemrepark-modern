@@ -1,10 +1,23 @@
 "use client";
-import { createContext, useContext, useState, useEffect } from "react";
+import { createContext, useContext, useState, useEffect, ReactNode } from "react";
 import { loadTranslation } from "../utils/translations";
+import type { Settings } from "@/types";
 
-const I18nContext = createContext<any>({});
+interface TranslationsMap {
+  [lang: string]: Record<string, string>;
+}
 
-export function I18nProvider({ children, settings }) {
+interface I18nContextType {
+  language: string;
+  setLanguage: React.Dispatch<React.SetStateAction<string>>;
+  t: (key: string, params?: Record<string, string>) => string;
+  translations: TranslationsMap;
+  isI18nLoaded: boolean;
+}
+
+const I18nContext = createContext<I18nContextType>({} as I18nContextType);
+
+export function I18nProvider({ children, settings }: { children: ReactNode; settings: Settings | null }) {
   const [language, setLanguage] = useState("TR");
   const [translations, setTranslations] = useState({});
   const [isLoaded, setIsLoaded] = useState(false);
@@ -51,7 +64,7 @@ export function I18nProvider({ children, settings }) {
     }
   }, [language, isLoaded, translations]);
 
-  const t = (key, params = {}) => {
+  const t = (key: string, params: Record<string, string> = {}) => {
     if (key === "badge_whatsapp_support_desc" && settings?.destekTelefonu) {
       return settings.destekTelefonu;
     }

@@ -7,6 +7,69 @@ import React from "react";
 import Swal from "sweetalert2";
 import { motion } from "framer-motion";
 
+const paymentMethods = [
+  { name: "Visa", color: "text-blue-600" },
+  { name: "Mastercard", color: "text-orange-500" },
+  { name: "Troy", color: "text-green-600" },
+  { name: "American Express", color: "text-blue-400" },
+];
+
+const socialLinks = [
+  {
+    href: "https://instagram.com/cemrepark",
+    label: "Instagram",
+    color: "hover:border-primary hover:bg-primary/20 hover:shadow-[0_0_20px_hsla(var(--primary),0.5)]",
+    icon: (
+      <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+        <rect x="2" y="2" width="20" height="20" rx="5" ry="5"></rect>
+        <path d="M16 11.37A4 4 0 1 1 12.63 8 4 4 0 0 1 16 11.37z"></path>
+        <line x1="17.5" y1="6.5" x2="17.51" y2="6.5"></line>
+      </svg>
+    ),
+  },
+  {
+    href: "https://facebook.com/cemrepark",
+    label: "Facebook",
+    color: "hover:border-info hover:bg-info/20 hover:shadow-[0_0_20px_hsla(var(--info),0.5)]",
+    icon: (
+      <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+        <path d="M18 2h-3a5 5 0 0 0-5 5v3H7v4h3v8h4v-8h3l1-4h-4V7a1 1 0 0 1 1-1h3z"></path>
+      </svg>
+    ),
+  },
+  {
+    href: "https://twitter.com/cemrepark",
+    label: "Twitter/X",
+    color: "hover:border-foreground hover:bg-foreground/20 hover:shadow-[0_0_20px_hsla(var(--foreground),0.3)]",
+    icon: (
+      <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+        <path d="M4 4l11.733 16h4.267l-11.733 -16zM4 20l6.768 -6.768M17.232 6.232l-4.464 4.464"></path>
+      </svg>
+    ),
+  },
+  {
+    href: "https://pinterest.com/cemrepark",
+    label: "Pinterest",
+    color: "hover:border-danger hover:bg-danger/20 hover:shadow-[0_0_20px_hsla(var(--danger),0.5)]",
+    icon: (
+      <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+        <path d="M12 2C8 2 4 5 4 9c0 3 1.5 5 4 6 0-1-.2-2-.4-3-.2-1 0-2 .4-3 .2-.5.2-1 0-1.5-.2-.5-.6-1-1-1.2-1-.6-2 0-2.4.6-.6 1-1 2.4-.6 3.6.2.6.6 1 1 1 .4 0 .8-.2 1-.4.2-.2.4-.6.6-.8.2-.4.6-.6 1-.4.6.2 1 .8 1.2 1.4.2 1 .4 2 .2 3-.2 1-.6 2-1.4 2.6-1 .6-2 .6-3-.2-.6-.4-1-1-1-1.6"></path>
+      </svg>
+    ),
+  },
+  {
+    href: "https://youtube.com/@cemrepark",
+    label: "YouTube",
+    color: "hover:border-danger hover:bg-danger/20 hover:shadow-[0_0_20px_hsla(var(--danger),0.5)]",
+    icon: (
+      <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+        <path d="M22.54 6.42a2.78 2.78 0 0 0-1.94-2C18.88 4 12 4 12 4s-6.88 0-8.6.46a2.78 2.78 0 0 0-1.94 2A29 29 0 0 0 1 12a29 29 0 0 0 .46 5.58 2.78 2.78 0 0 0 1.94 2c1.72.46 8.6.46 8.6.46s6.88 0 8.6-.46a2.78 2.78 0 0 0 1.94-2A29 29 0 0 0 23 12a29 29 0 0 0-.46-5.58z"></path>
+        <polygon points="9.75 15.02 15.5 12 9.75 8.98 9.75 15.02"></polygon>
+      </svg>
+    ),
+  },
+];
+
 export default function Footer() {
   const pathname = usePathname();
   const { t, settings } = useStore();
@@ -41,7 +104,7 @@ export default function Footer() {
   return (
     <footer
       id="contact"
-      className="relative bg-[#05080f] pt-28 pb-12 border-t border-white/10 overflow-hidden text-gray-300"
+      className="relative bg-[#05080f] pt-28 pb-24 lg:pb-12 border-t border-white/10 overflow-hidden text-gray-300"
     >
       {/* Decorative Glows */}
       <div className="absolute top-0 left-1/4 w-full max-w-4xl h-96 bg-primary/10 rounded-full blur-[150px] pointer-events-none mix-blend-screen"></div>
@@ -64,53 +127,21 @@ export default function Footer() {
             <p className="text-gray-400 text-sm leading-relaxed mb-8 text-center lg:text-left font-light">
               {t("footer_desc")}
             </p>
-            <div className="flex gap-4 justify-center lg:justify-start">
-              <motion.a
-                whileHover={{ scale: 1.1, y: -3 }}
-                whileTap={{ scale: 0.9 }}
-                href="https://instagram.com/cemrepark"
-                target="_blank"
-                rel="noopener noreferrer"
-                className="w-11 h-11 rounded-full border border-white/20 flex items-center justify-center text-gray-300 hover:text-white hover:border-primary hover:bg-primary/20 hover:shadow-[0_0_20px_hsla(var(--primary),0.5)] transition-all duration-300 backdrop-blur-sm"
-                aria-label="Instagram"
-              >
-                <svg
-                  width="18"
-                  height="18"
-                  viewBox="0 0 24 24"
-                  fill="none"
-                  stroke="currentColor"
-                  strokeWidth="2"
-                  strokeLinecap="round"
-                  strokeLinejoin="round"
+            <div className="flex flex-wrap gap-3 justify-center lg:justify-start">
+              {socialLinks.map((social, idx) => (
+                <motion.a
+                  key={idx}
+                  whileHover={{ scale: 1.1, y: -3 }}
+                  whileTap={{ scale: 0.9 }}
+                  href={social.href}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className={`w-11 h-11 rounded-full border border-white/20 flex items-center justify-center text-gray-300 hover:text-white transition-all duration-300 backdrop-blur-sm ${social.color}`}
+                  aria-label={social.label}
                 >
-                  <rect x="2" y="2" width="20" height="20" rx="5" ry="5"></rect>
-                  <path d="M16 11.37A4 4 0 1 1 12.63 8 4 4 0 0 1 16 11.37z"></path>
-                  <line x1="17.5" y1="6.5" x2="17.51" y2="6.5"></line>
-                </svg>
-              </motion.a>
-              <motion.a
-                whileHover={{ scale: 1.1, y: -3 }}
-                whileTap={{ scale: 0.9 }}
-                href={`https://wa.me/90${(settings?.destekTelefonu || "0554 169 89 09").replace(/\s+/g, "")}`}
-                target="_blank"
-                rel="noopener noreferrer"
-                className="w-11 h-11 rounded-full border border-white/20 flex items-center justify-center text-gray-300 hover:text-white hover:border-success hover:bg-success/20 hover:shadow-[0_0_20px_hsla(var(--success),0.5)] transition-all duration-300 backdrop-blur-sm"
-                aria-label="WhatsApp"
-              >
-                <svg
-                  width="18"
-                  height="18"
-                  viewBox="0 0 24 24"
-                  fill="none"
-                  stroke="currentColor"
-                  strokeWidth="2"
-                  strokeLinecap="round"
-                  strokeLinejoin="round"
-                >
-                  <path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72 12.84 12.84 0 0 0 .7 2.81 2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45 12.84 12.84 0 0 0 2.81.7A2 2 0 0 1 22 16.92z"></path>
-                </svg>
-              </motion.a>
+                  {social.icon}
+                </motion.a>
+              ))}
             </div>
           </div>
 
@@ -214,7 +245,7 @@ export default function Footer() {
           <p className="text-gray-500 text-xs font-light">
             © {new Date().getFullYear()} Cemre Park. {t("all_rights")} {t("secure_payment_infra")}
           </p>
-          <div className="flex gap-3 items-center">
+          <div className="flex flex-wrap gap-3 items-center">
             <span className="text-xs text-gray-400 font-bold uppercase tracking-widest mr-2 flex items-center gap-1.5">
               <svg
                 width="14"
@@ -231,12 +262,12 @@ export default function Footer() {
               </svg>
               {t("secure_100")}
             </span>
-            {["VISA", "MASTERCARD", "TROY"].map((card) => (
+            {paymentMethods.map((card) => (
               <div
-                key={card}
-                className="px-2.5 py-1 bg-white/5 border border-white/10 text-[10px] text-gray-300 font-bold rounded shadow-sm backdrop-blur-sm"
+                key={card.name}
+                className={`px-2.5 py-1 bg-white/5 border border-white/10 text-[10px] font-bold rounded shadow-sm backdrop-blur-sm ${card.color}`}
               >
-                {card}
+                {card.name}
               </div>
             ))}
           </div>

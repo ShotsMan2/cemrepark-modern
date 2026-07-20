@@ -10,7 +10,7 @@ export async function checkAdminAndLog(
 ) {
   const session = await getServerSession(authOptions);
 
-  if (!session || (session.user as any)?.role !== "admin") {
+  if (!session || session.user?.role !== "admin") {
     return {
       errorResponse: NextResponse.json({ error: "Yetkisiz Erişim" }, { status: 403 }),
       session: null,
@@ -19,7 +19,7 @@ export async function checkAdminAndLog(
 
   // Create audit log asynchronously in the background so it doesn't block
   if (action) {
-    const userId = (session.user as any)?.id ? parseInt((session.user as any).id) : null;
+    const userId = session.user?.id ? parseInt(session.user.id) : null;
 
     await logAuditAction({
       action,

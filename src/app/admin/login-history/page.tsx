@@ -12,7 +12,7 @@ export const metadata = {
 export default async function LoginHistoryPage() {
   const session = await getServerSession(authOptions);
 
-  if (!session || (session.user as any)?.role !== "admin") {
+  if (!session || session.user?.role !== "admin") {
     redirect("/admin");
   }
 
@@ -41,7 +41,7 @@ export default async function LoginHistoryPage() {
           data={logs.map((log) => ({
             Tarih: new Date(log.createdAt).toLocaleString("tr-TR"),
             Kullanıcı: log.user?.name || log.user?.email || "Bilinmiyor",
-            Durum: log.success ? "Başarılı" : "Başarısız",
+            Durum: log.status === "SUCCESS" ? "Başarılı" : "Başarısız",
             "IP Adresi": log.ipAddress || "Bilinmiyor",
             "Tarayıcı / Cihaz": log.userAgent || "-",
           }))}
@@ -91,7 +91,7 @@ export default async function LoginHistoryPage() {
                       </div>
                     </td>
                     <td className="py-4 px-6 text-center">
-                      {log.success ? (
+                      {log.status === "SUCCESS" ? (
                         <span className="inline-flex items-center gap-1.5 bg-green-500/10 text-green-400 border border-green-500/20 px-3 py-1.5 rounded-lg text-[10px] font-black uppercase tracking-widest shadow-[0_0_10px_rgba(16,185,129,0.1)]">
                           <div className="w-1.5 h-1.5 rounded-full bg-green-400 animate-pulse"></div>
                           BAŞARILI

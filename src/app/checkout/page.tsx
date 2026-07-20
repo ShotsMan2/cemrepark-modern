@@ -277,7 +277,7 @@ export default function CheckoutPage() {
     try {
       const payload = {
         customer: formData.fullName,
-        userId: (session?.user as any)?.id ? parseInt((session.user as any).id as string) : null,
+        userId: session?.user?.id ? parseInt(session.user.id) : null,
 
         total: totalAmount,
         items: cartItems.map((i: any) => ({
@@ -349,8 +349,8 @@ export default function CheckoutPage() {
       setPaymentStatus("Sipariş oluşturuluyor...");
 
       const payload = {
-        customer: formData.fullName || (session?.user as any)?.name || `${provider} Kullanıcısı`,
-        userId: (session?.user as any)?.id ? parseInt((session.user as any).id as string) : null,
+        customer: formData.fullName || session?.user?.name || `${provider} Kullanıcısı`,
+        userId: session?.user?.id ? parseInt(session.user.id) : null,
 
         total: totalAmount,
         items: cartItems.map((i: any) => ({

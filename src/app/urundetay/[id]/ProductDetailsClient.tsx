@@ -270,7 +270,7 @@ export default function ProductDetailsClient({
                 ))}
               </div>
               <span className="text-gray-400 text-sm">
-                {t("reviews_count", { count: reviews.length })}
+                {t("reviews_count", { count: String(reviews.length) })}
               </span>
             </div>
 

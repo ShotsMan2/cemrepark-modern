@@ -134,10 +134,10 @@ export const authOptions: NextAuthOptions = {
   callbacks: {
     async jwt({ token, user, trigger, session: updateData }) {
       if (user) {
-        token.role = (user as any).role;
+        token.role = user.role;
         token.id = user.id;
-        token.name = user.name;
-        token.phoneNumber = (user as any).phoneNumber;
+        token.name = user.name ?? null;
+        token.phoneNumber = user.phoneNumber ?? null;
       }
       // Handle session updates from client-side update() calls
       if (trigger === "update" && updateData) {
@@ -161,10 +161,10 @@ export const authOptions: NextAuthOptions = {
     },
     async session({ session, token }) {
       if (token && session.user) {
-        (session.user as any).role = token.role;
-        (session.user as any).id = token.id;
-        (session.user as any).name = token.name;
-        (session.user as any).phoneNumber = token.phoneNumber;
+        session.user.role = token.role;
+        session.user.id = token.id;
+        session.user.name = token.name;
+        session.user.phoneNumber = token.phoneNumber ?? null;
       }
       return session;
     },

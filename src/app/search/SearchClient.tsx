@@ -113,7 +113,7 @@ export default function SearchClient({
         </h1>
         {isSearch && (
           <p className="text-foreground/70 font-medium text-lg relative z-10">
-            {t("total_products_listed", { count: results.length })}
+            {t("total_products_listed", { count: String(results.length) })}
           </p>
         )}
       </div>
