@@ -114,7 +114,7 @@ export default function BannersView() {
         imageUrl: formData.imageUrl,
         linkUrl: formData.linkUrl,
         isActive: formData.isActive,
-        order: parseInt(formData.order) || 0
+        order: Number(formData.order) || 0
       };
 
       const res = await fetch(url, {

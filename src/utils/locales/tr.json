@@ -286,5 +286,11 @@
   "reset_password_success_desc": "Şifreniz başarıyla sıfırlandı. Şimdi yeni şifrenizle giriş yapabilirsiniz.",
   "reset_password_error_title": "Hata",
   "reset_password_error_desc": "Şifre sıfırlama işlemi başarısız oldu. Link süresi dolmuş olabilir.",
-  "back_to_login": "Giriş Ekranına Dön"
+  "back_to_login": "Giriş Ekranına Dön",
+  "flash_sale": "GÜNÜN FIRSATI",
+  "flash_sale_desc": "Seçili ürünlerde sepette %20 ek indirim. Acele edin, fırsatı kaçırmayın!",
+  "days": "GÜN",
+  "hours": "SAAT",
+  "minutes": "DAKİKA",
+  "seconds": "SANİYE"
 }

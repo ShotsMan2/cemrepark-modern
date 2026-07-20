@@ -56,7 +56,7 @@ export const GET = apiHandler(async (request: NextRequest) => {
 
   if (!parsedQuery.success) {
     return NextResponse.json(
-      { error: "Invalid query parameters", details: parsedQuery.error.errors },
+      { error: "Invalid query parameters", details: parsedQuery.error.issues },
       { status: 400 }
     );
   }

@@ -37,7 +37,7 @@ import Swal from 'sweetalert2';
 function timeAgo(dateStr) {
   const now = new Date();
   const date = new Date(dateStr);
-  const seconds = Math.floor((now - date) / 1000);
+  const seconds = Math.floor((now.getTime() - date.getTime()) / 1000);
   if (seconds < 60) return 'Az önce';
   const minutes = Math.floor(seconds / 60);
   if (minutes < 60) return `${minutes} dk önce`;
@@ -155,13 +155,13 @@ const cardVariants = {
     opacity: 1,
     y: 0,
     scale: 1,
-    transition: { type: 'spring', stiffness: 300, damping: 24 },
+    transition: { type: 'spring' as const, stiffness: 300, damping: 24 },
   },
 };
 
 const tabContentVariants = {
   enter: { opacity: 0, x: 20 },
-  center: { opacity: 1, x: 0, transition: { duration: 0.3, ease: 'easeOut' } },
+  center: { opacity: 1, x: 0, transition: { duration: 0.3, ease: 'easeOut' as const } },
   exit: { opacity: 0, x: -20, transition: { duration: 0.2 } },
 };
 

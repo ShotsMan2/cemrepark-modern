@@ -35,8 +35,8 @@ export default function OrdersView() {
     setLoading(true);
     try {
       const query = new URLSearchParams({
-        page: currentPage,
-        limit: itemsPerPage,
+        page: String(currentPage),
+        limit: String(itemsPerPage),
       });
       if (searchTerm) query.append("search", searchTerm);
       if (activeTab !== "Tümü") query.append("status", activeTab);
@@ -209,7 +209,7 @@ export default function OrdersView() {
             </p>
           </div>
           <button onClick={handleExport} className="bg-primary hover:bg-secondary text-white font-bold py-2 px-6 uppercase tracking-widest text-sm transition-colors clip-angled shadow-[0_0_15px_hsla(var(--primary),0.3)] flex items-center gap-2">
-            <svg width={} height={} viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth={}><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4M7 10l5 5 5-5M12 15V3"/></svg>
+            <svg width={20} height={20} viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth={2}><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4M7 10l5 5 5-5M12 15V3"/></svg>
             Dışa Aktar
           </button>
         </div>
@@ -248,7 +248,7 @@ export default function OrdersView() {
         {/* Filters */}
         <div className="flex flex-wrap items-center gap-3 w-full lg:w-auto">
           <div className="relative">
-            <svg className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-foreground/50" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={} d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"></path></svg>
+            <svg className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-foreground/50" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"></path></svg>
             <input type="text" placeholder="Sipariş No, Müşteri..." value={searchTerm} onChange={(e) => setSearchTerm(e.target.value)} className="bg-background border border-glass-border text-foreground pl-9 pr-4 py-1.5 focus:outline-none focus:border-primary text-sm w-48 transition-colors" />
           </div>
           
@@ -285,9 +285,9 @@ export default function OrdersView() {
             </thead>
             <tbody className="divide-y divide-glass-border">
               {loading ? (
-                <tr><td colSpan="8" className="p-8 text-center text-primary animate-pulse">Yükleniyor...</td></tr>
+                <tr><td colSpan={8} className="p-8 text-center text-primary animate-pulse">Yükleniyor...</td></tr>
               ) : paginatedOrders.length === 0 ? (
-                <tr><td colSpan="8" className="p-8 text-center text-foreground/50">Kayıt bulunamadı.</td></tr>
+                <tr><td colSpan={8} className="p-8 text-center text-foreground/50">Kayıt bulunamadı.</td></tr>
               ) : (
                 paginatedOrders.map((order, i) => (
                   <tr key={i} className="hover:bg-foreground/5 transition-colors group">
@@ -361,7 +361,7 @@ export default function OrdersView() {
                 <p className="text-foreground/50 text-sm">{selectedOrder.id} • {selectedOrder.tarih}</p>
               </div>
               <button onClick={() => setSelectedOrder(null)} className="w-8 h-8 flex items-center justify-center bg-foreground/10 hover:bg-danger hover:text-white transition-colors rounded">
-                <svg width={} height={} viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth={}><line x1="18" y1="6" x2="6" y2="18"></line><line x1="6" y1="6" x2="18" y2="18"></line></svg>
+                <svg width={20} height={20} viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth={2}><line x1="18" y1="6" x2="6" y2="18"></line><line x1="6" y1="6" x2="18" y2="18"></line></svg>
               </button>
             </div>
 
@@ -382,7 +382,7 @@ export default function OrdersView() {
                       return (
                         <div key={st} className="flex flex-col items-center gap-2 bg-background p-1">
                           <div className={`w-6 h-6 rounded-full flex items-center justify-center border-2 ${isActive ? 'bg-primary border-primary text-white shadow-[0_0_10px_hsla(var(--primary),0.5)]' : 'bg-background border-glass-border text-foreground/30'} ${isCurrent ? 'ring-4 ring-primary/20' : ''}`}>
-                            {isActive ? <svg width={} height={} viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth={}><polyline points="20 6 9 17 4 12"></polyline></svg> : <div className="w-2 h-2 rounded-full bg-foreground/20"></div>}
+                            {isActive ? <svg width={20} height={20} viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth={2}><polyline points="20 6 9 17 4 12"></polyline></svg> : <div className="w-2 h-2 rounded-full bg-foreground/20"></div>}
                           </div>
                           <span className={`text-[10px] uppercase font-bold tracking-widest ${isActive ? 'text-primary' : 'text-foreground/50'}`}>{st}</span>
                         </div>
@@ -400,7 +400,7 @@ export default function OrdersView() {
                         <div className="w-16 h-20 bg-foreground/10 relative overflow-hidden rounded border border-glass-border">
                           {/* Placeholder image logic */}
                           <div className="absolute inset-0 flex items-center justify-center text-foreground/20">
-                            <svg width={} height={} viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth={}><rect x="3" y="3" width={} height={} rx="2" ry="2"/><circle cx="8.5" cy="8.5" r="1.5"/><polyline points="21 15 16 10 5 21"/></svg>
+                            <svg width={20} height={20} viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth={2}><rect x="3" y="3" width={18} height={18} rx="2" ry="2"/><circle cx="8.5" cy="8.5" r="1.5"/><polyline points="21 15 16 10 5 21"/></svg>
                           </div>
                         </div>
                         <div className="flex-1">
@@ -501,7 +501,7 @@ export default function OrdersView() {
             {/* Modal Footer */}
             <div className="p-4 border-t border-glass-border bg-background flex justify-between items-center">
               <button onClick={() => window.print()} className="bg-foreground/5 hover:bg-foreground/10 text-foreground px-6 py-2 uppercase tracking-widest text-xs font-bold transition-colors border border-glass-border flex items-center gap-2">
-                <svg width={} height={} viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth={}><polyline points="6 9 6 2 18 2 18 9"></polyline><path d="M6 18H4a2 2 0 0 1-2-2v-5a2 2 0 0 1 2-2h16a2 2 0 0 1 2 2v5a2 2 0 0 1-2 2h-2"></path><rect x="6" y="14" width={} height={}></rect></svg>
+                <svg width={20} height={20} viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth={2}><polyline points="6 9 6 2 18 2 18 9"></polyline><path d="M6 18H4a2 2 0 0 1-2-2v-5a2 2 0 0 1 2-2h16a2 2 0 0 1 2 2v5a2 2 0 0 1-2 2h-2"></path><rect x="6" y="14" width={12} height={8}></rect></svg>
                 Fatura Yazdır
               </button>
               <button onClick={() => setSelectedOrder(null)} className="bg-primary hover:bg-secondary text-white px-8 py-2 uppercase tracking-widest text-xs font-bold transition-colors clip-angled">

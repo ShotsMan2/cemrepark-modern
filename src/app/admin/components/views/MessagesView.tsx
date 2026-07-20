@@ -31,8 +31,8 @@ export default function MessagesView() {
     setIsLoading(true);
     try {
       const query = new URLSearchParams({
-        page: currentPage,
-        limit: itemsPerPage,
+        page: String(currentPage),
+        limit: String(itemsPerPage),
       });
       if (searchQuery) query.append("search", searchQuery);
       // Wait, there's no status filter in the backend yet. Let's send it anyway or keep status filtering local if backend doesn't support it, but we can just use the provided backend logic which has 'search'. Let's stick to what's available.
@@ -287,7 +287,7 @@ export default function MessagesView() {
                         </div>
                         <div className="flex items-center gap-2 md:opacity-0 group-hover:opacity-100 transition-opacity">
                             <button onClick={() => handleReplyClick(msg)} className="bg-white/10 hover:bg-neon-pink text-white px-4 py-2 text-xs font-bold uppercase clip-angled transition-colors">Yanıtla</button>
-                            <button onClick={() => handleDelete(msg.id)} className="bg-white/5 hover:bg-red-500 text-gray-400 hover:text-white p-2 transition-colors"><svg width={} height={} viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth={}><path d="M3 6h18"></path><path d="M19 6v14c0 1-1 2-2 2H7c-1 0-2-1-2-2V6"></path><path d="M8 6V4c0-1 1-2 2-2h4c1 0 2 1 2 2v2"></path></svg></button>
+                            <button onClick={() => handleDelete(msg.id)} className="bg-white/5 hover:bg-red-500 text-gray-400 hover:text-white p-2 transition-colors"><svg width={20} height={20} viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth={2}><path d="M3 6h18"></path><path d="M19 6v14c0 1-1 2-2 2H7c-1 0-2-1-2-2V6"></path><path d="M8 6V4c0-1 1-2 2-2h4c1 0 2 1 2 2v2"></path></svg></button>
                         </div>
                     </div>
                 </div>
@@ -315,7 +315,7 @@ export default function MessagesView() {
       {selectedMessage && (
         <div className="fixed inset-0 bg-black/80 backdrop-blur-md z-50 flex items-center justify-center p-4">
           <div className="glass-panel p-6 max-w-2xl w-full clip-angled border border-white/10 relative animate-fade-in text-left flex flex-col max-h-[90vh]">
-            <button onClick={() => setSelectedMessage(null)} className="absolute top-4 right-4 text-gray-500 hover:text-white transition-colors"><svg width={} height={} viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth={}><line x1="18" y1="6" x2="6" y2="18"></line><line x1="6" y1="6" x2="18" y2="18"></line></svg></button>
+            <button onClick={() => setSelectedMessage(null)} className="absolute top-4 right-4 text-gray-500 hover:text-white transition-colors"><svg width={24} height={24} viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth={2}><line x1="18" y1="6" x2="6" y2="18"></line><line x1="6" y1="6" x2="18" y2="18"></line></svg></button>
 
             <h3 className="text-xl font-bold text-white mb-2 uppercase tracking-wider">Yanıtla</h3>
             <p className="text-xs text-gray-400 mb-6 border-b border-white/10 pb-4">
@@ -342,7 +342,7 @@ export default function MessagesView() {
 
                     <div>
                         <label className="block text-gray-400 text-xs font-bold mb-1 uppercase tracking-wider">Mesajınız</label>
-                        <textarea required rows={} value={replyText} onChange={(e) => setReplyText(e.target.value)} className="w-full bg-black/50 border border-white/10 text-white px-4 py-3 text-sm focus:border-neon-pink outline-none transition-colors resize-none font-sans" />
+                        <textarea required rows={4} value={replyText} onChange={(e) => setReplyText(e.target.value)} className="w-full bg-black/50 border border-white/10 text-white px-4 py-3 text-sm focus:border-neon-pink outline-none transition-colors resize-none font-sans" />
                     </div>
                 </form>
             </div>
