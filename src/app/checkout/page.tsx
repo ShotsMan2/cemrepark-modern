@@ -165,7 +165,7 @@ export default function CheckoutPage() {
       setErrors((prev) => ({ ...prev, [name]: "" }));
     } catch (err) {
       if (err instanceof z.ZodError) {
-        setErrors((prev) => ({ ...prev, [name]: (err as z.ZodError).errors[0]?.message || "" }));
+        setErrors((prev) => ({ ...prev, [name]: (err as z.ZodError).issues[0]?.message || "" }));
       }
     }
   };
@@ -220,7 +220,7 @@ export default function CheckoutPage() {
     if (!result.success) {
       const formattedErrors: Record<string, string> = {};
 
-      result.error.errors.forEach((err) => {
+      result.error.issues.forEach((err) => {
         if (err.path[0]) formattedErrors[err.path[0] as string] = err.message;
       });
 

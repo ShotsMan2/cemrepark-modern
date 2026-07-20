@@ -9,7 +9,7 @@ export default async function sitemap() {
   });
 
   const categories = await prisma.category.findMany({
-    select: { slug: true, updatedAt: true },
+    select: { slug: true },
   });
 
   const pages = await prisma.page.findMany({
@@ -25,7 +25,7 @@ export default async function sitemap() {
 
   const categoryUrls = categories.map((cat) => ({
     url: `${baseUrl}/search?category=${cat.slug}`,
-    lastModified: cat.updatedAt,
+    lastModified: new Date(),
     changeFrequency: "weekly",
     priority: 0.8,
   }));

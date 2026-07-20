@@ -274,5 +274,11 @@
   "back_to_account": "Back to My Account",
   "name": "Full Name",
   "email": "Email Address",
-  "phone": "Phone Number"
+  "phone": "Phone Number",
+  "flash_sale": "FLASH SALE",
+  "flash_sale_desc": "Extra 20% off at checkout on selected products. Hurry up, don't miss the deal!",
+  "days": "DAYS",
+  "hours": "HOURS",
+  "minutes": "MINUTES",
+  "seconds": "SECONDS"
 }

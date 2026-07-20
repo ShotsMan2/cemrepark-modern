@@ -161,7 +161,7 @@ export default function PagesView() {
             <h3 className="text-xl font-bold text-white uppercase tracking-wider flex items-center gap-3">
               <span className="w-8 h-8 bg-neon-pink/20 text-neon-pink flex items-center justify-center clip-angled">
                 <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={} d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"></path>
+                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"></path>
                 </svg>
               </span>
               {editingId ? "Sayfayı Düzenle" : "Yeni Sayfa Ekle"}
@@ -216,7 +216,7 @@ export default function PagesView() {
                 
                 <div>
                     <label className="block text-gray-400 text-[10px] font-bold mb-1 uppercase tracking-wider">SEO Description</label>
-                    <textarea name="metaDescription" rows={} value={formData.metaDescription} onChange={handleInputChange} className="w-full bg-black/50 border border-white/10 text-white px-3 py-2 text-xs focus:border-holo-gold outline-none resize-none"/>
+                    <textarea name="metaDescription" rows={3} value={formData.metaDescription} onChange={handleInputChange} className="w-full bg-black/50 border border-white/10 text-white px-3 py-2 text-xs focus:border-holo-gold outline-none resize-none"/>
                 </div>
                 
                 <div>
@@ -246,7 +246,7 @@ export default function PagesView() {
         <h3 className="text-xl font-bold text-white mb-6 uppercase tracking-wider flex items-center gap-3">
           <span className="w-8 h-8 bg-holo-gold/20 text-holo-gold flex items-center justify-center clip-angled">
             <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={} d="M4 6h16M4 10h16M4 14h16M4 18h16"></path>
+              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M4 6h16M4 10h16M4 14h16M4 18h16"></path>
             </svg>
           </span>
           Mevcut Sayfalar
@@ -290,16 +290,16 @@ export default function PagesView() {
                     <td className="p-4 pr-6 text-right">
                       <div className="flex justify-end gap-2">
                         <a href={`/${page.slug}`} target="_blank" className="text-gray-400 hover:text-white p-2 transition-colors focus:outline-none" title="Görüntüle">
-                           <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={} d="M15 12a3 3 0 11-6 0 3 3 0 016 0z"></path><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={} d="M2.458 12C3.732 7.943 7.523 5 12 5c4.478 0 8.268 2.943 9.542 7-1.274 4.057-5.064 7-9.542 7-4.477 0-8.268-2.943-9.542-7z"></path></svg>
+                           <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 12a3 3 0 11-6 0 3 3 0 016 0z"></path><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M2.458 12C3.732 7.943 7.523 5 12 5c4.478 0 8.268 2.943 9.542 7-1.274 4.057-5.064 7-9.542 7-4.477 0-8.268-2.943-9.542-7z"></path></svg>
                         </a>
                         <button onClick={() => handleEdit(page)} className="text-gray-400 hover:text-holo-gold p-2 transition-colors focus:outline-none" title="Düzenle">
                           <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={} d="M11 5H6a2 2 0 00-2 2v11a2 2 0 002 2h11a2 2 0 002-2v-5m-1.414-9.414a2 2 0 112.828 2.828L11.828 15H9v-2.828l8.586-8.586z"></path>
+                            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M11 5H6a2 2 0 00-2 2v11a2 2 0 002 2h11a2 2 0 002-2v-5m-1.414-9.414a2 2 0 112.828 2.828L11.828 15H9v-2.828l8.586-8.586z"></path>
                           </svg>
                         </button>
                         <button onClick={() => handleDelete(page.id)} className="text-gray-400 hover:text-red-500 p-2 transition-colors focus:outline-none" title="Sil">
                           <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={} d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16"></path>
+                            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16"></path>
                           </svg>
                         </button>
                       </div>

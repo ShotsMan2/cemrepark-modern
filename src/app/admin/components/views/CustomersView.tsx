@@ -30,8 +30,8 @@ export default function CustomersView() {
     setLoading(true);
     try {
       const query = new URLSearchParams({
-        page: currentPage,
-        limit: itemsPerPage,
+        page: String(currentPage),
+        limit: String(itemsPerPage),
       });
       if (searchTerm) query.append("search", searchTerm);
       if (activeTab !== "Tümü") query.append("role", activeTab === "VIP" ? "admin" : (activeTab === "Regular" || activeTab === "New" ? "user" : "")); // Simplistic mapping, real one should be better
@@ -268,14 +268,14 @@ export default function CustomersView() {
             <tbody className="divide-y divide-white/5">
               {loading ? (
                 <tr>
-                  <td colSpan="6" className="p-8 text-center text-gray-400">
+                  <td colSpan={6} className="p-8 text-center text-gray-400">
                     <div className="w-8 h-8 border-4 border-neon-pink border-t-transparent rounded-full animate-spin mx-auto mb-4"></div>
                     Müşteriler Yükleniyor...
                   </td>
                 </tr>
               ) : paginatedCustomers.length === 0 ? (
                 <tr>
-                  <td colSpan="6" className="p-8 text-center text-gray-400">Müşteri bulunamadı.</td>
+                  <td colSpan={6} className="p-8 text-center text-gray-400">Müşteri bulunamadı.</td>
                 </tr>
               ) : (
                 paginatedCustomers.map((c, i) => (

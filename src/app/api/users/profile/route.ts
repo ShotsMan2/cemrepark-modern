@@ -80,7 +80,7 @@ export const PUT = apiHandler(async (req: NextRequest) => {
     password,
   });
 
-  const ipAddress = req.headers.get("x-forwarded-for") || req.ip || "127.0.0.1";
+  const ipAddress = req.headers.get("x-forwarded-for") || "127.0.0.1";
   const userAgent = req.headers.get("user-agent") || "unknown";
 
   await import("@/lib/auditLogger").then(({ logAuditAction }) =>

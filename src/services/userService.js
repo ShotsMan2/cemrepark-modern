@@ -16,6 +16,7 @@ class UserService {
       },
       orderBy: {
         createdAt: "desc",
+      },
     });
   }
 

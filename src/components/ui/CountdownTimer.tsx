@@ -44,20 +44,22 @@ export default function CountdownTimer({ targetDate, title }: CountdownTimerProp
       
       <div className="flex-1 text-center md:text-left z-10">
         <h3 className="text-2xl md:text-3xl font-black text-gray-900 dark:text-white uppercase tracking-wider mb-2">
-          {title || t("flash_sale") || "GÜNÜN FIRSATI"}
+          {title || (() => { const v = t("flash_sale"); return v !== "flash_sale" ? v : "GÜNÜN FIRSATI"; })()}
         </h3>
         <p className="text-gray-600 dark:text-gray-400 text-sm">
-          {t("flash_sale_desc") || "Seçili ürünlerde sepette %20 ek indirim. Acele edin, fırsatı kaçırmayın!"}
+          {(() => { const v = t("flash_sale_desc"); return v !== "flash_sale_desc" ? v : "Seçili ürünlerde sepette %20 ek indirim. Acele edin, fırsatı kaçırmayın!"; })()}
         </p>
       </div>
 
       <div className="flex gap-4 z-10">
         {[
-          { label: t("days") || "Gün", value: timeLeft.days },
-          { label: t("hours") || "Saat", value: timeLeft.hours },
-          { label: t("minutes") || "Dakika", value: timeLeft.minutes },
-          { label: t("seconds") || "Saniye", value: timeLeft.seconds },
-        ].map((item, index) => (
+          { key: "days", fallback: "GÜN", value: timeLeft.days },
+          { key: "hours", fallback: "SAAT", value: timeLeft.hours },
+          { key: "minutes", fallback: "DAKİKA", value: timeLeft.minutes },
+          { key: "seconds", fallback: "SANİYE", value: timeLeft.seconds },
+        ].map((item, index) => {
+          const label = t(item.key);
+          return (
           <div key={index} className="flex flex-col items-center">
             <div className="w-16 h-16 md:w-20 md:h-20 bg-white/80 dark:bg-black/60 backdrop-blur-md rounded-xl border border-white/20 dark:border-white/10 flex items-center justify-center shadow-lg mb-2 relative overflow-hidden group">
               <div className="absolute inset-0 bg-primary/10 translate-y-full group-hover:translate-y-0 transition-transform duration-300"></div>
@@ -66,10 +68,10 @@ export default function CountdownTimer({ targetDate, title }: CountdownTimerProp
               </span>
             </div>
             <span className="text-[10px] md:text-xs uppercase tracking-widest text-gray-500 font-bold">
-              {item.label}
+              {label !== item.key ? label : item.fallback}
             </span>
           </div>
-        ))}
+        )})}
       </div>
     </div>
   );
