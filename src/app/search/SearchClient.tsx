@@ -104,11 +104,11 @@ export default function SearchClient({
   return (
     <div className="container mx-auto px-4 relative z-10">
       <div
-        className="glass-panel p-10 rounded-[2.5rem] shadow-2xl mb-12 text-center border-glass-border relative overflow-hidden group"
+        className="product-card-bg p-10 rounded-[2.5rem] shadow-2xl mb-12 text-center relative overflow-hidden group"
         data-aos="fade-down"
       >
-        <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-96 h-96 bg-neon-pink/10 rounded-full blur-[100px] pointer-events-none group-hover:scale-150 transition-transform duration-1000"></div>
-        <h1 className="text-4xl md:text-6xl font-black mb-4 uppercase tracking-widest text-transparent bg-clip-text bg-gradient-to-r from-neon-pink to-holo-gold relative z-10">
+        <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-96 h-96 bg-gradient-to-br from-primary/20 via-purple/15 to-primary/10 rounded-full blur-[100px] pointer-events-none group-hover:scale-150 transition-transform duration-1000"></div>
+        <h1 className="text-4xl md:text-6xl font-black mb-4 uppercase tracking-widest text-transparent bg-clip-text bg-gradient-to-r from-primary via-purple to-primary relative z-10">
           {isSearch ? `${t("search_results")}: "${query}"` : t("collection")}
         </h1>
         {isSearch && (
@@ -133,13 +133,13 @@ export default function SearchClient({
         <div className="w-full lg:w-3/4 min-h-screen">
           {results.length === 0 ? (
             <div
-              className="glass-panel p-16 rounded-[3rem] flex flex-col items-center justify-center text-center shadow-2xl relative overflow-hidden group"
+              className="product-card-bg p-16 rounded-[3rem] flex flex-col items-center justify-center text-center shadow-2xl relative overflow-hidden group"
               data-aos="zoom-in"
             >
-              <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-64 h-64 bg-gradient-to-tr from-neon-pink/20 to-holo-gold/20 rounded-full blur-[80px] pointer-events-none group-hover:scale-150 transition-transform duration-1000"></div>
-              <div className="w-32 h-32 mb-8 bg-foreground/5 rounded-full flex items-center justify-center shadow-inner relative z-10">
+              <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-64 h-64 bg-gradient-to-tr from-primary/20 to-purple/20 rounded-full blur-[80px] pointer-events-none group-hover:scale-150 transition-transform duration-1000"></div>
+              <div className="w-32 h-32 mb-8 bg-primary/10 rounded-full flex items-center justify-center shadow-inner relative z-10">
                 <svg
-                  className="w-16 h-16 text-neon-pink opacity-80"
+                  className="w-16 h-16 text-primary opacity-80"
                   fill="none"
                   stroke="currentColor"
                   viewBox="0 0 24 24"
@@ -171,7 +171,7 @@ export default function SearchClient({
                   return (
                     <div
                       key={product.id}
-                      className="glass-card p-4 rounded-[2rem] group hover:shadow-2xl hover:shadow-neon-pink/20 transition-all duration-500 relative transform hover:-translate-y-2 flex flex-col"
+                      className="product-card-bg-search p-4 group relative transform flex flex-col"
                       data-aos="fade-up"
                       data-aos-delay={(index % 3) * 100}
                     >
@@ -230,7 +230,7 @@ export default function SearchClient({
                               e.preventDefault();
                               setQuickViewProduct(product);
                             }}
-                            className="text-xs uppercase tracking-[0.2em] font-black text-foreground hover:text-foreground hover:bg-neon-pink transition-all duration-300 glass-panel px-8 py-3.5 rounded-full backdrop-blur-xl shadow-xl w-full active:scale-95 transform hover:-translate-y-1"
+                            className="text-xs uppercase tracking-[0.2em] font-black text-foreground hover:text-white hover:bg-primary transition-all duration-300 glass-panel px-8 py-3.5 rounded-full backdrop-blur-xl shadow-xl w-full active:scale-95 transform hover:-translate-y-1"
                           >
                             {t("quick_view")}
                           </button>
@@ -238,16 +238,16 @@ export default function SearchClient({
                       </div>
 
                       <div className="p-2 flex-1 flex flex-col relative z-20">
-                        <p className="text-foreground/60 text-[10px] font-black uppercase tracking-[0.2em] mb-2 group-hover:text-neon-pink transition-colors">
+                        <p className="text-purple/80 text-[10px] font-black uppercase tracking-[0.2em] mb-2 group-hover:text-primary transition-colors">
                           {t(product.kategori)}
                         </p>
                         <Link href={`/urundetay/${product.id}`} className="block">
-                          <h3 className="text-foreground font-black text-lg mb-2 line-clamp-2 leading-tight group-hover:text-transparent group-hover:bg-clip-text group-hover:bg-gradient-to-r group-hover:from-neon-pink group-hover:to-holo-gold transition-all duration-300">
+                          <h3 className="text-transparent bg-clip-text bg-gradient-to-r from-primary to-purple font-black text-lg mb-2 line-clamp-2 leading-tight group-hover:text-transparent group-hover:bg-clip-text group-hover:bg-gradient-to-r group-hover:from-primary group-hover:via-purple group-hover:to-primary transition-all duration-300">
                             {t(product.ad)}
                           </h3>
                         </Link>
                         <div className="mt-auto pt-4 flex items-center justify-between border-t border-gray-100 dark:border-white/5">
-                          <span className="text-transparent bg-clip-text bg-gradient-to-r from-gray-900 to-gray-600 dark:from-white dark:to-gray-300 font-black text-2xl tracking-tight">
+                          <span className="text-white font-black text-2xl tracking-tight">
                             {formatPrice(product.fiyat)}
                           </span>
                           <FavoriteButton
@@ -264,9 +264,9 @@ export default function SearchClient({
               {visibleCount < results.length && (
                 <div ref={loaderRef} className="w-full py-16 flex justify-center">
                   <div className="relative w-16 h-16 flex items-center justify-center">
-                    <div className="absolute inset-0 border-4 border-neon-pink/20 rounded-full"></div>
-                    <div className="absolute inset-0 border-4 border-neon-pink border-t-transparent rounded-full animate-spin"></div>
-                    <div className="w-4 h-4 bg-holo-gold rounded-full animate-pulse"></div>
+                    <div className="absolute inset-0 border-4 border-primary/20 rounded-full"></div>
+                    <div className="absolute inset-0 border-4 border-primary border-t-transparent rounded-full animate-spin"></div>
+                    <div className="w-4 h-4 bg-purple rounded-full animate-pulse"></div>
                   </div>
                 </div>
               )}

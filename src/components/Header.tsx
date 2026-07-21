@@ -81,7 +81,7 @@ export default function Header() {
       {/* Scroll Progress Bar */}
       <div className="fixed top-0 left-0 z-[9999] w-full h-[3px] bg-transparent pointer-events-none">
         <div
-          className="h-full bg-gradient-to-r from-primary via-accent to-secondary transition-all duration-150 ease-out"
+          className="h-full bg-gradient-to-r from-[#e11c8e] via-[#a855f7] to-[#7B1FA2] transition-all duration-150 ease-out"
           style={{ width: `${scrollProgress}%` }}
         />
       </div>
@@ -92,7 +92,7 @@ export default function Header() {
         }`}
       >
         {/* SCROLLING ANNOUNCEMENT BAR */}
-        <div className="bg-gradient-to-r from-[#E91E8C] via-[#D91A7E] via-[#9B30FF] to-[#7B1FA2] text-white text-[10px] md:text-[11px] font-bold py-2 overflow-hidden shadow-lg border-b border-white/10">
+        <div className="bg-gradient-to-r from-[#e11c8e] via-[#c026d3] to-[#7B1FA2] text-white text-[10px] md:text-[11px] font-bold py-2 overflow-hidden shadow-lg border-b border-white/10">
           <div className="w-full whitespace-nowrap animate-marquee hover-pause flex gap-12 md:gap-24 min-w-max drop-shadow-md">
             <span className="flex items-center gap-2">
               <span className="text-white/90">✨</span> {t("discover_new_season")}

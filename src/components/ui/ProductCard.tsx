@@ -47,10 +47,10 @@ export function ProductCard({ product, onQuickView, className = "", delay = 0 }:
       whileHover={{ y: -8, transition: { duration: 0.3 } }}
       onHoverStart={() => setIsHovered(true)}
       onHoverEnd={() => setIsHovered(false)}
-      className={`glass-panel p-4 clip-angled group transition-all duration-500 relative ${className}`}
+      className={`product-card-bg p-4 clip-angled group transition-all duration-500 relative ${className}`}
     >
       <motion.div
-        className="absolute -inset-1 bg-gradient-to-r from-primary/20 via-accent/20 to-secondary/20 rounded-2xl blur-xl opacity-0 pointer-events-none"
+        className="absolute -inset-1 bg-gradient-to-r from-primary/25 via-purple/30 to-primary/20 rounded-2xl blur-xl opacity-0 pointer-events-none"
         animate={{ opacity: isHovered ? 1 : 0 }}
         transition={{ duration: 0.4 }}
       />
@@ -144,14 +144,14 @@ export function ProductCard({ product, onQuickView, className = "", delay = 0 }:
       </div>
 
       <div className="p-4 relative">
-        <p className="text-foreground/60 text-xs uppercase tracking-widest mb-1 group-hover:text-holo-gold transition-colors">
+        <p className="text-purple text-xs font-black uppercase tracking-widest mb-1">
           {t(product.kategori) as string}
         </p>
         <Link
           href={`/urundetay/${product.id}`}
           className="block before:absolute before:inset-0 before:z-10"
         >
-          <h3 className="text-foreground font-black text-lg truncate mb-2 group-hover:text-neon-pink transition-colors">
+          <h3 className="text-transparent bg-clip-text bg-gradient-to-r from-primary to-purple font-black text-lg truncate mb-2">
             {t(product.ad) as string}
           </h3>
         </Link>
