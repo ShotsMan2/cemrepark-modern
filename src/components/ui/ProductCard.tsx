@@ -20,7 +20,6 @@ export function ProductCard({ product, onQuickView, className = "", delay = 0 }:
   const { t } = useStore();
   const [isHovered, setIsHovered] = React.useState(false);
   const [selectedColor, setSelectedColor] = React.useState(0);
-  const [isAddingToCart, setIsAddingToCart] = React.useState(false);
 
   const p = product as any;
   const colorVariants = p.renkler ? p.renkler.split(",").slice(0, 4) : [];
@@ -30,13 +29,6 @@ export function ProductCard({ product, onQuickView, className = "", delay = 0 }:
   const isLowStock = stockValue > 0 && stockValue <= 5;
 
   const discountPercent = p.indirimOrani || p.indirimOrani === 0 ? p.indirimOrani : null;
-
-  const handleQuickAdd = (e: React.MouseEvent) => {
-    e.preventDefault();
-    e.stopPropagation();
-    setIsAddingToCart(true);
-    setTimeout(() => setIsAddingToCart(false), 1000);
-  };
 
   return (
     <motion.div
@@ -57,7 +49,7 @@ export function ProductCard({ product, onQuickView, className = "", delay = 0 }:
       <div className="relative aspect-[3/4] mb-4 overflow-hidden clip-angled transform-gpu">
         {product.etiket && (
           <div className="absolute top-2 left-2 z-20">
-            <span className="text-xs font-bold uppercase tracking-widest bg-gradient-to-r from-neon-pink to-holo-gold text-foreground px-3 py-1 clip-angled shadow-lg">
+            <span className="text-xs font-bold uppercase tracking-widest bg-gradient-to-r from-primary to-purple text-foreground px-3 py-1 clip-angled shadow-lg">
               {t(product.etiket) as string}
             </span>
           </div>
@@ -119,28 +111,7 @@ export function ProductCard({ product, onQuickView, className = "", delay = 0 }:
           </div>
         )}
 
-        {/* Quick Add to Cart - floating button */}
-        {isInStock && (
-          <motion.button
-            initial={{ opacity: 0, x: 20 }}
-            animate={{ opacity: isHovered ? 1 : 0, x: isHovered ? 0 : 20 }}
-            transition={{ duration: 0.3 }}
-            onClick={handleQuickAdd}
-            className="absolute top-2 right-2 z-30 w-9 h-9 rounded-full bg-background/80 backdrop-blur-md flex items-center justify-center shadow-lg hover:bg-primary hover:text-foreground transition-colors"
-            aria-label="Sepete ekle"
-          >
-            <motion.svg
-              animate={isAddingToCart ? { scale: [1, 1.3, 0], rotate: [0, 180, 360] } : {}}
-              className="w-4 h-4"
-              fill="none"
-              viewBox="0 0 24 24"
-              stroke="currentColor"
-              strokeWidth="2.5"
-            >
-              <path d="M12 5v14m-7-7h14" />
-            </motion.svg>
-          </motion.button>
-        )}
+
       </div>
 
       <div className="p-4 relative">
