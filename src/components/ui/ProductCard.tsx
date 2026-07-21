@@ -144,14 +144,14 @@ export function ProductCard({ product, onQuickView, className = "", delay = 0 }:
       </div>
 
       <div className="p-4 relative">
-        <p className="text-foreground/60 text-xs uppercase tracking-widest mb-1 group-hover:text-holo-gold transition-colors">
+        <p className="text-purple/80 text-xs uppercase tracking-widest mb-1 group-hover:text-primary transition-colors">
           {t(product.kategori) as string}
         </p>
         <Link
           href={`/urundetay/${product.id}`}
           className="block before:absolute before:inset-0 before:z-10"
         >
-          <h3 className="text-foreground font-black text-lg truncate mb-2 group-hover:text-neon-pink transition-colors">
+          <h3 className="text-foreground font-black text-lg truncate mb-2 group-hover:text-transparent group-hover:bg-clip-text group-hover:bg-gradient-to-r group-hover:from-primary group-hover:to-secondary transition-all duration-300">
             {t(product.ad) as string}
           </h3>
         </Link>

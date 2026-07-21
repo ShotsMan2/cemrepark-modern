@@ -3,9 +3,9 @@ import { Skeleton } from "../../components/ui/Skeleton";
 
 export default function Loading() {
   return (
-    <div className="min-h-screen pt-32 pb-24 relative overflow-hidden container mx-auto px-4 z-10">
+    <div className="min-h-screen pt-32 pb-24 relative overflow-hidden container mx-auto px-4 z-10 bg-gradient-to-br from-gray-50 via-pink-50/50 to-purple-50/50 dark:from-[#08060d] dark:via-[#0d0518] dark:to-[#0a0814]">
       {/* Search Header Skeleton */}
-      <div className="glass-panel p-8 clip-angled mb-12 text-center flex flex-col items-center">
+      <div className="product-card-bg p-8 clip-angled mb-12 text-center flex flex-col items-center">
         <Skeleton className="h-12 w-3/4 max-w-lg mb-4" />
         <Skeleton className="h-4 w-1/4" />
       </div>
@@ -13,7 +13,7 @@ export default function Loading() {
       <div className="flex flex-col lg:flex-row gap-8">
         {/* SIDEBAR FILTER SKELETON */}
         <div className="w-full lg:w-1/4">
-          <div className="glass-panel p-6 clip-angled sticky top-32">
+          <div className="product-card-bg p-6 clip-angled sticky top-32">
             <Skeleton className="h-6 w-1/2 mb-6" />
             <div className="mb-8">
               <Skeleton className="h-4 w-1/3 mb-4" />

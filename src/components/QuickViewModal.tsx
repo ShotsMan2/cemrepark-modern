@@ -87,13 +87,13 @@ export default function QuickViewModal({ product, onClose }: QuickViewModalProps
         </div>
 
         <div className="w-full md:w-1/2 p-8 flex flex-col justify-center">
-          <span className="text-neon-pink text-xs font-bold uppercase tracking-widest mb-2 block">
+          <span className="text-purple text-xs font-bold uppercase tracking-widest mb-2 block">
             {(t(product.kategori) as string) || (t("collection") as string)}
           </span>
           <h2 className="text-3xl font-black text-foreground uppercase tracking-widest mb-4">
             {t(product.ad)}
           </h2>
-          <div className="text-3xl font-bold text-holo-gold mb-8">{formatPrice(product.fiyat)}</div>
+          <div className="text-3xl font-bold text-transparent bg-clip-text bg-gradient-to-r from-primary to-secondary mb-8">{formatPrice(product.fiyat)}</div>
 
           <p className="text-foreground/70 text-sm mb-8 leading-relaxed">
             {t("quick_view_desc") as string}
@@ -102,7 +102,7 @@ export default function QuickViewModal({ product, onClose }: QuickViewModalProps
           <div className="flex gap-4">
             <Link
               href={`/urundetay/${product.id}`}
-              className="flex-1 text-center bg-transparent border border-neon-pink text-neon-pink px-6 py-4 font-bold uppercase tracking-widest hover:bg-neon-pink hover:text-foreground transition-colors clip-angled"
+              className="flex-1 text-center bg-transparent border border-purple text-purple px-6 py-4 font-bold uppercase tracking-widest hover:bg-purple hover:text-foreground transition-colors clip-angled"
             >
               {t("details") as string}
             </Link>
@@ -111,7 +111,7 @@ export default function QuickViewModal({ product, onClose }: QuickViewModalProps
               className={`flex-1 flex items-center justify-center gap-2 py-4 uppercase font-bold tracking-widest transition-all duration-300 clip-angled text-sm ${
                 isFavorite
                   ? "bg-gray-900 dark:bg-white text-foreground dark:text-black hover:bg-gray-800 dark:hover:bg-gray-200"
-                  : "bg-neon-pink text-foreground hover:bg-black dark:hover:bg-white hover:text-foreground dark:hover:text-black"
+                  : "bg-primary text-foreground hover:bg-black dark:hover:bg-white hover:text-foreground dark:hover:text-black"
               }`}
             >
               <svg
