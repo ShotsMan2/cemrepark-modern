@@ -92,7 +92,7 @@ export default function Header() {
         }`}
       >
         {/* SCROLLING ANNOUNCEMENT BAR */}
-        <div className="bg-gradient-to-r from-primary via-accent to-secondary text-white text-[10px] md:text-[11px] font-bold py-2 overflow-hidden shadow-lg border-b border-white/10">
+        <div className="bg-gradient-to-r from-[#E91E8C] via-[#D91A7E] via-[#9B30FF] to-[#7B1FA2] text-white text-[10px] md:text-[11px] font-bold py-2 overflow-hidden shadow-lg border-b border-white/10">
           <div className="w-full whitespace-nowrap animate-marquee hover-pause flex gap-12 md:gap-24 min-w-max drop-shadow-md">
             <span className="flex items-center gap-2">
               <span className="text-white/90">✨</span> {t("discover_new_season")}
@@ -241,14 +241,12 @@ export default function Header() {
       </header>
 
       {/* MAIN NAV (Sticky) */}
-      <motion.div
+      <div
         className={`w-full backdrop-blur-2xl border-b transition-all duration-500 sticky top-0 z-[60] ${
           isScrolled
             ? "bg-white/80 dark:bg-[#120a10]/80 shadow-[0_4px_30px_rgba(0,0,0,0.1)] border-foreground/10 py-3"
             : "bg-white/95 dark:bg-[#120a10]/95 shadow-sm border-foreground/5 py-4"
         }`}
-        animate={{ y: isHeaderVisible ? 0 : -100 }}
-        transition={{ duration: 0.3 }}
       >
         <div className="w-full max-w-screen-2xl mx-auto px-4 md:px-8 flex justify-between items-center relative">
           {/* Desktop Menu */}
@@ -546,7 +544,7 @@ export default function Header() {
             </button>
           </div>
         </div>
-      </motion.div>
+      </div>
 
       {/* Mobile Bottom Navigation */}
       <div className="fixed bottom-0 left-0 right-0 z-50 lg:hidden bg-background/90 dark:bg-background/90 backdrop-blur-2xl border-t border-foreground/10 safe-area-bottom">
