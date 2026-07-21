@@ -26,11 +26,11 @@ export const Input = React.forwardRef<HTMLInputElement, InputProps>(
           ref={ref}
           aria-invalid={!!error}
           aria-describedby={error ? errorId : undefined}
-          className={`w-full bg-black/5 dark:bg-black/50 border ${error ? "border-red-500" : "border-black/10 dark:border-white/10"} text-foreground px-4 py-3 text-sm focus:border-neon-pink focus-visible:ring-2 focus-visible:ring-neon-pink focus-visible:outline-none focus-visible:ring-offset-1 focus-visible:ring-offset-background transition-colors ${className}`}
+          className={`w-full bg-black/5 dark:bg-black/50 border ${error ? "border-danger" : "border-black/10 dark:border-white/10"} text-foreground px-4 py-3 text-sm focus:border-primary focus-visible:ring-2 focus-visible:ring-primary focus-visible:outline-none focus-visible:ring-offset-1 focus-visible:ring-offset-background transition-colors ${className}`}
           {...props}
         />
         {error && (
-          <p id={errorId} className="mt-1 text-xs text-red-500" role="alert">
+          <p id={errorId} className="mt-1 text-xs text-danger" role="alert">
             {error}
           </p>
         )}
@@ -67,11 +67,11 @@ export const Textarea = React.forwardRef<HTMLTextAreaElement, TextareaProps>(
           ref={ref}
           aria-invalid={!!error}
           aria-describedby={error ? errorId : undefined}
-          className={`w-full bg-black/5 dark:bg-black/50 border ${error ? "border-red-500" : "border-black/10 dark:border-white/10"} text-foreground px-4 py-3 text-sm focus:border-neon-pink focus-visible:ring-2 focus-visible:ring-neon-pink focus-visible:outline-none focus-visible:ring-offset-1 focus-visible:ring-offset-background transition-colors ${className}`}
+          className={`w-full bg-black/5 dark:bg-black/50 border ${error ? "border-danger" : "border-black/10 dark:border-white/10"} text-foreground px-4 py-3 text-sm focus:border-primary focus-visible:ring-2 focus-visible:ring-primary focus-visible:outline-none focus-visible:ring-offset-1 focus-visible:ring-offset-background transition-colors ${className}`}
           {...props}
         />
         {error && (
-          <p id={errorId} className="mt-1 text-xs text-red-500" role="alert">
+          <p id={errorId} className="mt-1 text-xs text-danger" role="alert">
             {error}
           </p>
         )}

@@ -39,7 +39,7 @@ export default function BannersPage() {
             Manage your promotional banners and sliders
           </p>
         </div>
-        <button className="inline-flex items-center gap-2 px-4 py-2 bg-indigo-600 hover:bg-indigo-700 text-foreground text-sm font-medium rounded-lg transition-colors shadow-sm">
+        <button className="inline-flex items-center gap-2 px-4 py-2 bg-accent hover:bg-accent text-foreground text-sm font-medium rounded-lg transition-colors shadow-sm">
           <Plus className="w-4 h-4" />
           Add New Banner
         </button>
@@ -58,7 +58,7 @@ export default function BannersPage() {
                 </label>
                 <input
                   type="text"
-                  className="w-full px-4 py-2 rounded-lg border border-gray-200 dark:border-gray-600 bg-white dark:bg-gray-700 text-gray-900 dark:text-foreground focus:ring-2 focus:ring-indigo-500 outline-none transition-shadow"
+                  className="w-full px-4 py-2 rounded-lg border border-gray-200 dark:border-gray-600 bg-white dark:bg-gray-700 text-gray-900 dark:text-foreground focus:ring-2 focus:ring-accent outline-none transition-shadow"
                   placeholder="e.g. Winter Collection"
                 />
               </div>
@@ -66,7 +66,7 @@ export default function BannersPage() {
                 <label className="block text-sm font-medium text-gray-700 dark:text-foreground/70 mb-1">
                   Display Location
                 </label>
-                <select className="w-full px-4 py-2 rounded-lg border border-gray-200 dark:border-gray-600 bg-white dark:bg-gray-700 text-gray-900 dark:text-foreground focus:ring-2 focus:ring-indigo-500 outline-none transition-shadow">
+                <select className="w-full px-4 py-2 rounded-lg border border-gray-200 dark:border-gray-600 bg-white dark:bg-gray-700 text-gray-900 dark:text-foreground focus:ring-2 focus:ring-accent outline-none transition-shadow">
                   <option>Homepage Hero Slider</option>
                   <option>Category Top</option>
                   <option>Checkout Page</option>
@@ -76,11 +76,11 @@ export default function BannersPage() {
                 <label className="block text-sm font-medium text-gray-700 dark:text-foreground/70 mb-1">
                   Image URL or Upload
                 </label>
-                <div className="mt-1 flex justify-center px-6 pt-5 pb-6 border-2 border-gray-300 dark:border-gray-600 border-dashed rounded-lg hover:border-indigo-500 transition-colors cursor-pointer group">
+                <div className="mt-1 flex justify-center px-6 pt-5 pb-6 border-2 border-gray-300 dark:border-gray-600 border-dashed rounded-lg hover:border-accent transition-colors cursor-pointer group">
                   <div className="space-y-1 text-center">
-                    <ImageIcon className="mx-auto h-12 w-12 text-foreground/50 group-hover:text-indigo-500 transition-colors" />
+                    <ImageIcon className="mx-auto h-12 w-12 text-foreground/50 group-hover:text-accent transition-colors" />
                     <div className="flex text-sm text-gray-600 dark:text-foreground/50">
-                      <span className="relative rounded-md font-medium text-indigo-600 dark:text-indigo-400 hover:text-indigo-500 focus-within:outline-none">
+                      <span className="relative rounded-md font-medium text-accent dark:text-accent hover:text-accent focus-within:outline-none">
                         <span>Upload a file</span>
                       </span>
                       <p className="pl-1">or drag and drop</p>
@@ -93,7 +93,7 @@ export default function BannersPage() {
                 <label className="flex items-center gap-2 cursor-pointer">
                   <input
                     type="checkbox"
-                    className="w-4 h-4 text-indigo-600 border-gray-300 rounded focus:ring-indigo-500"
+                    className="w-4 h-4 text-accent border-gray-300 rounded focus:ring-accent"
                     defaultChecked
                   />
                   <span className="text-sm text-gray-700 dark:text-foreground/70">
@@ -103,7 +103,7 @@ export default function BannersPage() {
               </div>
               <button
                 type="button"
-                className="w-full px-4 py-2 bg-indigo-600 hover:bg-indigo-700 text-foreground font-medium rounded-lg transition-colors"
+                className="w-full px-4 py-2 bg-accent hover:bg-accent text-foreground font-medium rounded-lg transition-colors"
               >
                 Save Banner
               </button>
@@ -144,17 +144,17 @@ export default function BannersPage() {
                       </td>
                       <td className="px-6 py-4">
                         <span
-                          className={`inline-flex items-center px-2.5 py-1 rounded-full text-xs font-medium ${banner.status === "Active" ? "bg-green-100 text-green-800 dark:bg-green-900/30 dark:text-green-400" : "bg-gray-100 text-gray-800 dark:bg-gray-800 dark:text-foreground/50"}`}
+                          className={`inline-flex items-center px-2.5 py-1 rounded-full text-xs font-medium ${banner.status === "Active" ? "bg-success text-success dark:bg-success/30 dark:text-success" : "bg-gray-100 text-gray-800 dark:bg-gray-800 dark:text-foreground/50"}`}
                         >
                           {banner.status}
                         </span>
                       </td>
                       <td className="px-6 py-4">
                         <div className="flex items-center justify-end gap-2">
-                          <button className="p-1.5 text-foreground/60 hover:text-indigo-600 hover:bg-indigo-50 dark:hover:bg-indigo-900/30 rounded transition-colors">
+                          <button className="p-1.5 text-foreground/60 hover:text-accent hover:bg-accent dark:hover:bg-accent/30 rounded transition-colors">
                             <Edit2 className="w-4 h-4" />
                           </button>
-                          <button className="p-1.5 text-foreground/60 hover:text-red-600 hover:bg-red-50 dark:hover:bg-red-900/30 rounded transition-colors">
+                          <button className="p-1.5 text-foreground/60 hover:text-danger hover:bg-danger dark:hover:bg-danger/30 rounded transition-colors">
                             <Trash2 className="w-4 h-4" />
                           </button>
                         </div>

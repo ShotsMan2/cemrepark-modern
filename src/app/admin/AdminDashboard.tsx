@@ -286,11 +286,11 @@ export default function AdminDashboard({ onLogout }: { onLogout: () => void }) {
 
             <div className="h-6 w-px bg-glass-border"></div>
 
-            <button onClick={() => setAutoRefresh(!autoRefresh)} className={`p-2 transition-colors focus:outline-none ${autoRefresh ? "text-green-400" : "text-foreground/70 hover:text-primary"}`} title={autoRefresh ? "Canlı bildirim açık" : "Canlı bildirim kapalı"}>
+            <button onClick={() => setAutoRefresh(!autoRefresh)} className={`p-2 transition-colors focus:outline-none ${autoRefresh ? "text-success" : "text-foreground/70 hover:text-primary"}`} title={autoRefresh ? "Canlı bildirim açık" : "Canlı bildirim kapalı"}>
               <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                 <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M4 4v5h.582m15.356 2A8.001 8.001 0 004.582 9m0 0H9m11 11v-5h-.581m0 0a8.003 8.003 0 01-15.357-2m15.357 2H15"></path>
               </svg>
-              {sseConnected && <span className="absolute top-0 right-0 w-2 h-2 bg-green-400 rounded-full"></span>}
+              {sseConnected && <span className="absolute top-0 right-0 w-2 h-2 bg-success rounded-full"></span>}
             </button>
 
             <button onClick={toggleFullscreen} className="hidden md:block text-foreground/70 hover:text-primary transition-colors focus:outline-none p-2">
@@ -360,11 +360,11 @@ export default function AdminDashboard({ onLogout }: { onLogout: () => void }) {
                     <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2"></path></svg>
                     Son Siparişleri Görüntüle
                   </button>
-                  <button onClick={() => { setActiveTab("inventory"); setShowSearch(false); }} className="w-full text-left px-3 py-2 rounded-lg hover:bg-yellow-500/10 hover:text-yellow-500 transition-colors flex items-center gap-3">
+                  <button onClick={() => { setActiveTab("inventory"); setShowSearch(false); }} className="w-full text-left px-3 py-2 rounded-lg hover:bg-secondary/10 hover:text-secondary transition-colors flex items-center gap-3">
                     <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M20 7l-8-4-8 4m16 0l-8 4m8-4v10l-8 4m0-10L4 7m8 4v10M4 7v10l8 4"></path></svg>
                     Stok Yönetimi
                   </button>
-                  <button onClick={() => { setActiveTab("analytics"); setShowSearch(false); }} className="w-full text-left px-3 py-2 rounded-lg hover:bg-purple-500/10 hover:text-purple-500 transition-colors flex items-center gap-3">
+                  <button onClick={() => { setActiveTab("analytics"); setShowSearch(false); }} className="w-full text-left px-3 py-2 rounded-lg hover:bg-purple/10 hover:text-purple transition-colors flex items-center gap-3">
                     <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M9 19v-6a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2a2 2 0 002-2zm0 0V9a2 2 0 012-2h2a2 2 0 012 2v10m-6 0a2 2 0 002 2h2a2 2 0 002-2m0 0V5a2 2 0 012-2h2a2 2 0 012 2v14a2 2 0 01-2 2h-2a2 2 0 01-2-2z"></path></svg>
                     Analitik Raporlar
                   </button>

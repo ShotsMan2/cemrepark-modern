@@ -62,7 +62,7 @@ export default async function KurumsalPage({ params }) {
       />
       <div className="min-h-screen pt-32 pb-24 bg-background relative overflow-hidden">
         {/* Background glow */}
-        <div className="absolute top-1/4 left-1/4 w-[500px] h-[500px] bg-neon-pink opacity-[0.03] rounded-full blur-[120px] pointer-events-none"></div>
+        <div className="absolute top-1/4 left-1/4 w-[500px] h-[500px] bg-primary opacity-[0.03] rounded-full blur-[120px] pointer-events-none"></div>
 
         <div className="container mx-auto px-4 relative z-10 max-w-5xl">
           <KurumsalContentClient slug={slug} settings={settings} dynamicPage={page} />

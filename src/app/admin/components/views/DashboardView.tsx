@@ -224,12 +224,12 @@ export default function DashboardView({ products, setActiveTab }: { products: an
 
   const getStatusColor = (status: string) => {
     switch (status) {
-      case "Teslim Edildi": case "completed": return "text-green-400 bg-green-400/10 border-green-400/30";
-      case "Kargolandı": case "shipped": return "text-purple-400 bg-purple-400/10 border-purple-400/30";
-      case "Hazırlanıyor": case "processing": return "text-holo-gold bg-holo-gold/10 border-holo-gold/30";
-      case "Onaylandı": case "confirmed": return "text-blue-400 bg-blue-400/10 border-blue-400/30";
-      case "İptal": case "cancelled": return "text-red-500 bg-red-500/10 border-red-500/30";
-      default: return "text-orange-400 bg-orange-400/10 border-orange-400/30";
+      case "Teslim Edildi": case "completed": return "text-success bg-success/10 border-success/30";
+      case "Kargolandı": case "shipped": return "text-purple bg-purple/10 border-purple/30";
+      case "Hazırlanıyor": case "processing": return "text-secondary bg-secondary/10 border-secondary/30";
+      case "Onaylandı": case "confirmed": return "text-info bg-info/10 border-info/30";
+      case "İptal": case "cancelled": return "text-danger bg-danger/10 border-danger/30";
+      default: return "text-warning bg-warning/10 border-warning/30";
     }
   };
 
@@ -239,7 +239,7 @@ export default function DashboardView({ products, setActiveTab }: { products: an
         <motion.div
           animate={{ rotate: 360 }}
           transition={{ repeat: Infinity, duration: 1, ease: "linear" }}
-          className="w-12 h-12 border-4 border-neon-pink border-t-transparent rounded-full"
+          className="w-12 h-12 border-4 border-primary border-t-transparent rounded-full"
         />
       </div>
     );
@@ -248,9 +248,9 @@ export default function DashboardView({ products, setActiveTab }: { products: an
   if (error) {
     return (
       <div className="flex flex-col items-center justify-center h-screen gap-4">
-        <div className="text-red-400 text-lg font-bold">Bir hata oluştu</div>
+        <div className="text-danger text-lg font-bold">Bir hata oluştu</div>
         <p className="text-foreground/60 text-sm">{error}</p>
-        <button onClick={handleRetry} className="bg-neon-pink text-foreground px-6 py-2 text-xs font-bold uppercase clip-angled hover:bg-white hover:text-black transition-colors">
+        <button onClick={handleRetry} className="bg-primary text-foreground px-6 py-2 text-xs font-bold uppercase clip-angled hover:bg-white hover:text-black transition-colors">
           Tekrar Dene
         </button>
       </div>
@@ -258,11 +258,11 @@ export default function DashboardView({ products, setActiveTab }: { products: an
   }
 
   const KPICard = ({ title, value, subtext, trend, trendValue, colorClass, sparklineData, colorHex }: any) => (
-    <motion.div variants={itemVariants} className="glass-card p-4 clip-angled relative overflow-hidden group hover:border-neon-pink/50 transition-colors bg-gradient-to-br from-white/5 to-transparent">
-      <div className="absolute top-0 right-0 w-32 h-32 bg-neon-pink/5 rounded-bl-full group-hover:scale-110 transition-transform"></div>
+    <motion.div variants={itemVariants} className="glass-card p-4 clip-angled relative overflow-hidden group hover:border-primary/50 transition-colors bg-gradient-to-br from-white/5 to-transparent">
+      <div className="absolute top-0 right-0 w-32 h-32 bg-primary/5 rounded-bl-full group-hover:scale-110 transition-transform"></div>
       <div className="flex justify-between items-start mb-2">
         <p className="text-foreground/60 text-[10px] font-bold uppercase tracking-widest">{title}</p>
-        <div className={`flex items-center gap-1 text-[10px] font-bold ${trend === "up" ? "text-green-400" : "text-red-400"}`}>
+        <div className={`flex items-center gap-1 text-[10px] font-bold ${trend === "up" ? "text-success" : "text-danger"}`}>
           {trend === "up" ? (
             <svg className="w-3 h-3" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="3" d="M5 10l7-7m0 0l7 7m-7-7v18"></path></svg>
           ) : (
@@ -291,22 +291,22 @@ export default function DashboardView({ products, setActiveTab }: { products: an
           <p className="text-foreground/50 text-sm mt-1">Platformun anlık özet durumu ve performans metrikleri</p>
         </div>
         <div className="flex flex-wrap items-center gap-3">
-          <button onClick={() => setActiveTab("products")} className="glass-panel px-4 py-2 flex items-center gap-2 hover:bg-neon-pink/20 hover:border-neon-pink transition-all text-xs font-bold text-foreground clip-angled">
-            <svg className="w-4 h-4 text-neon-pink" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M12 4v16m8-8H4"></path></svg>
+          <button onClick={() => setActiveTab("products")} className="glass-panel px-4 py-2 flex items-center gap-2 hover:bg-primary/20 hover:border-primary transition-all text-xs font-bold text-foreground clip-angled">
+            <svg className="w-4 h-4 text-primary" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M12 4v16m8-8H4"></path></svg>
             YENİ ÜRÜN
           </button>
-          <button onClick={() => setActiveTab("orders")} className="glass-panel px-4 py-2 flex items-center gap-2 hover:bg-purple-500/20 hover:border-purple-500 transition-all text-xs font-bold text-foreground clip-angled">
-            <svg className="w-4 h-4 text-purple-500" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2m-6 9l2 2 4-4"></path></svg>
+          <button onClick={() => setActiveTab("orders")} className="glass-panel px-4 py-2 flex items-center gap-2 hover:bg-purple/20 hover:border-purple transition-all text-xs font-bold text-foreground clip-angled">
+            <svg className="w-4 h-4 text-purple" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2m-6 9l2 2 4-4"></path></svg>
             SİPARİŞLER
           </button>
-          <button onClick={() => setActiveTab("customers")} className="glass-panel px-4 py-2 flex items-center gap-2 hover:bg-blue-500/20 hover:border-blue-500 transition-all text-xs font-bold text-foreground clip-angled">
-            <svg className="w-4 h-4 text-blue-400" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M12 4.354a4 4 0 110 5.292M15 21H3v-1a6 6 0 0112 0v1zm0 0h6v-1a6 6 0 00-9-5.197m13.5-9a2.5 2.5 0 11-5 0 2.5 2.5 0 015 0z"></path></svg>
+          <button onClick={() => setActiveTab("customers")} className="glass-panel px-4 py-2 flex items-center gap-2 hover:bg-info/20 hover:border-info transition-all text-xs font-bold text-foreground clip-angled">
+            <svg className="w-4 h-4 text-info" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M12 4.354a4 4 0 110 5.292M15 21H3v-1a6 6 0 0112 0v1zm0 0h6v-1a6 6 0 00-9-5.197m13.5-9a2.5 2.5 0 11-5 0 2.5 2.5 0 015 0z"></path></svg>
             MÜŞTERİLER
           </button>
-          <button className="glass-panel px-4 py-2 flex items-center gap-2 hover:bg-holo-gold/20 hover:border-holo-gold transition-all text-xs font-bold text-foreground clip-angled cursor-default">
-            <svg className="w-4 h-4 text-holo-gold" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-3L13.732 4c-.77-1.333-2.694-1.333-3.464 0L3.34 16c-.77 1.333.192 3 1.732 3z"></path></svg>
+          <button className="glass-panel px-4 py-2 flex items-center gap-2 hover:bg-secondary/20 hover:border-secondary transition-all text-xs font-bold text-foreground clip-angled cursor-default">
+            <svg className="w-4 h-4 text-secondary" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-3L13.732 4c-.77-1.333-2.694-1.333-3.464 0L3.34 16c-.77 1.333.192 3 1.732 3z"></path></svg>
             STOK UYARISI
-            <span className="bg-holo-gold text-black text-[10px] px-1.5 py-0.5 rounded-full font-black ml-1">{safeProducts.filter((p) => p.stok < 5).length}</span>
+            <span className="bg-secondary text-black text-[10px] px-1.5 py-0.5 rounded-full font-black ml-1">{safeProducts.filter((p) => p.stok < 5).length}</span>
           </button>
           <div className="relative group">
             <button className="glass-panel hover:bg-foreground/10 text-foreground px-4 py-2 text-xs font-bold uppercase tracking-wider transition-all clip-angled flex items-center gap-2">
@@ -314,7 +314,7 @@ export default function DashboardView({ products, setActiveTab }: { products: an
               DIŞA AKTAR
             </button>
             <div className="absolute right-0 top-full mt-2 w-40 glass-panel p-2 flex flex-col gap-1 opacity-0 pointer-events-none group-hover:opacity-100 group-hover:pointer-events-auto transition-opacity z-50">
-              <button onClick={handleExportCSV} className="text-left px-3 py-2 text-xs text-foreground hover:bg-neon-pink/20 hover:text-neon-pink rounded font-bold transition-colors">CSV İndir</button>
+              <button onClick={handleExportCSV} className="text-left px-3 py-2 text-xs text-foreground hover:bg-primary/20 hover:text-primary rounded font-bold transition-colors">CSV İndir</button>
             </div>
           </div>
         </div>
@@ -347,8 +347,8 @@ export default function DashboardView({ products, setActiveTab }: { products: an
               <p className="text-foreground/60 text-xs mt-1">Aylık gerçekleşen gelir vs hedefler</p>
             </div>
             <div className="flex gap-4">
-              <div className="flex items-center gap-2"><div className="w-3 h-3 bg-neon-pink rounded-sm"></div><span className="text-foreground/50 text-xs font-bold">Gerçekleşen</span></div>
-              <div className="flex items-center gap-2"><div className="w-3 h-3 bg-holo-gold rounded-full"></div><span className="text-foreground/50 text-xs font-bold">Hedef</span></div>
+              <div className="flex items-center gap-2"><div className="w-3 h-3 bg-primary rounded-sm"></div><span className="text-foreground/50 text-xs font-bold">Gerçekleşen</span></div>
+              <div className="flex items-center gap-2"><div className="w-3 h-3 bg-secondary rounded-full"></div><span className="text-foreground/50 text-xs font-bold">Hedef</span></div>
             </div>
           </div>
           <div className="w-full h-80">
@@ -358,10 +358,10 @@ export default function DashboardView({ products, setActiveTab }: { products: an
         <div className="glass-panel p-6 md:p-8 clip-angled relative border border-glass-border h-[450px] flex flex-col">
           <div className="flex justify-between items-center mb-6">
             <h3 className="text-foreground font-bold uppercase tracking-widest">Canlı Akış</h3>
-            <div className="flex items-center gap-1 text-xs text-green-400">
+            <div className="flex items-center gap-1 text-xs text-success">
               <span className="relative flex h-2 w-2 mr-1">
-                <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-green-400 opacity-75"></span>
-                <span className="relative inline-flex rounded-full h-2 w-2 bg-green-500"></span>
+                <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-success opacity-75"></span>
+                <span className="relative inline-flex rounded-full h-2 w-2 bg-success"></span>
               </span>
               Aktif
             </div>
@@ -406,7 +406,7 @@ export default function DashboardView({ products, setActiveTab }: { products: an
         <div className="glass-panel p-6 md:p-8 clip-angled relative border border-glass-border h-[400px] flex flex-col">
           <div className="flex justify-between items-center mb-4">
             <h3 className="text-foreground font-bold uppercase tracking-widest">Son Siparişler</h3>
-            <button onClick={() => setActiveTab("orders")} className="text-xs text-neon-pink hover:underline font-bold">Tümünü Gör</button>
+            <button onClick={() => setActiveTab("orders")} className="text-xs text-primary hover:underline font-bold">Tümünü Gör</button>
           </div>
           <div className="flex-1 overflow-y-auto custom-scrollbar">
             {recentOrders.length === 0 ? (
@@ -492,7 +492,7 @@ export default function DashboardView({ products, setActiveTab }: { products: an
                       <div className="absolute inset-0 bg-foreground/20" style={{ clipPath: "polygon(0 0, 100% 0, 95% 100%, 5% 100%)" }}></div>
                     </motion.div>
                     {dropOff && (
-                      <div className="absolute -top-4 right-0 text-[10px] text-red-400 opacity-0 group-hover:opacity-100 transition-opacity flex items-center gap-1 bg-background/80 px-2 py-1 rounded">
+                      <div className="absolute -top-4 right-0 text-[10px] text-danger opacity-0 group-hover:opacity-100 transition-opacity flex items-center gap-1 bg-background/80 px-2 py-1 rounded">
                         <svg className="w-3 h-3" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M19 14l-7 7m0 0l-7-7m7 7V3"></path></svg>
                         {dropOff}% kayıp
                       </div>

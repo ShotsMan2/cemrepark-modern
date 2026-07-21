@@ -104,7 +104,7 @@ export function ProductCard({ product, onQuickView, className = "", delay = 0 }:
                 e.preventDefault();
                 onQuickView(product);
               }}
-              className="text-xs uppercase tracking-widest font-black text-foreground hover:text-foreground hover:bg-neon-pink transition-colors glass-panel px-6 py-3 rounded-full backdrop-blur-md shadow-xl w-full active:scale-95"
+              className="text-xs uppercase tracking-widest font-black text-foreground hover:text-foreground hover:bg-primary transition-colors glass-panel px-6 py-3 rounded-full backdrop-blur-md shadow-xl w-full active:scale-95"
             >
               {t("quick_view") as string}
             </button>

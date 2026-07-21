@@ -16,9 +16,9 @@ export default function AdminError({
   return (
     <div className="w-full h-[80vh] flex items-center justify-center p-6">
       <div className="max-w-lg w-full bg-white rounded-3xl shadow-lg border border-slate-100 p-8 text-center space-y-6">
-        <div className="w-24 h-24 bg-rose-100 rounded-3xl flex items-center justify-center mx-auto transform rotate-3">
+        <div className="w-24 h-24 bg-primary rounded-3xl flex items-center justify-center mx-auto transform rotate-3">
           <svg
-            className="w-12 h-12 text-rose-500"
+            className="w-12 h-12 text-primary"
             fill="none"
             viewBox="0 0 24 24"
             stroke="currentColor"

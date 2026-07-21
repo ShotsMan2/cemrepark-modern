@@ -63,14 +63,14 @@ export default function AdminPage() {
     return (
       <div className="min-h-screen pt-32 pb-24 flex items-center justify-center relative overflow-hidden bg-[#0a0a0a]">
         {/* Glow */}
-        <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[600px] h-[600px] bg-neon-pink opacity-[0.05] rounded-full blur-[120px] pointer-events-none"></div>
+        <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[600px] h-[600px] bg-primary opacity-[0.05] rounded-full blur-[120px] pointer-events-none"></div>
 
         <div className="glass-panel p-10 max-w-md w-full mx-4 clip-angled relative z-10 bg-black/40 border border-glass-border backdrop-blur-md">
           <div className="text-center mb-8">
             <h1 className="text-3xl font-black text-foreground uppercase tracking-widest mb-2">
               Admin Girişi
             </h1>
-            <div className="w-16 h-1 bg-neon-pink mx-auto"></div>
+            <div className="w-16 h-1 bg-primary mx-auto"></div>
           </div>
 
           <form onSubmit={handleLogin} className="space-y-6">
@@ -82,7 +82,7 @@ export default function AdminPage() {
                 type="text"
                 value={username}
                 onChange={(e) => setUsername(e.target.value)}
-                className="w-full bg-background/50 border border-glass-border text-foreground px-4 py-3 focus:outline-none focus:border-neon-pink transition-colors"
+                className="w-full bg-background/50 border border-glass-border text-foreground px-4 py-3 focus:outline-none focus:border-primary transition-colors"
                 placeholder="Kullanıcı adınızı girin"
                 disabled={isSubmitting}
                 required
@@ -97,7 +97,7 @@ export default function AdminPage() {
                 type="password"
                 value={password}
                 onChange={(e) => setPassword(e.target.value)}
-                className="w-full bg-background/50 border border-glass-border text-foreground px-4 py-3 focus:outline-none focus:border-neon-pink transition-colors"
+                className="w-full bg-background/50 border border-glass-border text-foreground px-4 py-3 focus:outline-none focus:border-primary transition-colors"
                 placeholder="Şifrenizi girin"
                 disabled={isSubmitting}
                 required
@@ -107,7 +107,7 @@ export default function AdminPage() {
             <button
               type="submit"
               disabled={isSubmitting}
-              className="w-full bg-neon-pink text-foreground font-bold py-4 px-4 uppercase tracking-widest hover:bg-white hover:text-black transition-colors clip-angled disabled:opacity-50"
+              className="w-full bg-primary text-foreground font-bold py-4 px-4 uppercase tracking-widest hover:bg-white hover:text-black transition-colors clip-angled disabled:opacity-50"
             >
               {isSubmitting ? "Giriş Yapılıyor..." : "Giriş Yap"}
             </button>
@@ -126,10 +126,10 @@ export default function AdminPage() {
     return (
       <div className="min-h-screen pt-32 pb-24 flex items-center justify-center relative overflow-hidden bg-[#0a0a0a]">
         {/* Glow */}
-        <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[600px] h-[600px] bg-red-500 opacity-[0.05] rounded-full blur-[120px] pointer-events-none"></div>
+        <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[600px] h-[600px] bg-danger opacity-[0.05] rounded-full blur-[120px] pointer-events-none"></div>
 
         <div className="glass-panel p-10 max-w-md w-full mx-4 clip-angled relative z-10 bg-black/40 border border-glass-border backdrop-blur-md text-center">
-          <h1 className="text-3xl font-black text-red-500 uppercase tracking-widest mb-4">
+          <h1 className="text-3xl font-black text-danger uppercase tracking-widest mb-4">
             Yetkisiz Erişim
           </h1>
           <p className="text-foreground/70 text-sm mb-8">
@@ -140,7 +140,7 @@ export default function AdminPage() {
               await signOut({ redirect: false });
               window.location.href = "/login";
             }}
-            className="w-full bg-red-600 text-foreground font-bold py-4 px-4 uppercase tracking-widest hover:bg-white hover:text-black transition-colors clip-angled"
+            className="w-full bg-danger text-foreground font-bold py-4 px-4 uppercase tracking-widest hover:bg-white hover:text-black transition-colors clip-angled"
           >
             Çıkış Yap ve Giriş Ekranına Git
           </button>

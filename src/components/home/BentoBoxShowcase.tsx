@@ -7,7 +7,7 @@ import { getValidImageUrl } from "../../utils/imageHelper";
 import { memo } from "react";
 export default memo(function BentoBoxShowcase({ discounted }: { discounted: any[] }) {
   return (
-    <section className="py-16 bg-gradient-to-br from-gray-100 via-pink-50 to-purple-50 dark:from-[#0a0a0f] dark:via-[#12081a] dark:to-[#0d0518] text-foreground relative overflow-hidden">
+    <section className="py-16 bg-gradient-to-br from-gray-100 via-primary to-purple dark:from-[#0a0a0f] dark:via-[#12081a] dark:to-[#0d0518] text-foreground relative overflow-hidden">
       {/* Background Effects */}
       <div className="absolute top-0 left-0 w-full h-full overflow-hidden pointer-events-none">
         <div className="absolute -top-[20%] -left-[10%] w-[50%] h-[50%] bg-primary/25 blur-[150px] rounded-full"></div>

@@ -59,7 +59,7 @@ export default function ShippingSelector({ selectedId, onSelect }: ShippingSelec
     <div className="w-full space-y-4 my-6">
       <div className="flex items-center gap-2 mb-4">
         <svg
-          className="w-6 h-6 text-pink-600 dark:text-pink-400"
+          className="w-6 h-6 text-primary dark:text-primary"
           fill="none"
           viewBox="0 0 24 24"
           stroke="currentColor"
@@ -88,13 +88,13 @@ export default function ShippingSelector({ selectedId, onSelect }: ShippingSelec
                 flex flex-col items-center text-center gap-2
                 ${
                   isSelected
-                    ? "border-pink-500 bg-pink-50/50 dark:bg-pink-900/20 shadow-[0_0_15px_rgba(214,28,123,0.15)]"
-                    : "border-gray-200 dark:border-gray-800 bg-background hover:border-pink-300 dark:hover:border-pink-700"
+                    ? "border-primary bg-primary/50 dark:bg-primary/20 shadow-[0_0_15px_rgba(214,28,123,0.15)]"
+                    : "border-gray-200 dark:border-gray-800 bg-background hover:border-primary dark:hover:border-primary"
                 }
               `}
             >
               {isSelected && (
-                <div className="absolute top-3 right-3 text-pink-600 dark:text-pink-400">
+                <div className="absolute top-3 right-3 text-primary dark:text-primary">
                   <motion.svg
                     initial={{ scale: 0 }}
                     animate={{ scale: 1 }}
@@ -114,10 +114,10 @@ export default function ShippingSelector({ selectedId, onSelect }: ShippingSelec
               )}
 
               <div
-                className={`w-14 h-14 rounded-2xl flex items-center justify-center mb-1 transition-colors ${isSelected ? "bg-gradient-to-br from-pink-100 to-pink-200 dark:from-pink-800 dark:to-pink-900 shadow-inner" : "bg-foreground/10"}`}
+                className={`w-14 h-14 rounded-2xl flex items-center justify-center mb-1 transition-colors ${isSelected ? "bg-gradient-to-br from-primary to-primary dark:from-primary dark:to-primary shadow-inner" : "bg-foreground/10"}`}
               >
                 <svg
-                  className={`w-7 h-7 ${isSelected ? "text-pink-700 dark:text-pink-300" : "text-foreground/60"}`}
+                  className={`w-7 h-7 ${isSelected ? "text-primary dark:text-primary" : "text-foreground/60"}`}
                   fill="none"
                   viewBox="0 0 24 24"
                   stroke="currentColor"
@@ -135,7 +135,7 @@ export default function ShippingSelector({ selectedId, onSelect }: ShippingSelec
 
               <div className="flex-1 mt-2">
                 <h4
-                  className={`font-semibold text-lg ${isSelected ? "text-pink-800 dark:text-pink-300" : "text-foreground/80"}`}
+                  className={`font-semibold text-lg ${isSelected ? "text-primary dark:text-primary" : "text-foreground/80"}`}
                 >
                   {provider.name}
                 </h4>
@@ -145,7 +145,7 @@ export default function ShippingSelector({ selectedId, onSelect }: ShippingSelec
               </div>
 
               <div
-                className={`mt-3 font-bold text-xl ${isSelected ? "text-pink-600 dark:text-pink-400" : "text-foreground"}`}
+                className={`mt-3 font-bold text-xl ${isSelected ? "text-primary dark:text-primary" : "text-foreground"}`}
               >
                 {provider.price.toLocaleString("tr-TR", { style: "currency", currency: "TRY" })}
               </div>

@@ -74,7 +74,7 @@ export default function CartPage() {
 
   return (
     <div className="min-h-screen pt-32 pb-24 bg-gray-50 dark:bg-transparent relative overflow-hidden">
-      <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_top,_var(--tw-gradient-stops))] from-pink-50 via-white to-gray-50 dark:from-pink-950/20 dark:via-zinc-900/50 dark:to-black/30 -z-10"></div>
+      <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_top,_var(--tw-gradient-stops))] from-primary via-white to-gray-50 dark:from-pink-950/20 dark:via-zinc-900/50 dark:to-black/30 -z-10"></div>
 
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
         <div className="flex flex-col items-center mb-16" data-aos="fade-down">
@@ -94,7 +94,7 @@ export default function CartPage() {
             <div className="w-40 h-40 bg-white/40 dark:bg-zinc-900/40 backdrop-blur-3xl rounded-full shadow-2xl flex items-center justify-center mb-10 border border-white/50 dark:border-white/10 relative overflow-hidden group">
               <div className="absolute inset-0 bg-gradient-to-tr from-primary/20 to-purple/20 animate-pulse"></div>
               <svg
-                className="w-16 h-16 text-neon-pink relative z-10 group-hover:scale-125 transition-transform duration-500"
+                className="w-16 h-16 text-primary relative z-10 group-hover:scale-125 transition-transform duration-500"
                 fill="none"
                 stroke="currentColor"
                 viewBox="0 0 24 24"
@@ -115,7 +115,7 @@ export default function CartPage() {
             </p>
             <Link
               href="/search"
-              className="bg-gradient-to-r from-primary to-purple text-foreground px-12 py-5 rounded-full uppercase tracking-[0.2em] text-sm font-black shadow-xl shadow-neon-pink/30 transition-all duration-300 transform hover:-translate-y-1 hover:shadow-neon-pink/50 active:scale-95"
+              className="bg-gradient-to-r from-primary to-purple text-foreground px-12 py-5 rounded-full uppercase tracking-[0.2em] text-sm font-black shadow-xl shadow-primary/30 transition-all duration-300 transform hover:-translate-y-1 hover:shadow-primary/50 active:scale-95"
             >
               {t("explore_collection")}
             </Link>
@@ -130,9 +130,9 @@ export default function CartPage() {
                     key={`${item.id}-${item.beden}-${item.renk}-${index}`}
                     data-aos="fade-right"
                     data-aos-delay={index * 100}
-                    className="bg-white/40 dark:bg-zinc-900/40 backdrop-blur-3xl p-5 rounded-[2.5rem] shadow-xl border border-white/50 dark:border-white/10 flex flex-col sm:flex-row gap-6 items-center group hover:shadow-2xl hover:shadow-neon-pink/20 transition-all duration-500 transform hover:-translate-y-2 relative overflow-hidden"
+                    className="bg-white/40 dark:bg-zinc-900/40 backdrop-blur-3xl p-5 rounded-[2.5rem] shadow-xl border border-white/50 dark:border-white/10 flex flex-col sm:flex-row gap-6 items-center group hover:shadow-2xl hover:shadow-primary/20 transition-all duration-500 transform hover:-translate-y-2 relative overflow-hidden"
                   >
-                    <div className="absolute top-0 right-0 w-32 h-32 bg-neon-pink/5 rounded-full blur-[40px] pointer-events-none group-hover:scale-150 transition-transform duration-700"></div>
+                    <div className="absolute top-0 right-0 w-32 h-32 bg-primary/5 rounded-full blur-[40px] pointer-events-none group-hover:scale-150 transition-transform duration-700"></div>
 
                     <Link
                       href={`/urundetay/${item.id}`}
@@ -175,7 +175,7 @@ export default function CartPage() {
                             onClick={() =>
                               updateQuantity(item.id, item.beden, item.renk, item.quantity - 1)
                             }
-                            className="w-10 h-10 rounded-full flex items-center justify-center text-foreground/70 hover:bg-gray-100 dark:hover:bg-zinc-800 hover:text-neon-pink transition-all font-black active:scale-90 text-lg"
+                            className="w-10 h-10 rounded-full flex items-center justify-center text-foreground/70 hover:bg-gray-100 dark:hover:bg-zinc-800 hover:text-primary transition-all font-black active:scale-90 text-lg"
                           >
                             -
                           </button>
@@ -186,14 +186,14 @@ export default function CartPage() {
                             onClick={() =>
                               updateQuantity(item.id, item.beden, item.renk, item.quantity + 1)
                             }
-                            className="w-10 h-10 rounded-full flex items-center justify-center text-foreground/70 hover:bg-gray-100 dark:hover:bg-zinc-800 hover:text-neon-pink transition-all font-black active:scale-90 text-lg"
+                            className="w-10 h-10 rounded-full flex items-center justify-center text-foreground/70 hover:bg-gray-100 dark:hover:bg-zinc-800 hover:text-primary transition-all font-black active:scale-90 text-lg"
                           >
                             +
                           </button>
                         </div>
                         <button
                           onClick={() => handleRemove(item)}
-                          className="w-12 h-12 rounded-full bg-red-50/80 dark:bg-red-500/10 text-red-500 flex items-center justify-center hover:bg-red-500 hover:text-foreground transition-all duration-300 shadow-sm hover:shadow-lg hover:shadow-red-500/30 active:scale-90 group/btn"
+                          className="w-12 h-12 rounded-full bg-danger/80 dark:bg-danger/10 text-danger flex items-center justify-center hover:bg-danger hover:text-foreground transition-all duration-300 shadow-sm hover:shadow-lg hover:shadow-danger/30 active:scale-90 group/btn"
                           title={t("remove")}
                         >
                           <svg
@@ -219,7 +219,7 @@ export default function CartPage() {
               <div className="flex justify-end mt-8" data-aos="fade-up">
                 <button
                   onClick={handleClear}
-                  className="text-xs font-black tracking-widest uppercase text-gray-500 hover:text-red-500 transition-colors flex items-center gap-2 px-6 py-3 rounded-full hover:bg-red-50 dark:hover:bg-red-500/10 active:scale-95 group"
+                  className="text-xs font-black tracking-widest uppercase text-gray-500 hover:text-danger transition-colors flex items-center gap-2 px-6 py-3 rounded-full hover:bg-danger dark:hover:bg-danger/10 active:scale-95 group"
                 >
                   <svg
                     className="w-4 h-4 group-hover:rotate-180 transition-transform duration-500"
@@ -253,7 +253,7 @@ export default function CartPage() {
                   </div>
                   <div className="flex justify-between items-center bg-white/50 dark:bg-zinc-800/50 p-5 rounded-2xl border border-white/20 dark:border-white/5 shadow-inner">
                     <span className="uppercase tracking-widest">{t("shipping")}</span>
-                    <span className="text-pink-500 uppercase tracking-widest">{t("free")}</span>
+                    <span className="text-primary uppercase tracking-widest">{t("free")}</span>
                   </div>
                 </div>
 

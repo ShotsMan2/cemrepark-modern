@@ -134,14 +134,14 @@ export default function BannersView() {
           <h2 className="text-xl font-bold text-foreground uppercase tracking-widest">Banner Yönetimi</h2>
           <p className="text-foreground/50 text-sm mt-1">Ana sayfa görsel vitrinini yönetin.</p>
         </div>
-        <button onClick={() => setIsPreviewMode(!isPreviewMode)} className={`flex items-center gap-2 px-4 py-2 rounded font-bold uppercase tracking-wider text-sm transition-colors ${isPreviewMode ? "bg-neon-pink text-foreground" : "bg-foreground/10 text-foreground/70 hover:bg-foreground/20"}`}>
+        <button onClick={() => setIsPreviewMode(!isPreviewMode)} className={`flex items-center gap-2 px-4 py-2 rounded font-bold uppercase tracking-wider text-sm transition-colors ${isPreviewMode ? "bg-primary text-foreground" : "bg-foreground/10 text-foreground/70 hover:bg-foreground/20"}`}>
           <LayoutGrid size={18} />{isPreviewMode ? "Önizlemeyi Kapat" : "Canlı Önizleme"}
         </button>
       </div>
 
       {isPreviewMode ? (
-        <div className="glass-panel p-4 border border-neon-pink/30 relative">
-          <div className="absolute -top-3 left-4 bg-[#111] px-2 text-neon-pink font-bold text-xs tracking-widest">CANLI VİTRİN ÖNİZLEMESİ</div>
+        <div className="glass-panel p-4 border border-primary/30 relative">
+          <div className="absolute -top-3 left-4 bg-[#111] px-2 text-primary font-bold text-xs tracking-widest">CANLI VİTRİN ÖNİZLEMESİ</div>
           <div className="w-full max-w-4xl mx-auto h-[400px] bg-black rounded-lg overflow-hidden relative shadow-[0_0_30px_rgba(255,0,127,0.15)]">
             {banners.filter((b) => b.isActive).length > 0 ? (
               <Image src={getValidImageUrl(banners.filter((b) => b.isActive)[0].imageUrl)} alt="Preview" fill className="object-cover" />
@@ -149,7 +149,7 @@ export default function BannersView() {
               <div className="w-full h-full flex items-center justify-center text-foreground/60">Aktif banner bulunamadı</div>
             )}
             <div className="absolute bottom-4 left-1/2 -translate-x-1/2 flex gap-2">
-              {banners.filter((b) => b.isActive).map((_, i) => (<div key={i} className={`w-2 h-2 rounded-full ${i === 0 ? "bg-neon-pink w-6" : "bg-white/50"}`}></div>))}
+              {banners.filter((b) => b.isActive).map((_, i) => (<div key={i} className={`w-2 h-2 rounded-full ${i === 0 ? "bg-primary w-6" : "bg-white/50"}`}></div>))}
             </div>
           </div>
         </div>
@@ -160,16 +160,16 @@ export default function BannersView() {
             <div className="space-y-4">
               <div>
                 <label className="block text-foreground/50 text-xs font-bold mb-2 uppercase">Banner Başlığı</label>
-                <input type="text" name="title" value={formData.title} onChange={handleInputChange} className="w-full bg-background/50 border border-glass-border text-foreground px-4 py-3 text-sm focus:border-neon-pink outline-none transition-colors" placeholder="Yaz Kampanyası" required />
+                <input type="text" name="title" value={formData.title} onChange={handleInputChange} className="w-full bg-background/50 border border-glass-border text-foreground px-4 py-3 text-sm focus:border-primary outline-none transition-colors" placeholder="Yaz Kampanyası" required />
               </div>
               <div>
                 <label className="block text-foreground/50 text-xs font-bold mb-2 uppercase">Yönlendirme Linki</label>
-                <input type="text" name="linkUrl" value={formData.linkUrl} onChange={handleInputChange} className="w-full bg-background/50 border border-glass-border text-foreground px-4 py-3 text-sm focus:border-neon-pink outline-none transition-colors" placeholder="/kategori/yeni-sezon" />
+                <input type="text" name="linkUrl" value={formData.linkUrl} onChange={handleInputChange} className="w-full bg-background/50 border border-glass-border text-foreground px-4 py-3 text-sm focus:border-primary outline-none transition-colors" placeholder="/kategori/yeni-sezon" />
               </div>
               <div className="grid grid-cols-2 gap-4">
                 <div>
                   <label className="block text-foreground/50 text-xs font-bold mb-2 uppercase">Cihaz</label>
-                  <select name="deviceType" value={formData.deviceType} onChange={handleInputChange} className="w-full bg-background/50 border border-glass-border text-foreground px-4 py-3 text-sm focus:border-neon-pink outline-none">
+                  <select name="deviceType" value={formData.deviceType} onChange={handleInputChange} className="w-full bg-background/50 border border-glass-border text-foreground px-4 py-3 text-sm focus:border-primary outline-none">
                     <option value="ALL">Tümü</option>
                     <option value="DESKTOP">Sadece Masaüstü</option>
                     <option value="MOBILE">Sadece Mobil</option>
@@ -177,17 +177,17 @@ export default function BannersView() {
                 </div>
                 <div>
                   <label className="block text-foreground/50 text-xs font-bold mb-2 uppercase">Sıra</label>
-                  <input type="number" name="order" value={formData.order} onChange={handleInputChange} className="w-full bg-background/50 border border-glass-border text-foreground px-4 py-3 text-sm focus:border-neon-pink outline-none" />
+                  <input type="number" name="order" value={formData.order} onChange={handleInputChange} className="w-full bg-background/50 border border-glass-border text-foreground px-4 py-3 text-sm focus:border-primary outline-none" />
                 </div>
               </div>
               <div className="grid grid-cols-2 gap-4">
                 <div>
                   <label className="block text-foreground/50 text-xs font-bold mb-2 uppercase flex items-center gap-1"><Calendar size={12} /> Başlangıç</label>
-                  <input type="datetime-local" name="startDate" value={formData.startDate} onChange={handleInputChange} className="w-full bg-background/50 border border-glass-border text-foreground/70 px-3 py-2 text-sm focus:border-neon-pink outline-none [color-scheme:dark]" />
+                  <input type="datetime-local" name="startDate" value={formData.startDate} onChange={handleInputChange} className="w-full bg-background/50 border border-glass-border text-foreground/70 px-3 py-2 text-sm focus:border-primary outline-none [color-scheme:dark]" />
                 </div>
                 <div>
                   <label className="block text-foreground/50 text-xs font-bold mb-2 uppercase flex items-center gap-1"><Calendar size={12} /> Bitiş</label>
-                  <input type="datetime-local" name="endDate" value={formData.endDate} onChange={handleInputChange} className="w-full bg-background/50 border border-glass-border text-foreground/70 px-3 py-2 text-sm focus:border-neon-pink outline-none [color-scheme:dark]" />
+                  <input type="datetime-local" name="endDate" value={formData.endDate} onChange={handleInputChange} className="w-full bg-background/50 border border-glass-border text-foreground/70 px-3 py-2 text-sm focus:border-primary outline-none [color-scheme:dark]" />
                 </div>
               </div>
               <div className="flex items-center gap-4 pt-2">
@@ -203,12 +203,12 @@ export default function BannersView() {
             </div>
             <div className="space-y-4">
               <label className="block text-foreground/50 text-xs font-bold mb-2 uppercase">Banner Görseli (1920x800)</label>
-              <div className="border-2 border-dashed border-glass-border hover:border-neon-pink/50 transition-colors bg-black/30 rounded-lg p-6 flex flex-col items-center justify-center relative min-h-[200px]">
+              <div className="border-2 border-dashed border-glass-border hover:border-primary/50 transition-colors bg-black/30 rounded-lg p-6 flex flex-col items-center justify-center relative min-h-[200px]">
                 {formData.imageUrl ? (
                   <>
                     <Image src={getValidImageUrl(formData.imageUrl)} alt="Önizleme" fill className="object-cover rounded-lg opacity-60" />
                     <div className="absolute inset-0 flex items-center justify-center">
-                      <button type="button" onClick={() => setFormData((prev) => ({ ...prev, imageUrl: "" }))} className="bg-red-500/80 hover:bg-red-500 text-foreground p-2 rounded-full backdrop-blur-sm z-10 transition-colors"><X size={20} /></button>
+                      <button type="button" onClick={() => setFormData((prev) => ({ ...prev, imageUrl: "" }))} className="bg-danger/80 hover:bg-danger text-foreground p-2 rounded-full backdrop-blur-sm z-10 transition-colors"><X size={20} /></button>
                     </div>
                   </>
                 ) : (
@@ -222,7 +222,7 @@ export default function BannersView() {
               </div>
             </div>
             <div className="md:col-span-2 pt-4 border-t border-glass-border flex gap-4">
-              <button type="submit" className="bg-neon-pink text-foreground px-8 py-3 uppercase tracking-widest text-xs font-bold hover:bg-white hover:text-black transition-colors clip-angled">{editingId ? "Güncelle" : "Banner Ekle"}</button>
+              <button type="submit" className="bg-primary text-foreground px-8 py-3 uppercase tracking-widest text-xs font-bold hover:bg-white hover:text-black transition-colors clip-angled">{editingId ? "Güncelle" : "Banner Ekle"}</button>
               {editingId && <button type="button" onClick={cancelEdit} className="border border-white/20 text-foreground px-8 py-3 uppercase tracking-widest text-xs font-bold hover:bg-foreground/10 transition-colors clip-angled">İptal</button>}
             </div>
           </form>
@@ -230,9 +230,9 @@ export default function BannersView() {
       )}
 
       {error && (
-        <div className="glass-panel p-6 clip-angled text-center border border-red-500/30">
-          <p className="text-red-400 text-sm font-bold mb-2">{error}</p>
-          <button onClick={fetchBanners} className="bg-neon-pink text-foreground px-4 py-2 text-xs font-bold uppercase clip-angled">Tekrar Dene</button>
+        <div className="glass-panel p-6 clip-angled text-center border border-danger/30">
+          <p className="text-danger text-sm font-bold mb-2">{error}</p>
+          <button onClick={fetchBanners} className="bg-primary text-foreground px-4 py-2 text-xs font-bold uppercase clip-angled">Tekrar Dene</button>
         </div>
       )}
 
@@ -243,13 +243,13 @@ export default function BannersView() {
         </h3>
 
         {isLoading ? (
-          <div className="py-16 flex flex-col items-center justify-center gap-4"><div className="w-12 h-12 border-4 border-neon-pink/30 border-t-neon-pink rounded-full animate-spin"></div><p className="text-foreground/50 text-sm">Yükleniyor...</p></div>
+          <div className="py-16 flex flex-col items-center justify-center gap-4"><div className="w-12 h-12 border-4 border-primary/30 border-t-neon-pink rounded-full animate-spin"></div><p className="text-foreground/50 text-sm">Yükleniyor...</p></div>
         ) : banners.length === 0 ? (
           <div className="py-16 text-center border border-glass-border border-dashed bg-black/20 clip-angled"><p className="text-foreground/50">Henüz banner bulunmuyor.</p></div>
         ) : (
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
             {banners.map((banner, index) => (
-              <motion.div layout key={banner.id} className={`glass-panel p-0 clip-angled border ${isExpired(banner) ? "border-red-500/30 opacity-60" : banner.isActive ? "border-glass-border" : "border-red-500/30 opacity-70"} group flex flex-col`}>
+              <motion.div layout key={banner.id} className={`glass-panel p-0 clip-angled border ${isExpired(banner) ? "border-danger/30 opacity-60" : banner.isActive ? "border-glass-border" : "border-danger/30 opacity-70"} group flex flex-col`}>
                 <div className="h-40 bg-background/50 relative overflow-hidden cursor-pointer" onClick={() => setLightboxImage(getValidImageUrl(banner.imageUrl))}>
                   {banner.imageUrl ? (
                     <Image src={getValidImageUrl(banner.imageUrl)} alt={banner.title} fill sizes="(max-width: 768px) 100vw, 33vw" className="object-cover group-hover:scale-105 transition-transform duration-700" />
@@ -257,25 +257,25 @@ export default function BannersView() {
                     <div className="w-full h-full flex items-center justify-center text-gray-600 text-xs">Görsel Yok</div>
                   )}
                   <div className="absolute top-2 left-2 flex flex-col gap-2">
-                    {!banner.isActive && <span className="bg-red-500 text-foreground text-[10px] px-2 py-1 font-bold uppercase rounded shadow-lg">Pasif</span>}
-                    {isExpired(banner) && <span className="bg-orange-500 text-foreground text-[10px] px-2 py-1 font-bold uppercase rounded shadow-lg">Süresi Doldu</span>}
+                    {!banner.isActive && <span className="bg-danger text-foreground text-[10px] px-2 py-1 font-bold uppercase rounded shadow-lg">Pasif</span>}
+                    {isExpired(banner) && <span className="bg-warning text-foreground text-[10px] px-2 py-1 font-bold uppercase rounded shadow-lg">Süresi Doldu</span>}
                     {getDeviceIcon(banner.deviceType) && (
-                      <span className={`${banner.deviceType === "MOBILE" ? "bg-blue-500/80" : "bg-purple-500/80"} backdrop-blur text-foreground p-1 rounded shadow-lg`}>{getDeviceIcon(banner.deviceType)}</span>
+                      <span className={`${banner.deviceType === "MOBILE" ? "bg-info/80" : "bg-purple/80"} backdrop-blur text-foreground p-1 rounded shadow-lg`}>{getDeviceIcon(banner.deviceType)}</span>
                     )}
-                    {banner.abTesting && <span className="bg-holo-gold text-black text-[10px] px-2 py-1 font-bold uppercase rounded shadow-lg flex items-center gap-1"><Percent size={10} /> A/B</span>}
+                    {banner.abTesting && <span className="bg-secondary text-black text-[10px] px-2 py-1 font-bold uppercase rounded shadow-lg flex items-center gap-1"><Percent size={10} /> A/B</span>}
                   </div>
                   <div className="absolute right-2 top-1/2 -translate-y-1/2 flex flex-col gap-1 opacity-0 group-hover:opacity-100 transition-opacity">
-                    <button onClick={() => changeOrder(index, -1)} disabled={index === 0} className="bg-black/60 hover:bg-neon-pink text-foreground p-2 rounded backdrop-blur disabled:opacity-30 transition-colors"><ArrowUp size={16} /></button>
+                    <button onClick={() => changeOrder(index, -1)} disabled={index === 0} className="bg-black/60 hover:bg-primary text-foreground p-2 rounded backdrop-blur disabled:opacity-30 transition-colors"><ArrowUp size={16} /></button>
                     <div className="bg-black/60 text-foreground text-center py-1 rounded text-xs font-bold backdrop-blur">{index + 1}</div>
-                    <button onClick={() => changeOrder(index, 1)} disabled={index === banners.length - 1} className="bg-black/60 hover:bg-neon-pink text-foreground p-2 rounded backdrop-blur disabled:opacity-30 transition-colors"><ArrowDown size={16} /></button>
+                    <button onClick={() => changeOrder(index, 1)} disabled={index === banners.length - 1} className="bg-black/60 hover:bg-primary text-foreground p-2 rounded backdrop-blur disabled:opacity-30 transition-colors"><ArrowDown size={16} /></button>
                   </div>
                 </div>
                 <div className="p-4 flex-1 flex flex-col">
                   <h4 className="font-bold text-foreground mb-2 truncate" title={banner.title}>{banner.title}</h4>
                   <div className="flex justify-between items-center bg-black/30 p-2 rounded mb-4 text-xs">
-                    <div className="flex items-center gap-2 text-foreground/50"><Eye size={14} className="text-blue-400" /><span>{banner.impressions?.toLocaleString("tr-TR")}</span></div>
-                    <div className="flex items-center gap-2 text-foreground/50"><MousePointerClick size={14} className="text-green-400" /><span>{banner.clicks?.toLocaleString("tr-TR")}</span></div>
-                    <div className="flex items-center gap-2 text-foreground/50"><Percent size={14} className="text-holo-gold" /><span>%{banner.clickRate}</span></div>
+                    <div className="flex items-center gap-2 text-foreground/50"><Eye size={14} className="text-info" /><span>{banner.impressions?.toLocaleString("tr-TR")}</span></div>
+                    <div className="flex items-center gap-2 text-foreground/50"><MousePointerClick size={14} className="text-success" /><span>{banner.clicks?.toLocaleString("tr-TR")}</span></div>
+                    <div className="flex items-center gap-2 text-foreground/50"><Percent size={14} className="text-secondary" /><span>%{banner.clickRate}</span></div>
                   </div>
                   {banner.startDate && (
                     <div className="flex items-center gap-2 text-[10px] text-foreground/50 mb-2">
@@ -284,8 +284,8 @@ export default function BannersView() {
                     </div>
                   )}
                   <div className="flex justify-between border-t border-glass-border pt-3 mt-auto">
-                    <button onClick={() => handleEdit(banner)} className="text-foreground/50 hover:text-holo-gold text-xs uppercase font-bold tracking-wider transition-colors flex items-center gap-1"><Edit size={12} /> Düzenle</button>
-                    <button onClick={() => handleDelete(banner.id)} className="text-foreground/50 hover:text-red-500 text-xs uppercase font-bold tracking-wider transition-colors flex items-center gap-1"><X size={12} /> Sil</button>
+                    <button onClick={() => handleEdit(banner)} className="text-foreground/50 hover:text-secondary text-xs uppercase font-bold tracking-wider transition-colors flex items-center gap-1"><Edit size={12} /> Düzenle</button>
+                    <button onClick={() => handleDelete(banner.id)} className="text-foreground/50 hover:text-danger text-xs uppercase font-bold tracking-wider transition-colors flex items-center gap-1"><X size={12} /> Sil</button>
                   </div>
                 </div>
               </motion.div>

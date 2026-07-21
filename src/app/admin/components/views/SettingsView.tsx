@@ -109,14 +109,14 @@ export default function SettingsView() {
     <div className={opts?.colSpan || ""}>
       <label className="block text-foreground/50 text-xs font-bold mb-2 uppercase tracking-wider">{label}</label>
       {type === "textarea" ? (
-        <textarea name={name} value={(formData as any)[name] || ""} onChange={handleInputChange} rows={opts?.rows || 3} className="w-full bg-background/50 border border-glass-border text-foreground px-4 py-3 text-sm focus:border-neon-pink outline-none transition-colors resize-none" />
+        <textarea name={name} value={(formData as any)[name] || ""} onChange={handleInputChange} rows={opts?.rows || 3} className="w-full bg-background/50 border border-glass-border text-foreground px-4 py-3 text-sm focus:border-primary outline-none transition-colors resize-none" />
       ) : type === "checkbox" ? (
         <label className="flex items-center gap-3 cursor-pointer">
           <input type="checkbox" name={name} checked={(formData as any)[name] || false} onChange={handleInputChange} className="w-5 h-5 accent-neon-pink" />
           <span className="text-foreground/70 text-sm font-bold uppercase tracking-wider">{opts?.label || label}</span>
         </label>
       ) : (
-        <input type={type} name={name} value={(formData as any)[name] || ""} onChange={handleInputChange} step={opts?.step} className="w-full bg-background/50 border border-glass-border text-foreground px-4 py-3 text-sm focus:border-neon-pink outline-none transition-colors" />
+        <input type={type} name={name} value={(formData as any)[name] || ""} onChange={handleInputChange} step={opts?.step} className="w-full bg-background/50 border border-glass-border text-foreground px-4 py-3 text-sm focus:border-primary outline-none transition-colors" />
       )}
     </div>
   );
@@ -129,21 +129,21 @@ export default function SettingsView() {
           <p className="text-foreground/50 text-sm mt-1">Son Güncelleme: {lastModified}</p>
         </div>
         <div className="flex gap-2 flex-wrap">
-          <input type="text" placeholder="Ayar Ara..." value={searchQuery} onChange={(e) => setSearchQuery(e.target.value)} className="bg-background/50 border border-glass-border text-foreground px-4 py-2 text-sm focus:border-neon-pink outline-none transition-colors" />
-          <button onClick={handleClearCache} className={`px-4 py-2 text-xs font-bold uppercase tracking-wider transition-colors flex items-center gap-1 ${cacheCleared ? "bg-green-500 text-white" : "bg-foreground/10 text-foreground hover:bg-neon-pink"}`}><RefreshCw size={14} />{cacheCleared ? "Temizlendi" : "Cache"}</button>
-          <button onClick={handleExport} className="bg-foreground/10 text-foreground px-4 py-2 text-xs font-bold uppercase tracking-wider hover:bg-holo-gold transition-colors flex items-center gap-1"><Download size={14} />Dışa Aktar</button>
-          <label className="bg-foreground/10 text-foreground px-4 py-2 text-xs font-bold uppercase tracking-wider hover:bg-neon-pink transition-colors cursor-pointer flex items-center gap-1">
+          <input type="text" placeholder="Ayar Ara..." value={searchQuery} onChange={(e) => setSearchQuery(e.target.value)} className="bg-background/50 border border-glass-border text-foreground px-4 py-2 text-sm focus:border-primary outline-none transition-colors" />
+          <button onClick={handleClearCache} className={`px-4 py-2 text-xs font-bold uppercase tracking-wider transition-colors flex items-center gap-1 ${cacheCleared ? "bg-success text-white" : "bg-foreground/10 text-foreground hover:bg-primary"}`}><RefreshCw size={14} />{cacheCleared ? "Temizlendi" : "Cache"}</button>
+          <button onClick={handleExport} className="bg-foreground/10 text-foreground px-4 py-2 text-xs font-bold uppercase tracking-wider hover:bg-secondary transition-colors flex items-center gap-1"><Download size={14} />Dışa Aktar</button>
+          <label className="bg-foreground/10 text-foreground px-4 py-2 text-xs font-bold uppercase tracking-wider hover:bg-primary transition-colors cursor-pointer flex items-center gap-1">
             <Upload size={14} />İçe Aktar
             <input type="file" accept=".json" className="hidden" onChange={handleImport} />
           </label>
-          <button onClick={handleResetDefaults} className="bg-red-500/20 text-red-400 px-4 py-2 text-xs font-bold uppercase tracking-wider hover:bg-red-500 hover:text-white transition-colors flex items-center gap-1"><RotateCcw size={14} />Sıfırla</button>
+          <button onClick={handleResetDefaults} className="bg-danger/20 text-danger px-4 py-2 text-xs font-bold uppercase tracking-wider hover:bg-danger hover:text-white transition-colors flex items-center gap-1"><RotateCcw size={14} />Sıfırla</button>
         </div>
       </div>
 
       <div className="flex gap-4 overflow-x-auto pb-2 custom-scrollbar">
         {tabs.map((tab) => (
           <button key={tab} type="button" onClick={() => setActiveTab(tab)}
-            className={`px-4 py-2 uppercase tracking-widest text-xs font-bold whitespace-nowrap transition-colors border-b-2 ${activeTab === tab ? "text-neon-pink border-neon-pink" : "text-foreground/60 border-transparent hover:text-foreground"}`}>{tab}</button>
+            className={`px-4 py-2 uppercase tracking-widest text-xs font-bold whitespace-nowrap transition-colors border-b-2 ${activeTab === tab ? "text-primary border-primary" : "text-foreground/60 border-transparent hover:text-foreground"}`}>{tab}</button>
         ))}
       </div>
 
@@ -198,11 +198,11 @@ export default function SettingsView() {
           </div>
 
           <div className={`grid grid-cols-1 md:grid-cols-2 gap-6 animate-fade-in ${activeTab === "Ödeme" ? "block" : "hidden"}`}>
-            <div className="md:col-span-2"><h3 className="text-holo-gold font-bold uppercase mb-4">Havale/EFT Bilgileri</h3></div>
+            <div className="md:col-span-2"><h3 className="text-secondary font-bold uppercase mb-4">Havale/EFT Bilgileri</h3></div>
             {renderField("Banka Adı", "bankaAdi")}
             {renderField("IBAN", "iban")}
             {renderField("Hesap Sahibi", "hesapSahibi")}
-            <div className="md:col-span-2"><h3 className="text-neon-pink font-bold uppercase mb-4 mt-4">Shopier Entegrasyonu</h3></div>
+            <div className="md:col-span-2"><h3 className="text-primary font-bold uppercase mb-4 mt-4">Shopier Entegrasyonu</h3></div>
             {renderField("Shopier API Key", "shopierUrl")}
             {renderField("Ödeme Yöntemleri", "paymentMethods")}
             {renderField("Vergi Oranı (%)", "taxRate", "number", { step: "0.01" })}
@@ -229,12 +229,12 @@ export default function SettingsView() {
           </div>
 
           <div className={`space-y-6 animate-fade-in ${activeTab === "Gelişmiş" ? "block" : "hidden"}`}>
-            <div className="p-4 border border-red-500/30 bg-red-500/5 clip-angled">
-              <h3 className="text-red-500 font-bold uppercase tracking-wider mb-2">Bakım Modu</h3>
+            <div className="p-4 border border-danger/30 bg-danger/5 clip-angled">
+              <h3 className="text-danger font-bold uppercase tracking-wider mb-2">Bakım Modu</h3>
               <p className="text-foreground/50 text-sm mb-4">Siteyi ziyaretçilere kapatın. Sadece adminler görebilir.</p>
               <label className="relative inline-flex items-center cursor-pointer">
                 <input type="checkbox" name="bakimModu" checked={formData.bakimModu} onChange={handleInputChange} className="sr-only peer" />
-                <div className="w-11 h-6 bg-gray-700 peer-focus:outline-none rounded-full peer peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-white after:border-gray-300 after:border after:rounded-full after:h-5 after:w-5 after:transition-all peer-checked:bg-red-500"></div>
+                <div className="w-11 h-6 bg-gray-700 peer-focus:outline-none rounded-full peer peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-white after:border-gray-300 after:border after:rounded-full after:h-5 after:w-5 after:transition-all peer-checked:bg-danger"></div>
                 <span className="ml-3 text-sm font-bold text-foreground/70 uppercase">{formData.bakimModu ? "Aktif" : "Pasif"}</span>
               </label>
             </div>
@@ -247,11 +247,11 @@ export default function SettingsView() {
             {renderField("Özel CSS Kodu", "ozelCss", "textarea", { rows: 6 })}
 
             <div className="border border-glass-border bg-foreground/5 p-6 rounded">
-              <h3 className="text-foreground font-bold uppercase tracking-wider mb-4 flex items-center gap-2"><Server size={18} className="text-neon-pink" /> Sistem Bilgisi</h3>
+              <h3 className="text-foreground font-bold uppercase tracking-wider mb-4 flex items-center gap-2"><Server size={18} className="text-primary" /> Sistem Bilgisi</h3>
               <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
                 <div className="bg-foreground/5 p-3 rounded border border-glass-border"><span className="text-[10px] text-foreground/50 uppercase block mb-1"><Server size={12} className="inline mr-1" />Sürüm</span><span className="font-bold text-foreground text-sm">{systemInfo.version}</span></div>
                 <div className="bg-foreground/5 p-3 rounded border border-glass-border"><span className="text-[10px] text-foreground/50 uppercase block mb-1"><Clock size={12} className="inline mr-1" />Çalışma Süresi</span><span className="font-bold text-foreground text-sm">{systemInfo.uptime}</span></div>
-                <div className="bg-foreground/5 p-3 rounded border border-glass-border"><span className="text-[10px] text-foreground/50 uppercase block mb-1"><Database size={12} className="inline mr-1" />Veritabanı</span><span className="font-bold text-green-400 text-sm">{systemInfo.dbStatus}</span></div>
+                <div className="bg-foreground/5 p-3 rounded border border-glass-border"><span className="text-[10px] text-foreground/50 uppercase block mb-1"><Database size={12} className="inline mr-1" />Veritabanı</span><span className="font-bold text-success text-sm">{systemInfo.dbStatus}</span></div>
                 <div className="bg-foreground/5 p-3 rounded border border-glass-border"><span className="text-[10px] text-foreground/50 uppercase block mb-1">Node.js</span><span className="font-bold text-foreground text-sm">{systemInfo.nodeVersion}</span></div>
                 <div className="bg-foreground/5 p-3 rounded border border-glass-border"><span className="text-[10px] text-foreground/50 uppercase block mb-1">Next.js</span><span className="font-bold text-foreground text-sm">{systemInfo.nextVersion}</span></div>
                 <div className="bg-foreground/5 p-3 rounded border border-glass-border"><span className="text-[10px] text-foreground/50 uppercase block mb-1">Son Yedek</span><span className="font-bold text-foreground text-sm">{systemInfo.lastBackup}</span></div>
@@ -261,14 +261,14 @@ export default function SettingsView() {
                 </div>
                 <div className="bg-foreground/5 p-3 rounded border border-glass-border">
                   <span className="text-[10px] text-foreground/50 uppercase block mb-1">Bakım</span>
-                  <span className={`text-xs font-bold uppercase ${formData.bakimModu ? "text-red-400" : "text-green-400"}`}>{formData.bakimModu ? "Aktif" : "Pasif"}</span>
+                  <span className={`text-xs font-bold uppercase ${formData.bakimModu ? "text-danger" : "text-success"}`}>{formData.bakimModu ? "Aktif" : "Pasif"}</span>
                 </div>
               </div>
             </div>
           </div>
 
           <div className="pt-6 border-t border-glass-border flex gap-4">
-            <button type="submit" className="bg-neon-pink text-foreground font-bold py-3 px-8 uppercase tracking-widest text-sm hover:bg-white hover:text-black transition-colors clip-angled flex items-center gap-2"><Save size={16} /> Değişiklikleri Kaydet</button>
+            <button type="submit" className="bg-primary text-foreground font-bold py-3 px-8 uppercase tracking-widest text-sm hover:bg-white hover:text-black transition-colors clip-angled flex items-center gap-2"><Save size={16} /> Değişiklikleri Kaydet</button>
             <button type="button" onClick={handleClearCache} className="bg-foreground/10 text-foreground px-6 py-3 text-xs font-bold uppercase tracking-wider hover:bg-foreground/20 transition-colors clip-angled flex items-center gap-2"><Trash2 size={14} /> Cache Temizle</button>
           </div>
         </form>

@@ -414,7 +414,7 @@ export default function CheckoutPage() {
   if (!isLoaded) {
     return (
       <div className="min-h-screen pt-32 pb-24 bg-gray-50 dark:bg-transparent relative overflow-hidden flex items-center justify-center">
-        <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_top,_var(--tw-gradient-stops))] from-pink-50 via-white to-gray-50 dark:from-pink-950/20 dark:via-zinc-900/50 dark:to-black/30 -z-10"></div>
+        <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_top,_var(--tw-gradient-stops))] from-primary via-white to-gray-50 dark:from-pink-950/20 dark:via-zinc-900/50 dark:to-black/30 -z-10"></div>
 
         <div className="flex flex-col items-center gap-6">
           <div className="relative w-24 h-24">
@@ -435,7 +435,7 @@ export default function CheckoutPage() {
 
   return (
     <div className="min-h-screen pt-32 pb-24 bg-gray-50 dark:bg-transparent relative overflow-hidden">
-      <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_top,_var(--tw-gradient-stops))] from-pink-50 via-white to-gray-50 dark:from-pink-950/20 dark:via-zinc-900/50 dark:to-black/30 -z-10"></div>
+      <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_top,_var(--tw-gradient-stops))] from-primary via-white to-gray-50 dark:from-pink-950/20 dark:via-zinc-900/50 dark:to-black/30 -z-10"></div>
 
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
         {/* PROGRESS BAR */}
@@ -444,10 +444,10 @@ export default function CheckoutPage() {
           <div className="flex items-center justify-between relative">
             <div className="absolute left-0 top-1/2 -translate-y-1/2 w-full h-1 bg-gray-200 dark:bg-white/10 -z-10 rounded-full"></div>
 
-            <div className="absolute left-0 top-1/2 -translate-y-1/2 w-1/2 h-1 bg-gradient-to-r from-neon-pink to-holo-gold -z-10 rounded-full transition-all duration-500"></div>
+            <div className="absolute left-0 top-1/2 -translate-y-1/2 w-1/2 h-1 bg-gradient-to-r from-primary to-secondary -z-10 rounded-full transition-all duration-500"></div>
 
             <div className="flex flex-col items-center gap-2">
-              <div className="w-10 h-10 rounded-full bg-neon-pink text-foreground flex items-center justify-center font-bold shadow-lg shadow-neon-pink/30">
+              <div className="w-10 h-10 rounded-full bg-primary text-foreground flex items-center justify-center font-bold shadow-lg shadow-primary/30">
                 <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                   <path
                     strokeLinecap="round"
@@ -464,7 +464,7 @@ export default function CheckoutPage() {
             </div>
 
             <div className="flex flex-col items-center gap-2">
-              <div className="w-10 h-10 rounded-full bg-gradient-to-br from-neon-pink to-holo-gold text-foreground flex items-center justify-center font-bold shadow-lg shadow-holo-gold/30 animate-pulse">
+              <div className="w-10 h-10 rounded-full bg-gradient-to-br from-primary to-secondary text-foreground flex items-center justify-center font-bold shadow-lg shadow-secondary/30 animate-pulse">
                 2
               </div>
 
@@ -651,7 +651,7 @@ export default function CheckoutPage() {
                                 name={field}
                                 value={(formData as any)[field]}
                                 onChange={handleInputChange}
-                                className={`w-full glass-panel border ${errors[field] ? "border-red-500" : "border-glass-border"} text-foreground rounded-xl px-4 py-3 text-sm focus:outline-none focus:ring-2 focus:ring-primary focus:border-transparent transition-all backdrop-blur-sm shadow-inner font-semibold`}
+                                className={`w-full glass-panel border ${errors[field] ? "border-danger" : "border-glass-border"} text-foreground rounded-xl px-4 py-3 text-sm focus:outline-none focus:ring-2 focus:ring-primary focus:border-transparent transition-all backdrop-blur-sm shadow-inner font-semibold`}
                               />
 
                               <AnimatePresence>
@@ -660,7 +660,7 @@ export default function CheckoutPage() {
                                     initial={{ opacity: 0, height: 0 }}
                                     animate={{ opacity: 1, height: "auto" }}
                                     exit={{ opacity: 0, height: 0 }}
-                                    className="text-red-500 text-[10px] mt-1 ml-1 font-bold"
+                                    className="text-danger text-[10px] mt-1 ml-1 font-bold"
                                   >
                                     {errors[field]}
                                   </motion.p>
@@ -670,7 +670,7 @@ export default function CheckoutPage() {
                           ))}
 
                           <div className="md:col-span-2 relative group/input">
-                            <label className="block text-[10px] font-black text-foreground/60 mb-1.5 uppercase tracking-[0.2em] group-focus-within/input:text-neon-pink transition-colors">
+                            <label className="block text-[10px] font-black text-foreground/60 mb-1.5 uppercase tracking-[0.2em] group-focus-within/input:text-primary transition-colors">
                               {t("address")}
                             </label>
 
@@ -680,7 +680,7 @@ export default function CheckoutPage() {
                               value={formData.address}
                               onChange={handleInputChange}
                               rows={3}
-                              className={`w-full glass-panel border ${errors.address ? "border-red-500" : "border-glass-border"} text-foreground rounded-xl px-4 py-3 text-sm focus:outline-none focus:ring-2 focus:ring-neon-pink focus:border-transparent transition-all resize-none backdrop-blur-sm shadow-inner font-semibold`}
+                              className={`w-full glass-panel border ${errors.address ? "border-danger" : "border-glass-border"} text-foreground rounded-xl px-4 py-3 text-sm focus:outline-none focus:ring-2 focus:ring-primary focus:border-transparent transition-all resize-none backdrop-blur-sm shadow-inner font-semibold`}
                             ></textarea>
                           </div>
                         </div>
@@ -748,7 +748,7 @@ export default function CheckoutPage() {
                       >
                         <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 mt-2">
                           <label
-                            className={`cursor-pointer flex flex-col p-4 rounded-2xl border-2 transition-all ${shippingMethod === "standard" ? "border-neon-pink bg-neon-pink/5" : "border-glass-border hover:border-neon-pink/50"}`}
+                            className={`cursor-pointer flex flex-col p-4 rounded-2xl border-2 transition-all ${shippingMethod === "standard" ? "border-primary bg-primary/5" : "border-glass-border hover:border-primary/50"}`}
                           >
                             <div className="flex justify-between items-center mb-2">
                               <span className="font-bold flex items-center gap-2">
@@ -761,7 +761,7 @@ export default function CheckoutPage() {
                                 value="standard"
                                 checked={shippingMethod === "standard"}
                                 onChange={() => setShippingMethod("standard")}
-                                className="text-neon-pink focus:ring-neon-pink"
+                                className="text-primary focus:ring-primary"
                               />
                             </div>
 
@@ -769,7 +769,7 @@ export default function CheckoutPage() {
                               2-4 iş günü içinde teslimat
                             </span>
 
-                            <span className="font-black text-neon-pink mt-auto">
+                            <span className="font-black text-primary mt-auto">
                               {subtotalAfterDiscount >= FREE_SHIPPING_THRESHOLD
                                 ? "Ücretsiz"
                                 : formatPrice(BASE_SHIPPING_FEE)}
@@ -777,10 +777,10 @@ export default function CheckoutPage() {
                           </label>
 
                           <label
-                            className={`cursor-pointer flex flex-col p-4 rounded-2xl border-2 transition-all ${shippingMethod === "express" ? "border-holo-gold bg-holo-gold/5" : "border-glass-border hover:border-holo-gold/50"}`}
+                            className={`cursor-pointer flex flex-col p-4 rounded-2xl border-2 transition-all ${shippingMethod === "express" ? "border-secondary bg-secondary/5" : "border-glass-border hover:border-secondary/50"}`}
                           >
                             <div className="flex justify-between items-center mb-2">
-                              <span className="font-bold flex items-center gap-2 text-holo-gold">
+                              <span className="font-bold flex items-center gap-2 text-secondary">
                                 <Truck className="w-4 h-4" /> Hızlı Kargo
                               </span>
 
@@ -790,7 +790,7 @@ export default function CheckoutPage() {
                                 value="express"
                                 checked={shippingMethod === "express"}
                                 onChange={() => setShippingMethod("express")}
-                                className="text-holo-gold focus:ring-holo-gold"
+                                className="text-secondary focus:ring-secondary"
                               />
                             </div>
 
@@ -798,7 +798,7 @@ export default function CheckoutPage() {
                               Ertesi gün teslimat avantajı
                             </span>
 
-                            <span className="font-black text-holo-gold mt-auto">
+                            <span className="font-black text-secondary mt-auto">
                               {formatPrice(BASE_SHIPPING_FEE * 2)}
                             </span>
                           </label>
@@ -856,7 +856,7 @@ export default function CheckoutPage() {
                       >
                         <div className="flex gap-4 mt-2">
                           <label
-                            className={`flex-1 cursor-pointer flex items-center justify-center gap-2 p-3 rounded-xl border-2 transition-all ${paymentMethod === "card" ? "border-holo-gold bg-holo-gold/5 text-holo-gold" : "border-glass-border text-foreground/60"}`}
+                            className={`flex-1 cursor-pointer flex items-center justify-center gap-2 p-3 rounded-xl border-2 transition-all ${paymentMethod === "card" ? "border-secondary bg-secondary/5 text-secondary" : "border-glass-border text-foreground/60"}`}
                           >
                             <input
                               type="radio"
@@ -911,14 +911,14 @@ export default function CheckoutPage() {
 
                                   <div className="absolute inset-0 backface-hidden bg-gradient-to-br from-gray-900 via-zinc-800 to-black rounded-2xl p-6 shadow-2xl border border-white/10 flex flex-col justify-between">
                                     <div className="flex justify-between items-start">
-                                      <div className="w-12 h-8 bg-gradient-to-br from-yellow-300 to-yellow-600 rounded opacity-90 shadow-sm flex items-center justify-center">
-                                        <div className="w-6 h-4 border border-yellow-200/50 rounded-sm"></div>
+                                      <div className="w-12 h-8 bg-gradient-to-br from-secondary to-secondary rounded opacity-90 shadow-sm flex items-center justify-center">
+                                        <div className="w-6 h-4 border border-secondary/50 rounded-sm"></div>
                                       </div>
 
                                       <div className="flex -space-x-3">
-                                        <div className="w-8 h-8 rounded-full bg-red-500/80 mix-blend-screen"></div>
+                                        <div className="w-8 h-8 rounded-full bg-danger/80 mix-blend-screen"></div>
 
-                                        <div className="w-8 h-8 rounded-full bg-yellow-500/80 mix-blend-screen"></div>
+                                        <div className="w-8 h-8 rounded-full bg-secondary/80 mix-blend-screen"></div>
                                       </div>
                                     </div>
 
@@ -970,7 +970,7 @@ export default function CheckoutPage() {
 
                               <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                                 <div className="md:col-span-2 relative group/input">
-                                  <label className="block text-[10px] font-black text-foreground/60 mb-1.5 uppercase tracking-[0.2em] group-focus-within/input:text-holo-gold transition-colors">
+                                  <label className="block text-[10px] font-black text-foreground/60 mb-1.5 uppercase tracking-[0.2em] group-focus-within/input:text-secondary transition-colors">
                                     Kart Numarası
                                   </label>
 
@@ -982,13 +982,13 @@ export default function CheckoutPage() {
                                     onChange={handleInputChange}
                                     onFocus={() => setIsCvvFocused(false)}
                                     maxLength={19}
-                                    className={`w-full glass-panel border ${errors.cardNumber ? "border-red-500" : "border-glass-border"} text-foreground rounded-xl px-4 py-3 font-mono font-bold tracking-widest text-sm focus:ring-2 focus:ring-holo-gold focus:outline-none transition-all shadow-inner`}
+                                    className={`w-full glass-panel border ${errors.cardNumber ? "border-danger" : "border-glass-border"} text-foreground rounded-xl px-4 py-3 font-mono font-bold tracking-widest text-sm focus:ring-2 focus:ring-secondary focus:outline-none transition-all shadow-inner`}
                                     placeholder="0000 0000 0000 0000"
                                   />
                                 </div>
 
                                 <div className="relative group/input">
-                                  <label className="block text-[10px] font-black text-foreground/60 mb-1.5 uppercase tracking-[0.2em] group-focus-within/input:text-holo-gold transition-colors">
+                                  <label className="block text-[10px] font-black text-foreground/60 mb-1.5 uppercase tracking-[0.2em] group-focus-within/input:text-secondary transition-colors">
                                     SKT
                                   </label>
 
@@ -1000,13 +1000,13 @@ export default function CheckoutPage() {
                                     onChange={handleInputChange}
                                     onFocus={() => setIsCvvFocused(false)}
                                     maxLength={5}
-                                    className={`w-full glass-panel border ${errors.cardExpiry ? "border-red-500" : "border-glass-border"} text-foreground rounded-xl px-4 py-3 font-mono font-bold tracking-widest text-sm focus:ring-2 focus:ring-holo-gold focus:outline-none transition-all shadow-inner text-center`}
+                                    className={`w-full glass-panel border ${errors.cardExpiry ? "border-danger" : "border-glass-border"} text-foreground rounded-xl px-4 py-3 font-mono font-bold tracking-widest text-sm focus:ring-2 focus:ring-secondary focus:outline-none transition-all shadow-inner text-center`}
                                     placeholder="MM/YY"
                                   />
                                 </div>
 
                                 <div className="relative group/input">
-                                  <label className="block text-[10px] font-black text-foreground/60 mb-1.5 uppercase tracking-[0.2em] group-focus-within/input:text-holo-gold transition-colors">
+                                  <label className="block text-[10px] font-black text-foreground/60 mb-1.5 uppercase tracking-[0.2em] group-focus-within/input:text-secondary transition-colors">
                                     CVV
                                   </label>
 
@@ -1019,7 +1019,7 @@ export default function CheckoutPage() {
                                     onFocus={() => setIsCvvFocused(true)}
                                     onBlur={() => setIsCvvFocused(false)}
                                     maxLength={3}
-                                    className={`w-full glass-panel border ${errors.cardCvv ? "border-red-500" : "border-glass-border"} text-foreground rounded-xl px-4 py-3 font-mono font-bold tracking-widest text-sm focus:ring-2 focus:ring-holo-gold focus:outline-none transition-all shadow-inner text-center`}
+                                    className={`w-full glass-panel border ${errors.cardCvv ? "border-danger" : "border-glass-border"} text-foreground rounded-xl px-4 py-3 font-mono font-bold tracking-widest text-sm focus:ring-2 focus:ring-secondary focus:outline-none transition-all shadow-inner text-center`}
                                     placeholder="***"
                                   />
                                 </div>
@@ -1073,12 +1073,12 @@ export default function CheckoutPage() {
 
                 <div className="flex justify-center items-center gap-6 mt-6 pt-6 border-t border-glass-border opacity-70">
                   <div className="flex items-center gap-2 text-[10px] uppercase font-bold text-foreground/70">
-                    <ShieldCheck className="w-4 h-4 text-emerald-500" />
+                    <ShieldCheck className="w-4 h-4 text-success" />
                     256-bit SSL Güvenliği
                   </div>
 
                   <div className="flex items-center gap-2 text-[10px] uppercase font-bold text-foreground/70">
-                    <RotateCcw className="w-4 h-4 text-blue-500" />
+                    <RotateCcw className="w-4 h-4 text-info" />
                     Kolay İade
                   </div>
                 </div>
@@ -1125,7 +1125,7 @@ export default function CheckoutPage() {
                       </div>
 
                       <div className="flex-1">
-                        <h4 className="text-xs font-black text-foreground line-clamp-2 mb-1 group-hover:text-neon-pink transition-colors">
+                        <h4 className="text-xs font-black text-foreground line-clamp-2 mb-1 group-hover:text-primary transition-colors">
                           {t(item.ad)}
                         </h4>
 
@@ -1157,14 +1157,14 @@ export default function CheckoutPage() {
                       placeholder="Kupon Kodu"
                       value={couponCode}
                       onChange={(e) => setCouponCode(e.target.value)}
-                      className="flex-1 glass-panel border border-glass-border rounded-xl px-4 py-3 focus:ring-2 focus:ring-neon-pink outline-none uppercase text-xs font-bold tracking-widest text-foreground shadow-inner"
+                      className="flex-1 glass-panel border border-glass-border rounded-xl px-4 py-3 focus:ring-2 focus:ring-primary outline-none uppercase text-xs font-bold tracking-widest text-foreground shadow-inner"
                     />
 
                     <button
                       type="button"
                       onClick={applyCoupon}
                       disabled={isApplyingCoupon || !couponCode}
-                      className="bg-gray-900 dark:bg-white text-foreground dark:text-black px-4 rounded-xl font-black text-[10px] uppercase tracking-[0.2em] hover:bg-neon-pink dark:hover:bg-neon-pink hover:text-foreground dark:hover:text-foreground transition-all duration-300 shadow-md active:scale-95 disabled:opacity-50 disabled:cursor-not-allowed"
+                      className="bg-gray-900 dark:bg-white text-foreground dark:text-black px-4 rounded-xl font-black text-[10px] uppercase tracking-[0.2em] hover:bg-primary dark:hover:bg-primary hover:text-foreground dark:hover:text-foreground transition-all duration-300 shadow-md active:scale-95 disabled:opacity-50 disabled:cursor-not-allowed"
                     >
                       Uygula
                     </button>
@@ -1175,10 +1175,10 @@ export default function CheckoutPage() {
 
                     animate={{ opacity: 1, scale: 1 }}
 
-                    className="bg-gradient-to-r from-neon-pink/10 to-holo-gold/10 border border-neon-pink/20 rounded-xl p-3 flex justify-between items-center backdrop-blur-sm"
+                    className="bg-gradient-to-r from-primary/10 to-secondary/10 border border-primary/20 rounded-xl p-3 flex justify-between items-center backdrop-blur-sm"
                   >
                     <div>
-                      <p className="text-neon-pink font-black text-xs tracking-widest">
+                      <p className="text-primary font-black text-xs tracking-widest">
                         {appliedCoupon.code}
                       </p>
 
@@ -1189,7 +1189,7 @@ export default function CheckoutPage() {
 
                     <button
                       onClick={() => setAppliedCoupon(null)}
-                      className="w-6 h-6 rounded-full bg-red-500/10 text-red-500 flex items-center justify-center hover:bg-red-500 hover:text-foreground transition-all duration-300"
+                      className="w-6 h-6 rounded-full bg-danger/10 text-danger flex items-center justify-center hover:bg-danger hover:text-foreground transition-all duration-300"
                     >
                       <svg
                         className="w-3 h-3"
@@ -1209,7 +1209,7 @@ export default function CheckoutPage() {
                 )}
 
                 {couponError && (
-                  <p className="text-red-500 text-[10px] font-bold mt-1 ml-1">{couponError}</p>
+                  <p className="text-danger text-[10px] font-bold mt-1 ml-1">{couponError}</p>
                 )}
               </div>
 
@@ -1226,7 +1226,7 @@ export default function CheckoutPage() {
                   <span
                     className={
                       shippingCost === 0
-                        ? "text-pink-500 uppercase tracking-widest text-[10px] bg-pink-500/10 px-2 py-1 rounded-md"
+                        ? "text-primary uppercase tracking-widest text-[10px] bg-primary/10 px-2 py-1 rounded-md"
                         : "text-foreground text-sm"
                     }
                   >
@@ -1235,7 +1235,7 @@ export default function CheckoutPage() {
                 </div>
 
                 {appliedCoupon && (
-                  <div className="flex justify-between items-center text-neon-pink pt-3 border-t border-glass-border mt-3">
+                  <div className="flex justify-between items-center text-primary pt-3 border-t border-glass-border mt-3">
                     <span className="uppercase tracking-widest">İndirim</span>
                     <span className="text-sm">-{formatPrice(discountAmount)}</span>
                   </div>
@@ -1247,7 +1247,7 @@ export default function CheckoutPage() {
                   Toplam
                 </span>
 
-                <span className="text-transparent bg-clip-text bg-gradient-to-r from-neon-pink to-holo-gold font-black text-4xl tracking-tighter">
+                <span className="text-transparent bg-clip-text bg-gradient-to-r from-primary to-secondary font-black text-4xl tracking-tighter">
                   {formatPrice(totalAmount)}
                 </span>
               </div>

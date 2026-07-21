@@ -29,7 +29,7 @@ export default function KurumsalContentClient({ slug, settings: ssrSettings, dyn
             data-aos="fade-right"
             data-aos-delay="200"
           >
-            <div className="absolute top-0 right-0 w-32 h-32 bg-neon-pink opacity-10 rounded-bl-full"></div>
+            <div className="absolute top-0 right-0 w-32 h-32 bg-primary opacity-10 rounded-bl-full"></div>
             <h3 className="text-foreground font-bold text-xl uppercase tracking-widest mb-4">
               {t("our_vision_title")}
             </h3>
@@ -46,7 +46,7 @@ export default function KurumsalContentClient({ slug, settings: ssrSettings, dyn
             <p className="text-foreground leading-relaxed text-lg">{t("contact_intro")}</p>
             <div className="space-y-4">
               <div className="flex gap-4 items-center">
-                <div className="w-12 h-12 border border-holo-gold flex items-center justify-center text-holo-gold clip-angled">
+                <div className="w-12 h-12 border border-secondary flex items-center justify-center text-secondary clip-angled">
                   M
                 </div>
                 <div>
@@ -59,7 +59,7 @@ export default function KurumsalContentClient({ slug, settings: ssrSettings, dyn
                 </div>
               </div>
               <div className="flex gap-4 items-center">
-                <div className="w-12 h-12 border border-neon-pink flex items-center justify-center text-neon-pink clip-angled">
+                <div className="w-12 h-12 border border-primary flex items-center justify-center text-primary clip-angled">
                   T
                 </div>
                 <div>
@@ -187,7 +187,7 @@ export default function KurumsalContentClient({ slug, settings: ssrSettings, dyn
         <h1 className="text-4xl md:text-5xl font-black text-foreground uppercase tracking-widest mb-4">
           {pageData.title}
         </h1>
-        <div className="h-1 w-20 bg-neon-pink" data-aos="fade-right" data-aos-delay="300"></div>
+        <div className="h-1 w-20 bg-primary" data-aos="fade-right" data-aos-delay="300"></div>
       </div>
 
       <div className="glass-panel p-8 md:p-12 clip-angled" data-aos="fade-up" data-aos-delay="100">

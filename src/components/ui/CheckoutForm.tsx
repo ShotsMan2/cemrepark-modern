@@ -53,7 +53,7 @@ export function CheckoutForm({ onSubmit, isProcessing, paymentStatus }: Checkout
       {/* 1. Teslimat Bilgileri */}
       <div className="bg-white/50 dark:bg-zinc-800/50 p-6 md:p-8 rounded-[2rem] border border-white/20 dark:border-white/5 shadow-inner">
         <h3 className="text-xl font-black text-foreground mb-8 uppercase tracking-widest flex items-center gap-4">
-          <span className="w-8 h-8 rounded-full bg-gradient-to-tr from-neon-pink to-holo-gold flex items-center justify-center text-foreground text-sm">
+          <span className="w-8 h-8 rounded-full bg-gradient-to-tr from-primary to-secondary flex items-center justify-center text-foreground text-sm">
             1
           </span>
           Teslimat Bilgileri
@@ -109,7 +109,7 @@ export function CheckoutForm({ onSubmit, isProcessing, paymentStatus }: Checkout
       {/* 2. Ödeme Bilgileri */}
       <div className="bg-white/50 dark:bg-zinc-800/50 p-6 md:p-8 rounded-[2rem] border border-white/20 dark:border-white/5 shadow-inner">
         <h3 className="text-xl font-black text-foreground mb-8 uppercase tracking-widest flex items-center gap-4">
-          <span className="w-8 h-8 rounded-full bg-gradient-to-tr from-neon-pink to-holo-gold flex items-center justify-center text-foreground text-sm">
+          <span className="w-8 h-8 rounded-full bg-gradient-to-tr from-primary to-secondary flex items-center justify-center text-foreground text-sm">
             2
           </span>
           Ödeme Bilgileri
@@ -184,7 +184,7 @@ export function CheckoutForm({ onSubmit, isProcessing, paymentStatus }: Checkout
       <Button
         type="submit"
         isLoading={isProcessing}
-        className="w-full h-16 text-lg rounded-2xl shadow-xl hover:shadow-2xl hover:shadow-neon-pink/20"
+        className="w-full h-16 text-lg rounded-2xl shadow-xl hover:shadow-2xl hover:shadow-primary/20"
       >
         {isProcessing ? paymentStatus || "İşleniyor..." : "Siparişi Tamamla"}
       </Button>

@@ -30,7 +30,7 @@ export default async function AuditLogsPage() {
     <div className="p-8 space-y-8 animate-fade-in">
       <div className="flex flex-col md:flex-row justify-between items-start md:items-center gap-4">
         <div>
-          <h2 className="text-3xl font-black text-transparent bg-clip-text bg-gradient-to-r from-purple-500 to-indigo-600 uppercase tracking-widest">
+          <h2 className="text-3xl font-black text-transparent bg-clip-text bg-gradient-to-r from-purple to-accent uppercase tracking-widest">
             Audit Logs
           </h2>
           <p className="text-foreground/50 text-sm mt-1">
@@ -86,7 +86,7 @@ export default async function AuditLogsPage() {
                     </td>
                     <td className="py-4 px-6">
                       <div className="font-black text-foreground flex items-center gap-2">
-                        <div className="w-8 h-8 rounded-full bg-indigo-500/20 flex items-center justify-center text-xs text-indigo-400 uppercase border border-indigo-500/30">
+                        <div className="w-8 h-8 rounded-full bg-accent/20 flex items-center justify-center text-xs text-accent uppercase border border-accent/30">
                           {log.user?.email ? log.user.email.substring(0, 2) : "?"}
                         </div>
                         <div className="flex flex-col">
@@ -98,7 +98,7 @@ export default async function AuditLogsPage() {
                       </div>
                     </td>
                     <td className="py-4 px-6">
-                      <span className="bg-indigo-500/10 text-indigo-300 border border-indigo-500/20 px-3 py-1.5 rounded-lg text-[10px] font-black uppercase tracking-widest shadow-[0_0_10px_rgba(99,102,241,0.1)]">
+                      <span className="bg-accent/10 text-accent border border-accent/20 px-3 py-1.5 rounded-lg text-[10px] font-black uppercase tracking-widest shadow-[0_0_10px_rgba(99,102,241,0.1)]">
                         {log.action}
                       </span>
                     </td>

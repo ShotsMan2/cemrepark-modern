@@ -73,7 +73,7 @@ export default function AnalyticsView() {
         <div className="flex gap-2">
           <div className="w-3 h-3 bg-primary rounded-full animate-bounce"></div>
           <div className="w-3 h-3 bg-secondary rounded-full animate-bounce" style={{ animationDelay: "150ms" }}></div>
-          <div className="w-3 h-3 bg-pink-500 rounded-full animate-bounce" style={{ animationDelay: "300ms" }}></div>
+          <div className="w-3 h-3 bg-primary rounded-full animate-bounce" style={{ animationDelay: "300ms" }}></div>
         </div>
       </div>
     );

@@ -29,7 +29,7 @@ export default function FavoritesPage() {
 
   return (
     <div className="min-h-screen pt-32 pb-24 bg-gray-50 dark:bg-transparent relative overflow-hidden">
-      <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_top,_var(--tw-gradient-stops))] from-pink-50 via-white to-gray-50 dark:from-pink-950/20 dark:via-zinc-900/50 dark:to-black/30 -z-10"></div>
+      <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_top,_var(--tw-gradient-stops))] from-primary via-white to-gray-50 dark:from-pink-950/20 dark:via-zinc-900/50 dark:to-black/30 -z-10"></div>
 
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
         <h1
@@ -44,7 +44,7 @@ export default function FavoritesPage() {
             <div className="w-40 h-40 bg-white/50 dark:bg-zinc-900/50 backdrop-blur-md rounded-full shadow-2xl flex items-center justify-center mb-8 border border-white/20 dark:border-white/10 relative overflow-hidden group">
               <div className="absolute inset-0 bg-gradient-to-tr from-primary/20 to-purple/20 animate-pulse"></div>
               <svg
-                className="w-16 h-16 text-neon-pink relative z-10 group-hover:scale-125 transition-transform duration-500"
+                className="w-16 h-16 text-primary relative z-10 group-hover:scale-125 transition-transform duration-500"
                 fill="currentColor"
                 viewBox="0 0 24 24"
               >
@@ -59,7 +59,7 @@ export default function FavoritesPage() {
             </p>
             <Link
               href="/search"
-              className="bg-gradient-to-r from-primary to-purple text-foreground px-12 py-5 rounded-full uppercase tracking-[0.2em] text-sm font-black shadow-xl shadow-neon-pink/30 transition-all duration-300 transform hover:-translate-y-1 hover:shadow-neon-pink/50 active:scale-95"
+              className="bg-gradient-to-r from-primary to-purple text-foreground px-12 py-5 rounded-full uppercase tracking-[0.2em] text-sm font-black shadow-xl shadow-primary/30 transition-all duration-300 transform hover:-translate-y-1 hover:shadow-primary/50 active:scale-95"
             >
               {t("explore_collection_btn")}
             </Link>
@@ -75,7 +75,7 @@ export default function FavoritesPage() {
               return (
                 <div
                   key={product.id}
-                  className="bg-white/60 dark:bg-zinc-900/40 backdrop-blur-xl p-4 rounded-[2rem] group hover:shadow-2xl hover:shadow-neon-pink/20 transition-all duration-500 relative transform hover:-translate-y-2 flex flex-col border border-white/50 dark:border-white/10"
+                  className="bg-white/60 dark:bg-zinc-900/40 backdrop-blur-xl p-4 rounded-[2rem] group hover:shadow-2xl hover:shadow-primary/20 transition-all duration-500 relative transform hover:-translate-y-2 flex flex-col border border-white/50 dark:border-white/10"
                   data-aos="fade-up"
                   data-aos-delay={(index % 4) * 100}
                 >
@@ -134,7 +134,7 @@ export default function FavoritesPage() {
                           e.preventDefault();
                           setQuickViewProduct(product);
                         }}
-                        className="text-xs uppercase tracking-[0.2em] font-black text-foreground hover:text-foreground hover:bg-neon-pink transition-all duration-300 glass-panel px-8 py-3.5 rounded-full backdrop-blur-xl shadow-xl w-full active:scale-95 transform hover:-translate-y-1"
+                        className="text-xs uppercase tracking-[0.2em] font-black text-foreground hover:text-foreground hover:bg-primary transition-all duration-300 glass-panel px-8 py-3.5 rounded-full backdrop-blur-xl shadow-xl w-full active:scale-95 transform hover:-translate-y-1"
                       >
                         {t("quick_view")}
                       </button>
@@ -142,7 +142,7 @@ export default function FavoritesPage() {
                   </div>
 
                   <div className="p-2 flex-1 flex flex-col relative z-20">
-                    <p className="text-foreground/60 text-[10px] font-black uppercase tracking-[0.2em] mb-2 group-hover:text-neon-pink transition-colors">
+                    <p className="text-foreground/60 text-[10px] font-black uppercase tracking-[0.2em] mb-2 group-hover:text-primary transition-colors">
                       {t(product.kategori)}
                     </p>
                     <Link href={`/urundetay/${product.id}`} className="block">

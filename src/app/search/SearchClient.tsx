@@ -185,7 +185,7 @@ export default function SearchClient({
                       <div className="relative aspect-[3/4] mb-4 overflow-hidden rounded-2xl transform-gpu">
                         {product.etiket && (
                           <div className="absolute top-3 left-3 z-20">
-                            <span className="text-[10px] font-black uppercase tracking-widest bg-gradient-to-r from-neon-pink to-holo-gold text-foreground px-4 py-1.5 rounded-full shadow-lg">
+                            <span className="text-[10px] font-black uppercase tracking-widest bg-gradient-to-r from-primary to-secondary text-foreground px-4 py-1.5 rounded-full shadow-lg">
                               {t(product.etiket)}
                             </span>
                           </div>

@@ -81,7 +81,7 @@ export default function DashboardAnalytics() {
       <div className="flex gap-2">
         <div className="w-3 h-3 bg-primary rounded-full animate-bounce"></div>
         <div className="w-3 h-3 bg-secondary rounded-full animate-bounce" style={{ animationDelay: "150ms" }}></div>
-        <div className="w-3 h-3 bg-pink-500 rounded-full animate-bounce" style={{ animationDelay: "300ms" }}></div>
+        <div className="w-3 h-3 bg-primary rounded-full animate-bounce" style={{ animationDelay: "300ms" }}></div>
       </div>
     </div>
   );
@@ -98,7 +98,7 @@ export default function DashboardAnalytics() {
             </button>
           ))}
         </div>
-        <div className="text-red-500 p-4 font-bold">{error || "Veri bulunamadı."}</div>
+        <div className="text-danger p-4 font-bold">{error || "Veri bulunamadı."}</div>
       </div>
     );
   }
@@ -140,9 +140,9 @@ export default function DashboardAnalytics() {
               <p className="text-primary font-black text-2xl">{d.revenue?.toLocaleString("tr-TR")} ₺</p>
               <p className="text-foreground/60 text-xs uppercase tracking-widest">Toplam Gelir</p>
               {d.revenueGrowth > 0 ? (
-                <p className="text-green-400 text-xs font-bold">+{d.revenueGrowth}%</p>
+                <p className="text-success text-xs font-bold">+{d.revenueGrowth}%</p>
               ) : (
-                <p className="text-red-400 text-xs font-bold">{d.revenueGrowth}%</p>
+                <p className="text-danger text-xs font-bold">{d.revenueGrowth}%</p>
               )}
             </div>
           </div>

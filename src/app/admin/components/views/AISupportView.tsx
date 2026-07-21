@@ -54,29 +54,29 @@ export default function AISupportView() {
     <div className="animate-fade-in space-y-6">
       {/* Header Cards */}
       <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
-        <div className="glass-panel p-6 clip-angled relative overflow-hidden group hover:border-neon-pink transition-colors">
-          <div className="absolute top-0 right-0 w-24 h-24 bg-neon-pink opacity-10 rounded-bl-full group-hover:scale-110 transition-transform"></div>
+        <div className="glass-panel p-6 clip-angled relative overflow-hidden group hover:border-primary transition-colors">
+          <div className="absolute top-0 right-0 w-24 h-24 bg-primary opacity-10 rounded-bl-full group-hover:scale-110 transition-transform"></div>
           <p className="text-foreground/50 text-xs font-bold uppercase tracking-widest mb-1">
             Toplam AI Görüşmesi
           </p>
           <h3 className="text-3xl font-black text-foreground">1,248</h3>
-          <p className="text-neon-pink text-xs mt-2 font-bold">Bu ay</p>
+          <p className="text-primary text-xs mt-2 font-bold">Bu ay</p>
         </div>
-        <div className="glass-panel p-6 clip-angled relative overflow-hidden group hover:border-holo-gold transition-colors">
-          <div className="absolute top-0 right-0 w-24 h-24 bg-holo-gold opacity-10 rounded-bl-full group-hover:scale-110 transition-transform"></div>
+        <div className="glass-panel p-6 clip-angled relative overflow-hidden group hover:border-secondary transition-colors">
+          <div className="absolute top-0 right-0 w-24 h-24 bg-secondary opacity-10 rounded-bl-full group-hover:scale-110 transition-transform"></div>
           <p className="text-foreground/50 text-xs font-bold uppercase tracking-widest mb-1">
             Otomatik Çözüm Oranı
           </p>
           <h3 className="text-3xl font-black text-foreground">%84</h3>
-          <p className="text-holo-gold text-xs mt-2 font-bold">+5% artış</p>
+          <p className="text-secondary text-xs mt-2 font-bold">+5% artış</p>
         </div>
-        <div className="glass-panel p-6 clip-angled relative overflow-hidden group hover:border-green-500 transition-colors">
-          <div className="absolute top-0 right-0 w-24 h-24 bg-green-500 opacity-10 rounded-bl-full group-hover:scale-110 transition-transform"></div>
+        <div className="glass-panel p-6 clip-angled relative overflow-hidden group hover:border-success transition-colors">
+          <div className="absolute top-0 right-0 w-24 h-24 bg-success opacity-10 rounded-bl-full group-hover:scale-110 transition-transform"></div>
           <p className="text-foreground/50 text-xs font-bold uppercase tracking-widest mb-1">
             Ort. Memnuniyet
           </p>
           <h3 className="text-3xl font-black text-foreground">%92</h3>
-          <p className="text-green-500 text-xs mt-2 font-bold">Müşteri geri bildirimleri</p>
+          <p className="text-success text-xs mt-2 font-bold">Müşteri geri bildirimleri</p>
         </div>
       </div>
 
@@ -88,7 +88,7 @@ export default function AISupportView() {
 
         {loading ? (
           <div className="flex justify-center items-center h-48">
-            <div className="w-10 h-10 border-4 border-neon-pink/20 border-t-neon-pink rounded-full animate-spin"></div>
+            <div className="w-10 h-10 border-4 border-primary/20 border-t-neon-pink rounded-full animate-spin"></div>
           </div>
         ) : (
           <div className="space-y-4">
@@ -104,8 +104,8 @@ export default function AISupportView() {
                       <span
                         className={`text-[10px] uppercase font-bold px-2 py-0.5 rounded-sm ${
                           conv.status === "Çözüldü"
-                            ? "bg-green-500/20 text-green-500"
-                            : "bg-holo-gold/20 text-holo-gold"
+                            ? "bg-success/20 text-success"
+                            : "bg-secondary/20 text-secondary"
                         }`}
                       >
                         {conv.status}
@@ -119,7 +119,7 @@ export default function AISupportView() {
                   <div className="flex items-center gap-2">
                     <div className="w-full md:w-32 h-2 bg-gray-800 rounded-full overflow-hidden">
                       <div
-                        className={`h-full ${conv.satisfaction > 80 ? "bg-green-500" : conv.satisfaction > 50 ? "bg-holo-gold" : "bg-red-500"}`}
+                        className={`h-full ${conv.satisfaction > 80 ? "bg-success" : conv.satisfaction > 50 ? "bg-secondary" : "bg-danger"}`}
                         style={{ width: `${conv.satisfaction}%` }}
                       ></div>
                     </div>
@@ -129,8 +129,8 @@ export default function AISupportView() {
                   </div>
                 </div>
 
-                <div className="bg-foreground/5 p-4 rounded-sm border-l-2 border-neon-pink">
-                  <h4 className="text-neon-pink text-xs uppercase font-bold tracking-widest mb-2">
+                <div className="bg-foreground/5 p-4 rounded-sm border-l-2 border-primary">
+                  <h4 className="text-primary text-xs uppercase font-bold tracking-widest mb-2">
                     AI Özeti
                   </h4>
                   <p className="text-sm text-foreground/70 leading-relaxed">{conv.summary}</p>
