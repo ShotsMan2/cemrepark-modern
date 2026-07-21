@@ -15,8 +15,13 @@ export async function generateMetadata({ params }) {
 
   const baseUrl = process.env.NEXT_PUBLIC_BASE_URL || "http://localhost:3000";
   const imageUrl =
-    product.resim || (product.gorsel ? product.gorsel.split(",")[0] : "") || "/images/og-image.jpg";
-  const ogImage = imageUrl.startsWith("http") ? imageUrl : `${baseUrl}${imageUrl}`;
+    product.resim || (product.gorsel ? product.gorsel.split(",")[0] : "");
+  const absoluteImageUrl = imageUrl.startsWith("http") ? imageUrl : `${baseUrl}${imageUrl}`;
+  const encodedTitle = encodeURIComponent(product.ad);
+  const encodedPrice = encodeURIComponent(product.fiyat.toString());
+  const encodedCategory = encodeURIComponent(product.kategori || "");
+  const encodedImage = encodeURIComponent(absoluteImageUrl);
+  const ogImage = `${baseUrl}/api/og?title=${encodedTitle}&price=${encodedPrice}&category=${encodedCategory}&image=${encodedImage}`;
 
   return {
     title: product.ad,
@@ -61,13 +66,18 @@ export default async function UrunDetay({ params }) {
     );
   }
 
-  const relatedProducts = await prisma.product.findMany({
-    where: {
-      kategori: product.kategori,
-      id: { not: product.id },
-    },
-    take: 4,
-  });
+  let relatedProducts = [];
+  try {
+    const baseUrl = process.env.NEXT_PUBLIC_BASE_URL || "http://localhost:3000";
+    const res = await fetch(`${baseUrl}/api/products/${product.id}/recommendations`, {
+      next: { revalidate: 3600 }, // Cache for 1 hour
+    });
+    if (res.ok) {
+      relatedProducts = await res.json();
+    }
+  } catch (e) {
+    console.error("Failed to fetch recommendations", e);
+  }
 
   const reviews = await prisma.review.findMany({
     where: { productId: parseInt(id) },
