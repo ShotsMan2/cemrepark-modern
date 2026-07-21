@@ -10,6 +10,7 @@
   --primary: 340 85% 50%; /* Vibrant Premium Rose */
   --secondary: 42 95% 55%; /* Rich Luxury Gold */
   --accent: 230 85% 60%; /* Vibrant Corporate Indigo */
+  --purple: 280 80% 55%; /* Premium Purple */
 
   /* Semantic Colors */
   --success: 142 76% 36%;
@@ -46,6 +47,7 @@
   --primary: 340 80% 58%;
   --secondary: 42 90% 65%;
   --accent: 230 85% 65%;
+  --purple: 280 75% 60%;
 
   --neon-pink: 340 80% 58%;
   --holographic-gold: 42 90% 65%;
@@ -66,6 +68,7 @@
   --color-primary: hsl(var(--primary));
   --color-secondary: hsl(var(--secondary));
   --color-accent: hsl(var(--accent));
+  --color-purple: hsl(var(--purple));
 
   --color-success: hsl(var(--success));
   --color-warning: hsl(var(--warning));
@@ -243,6 +246,30 @@ h6 {
   -webkit-backdrop-filter: blur(24px) saturate(180%);
   border: 1px solid var(--glass-border);
   box-shadow: var(--shadow-subtle);
+}
+
+@utility product-card-bg {
+  background: linear-gradient(145deg, hsla(var(--primary), 0.15), hsla(var(--purple), 0.25), hsla(var(--primary), 0.1));
+  backdrop-filter: blur(20px) saturate(160%);
+  -webkit-backdrop-filter: blur(20px) saturate(160%);
+  border: 1px solid hsla(var(--primary), 0.2);
+  box-shadow: 0 8px 32px -8px hsla(var(--primary), 0.15), 0 4px 16px -4px hsla(var(--purple), 0.1);
+}
+
+@utility product-card-bg-search {
+  background: linear-gradient(145deg, hsla(var(--primary), 0.12), hsla(var(--purple), 0.2), hsla(var(--primary), 0.08));
+  backdrop-filter: blur(16px) saturate(150%);
+  -webkit-backdrop-filter: blur(16px) saturate(150%);
+  border: 1px solid hsla(var(--primary), 0.15);
+  border-radius: 2rem;
+  box-shadow: 0 8px 32px -8px hsla(var(--primary), 0.12), 0 4px 16px -4px hsla(var(--purple), 0.08);
+  transition: all 0.5s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+}
+
+.product-card-bg-search:hover {
+  transform: translateY(-8px);
+  box-shadow: 0 16px 48px -12px hsla(var(--primary), 0.25), 0 8px 24px -8px hsla(var(--purple), 0.15);
+  border-color: hsla(var(--primary), 0.35);
 }
 
 @utility glass-card {

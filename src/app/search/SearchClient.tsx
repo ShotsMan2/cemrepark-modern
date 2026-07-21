@@ -171,7 +171,7 @@ export default function SearchClient({
                   return (
                     <div
                       key={product.id}
-                      className="glass-card p-4 rounded-[2rem] group hover:shadow-2xl hover:shadow-neon-pink/20 transition-all duration-500 relative transform hover:-translate-y-2 flex flex-col"
+                      className="product-card-bg-search p-4 group relative transform flex flex-col"
                       data-aos="fade-up"
                       data-aos-delay={(index % 3) * 100}
                     >

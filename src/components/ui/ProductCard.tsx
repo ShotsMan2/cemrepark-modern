@@ -47,10 +47,10 @@ export function ProductCard({ product, onQuickView, className = "", delay = 0 }:
       whileHover={{ y: -8, transition: { duration: 0.3 } }}
       onHoverStart={() => setIsHovered(true)}
       onHoverEnd={() => setIsHovered(false)}
-      className={`glass-panel p-4 clip-angled group transition-all duration-500 relative ${className}`}
+      className={`product-card-bg p-4 clip-angled group transition-all duration-500 relative ${className}`}
     >
       <motion.div
-        className="absolute -inset-1 bg-gradient-to-r from-primary/20 via-accent/20 to-secondary/20 rounded-2xl blur-xl opacity-0 pointer-events-none"
+        className="absolute -inset-1 bg-gradient-to-r from-primary/25 via-purple/30 to-primary/20 rounded-2xl blur-xl opacity-0 pointer-events-none"
         animate={{ opacity: isHovered ? 1 : 0 }}
         transition={{ duration: 0.4 }}
       />
