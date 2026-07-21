@@ -46,7 +46,7 @@ export default function SocialProofCounter() {
               key={index}
               className="flex flex-col items-center justify-center p-4 glass-panel rounded-2xl transform hover:-translate-y-2 transition-all duration-300"
             >
-              <div className="text-3xl md:text-4xl font-black text-transparent bg-clip-text bg-gradient-to-br from-primary to-secondary mb-2">
+              <div className="text-3xl md:text-4xl font-black text-transparent bg-clip-text bg-gradient-to-br from-primary to-purple mb-2">
                 <Counter value={stat.value} isVisible={isVisible} isFloat={stat.isFloat} />
                 <span className="text-xl md:text-2xl ml-1">{stat.suffix}</span>
               </div>

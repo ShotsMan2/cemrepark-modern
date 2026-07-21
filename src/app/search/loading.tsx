@@ -3,7 +3,7 @@ import { Skeleton } from "../../components/ui/Skeleton";
 
 export default function Loading() {
   return (
-    <div className="min-h-screen pt-32 pb-24 relative overflow-hidden container mx-auto px-4 z-10 bg-gradient-to-br from-gray-50 via-pink-50/50 to-purple-50/50 dark:from-[#08060d] dark:via-[#0d0518] dark:to-[#0a0814]">
+    <div className="min-h-screen pt-32 pb-24 relative container mx-auto px-4 z-10 bg-gradient-to-br from-gray-50 via-pink-50/50 to-purple-50/50 dark:from-[#08060d] dark:via-[#0d0518] dark:to-[#0a0814]">
       {/* Search Header Skeleton */}
       <div className="product-card-bg p-8 clip-angled mb-12 text-center flex flex-col items-center">
         <Skeleton className="h-12 w-3/4 max-w-lg mb-4" />

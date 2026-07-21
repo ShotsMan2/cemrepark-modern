@@ -103,14 +103,14 @@ export default memo(function HeroSection({ activeBanners }: { activeBanners: any
     <motion.section
       className="relative min-h-[80vh] flex items-center justify-center pt-24 pb-12 overflow-hidden mb-12"
       style={{
-        background: "linear-gradient(135deg, #1a0a1e 0%, #2d1240 25%, #3d1a5c 50%, #4a1942 75%, #2a0e30 100%)",
+        background: "linear-gradient(135deg, #1e0a22 0%, #33123e 25%, #4a1555 50%, #521545 75%, #2e0e32 100%)",
       }}
     >
-      <div className="absolute top-1/4 left-1/4 w-[500px] h-[500px] bg-[#e11c8e]/25 rounded-full blur-[120px] mix-blend-screen pointer-events-none"></div>
-      <div className="absolute bottom-1/4 right-1/4 w-[500px] h-[500px] bg-[#a855f7]/20 rounded-full blur-[120px] mix-blend-screen pointer-events-none"></div>
-      <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[600px] h-[600px] bg-[#ff4e88]/10 rounded-full blur-[150px] mix-blend-screen pointer-events-none"></div>
+      <div className="absolute top-1/4 left-1/4 w-[500px] h-[500px] bg-[#e11c8e]/30 rounded-full blur-[120px] mix-blend-screen pointer-events-none"></div>
+      <div className="absolute bottom-1/4 right-1/4 w-[500px] h-[500px] bg-[#c2185b]/20 rounded-full blur-[120px] mix-blend-screen pointer-events-none"></div>
+      <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[600px] h-[600px] bg-[#ff4e88]/15 rounded-full blur-[150px] mix-blend-screen pointer-events-none"></div>
 
-      <div className="absolute inset-0 bg-gradient-to-r from-[#1a0a1e]/90 via-[#2d1240]/70 to-[#4a1942]/60 pointer-events-none"></div>
+      <div className="absolute inset-0 bg-gradient-to-r from-[#1e0a22]/90 via-[#33123e]/70 to-[#521545]/60 pointer-events-none"></div>
       <div className="w-full max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 z-10 relative h-[500px] md:h-[600px]">
         {activeBanners.map((slide, index) => {
           const isActive = index === currentSlide;
@@ -138,7 +138,7 @@ export default memo(function HeroSection({ activeBanners }: { activeBanners: any
                   ✨ {t("new_season")}
                 </motion.div>
 
-                <h1 className="text-4xl md:text-6xl font-display font-black mb-4 leading-none text-white tracking-tight flex flex-wrap gap-x-3" style={{ textShadow: "0 0 40px rgba(225,28,142,0.3)" }}>
+                <h1 className="text-4xl md:text-6xl font-display font-black mb-4 leading-none text-white tracking-tight flex flex-wrap gap-x-3" style={{ textShadow: "0 0 40px rgba(225,28,142,0.35)" }}>
                   {slide.title?.split(" ").map((word, i) => (
                     <motion.span
                       key={i}
@@ -203,10 +203,10 @@ export default memo(function HeroSection({ activeBanners }: { activeBanners: any
 
               <div className="w-full md:w-1/2 relative h-full flex justify-center hidden md:flex items-center">
                 <div className="absolute top-10 right-10 w-24 h-24 border border-[#e11c8e]/30 rounded-full opacity-40 animate-spin-slow pointer-events-none"></div>
-                <div className="absolute bottom-20 left-10 w-16 h-16 border border-[#a855f7]/40 rounded-lg opacity-40 float-fx pointer-events-none rotate-12"></div>
+                <div className="absolute bottom-20 left-10 w-16 h-16 border border-[#c2185b]/40 rounded-lg opacity-40 float-fx pointer-events-none rotate-12"></div>
 
                 <motion.div
-                  className="relative w-[90%] aspect-[4/5] rounded-[2.5rem] overflow-hidden shadow-[0_20px_50px_rgba(225,28,142,0.2),0_0_80px_rgba(168,85,247,0.1)] dark:shadow-[0_20px_50px_rgba(225,28,142,0.3),0_0_80px_rgba(168,85,247,0.15)] border border-[#e11c8e]/20 dark:border-[#a855f7]/10 bg-[#2d1240]/30 backdrop-blur-sm"
+                  className="relative w-[90%] aspect-[4/5] rounded-[2.5rem] overflow-hidden shadow-[0_20px_50px_rgba(225,28,142,0.25),0_0_80px_rgba(194,24,91,0.15)] dark:shadow-[0_20px_50px_rgba(225,28,142,0.35),0_0_80px_rgba(194,24,91,0.2)] border border-[#e11c8e]/25 dark:border-[#c2185b]/15 bg-[#33123e]/30 backdrop-blur-sm"
                   initial={{ opacity: 0, scale: 0.95, rotate: -2 }}
                   animate={{
                     opacity: isActive ? 1 : 0,

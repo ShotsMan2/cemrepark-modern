@@ -87,8 +87,8 @@ export default function QuickViewModal({ product, onClose }: QuickViewModalProps
         </div>
 
         <div className="w-full md:w-1/2 p-8 flex flex-col justify-center">
-          <span className="text-purple text-xs font-bold uppercase tracking-widest mb-2 block">
-            {(t(product.kategori) as string) || (t("collection") as string)}
+          <span className="text-purple text-xs font-bold tracking-widest mb-2 block">
+            {((t(product.kategori) as string) || (t("collection") as string)).toLocaleUpperCase("tr-TR")}
           </span>
           <h2 className="text-3xl font-bold text-transparent bg-clip-text bg-gradient-to-r from-primary to-purple uppercase tracking-widest mb-4">
             {t(product.ad)}

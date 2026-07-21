@@ -33,7 +33,7 @@ export default function FavoritesPage() {
 
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
         <h1
-          className="text-5xl md:text-6xl font-black mb-16 text-transparent bg-clip-text bg-gradient-to-r from-neon-pink to-holo-gold uppercase tracking-tighter text-center"
+          className="text-4xl md:text-6xl font-black mb-16 tracking-widest text-transparent bg-clip-text bg-gradient-to-r from-primary via-purple to-primary uppercase text-center relative z-10"
           data-aos="fade-down"
         >
           {t("favorites")}
@@ -42,7 +42,7 @@ export default function FavoritesPage() {
         {favoriteItems.length === 0 ? (
           <div className="flex flex-col items-center justify-center py-20" data-aos="zoom-in">
             <div className="w-40 h-40 bg-white/50 dark:bg-zinc-900/50 backdrop-blur-md rounded-full shadow-2xl flex items-center justify-center mb-8 border border-white/20 dark:border-white/10 relative overflow-hidden group">
-              <div className="absolute inset-0 bg-gradient-to-tr from-neon-pink/20 to-holo-gold/20 animate-pulse"></div>
+              <div className="absolute inset-0 bg-gradient-to-tr from-primary/20 to-purple/20 animate-pulse"></div>
               <svg
                 className="w-16 h-16 text-neon-pink relative z-10 group-hover:scale-125 transition-transform duration-500"
                 fill="currentColor"
@@ -59,7 +59,7 @@ export default function FavoritesPage() {
             </p>
             <Link
               href="/search"
-              className="bg-gradient-to-r from-neon-pink to-holo-gold text-foreground px-12 py-5 rounded-full uppercase tracking-[0.2em] text-sm font-black shadow-xl shadow-neon-pink/30 transition-all duration-300 transform hover:-translate-y-1 hover:shadow-neon-pink/50 active:scale-95"
+              className="bg-gradient-to-r from-primary to-purple text-foreground px-12 py-5 rounded-full uppercase tracking-[0.2em] text-sm font-black shadow-xl shadow-neon-pink/30 transition-all duration-300 transform hover:-translate-y-1 hover:shadow-neon-pink/50 active:scale-95"
             >
               {t("explore_collection_btn")}
             </Link>
@@ -82,7 +82,7 @@ export default function FavoritesPage() {
                   <div className="relative aspect-[3/4] mb-4 overflow-hidden rounded-2xl transform-gpu">
                     {product.etiket && (
                       <div className="absolute top-3 left-3 z-20">
-                        <span className="text-[10px] font-black uppercase tracking-widest bg-gradient-to-r from-neon-pink to-holo-gold text-foreground px-4 py-1.5 rounded-full shadow-lg">
+                        <span className="text-[10px] font-black uppercase tracking-widest bg-gradient-to-r from-primary to-purple text-foreground px-4 py-1.5 rounded-full shadow-lg">
                           {t(product.etiket)}
                         </span>
                       </div>
@@ -146,7 +146,7 @@ export default function FavoritesPage() {
                       {t(product.kategori)}
                     </p>
                     <Link href={`/urundetay/${product.id}`} className="block">
-                      <h3 className="text-foreground font-black text-lg mb-2 line-clamp-2 leading-tight group-hover:text-transparent group-hover:bg-clip-text group-hover:bg-gradient-to-r group-hover:from-neon-pink group-hover:to-holo-gold transition-all duration-300">
+                      <h3 className="text-foreground font-black text-lg mb-2 line-clamp-2 leading-tight group-hover:text-transparent group-hover:bg-clip-text group-hover:bg-gradient-to-r group-hover:from-primary group-hover:to-purple transition-all duration-300">
                         {t(product.ad)}
                       </h3>
                     </Link>

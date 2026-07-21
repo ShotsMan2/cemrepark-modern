@@ -304,7 +304,7 @@ export default function Header() {
                           ].map((item, idx) => (
                             <motion.li key={idx} whileHover={{ x: 5 }}>
                               <Link
-                                href={`/search?q=${item.q}`}
+                                href={`/search?q=${item.q}&view=category`}
                                 className="text-foreground/70 hover:text-primary transition-colors text-sm font-medium flex items-center"
                               >
                                 {item.name}
@@ -327,7 +327,7 @@ export default function Header() {
                           ].map((item, idx) => (
                             <motion.li key={idx} whileHover={{ x: 5 }}>
                               <Link
-                                href={`/search?q=${item.q}`}
+                                href={`/search?q=${item.q}&view=category`}
                                 className="text-foreground/70 hover:text-secondary transition-colors text-sm font-medium flex items-center"
                               >
                                 {item.name}
@@ -376,7 +376,7 @@ export default function Header() {
             ].map((link, i) => (
               <Link
                 key={i}
-                href={`/search?q=${link.q}`}
+                href={`/search?q=${link.q}&view=category`}
                 className="relative text-foreground/80 hover:text-primary text-sm uppercase tracking-widest transition-colors font-medium group"
               >
                 {link.name}
