@@ -104,12 +104,12 @@ export default function SearchClient({
   return (
     <div className="container mx-auto px-4 relative z-10">
       <div
-        className="product-card-bg p-10 rounded-[2.5rem] shadow-2xl mb-12 text-center relative overflow-hidden group"
+        className="product-card-bg p-10 pb-12 rounded-[2.5rem] shadow-2xl mb-12 text-center relative group"
         data-aos="fade-down"
       >
         <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-96 h-96 bg-gradient-to-br from-primary/20 via-purple/15 to-primary/10 rounded-full blur-[100px] pointer-events-none group-hover:scale-150 transition-transform duration-1000"></div>
-        <h1 className="text-4xl md:text-6xl font-black mb-4 uppercase tracking-widest text-transparent bg-clip-text bg-gradient-to-r from-primary via-purple to-primary relative z-10">
-          {isSearch ? `${t("search_results")}: "${query}"` : t("collection")}
+        <h1 className="text-4xl md:text-6xl font-black mb-4 tracking-widest text-transparent bg-clip-text bg-gradient-to-r from-primary via-purple to-primary relative z-10">
+          {isSearch ? `${t("search_results").toLocaleUpperCase("tr-TR")}: "${query}"` : t("collection").toLocaleUpperCase("tr-TR")}
         </h1>
         {isSearch && (
           <p className="text-foreground/70 font-medium text-lg relative z-10">
