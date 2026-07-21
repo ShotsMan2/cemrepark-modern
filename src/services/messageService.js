@@ -12,7 +12,13 @@ class MessageService {
     }));
   }
 
-  async getMessagesPaginated(filters = {}, page = 1, limit = 10, sortBy = "id", sortOrder = "desc") {
+  async getMessagesPaginated(
+    filters = {},
+    page = 1,
+    limit = 10,
+    sortBy = "id",
+    sortOrder = "desc"
+  ) {
     try {
       const { search } = filters;
       const whereClause = {};
@@ -21,7 +27,7 @@ class MessageService {
         whereClause.OR = [
           { adSoyad: { contains: search } },
           { email: { contains: search } },
-          { mesaj: { contains: search } }
+          { mesaj: { contains: search } },
         ];
       }
 
@@ -34,7 +40,7 @@ class MessageService {
           take: limit,
           orderBy: { [sortBy]: sortOrder },
         }),
-        prisma.message.count({ where: whereClause })
+        prisma.message.count({ where: whereClause }),
       ]);
 
       const mappedData = messages.map((m) => ({
@@ -47,7 +53,7 @@ class MessageService {
         total,
         page,
         limit,
-        totalPages: Math.ceil(total / limit)
+        totalPages: Math.ceil(total / limit),
       };
     } catch (error) {
       console.error("Failed to fetch paginated messages from DB", { error: error.message });

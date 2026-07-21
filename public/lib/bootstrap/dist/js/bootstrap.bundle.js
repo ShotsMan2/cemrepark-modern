@@ -205,7 +205,6 @@
    */
 
   const reflow = (element) => {
-    // eslint-disable-next-line no-unused-expressions
     element.offsetHeight;
   };
 
@@ -689,7 +688,6 @@
       // can be removed later when multiple key/instances are fine to be used
 
       if (!instanceMap.has(key) && instanceMap.size !== 0) {
-        // eslint-disable-next-line no-console
         console.error(
           `Bootstrap doesn't allow more than one instance per element. Bound instance: ${Array.from(instanceMap.keys())[0]}.`
         );
@@ -2169,7 +2167,7 @@
         });
       });
     };
-  } // eslint-disable-next-line import/no-unused-modules
+  }
 
   var applyStyles$1 = {
     name: "applyStyles",
@@ -2484,7 +2482,7 @@
     }
 
     state.elements.arrow = arrowElement;
-  } // eslint-disable-next-line import/no-unused-modules
+  }
 
   var arrow$1 = {
     name: "arrow",
@@ -2661,7 +2659,7 @@
     state.attributes.popper = Object.assign({}, state.attributes.popper, {
       "data-popper-placement": state.placement,
     });
-  } // eslint-disable-next-line import/no-unused-modules
+  }
 
   var computeStyles$1 = {
     name: "computeStyles",
@@ -2707,7 +2705,7 @@
         window.removeEventListener("resize", instance.update, passive);
       }
     };
-  } // eslint-disable-next-line import/no-unused-modules
+  }
 
   var eventListeners = {
     name: "eventListeners",
@@ -3290,7 +3288,7 @@
       state.placement = firstFittingPlacement;
       state.reset = true;
     }
-  } // eslint-disable-next-line import/no-unused-modules
+  }
 
   var flip$1 = {
     name: "flip",
@@ -3351,7 +3349,7 @@
       "data-popper-reference-hidden": isReferenceHidden,
       "data-popper-escaped": hasPopperEscaped,
     });
-  } // eslint-disable-next-line import/no-unused-modules
+  }
 
   var hide$1 = {
     name: "hide",
@@ -3409,7 +3407,7 @@
     }
 
     state.modifiersData[name] = data;
-  } // eslint-disable-next-line import/no-unused-modules
+  }
 
   var offset$1 = {
     name: "offset",
@@ -3432,7 +3430,7 @@
       strategy: "absolute",
       placement: state.placement,
     });
-  } // eslint-disable-next-line import/no-unused-modules
+  }
 
   var popperOffsets$1 = {
     name: "popperOffsets",
@@ -3575,7 +3573,7 @@
     }
 
     state.modifiersData[name] = data;
-  } // eslint-disable-next-line import/no-unused-modules
+  }
 
   var preventOverflow$1 = {
     name: "preventOverflow",
@@ -3926,12 +3924,12 @@
       return instance;
     };
   }
-  var createPopper$2 = /*#__PURE__*/ popperGenerator(); // eslint-disable-next-line import/no-unused-modules
+  var createPopper$2 = /*#__PURE__*/ popperGenerator();
 
   var defaultModifiers$1 = [eventListeners, popperOffsets$1, computeStyles$1, applyStyles$1];
   var createPopper$1 = /*#__PURE__*/ popperGenerator({
     defaultModifiers: defaultModifiers$1,
-  }); // eslint-disable-next-line import/no-unused-modules
+  });
 
   var defaultModifiers = [
     eventListeners,
@@ -3946,7 +3944,7 @@
   ];
   var createPopper = /*#__PURE__*/ popperGenerator({
     defaultModifiers: defaultModifiers,
-  }); // eslint-disable-next-line import/no-unused-modules
+  });
 
   var Popper = /*#__PURE__*/ Object.freeze({
     __proto__: null,

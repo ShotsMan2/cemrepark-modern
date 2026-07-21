@@ -1,6 +1,6 @@
-const { PrismaClient } = require('@prisma/client');
+const { PrismaClient } = require("@prisma/client");
 const prisma = new PrismaClient();
-const bcrypt = require('bcrypt');
+const bcrypt = require("bcrypt");
 
 async function testAuthorize() {
   const credentials = { email: "efe@efe.c", password: "123456" };

@@ -1,17 +1,17 @@
-import fs from 'fs';
-import path from 'path';
-import { exec } from 'child_process';
-import logger from '../lib/logger.js';
+import fs from "fs";
+import path from "path";
+import { exec } from "child_process";
+import logger from "../lib/logger.js";
 
-const DB_PATH = path.resolve(process.cwd(), 'prisma', 'dev.db');
-const BACKUP_DIR = path.resolve(process.cwd(), 'backups');
+const DB_PATH = path.resolve(process.cwd(), "prisma", "dev.db");
+const BACKUP_DIR = path.resolve(process.cwd(), "backups");
 
 function createBackup() {
   if (!fs.existsSync(BACKUP_DIR)) {
     fs.mkdirSync(BACKUP_DIR, { recursive: true });
   }
 
-  const date = new Date().toISOString().replace(/:/g, '-');
+  const date = new Date().toISOString().replace(/:/g, "-");
   const backupFileName = `backup-${date}.db`;
   const backupPath = path.join(BACKUP_DIR, backupFileName);
 

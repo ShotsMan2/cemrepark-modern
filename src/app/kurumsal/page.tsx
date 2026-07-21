@@ -19,12 +19,12 @@ export default function KurumsalPage() {
   const jsonLd = {
     "@context": "https://schema.org",
     "@type": "AboutPage",
-    "mainEntityOfPage": {
+    mainEntityOfPage: {
       "@type": "WebPage",
-      "@id": `${baseUrl}/kurumsal`
+      "@id": `${baseUrl}/kurumsal`,
     },
-    "name": `Kurumsal - ${siteAdi}`,
-    "description": `${siteAdi} kurumsal bilgileri, hakkımızda, vizyon, misyon ve değerlerimiz.`
+    name: `Kurumsal - ${siteAdi}`,
+    description: `${siteAdi} kurumsal bilgileri, hakkımızda, vizyon, misyon ve değerlerimiz.`,
   };
 
   return (

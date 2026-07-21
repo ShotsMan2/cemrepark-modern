@@ -1,4 +1,4 @@
-import logger from '../lib/logger';
+import logger from "../lib/logger";
 
 export class TenantService {
   /**
@@ -9,11 +9,11 @@ export class TenantService {
    */
   static resolveTenant(req) {
     // For demonstration, we assume a custom header or fallback to a default 'cemrepark-master' tenant
-    const host = req.headers.get('host') || '';
-    const tenantId = req.headers.get('x-tenant-id') || host.split('.')[0];
-    
-    if (!tenantId || tenantId === 'localhost' || tenantId === 'www') {
-      return 'cemrepark-master';
+    const host = req.headers.get("host") || "";
+    const tenantId = req.headers.get("x-tenant-id") || host.split(".")[0];
+
+    if (!tenantId || tenantId === "localhost" || tenantId === "www") {
+      return "cemrepark-master";
     }
 
     logger.info(`[SaaS Architecture] Resolved Tenant: ${tenantId}`);
@@ -23,7 +23,7 @@ export class TenantService {
   /**
    * Generates Prisma query extensions to isolate data per tenant.
    * Every database query must spread this where clause to prevent data leakage between stores.
-   * @param {string} tenantId 
+   * @param {string} tenantId
    */
   static getTenantScope(tenantId) {
     // In a real SaaS with Prisma, we would add 'storeId' to Models

@@ -5,9 +5,12 @@ import { uploadService } from "@/services/uploadService";
 
 export const POST = apiHandler(async (req: NextRequest) => {
   const { errorResponse } = await checkAdminAndLog(req, "UPLOAD_FILE", "Uploaded a file");
-  
+
   if (errorResponse) {
-    const error = new Error("Yetkisiz Erişim") as Error & { statusCode?: number; isOperational?: boolean };
+    const error = new Error("Yetkisiz Erişim") as Error & {
+      statusCode?: number;
+      isOperational?: boolean;
+    };
     error.statusCode = 403;
     error.isOperational = true;
     throw error;

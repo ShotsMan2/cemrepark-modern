@@ -20,7 +20,7 @@ export const authOptions: NextAuthOptions = {
 
         try {
           const ip = req?.headers?.["x-forwarded-for"] || "127.0.0.1";
-          if (process.env.NODE_ENV !== 'development') {
+          if (process.env.NODE_ENV !== "development") {
             const { success } = await rateLimit(`auth:${ip}`, 5, 60 * 5);
             if (!success) {
               console.warn(`Rate limit exceeded for login attempt from ${ip}`);
@@ -37,16 +37,22 @@ export const authOptions: NextAuthOptions = {
           if (user) {
             // Verify hashed password
             const passwordMatch = await bcrypt.compare(credentials.password, user.password);
-            
+
             if (passwordMatch) {
-              const ipAddress = typeof req?.headers?.["x-forwarded-for"] === 'string' ? req.headers["x-forwarded-for"] : "unknown";
-              const userAgent = typeof req?.headers?.["user-agent"] === 'string' ? req.headers["user-agent"] : "unknown";
-              
+              const ipAddress =
+                typeof req?.headers?.["x-forwarded-for"] === "string"
+                  ? req.headers["x-forwarded-for"]
+                  : "unknown";
+              const userAgent =
+                typeof req?.headers?.["user-agent"] === "string"
+                  ? req.headers["user-agent"]
+                  : "unknown";
+
               await logLoginHistory({
                 userId: user.id,
                 ipAddress,
                 userAgent,
-                success: true,
+                status: "SUCCESS",
               });
 
               try {
@@ -66,17 +72,22 @@ export const authOptions: NextAuthOptions = {
                 phoneNumber: user.phoneNumber,
               };
             } else {
-              const ipAddress = typeof req?.headers?.["x-forwarded-for"] === 'string' ? req.headers["x-forwarded-for"] : "unknown";
-              const userAgent = typeof req?.headers?.["user-agent"] === 'string' ? req.headers["user-agent"] : "unknown";
+              const ipAddress =
+                typeof req?.headers?.["x-forwarded-for"] === "string"
+                  ? req.headers["x-forwarded-for"]
+                  : "unknown";
+              const userAgent =
+                typeof req?.headers?.["user-agent"] === "string"
+                  ? req.headers["user-agent"]
+                  : "unknown";
 
               await logLoginHistory({
                 userId: user.id,
                 ipAddress,
                 userAgent,
-                success: false,
-                failureReason: "Invalid password",
+                status: "FAILED - Invalid password",
               });
-              
+
               return null;
             }
           } else {
@@ -123,10 +134,10 @@ export const authOptions: NextAuthOptions = {
   callbacks: {
     async jwt({ token, user, trigger, session: updateData }) {
       if (user) {
-        token.role = (user as any).role;
+        token.role = user.role;
         token.id = user.id;
-        token.name = user.name;
-        token.phoneNumber = (user as any).phoneNumber;
+        token.name = user.name ?? null;
+        token.phoneNumber = user.phoneNumber ?? null;
       }
       // Handle session updates from client-side update() calls
       if (trigger === "update" && updateData) {
@@ -150,10 +161,10 @@ export const authOptions: NextAuthOptions = {
     },
     async session({ session, token }) {
       if (token && session.user) {
-        (session.user as any).role = token.role;
-        (session.user as any).id = token.id;
-        (session.user as any).name = token.name;
-        (session.user as any).phoneNumber = token.phoneNumber;
+        session.user.role = token.role;
+        session.user.id = token.id;
+        session.user.name = token.name;
+        session.user.phoneNumber = token.phoneNumber ?? null;
       }
       return session;
     },

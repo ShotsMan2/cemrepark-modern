@@ -1,4 +1,4 @@
-import NextAuth, { DefaultSession } from "next-auth"
+import NextAuth, { DefaultSession } from "next-auth";
 
 declare module "next-auth" {
   interface Session {
@@ -6,7 +6,7 @@ declare module "next-auth" {
       id: string;
       role?: string;
       phoneNumber?: string;
-    } & DefaultSession["user"]
+    } & DefaultSession["user"];
   }
 
   interface User {

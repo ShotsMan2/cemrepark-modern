@@ -22,12 +22,12 @@ export default async function SiparislerimPage() {
         include: {
           product: {
             select: {
-              ad: true
-            }
-          }
-        }
-      }
-    }
+              ad: true,
+            },
+          },
+        },
+      },
+    },
   });
 
   // Serialize orders to pass safely to Client Component (Prisma dates & decimals)
@@ -38,11 +38,11 @@ export default async function SiparislerimPage() {
     status: order.status,
     trackingNumber: order.trackingNumber,
     carrier: order.carrier,
-    items: order.items.map(item => ({
+    items: order.items.map((item) => ({
       quantity: item.quantity,
       price: Number(item.price),
-      product: { ad: item.product?.ad || 'Ürün' }
-    }))
+      product: { ad: item.product?.ad || "Ürün" },
+    })),
   }));
 
   return (

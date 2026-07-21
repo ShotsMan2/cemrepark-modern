@@ -1,4 +1,3 @@
-
 import HomeClient from "./HomeClient";
 import { prisma } from "@/lib/prisma";
 import { getSettings } from "@/data/settings";
@@ -23,7 +22,7 @@ export default async function Home() {
   try {
     products = await prisma.product.findMany({
       take: 8,
-      orderBy: { id: "desc" }
+      orderBy: { id: "desc" },
     });
   } catch (error) {
     console.error("Ürünler çekilirken hata:", error);
@@ -46,26 +45,26 @@ export default async function Home() {
     "@graph": [
       {
         "@type": "WebSite",
-        "name": siteAdi,
-        "url": baseUrl,
-        "potentialAction": {
+        name: siteAdi,
+        url: baseUrl,
+        potentialAction: {
           "@type": "SearchAction",
-          "target": `${baseUrl}/search?q={search_term_string}`,
-          "query-input": "required name=search_term_string"
-        }
+          target: `${baseUrl}/search?q={search_term_string}`,
+          "query-input": "required name=search_term_string",
+        },
       },
       {
         "@type": "Organization",
-        "name": siteAdi,
-        "url": baseUrl,
-        "logo": `${baseUrl}/assets/siteimg/cemre park.png`,
-        "contactPoint": {
+        name: siteAdi,
+        url: baseUrl,
+        logo: `${baseUrl}/assets/siteimg/cemre park.png`,
+        contactPoint: {
           "@type": "ContactPoint",
-          "telephone": settings.telefon,
-          "contactType": "customer service"
-        }
-      }
-    ]
+          telephone: settings.telefon,
+          contactType: "customer service",
+        },
+      },
+    ],
   };
 
   return (

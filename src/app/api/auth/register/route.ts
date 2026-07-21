@@ -24,12 +24,16 @@ export const POST = apiHandler(async (req: NextRequest) => {
     await limiter.check(10, ip); // 10 requests per minute per IP
   } catch {
     logger.warn("Rate limit exceeded", { ip });
-    return errorResponse("Çok fazla istek gönderildi. Lütfen daha sonra tekrar deneyin.", undefined, 429);
+    return errorResponse(
+      "Çok fazla istek gönderildi. Lütfen daha sonra tekrar deneyin.",
+      undefined,
+      429
+    );
   }
 
   const body = await req.json();
   const { email, password, name } = body;
-  
+
   const result = await userService.registerUser(email, password, name, ip);
 
   return successResponse(result, "Kullanıcı başarıyla kaydedildi.", 201);

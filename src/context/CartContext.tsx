@@ -33,7 +33,12 @@ interface CartContextType {
   addToCart: (product: Product, beden?: string, renk?: string) => Promise<void>;
   removeFromCart: (productId: number, beden?: string, renk?: string) => Promise<void>;
   clearCart: () => Promise<void>;
-  updateQuantity: (productId: number, beden?: string, renk?: string, newQuantity: number) => Promise<void>;
+  updateQuantity: (
+    productId: number,
+    beden: string | undefined,
+    renk: string | undefined,
+    newQuantity: number
+  ) => Promise<void>;
 }
 
 const CartContext = createContext<CartContextType | undefined>(undefined);
@@ -50,14 +55,14 @@ export function CartProvider({ children }: { children: ReactNode }) {
       const res = await fetch("/api/cart");
       if (res.ok) {
         const data = await res.json();
-        // eslint-disable-next-line @typescript-eslint/no-explicit-any
+
         const mappedItems: CartContextProduct[] = data.items.map((item: any) => ({
           ...item.product,
           cartItemId: item.id,
           beden: item.size,
           renk: item.color,
           quantity: item.quantity,
-          variantId: item.variantId
+          variantId: item.variantId,
         }));
         setCartItems(mappedItems);
       }
@@ -71,7 +76,7 @@ export function CartProvider({ children }: { children: ReactNode }) {
 
     if (status === "authenticated") {
       const savedCart = localStorage.getItem("cemrepark_cart");
-      
+
       const syncCart = async () => {
         setIsSyncing(true);
         if (savedCart && prevSessionStatus.current !== "authenticated") {
@@ -81,7 +86,7 @@ export function CartProvider({ children }: { children: ReactNode }) {
               await fetch("/api/cart/sync", {
                 method: "POST",
                 headers: { "Content-Type": "application/json" },
-                body: JSON.stringify({ cartItems: parsed })
+                body: JSON.stringify({ cartItems: parsed }),
               });
               localStorage.removeItem("cemrepark_cart");
             }
@@ -100,7 +105,7 @@ export function CartProvider({ children }: { children: ReactNode }) {
       if (savedCart) {
         try {
           setCartItems(JSON.parse(savedCart));
-        } catch(e) {
+        } catch (e) {
           console.error("Sepet parse hatası:", e);
           setCartItems([]);
         }
@@ -128,8 +133,8 @@ export function CartProvider({ children }: { children: ReactNode }) {
             productId: product.id,
             quantity: 1,
             color: renk,
-            size: beden
-          })
+            size: beden,
+          }),
         });
         if (res.ok) {
           await fetchServerCart();
@@ -167,7 +172,7 @@ export function CartProvider({ children }: { children: ReactNode }) {
           const res = await fetch("/api/cart", {
             method: "PUT",
             headers: { "Content-Type": "application/json" },
-            body: JSON.stringify({ itemId: itemToRemove.cartItemId, quantity: 0 })
+            body: JSON.stringify({ itemId: itemToRemove.cartItemId, quantity: 0 }),
           });
           if (res.ok) {
             await fetchServerCart();
@@ -178,7 +183,9 @@ export function CartProvider({ children }: { children: ReactNode }) {
       }
     } else {
       setCartItems((prev) =>
-        prev.filter((item) => !(item.id === productId && item.beden === beden && item.renk === renk))
+        prev.filter(
+          (item) => !(item.id === productId && item.beden === beden && item.renk === renk)
+        )
       );
     }
   };
@@ -201,7 +208,12 @@ export function CartProvider({ children }: { children: ReactNode }) {
     }
   };
 
-  const updateQuantity = async (productId: number, beden?: string, renk?: string, newQuantity: number) => {
+  const updateQuantity = async (
+    productId: number,
+    beden: string | undefined,
+    renk: string | undefined,
+    newQuantity: number
+  ) => {
     if (newQuantity <= 0) {
       removeFromCart(productId, beden, renk);
       return;
@@ -221,11 +233,11 @@ export function CartProvider({ children }: { children: ReactNode }) {
                 : item
             )
           );
-          
+
           const res = await fetch("/api/cart", {
             method: "PUT",
             headers: { "Content-Type": "application/json" },
-            body: JSON.stringify({ itemId: itemToUpdate.cartItemId, quantity: newQuantity })
+            body: JSON.stringify({ itemId: itemToUpdate.cartItemId, quantity: newQuantity }),
           });
           if (!res.ok) {
             // Revert on error

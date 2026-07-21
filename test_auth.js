@@ -24,7 +24,7 @@ async function testAuth() {
     // 3. Retrieve and compare
     const retrievedUser = await prisma.user.findUnique({ where: { email } });
     console.log("Retrieved pass:", retrievedUser.password);
-    
+
     const match = await bcrypt.compare(password, retrievedUser.password);
     console.log("Password match:", match);
   } catch (error) {

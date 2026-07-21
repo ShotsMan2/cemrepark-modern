@@ -30,7 +30,9 @@ export default function ForgotPasswordPage() {
         Swal.fire({
           icon: "success",
           title: t("reset_link_sent_title") || "Link Gönderildi",
-          text: (t("reset_link_sent_desc") || "Şifre sıfırlama linki gönderildi.") + (data._devResetUrl ? `\n\n[Geliştirici Modu] Link: ${data._devResetUrl}` : ""),
+          text:
+            (t("reset_link_sent_desc") || "Şifre sıfırlama linki gönderildi.") +
+            (data._devResetUrl ? `\n\n[Geliştirici Modu] Link: ${data._devResetUrl}` : ""),
           background: "rgba(10, 10, 10, 0.9)",
           color: "#fff",
         });
@@ -67,7 +69,8 @@ export default function ForgotPasswordPage() {
           {t("reset_password_title") || "ŞİFREYİ SIFIRLA"}
         </h2>
         <p className="text-center text-foreground/70 mb-6 font-medium">
-          {t("forgot_password_desc") || "E-posta adresinizi girin, size şifre sıfırlama bağlantısı gönderelim."}
+          {t("forgot_password_desc") ||
+            "E-posta adresinizi girin, size şifre sıfırlama bağlantısı gönderelim."}
         </p>
 
         <form onSubmit={handleSubmit} className="space-y-6">
@@ -89,7 +92,9 @@ export default function ForgotPasswordPage() {
             disabled={loading}
             className="w-full bg-gradient-to-r from-neon-pink to-holo-gold text-black font-bold py-3 px-4 rounded-lg hover:opacity-90 transition-opacity uppercase tracking-wider flex justify-center items-center gap-2 cursor-pointer"
           >
-            {loading ? (t("sending_link") || "Gönderiliyor...") : (t("send_reset_link") || "Sıfırlama Linki Gönder")}
+            {loading
+              ? t("sending_link") || "Gönderiliyor..."
+              : t("send_reset_link") || "Sıfırlama Linki Gönder"}
           </button>
         </form>
 

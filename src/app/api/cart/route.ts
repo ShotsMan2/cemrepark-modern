@@ -1,14 +1,14 @@
-import { NextResponse } from 'next/server';
-import prisma from '@/lib/prisma';
-import { getServerSession } from 'next-auth/next';
-import { authOptions } from '@/lib/authOptions';
+import { NextResponse } from "next/server";
+import prisma from "@/lib/prisma";
+import { getServerSession } from "next-auth/next";
+import { authOptions } from "@/lib/authOptions";
 
 // GET /api/cart — Get current user's server-side cart
 export async function GET(request) {
   try {
     const session = await getServerSession(authOptions);
     if (!session?.user?.id) {
-      return NextResponse.json({ error: 'Oturum açmanız gerekiyor.' }, { status: 401 });
+      return NextResponse.json({ error: "Oturum açmanız gerekiyor." }, { status: 401 });
     }
 
     const cart = await prisma.cart.findUnique({
@@ -36,7 +36,7 @@ export async function GET(request) {
     }
 
     const total = cart.items.reduce((sum, item) => {
-      return sum + (item.product.fiyat * item.quantity);
+      return sum + item.product.fiyat * item.quantity;
     }, 0);
 
     return NextResponse.json({
@@ -46,8 +46,8 @@ export async function GET(request) {
       itemCount: cart.items.length,
     });
   } catch (error) {
-    console.error('Cart GET error:', error);
-    return NextResponse.json({ error: 'Sepet yüklenirken hata oluştu.' }, { status: 500 });
+    console.error("Cart GET error:", error);
+    return NextResponse.json({ error: "Sepet yüklenirken hata oluştu." }, { status: 500 });
   }
 }
 
@@ -56,14 +56,14 @@ export async function POST(request) {
   try {
     const session = await getServerSession(authOptions);
     if (!session?.user?.id) {
-      return NextResponse.json({ error: 'Oturum açmanız gerekiyor.' }, { status: 401 });
+      return NextResponse.json({ error: "Oturum açmanız gerekiyor." }, { status: 401 });
     }
 
     const userId = parseInt(session.user.id);
     const { productId, quantity = 1, color, size, variantId } = await request.json();
 
     if (!productId) {
-      return NextResponse.json({ error: 'Ürün ID gerekli.' }, { status: 400 });
+      return NextResponse.json({ error: "Ürün ID gerekli." }, { status: 400 });
     }
 
     // Create cart if not exists
@@ -100,10 +100,10 @@ export async function POST(request) {
       });
     }
 
-    return NextResponse.json({ success: true, message: 'Ürün sepete eklendi.' });
+    return NextResponse.json({ success: true, message: "Ürün sepete eklendi." });
   } catch (error) {
-    console.error('Cart POST error:', error);
-    return NextResponse.json({ error: 'Sepete ekleme hatası.' }, { status: 500 });
+    console.error("Cart POST error:", error);
+    return NextResponse.json({ error: "Sepete ekleme hatası." }, { status: 500 });
   }
 }
 
@@ -112,18 +112,18 @@ export async function PUT(request) {
   try {
     const session = await getServerSession(authOptions);
     if (!session?.user?.id) {
-      return NextResponse.json({ error: 'Oturum açmanız gerekiyor.' }, { status: 401 });
+      return NextResponse.json({ error: "Oturum açmanız gerekiyor." }, { status: 401 });
     }
 
     const { itemId, quantity } = await request.json();
 
     if (!itemId || quantity === undefined) {
-      return NextResponse.json({ error: 'Geçersiz parametreler.' }, { status: 400 });
+      return NextResponse.json({ error: "Geçersiz parametreler." }, { status: 400 });
     }
 
     if (quantity <= 0) {
       await prisma.cartItem.delete({ where: { id: parseInt(itemId) } });
-      return NextResponse.json({ success: true, message: 'Ürün sepetten kaldırıldı.' });
+      return NextResponse.json({ success: true, message: "Ürün sepetten kaldırıldı." });
     }
 
     await prisma.cartItem.update({
@@ -131,10 +131,10 @@ export async function PUT(request) {
       data: { quantity },
     });
 
-    return NextResponse.json({ success: true, message: 'Sepet güncellendi.' });
+    return NextResponse.json({ success: true, message: "Sepet güncellendi." });
   } catch (error) {
-    console.error('Cart PUT error:', error);
-    return NextResponse.json({ error: 'Sepet güncelleme hatası.' }, { status: 500 });
+    console.error("Cart PUT error:", error);
+    return NextResponse.json({ error: "Sepet güncelleme hatası." }, { status: 500 });
   }
 }
 
@@ -143,7 +143,7 @@ export async function DELETE(request) {
   try {
     const session = await getServerSession(authOptions);
     if (!session?.user?.id) {
-      return NextResponse.json({ error: 'Oturum açmanız gerekiyor.' }, { status: 401 });
+      return NextResponse.json({ error: "Oturum açmanız gerekiyor." }, { status: 401 });
     }
 
     const userId = parseInt(session.user.id);
@@ -153,9 +153,9 @@ export async function DELETE(request) {
       await prisma.cartItem.deleteMany({ where: { cartId: cart.id } });
     }
 
-    return NextResponse.json({ success: true, message: 'Sepet temizlendi.' });
+    return NextResponse.json({ success: true, message: "Sepet temizlendi." });
   } catch (error) {
-    console.error('Cart DELETE error:', error);
-    return NextResponse.json({ error: 'Sepet temizleme hatası.' }, { status: 500 });
+    console.error("Cart DELETE error:", error);
+    return NextResponse.json({ error: "Sepet temizleme hatası." }, { status: 500 });
   }
 }

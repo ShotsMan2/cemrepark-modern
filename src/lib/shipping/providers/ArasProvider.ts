@@ -1,4 +1,10 @@
-import { IShippingProvider, ShippingRateRequest, ShippingRateResponse, TrackingRequest, TrackingResponse } from '../IShippingProvider';
+import {
+  IShippingProvider,
+  ShippingRateRequest,
+  ShippingRateResponse,
+  TrackingRequest,
+  TrackingResponse,
+} from "../IShippingProvider";
 
 export class ArasProvider implements IShippingProvider {
   async calculateShippingCost(request: ShippingRateRequest): Promise<ShippingRateResponse> {
@@ -8,9 +14,9 @@ export class ArasProvider implements IShippingProvider {
     const cost = baseRate + weightRate;
 
     return {
-      providerName: 'Aras Kargo',
+      providerName: "Aras Kargo",
       cost,
-      currency: 'TRY',
+      currency: "TRY",
       estimatedDays: 2,
     };
   }
@@ -20,11 +26,11 @@ export class ArasProvider implements IShippingProvider {
     const trackingCode = `ARAS-${request.orderId}-${Date.now()}`;
     return {
       trackingCode,
-      trackingUrl: `https://www.araskargo.com.tr/tr/gonderi-takibi?code=${trackingCode}`
+      trackingUrl: `https://www.araskargo.com.tr/tr/gonderi-takibi?code=${trackingCode}`,
     };
   }
 
   getProviderName(): string {
-    return 'Aras Kargo';
+    return "Aras Kargo";
   }
 }

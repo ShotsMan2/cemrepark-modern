@@ -1,7 +1,7 @@
 "use client";
 
-import React from 'react';
-import { AlertTriangle, TrendingDown } from 'lucide-react';
+import React from "react";
+import { AlertTriangle, TrendingDown } from "lucide-react";
 
 interface StockWarningItem {
   id: any;
@@ -17,16 +17,22 @@ interface StockWarningProps {
 }
 
 const fallbackStocks = [
-  { id: 1, name: 'Floral Maxi Dress', variation: 'Size M - Blue', stock: 2, threshold: 5 },
-  { id: 2, name: 'Silk Hijab', variation: 'Standard - Beige', stock: 0, threshold: 10 },
-  { id: 3, name: 'Evening Abaya', variation: 'Size L - Black', stock: 1, threshold: 3 },
-  { id: 4, name: 'Pearl Pins Set', variation: 'Gold', stock: 4, threshold: 15 },
+  { id: 1, name: "Floral Maxi Dress", variation: "Size M - Blue", stock: 2, threshold: 5 },
+  { id: 2, name: "Silk Hijab", variation: "Standard - Beige", stock: 0, threshold: 10 },
+  { id: 3, name: "Evening Abaya", variation: "Size L - Black", stock: 1, threshold: 3 },
+  { id: 4, name: "Pearl Pins Set", variation: "Gold", stock: 4, threshold: 15 },
 ];
 
 export default function StockWarning({ items }: StockWarningProps) {
-  const displayItems = items && items.length > 0
-    ? items.map((p) => ({ id: p.id, name: p.ad, variation: [p.renk, p.beden].filter(Boolean).join(' - ') || '-', stock: p.stok }))
-    : fallbackStocks;
+  const displayItems =
+    items && items.length > 0
+      ? items.map((p) => ({
+          id: p.id,
+          name: p.ad,
+          variation: [p.renk, p.beden].filter(Boolean).join(" - ") || "-",
+          stock: p.stok,
+        }))
+      : fallbackStocks;
 
   if (!displayItems || displayItems.length === 0) return null;
 
@@ -41,7 +47,7 @@ export default function StockWarning({ items }: StockWarningProps) {
           <p className="text-sm text-red-600 dark:text-red-400">Stok eşiğinin altındaki ürünler</p>
         </div>
       </div>
-      
+
       <div className="overflow-hidden bg-white dark:bg-gray-800 rounded-xl border border-red-100 dark:border-red-900/30">
         <table className="w-full text-sm text-left">
           <thead className="bg-red-50/50 dark:bg-gray-800/50 text-red-800 dark:text-red-300 font-medium border-b border-red-100 dark:border-red-900/30">
@@ -53,7 +59,10 @@ export default function StockWarning({ items }: StockWarningProps) {
           </thead>
           <tbody className="divide-y divide-red-50 dark:divide-gray-700">
             {displayItems.map((item) => (
-              <tr key={item.id} className="text-foreground/80 hover:bg-red-50/30 dark:hover:bg-gray-700/50 transition-colors">
+              <tr
+                key={item.id}
+                className="text-foreground/80 hover:bg-red-50/30 dark:hover:bg-gray-700/50 transition-colors"
+              >
                 <td className="px-4 py-3 font-medium">{item.name}</td>
                 <td className="px-4 py-3 text-foreground/60">{item.variation}</td>
                 <td className="px-4 py-3 text-right">

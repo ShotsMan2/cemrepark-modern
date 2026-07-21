@@ -1,10 +1,10 @@
-import logger from '../lib/logger';
+import logger from "../lib/logger";
 
 export class OSAdapter {
   static isDesktop() {
-    if (typeof window !== 'undefined') {
+    if (typeof window !== "undefined") {
       // Check if running inside Electron or Tauri
-      return !!window.__TAURI__ || (navigator.userAgent.toLowerCase().indexOf(' electron/') > -1);
+      return !!window.__TAURI__ || navigator.userAgent.toLowerCase().indexOf(" electron/") > -1;
     }
     return false;
   }
@@ -22,7 +22,7 @@ export class OSAdapter {
       }
     } else {
       logger.info(`[Web OS] Web Notification: ${title}`);
-      if ('Notification' in window && Notification.permission === 'granted') {
+      if ("Notification" in window && Notification.permission === "granted") {
         new Notification(title, { body });
       }
     }

@@ -51,5 +51,4 @@ export default memo(function CategoryShowcase({ categories }: { categories: any[
       </div>
     </section>
   );
-})
-
+});

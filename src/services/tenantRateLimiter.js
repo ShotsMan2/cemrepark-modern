@@ -1,4 +1,4 @@
-import logger from '../lib/logger';
+import logger from "../lib/logger";
 
 export class TenantRateLimiter {
   constructor() {
@@ -8,7 +8,7 @@ export class TenantRateLimiter {
 
   /**
    * Checks if a tenant has exceeded their API rate limit using a Token Bucket algorithm
-   * @param {string} tenantId 
+   * @param {string} tenantId
    * @param {number} capacity max requests per window
    * @param {number} refillRate tokens added per second
    * @returns {boolean} allowed

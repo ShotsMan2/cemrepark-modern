@@ -35,7 +35,7 @@ export interface PaymentInitializeRequest {
 }
 
 export interface PaymentInitializeResponse {
-  status: 'success' | 'failure';
+  status: "success" | "failure";
   paymentPageUrl?: string; // For hosted checkout pages
   token?: string; // For 3D secure or specific flows
   errorMessage?: string;
@@ -49,7 +49,7 @@ export interface PaymentVerifyRequest {
 }
 
 export interface PaymentVerifyResponse {
-  status: 'success' | 'failure';
+  status: "success" | "failure";
   paymentId?: string;
   amount?: number;
   currency?: string;
@@ -64,7 +64,7 @@ export interface RefundRequest {
 }
 
 export interface RefundResponse {
-  status: 'success' | 'failure';
+  status: "success" | "failure";
   refundId?: string;
   errorMessage?: string;
 }

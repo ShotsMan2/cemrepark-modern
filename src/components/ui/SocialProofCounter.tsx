@@ -33,18 +33,26 @@ export default function SocialProofCounter() {
   }, []);
 
   return (
-    <div ref={containerRef} className="py-10 bg-gradient-to-r from-primary/5 via-background to-secondary/5 border-y border-white/5 relative overflow-hidden">
+    <div
+      ref={containerRef}
+      className="py-10 bg-gradient-to-r from-primary/5 via-background to-secondary/5 border-y border-white/5 relative overflow-hidden"
+    >
       <div className="absolute top-0 left-1/2 -translate-x-1/2 w-full max-w-4xl h-full bg-white/5 dark:bg-black/20 blur-3xl pointer-events-none"></div>
-      
+
       <div className="container-premium relative z-10">
         <div className="grid grid-cols-2 md:grid-cols-4 gap-6 md:gap-8 text-center">
           {stats.map((stat, index) => (
-            <div key={index} className="flex flex-col items-center justify-center p-4 glass-panel rounded-2xl transform hover:-translate-y-2 transition-all duration-300">
+            <div
+              key={index}
+              className="flex flex-col items-center justify-center p-4 glass-panel rounded-2xl transform hover:-translate-y-2 transition-all duration-300"
+            >
               <div className="text-3xl md:text-4xl font-black text-transparent bg-clip-text bg-gradient-to-br from-primary to-secondary mb-2">
                 <Counter value={stat.value} isVisible={isVisible} isFloat={stat.isFloat} />
                 <span className="text-xl md:text-2xl ml-1">{stat.suffix}</span>
               </div>
-              <p className="text-xs md:text-sm text-foreground/70 font-bold uppercase tracking-widest">{stat.label}</p>
+              <p className="text-xs md:text-sm text-foreground/70 font-bold uppercase tracking-widest">
+                {stat.label}
+              </p>
             </div>
           ))}
         </div>
@@ -53,12 +61,20 @@ export default function SocialProofCounter() {
   );
 }
 
-function Counter({ value, isVisible, isFloat = false }: { value: number, isVisible: boolean, isFloat?: boolean }) {
+function Counter({
+  value,
+  isVisible,
+  isFloat = false,
+}: {
+  value: number;
+  isVisible: boolean;
+  isFloat?: boolean;
+}) {
   const [count, setCount] = useState(0);
 
   useEffect(() => {
     if (!isVisible) return;
-    
+
     let start = 0;
     const duration = 2000;
     const increment = value / (duration / 16); // 60fps
@@ -76,5 +92,5 @@ function Counter({ value, isVisible, isFloat = false }: { value: number, isVisib
     return () => clearInterval(timer);
   }, [isVisible, value]);
 
-  return <span>{isFloat ? count.toFixed(1) : Math.floor(count).toLocaleString('tr-TR')}</span>;
+  return <span>{isFloat ? count.toFixed(1) : Math.floor(count).toLocaleString("tr-TR")}</span>;
 }

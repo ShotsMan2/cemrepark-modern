@@ -1,4 +1,10 @@
-import { IShippingProvider, ShippingRateRequest, ShippingRateResponse, TrackingRequest, TrackingResponse } from '../IShippingProvider';
+import {
+  IShippingProvider,
+  ShippingRateRequest,
+  ShippingRateResponse,
+  TrackingRequest,
+  TrackingResponse,
+} from "../IShippingProvider";
 
 export class YurticiProvider implements IShippingProvider {
   async calculateShippingCost(request: ShippingRateRequest): Promise<ShippingRateResponse> {
@@ -8,9 +14,9 @@ export class YurticiProvider implements IShippingProvider {
     const cost = baseRate + weightRate;
 
     return {
-      providerName: 'Yurtici Kargo',
+      providerName: "Yurtici Kargo",
       cost,
-      currency: 'TRY',
+      currency: "TRY",
       estimatedDays: 2,
     };
   }
@@ -20,11 +26,11 @@ export class YurticiProvider implements IShippingProvider {
     const trackingCode = `YK-${request.orderId}-${Date.now()}`;
     return {
       trackingCode,
-      trackingUrl: `https://www.yurticikargo.com/tr/online-servisler/gonderi-sorgula?code=${trackingCode}`
+      trackingUrl: `https://www.yurticikargo.com/tr/online-servisler/gonderi-sorgula?code=${trackingCode}`,
     };
   }
 
   getProviderName(): string {
-    return 'Yurtici Kargo';
+    return "Yurtici Kargo";
   }
 }

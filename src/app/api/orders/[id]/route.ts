@@ -1,96 +1,102 @@
-import { logger } from '@/lib/logger';
 import { NextResponse } from "next/server";
 import { checkAdminAndLog } from "@/lib/adminAuth";
-import { apiHandler } from "@/lib/apiHandler";
+import { createHandler, ApiError } from "@/lib/apiHandler";
 import { orderService } from "@/services/orderService";
+import { prisma } from "@/lib/prisma";
+import { logAuditAction } from "@/lib/auditLogger";
 
-export const PATCH = apiHandler(async (req: Request, { params }: { params: { id: string } }) => {
-  const { id } = params;
-  const orderId = parseInt(id);
-
-  if (isNaN(orderId)) {
-    const error = new Error("Invalid order ID") as any;
-    error.statusCode = 400;
-    error.isOperational = true;
-    throw error;
-  }
-  
-  const body = await req.json();
-  const { status, trackingNumber, carrier } = body;
-
-  const actionMsg = `Changed order ${id} status to ${status || 'unchanged'}${trackingNumber ? ' and updated tracking' : ''}`;
-  const { errorResponse } = await checkAdminAndLog(req as any, "UPDATE_ORDER_STATUS", actionMsg);
-
-  if (errorResponse) {
-    const error = new Error("Yetkisiz Erisim") as any;
-    error.statusCode = 403;
-    error.isOperational = true;
-    throw error;
-  }
-
-  // Allow updates to status, tracking number, or carrier
-  const updateData: any = {};
-  if (status !== undefined) updateData.status = status;
-  if (trackingNumber !== undefined) updateData.trackingNumber = trackingNumber;
-  if (carrier !== undefined) updateData.carrier = carrier;
-
-  let updatedOrder;
-  if (Object.keys(updateData).length > 0) {
-    const { prisma } = await import("@/lib/prisma");
-    updatedOrder = await prisma.order.update({
-      where: { id: orderId },
-      data: updateData,
-      include: { items: true }
-    });
-
-    // Handle cancellation or return by restoring stock
-    const isCancelledOrReturned = 
-      status === "İptal Edildi" || 
-      status === "İade Edildi" || 
-      status === "CANCELLED" || 
-      status === "RETURNED";
-
-    if (isCancelledOrReturned && updatedOrder.items) {
-      for (const item of updatedOrder.items) {
-        // In a real application, you might want to check if the product still exists
-        try {
-          await prisma.product.update({
-            where: { id: item.productId },
-            data: { stok: { increment: item.quantity } }
-          });
-        } catch (e) {
-          logger.error(`Failed to restore stock for product ${item.productId}:`, e);
-        }
-      }
-    }
-  } else {
-    updatedOrder = await orderService.getOrderById(orderId);
-  }
-
-  return NextResponse.json(updatedOrder);
-});
-
-export const GET = apiHandler(async (req: Request, { params }: { params: { id: string } }) => {
-  const { id } = params;
-  const orderId = parseInt(id);
+export const GET = createHandler(async (req: Request, { params }: { params: Promise<{ id: string }> }) => {
+  const resolvedParams = await params;
+  const orderId = parseInt(resolvedParams.id);
 
   if (isNaN(orderId)) {
-    const error = new Error("Invalid order ID") as any;
-    error.statusCode = 400;
-    error.isOperational = true;
-    throw error;
+    throw new ApiError("Invalid order ID", 400);
   }
-  
-  const { errorResponse } = await checkAdminAndLog(req as any, "VIEW_ORDER", `Viewed order ${orderId}`);
+
+  const { errorResponse } = await checkAdminAndLog(req, "VIEW_ORDER", `Viewed order ${orderId}`);
   if (errorResponse) {
-    // If not admin, maybe check if it's the user's order? We stick to admin check for now as in PATCH
-    // Since it's admin/API we can just return
+    throw new ApiError("Yetkisiz Erisim", 403);
   }
 
   const order = await orderService.getOrderById(orderId);
   if (!order) {
-    return NextResponse.json({ error: "Order not found" }, { status: 404 });
+    throw new ApiError("Order not found", 404);
   }
 
-  return NextResponse.json(order);
+  return order;
+});
+
+export const PATCH = createHandler(async (req: Request, { params }: { params: Promise<{ id: string }> }) => {
+  const resolvedParams = await params;
+  const orderId = parseInt(resolvedParams.id);
+
+  if (isNaN(orderId)) {
+    throw new ApiError("Invalid order ID", 400);
+  }
+
+  const body = await req.json();
+  const { status, trackingNumber, carrier, notes } = body;
+
+  const { errorResponse, session } = await checkAdminAndLog(req, "UPDATE_ORDER_STATUS", `Changed order ${orderId}`);
+  if (errorResponse) {
+    throw new ApiError("Yetkisiz Erisim", 403);
+  }
+
+  if (status) {
+    const updatedOrder = await orderService.updateOrderStatus(orderId, status);
+    const userId = session?.user?.id ? parseInt(session.user.id) : null;
+    await logAuditAction({
+      action: "UPDATE_ORDER_STATUS",
+      userId,
+      entity: "Order",
+      entityId: orderId.toString(),
+      details: `Status updated to ${status} for order ${orderId}`,
+    });
+    return updatedOrder;
+  }
+
+  const updateData: any = {};
+  if (trackingNumber !== undefined) updateData.trackingNumber = trackingNumber;
+  if (carrier !== undefined) updateData.carrier = carrier;
+  if (notes !== undefined) updateData.notes = notes;
+
+  let updatedOrder;
+  if (Object.keys(updateData).length > 0) {
+    updatedOrder = await prisma.order.update({
+      where: { id: orderId },
+      data: updateData,
+      include: { items: true },
+    });
+  } else {
+    updatedOrder = await orderService.getOrderById(orderId);
+  }
+
+  return updatedOrder;
+});
+
+export const DELETE = createHandler(async (req: Request, { params }: { params: Promise<{ id: string }> }) => {
+  const resolvedParams = await params;
+  const orderId = parseInt(resolvedParams.id);
+
+  if (isNaN(orderId)) {
+    throw new ApiError("Invalid order ID", 400);
+  }
+
+  const { errorResponse, session } = await checkAdminAndLog(req);
+  if (errorResponse) {
+    throw new ApiError("Yetkisiz Erisim", 403);
+  }
+
+  await prisma.order.delete({ where: { id: orderId } });
+
+  const userId = session?.user?.id ? parseInt(session.user.id) : null;
+  await logAuditAction({
+    action: "DELETE_ORDER",
+    userId,
+    entity: "Order",
+    entityId: orderId.toString(),
+    details: `Deleted order ${orderId}`,
+  });
+
+  return { success: true, message: "Order deleted successfully" };
 });

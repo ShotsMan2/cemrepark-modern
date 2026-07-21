@@ -5,9 +5,12 @@ import { emailService } from "@/services/emailService";
 
 export const POST = apiHandler(async (request: NextRequest) => {
   const { errorResponse } = await checkAdminAndLog(request, "SEND_EMAIL", "Sent an email");
-  
+
   if (errorResponse) {
-    const error = new Error("Yetkisiz Erişim") as Error & { statusCode?: number; isOperational?: boolean };
+    const error = new Error("Yetkisiz Erişim") as Error & {
+      statusCode?: number;
+      isOperational?: boolean;
+    };
     error.statusCode = 403;
     error.isOperational = true;
     throw error;

@@ -5,16 +5,18 @@ export const transformSalesTrends = (orders) => {
   orders.forEach((order) => {
     // Assuming order.tarih or order.createdAt is a date string
     const date = new Date(order.createdAt || order.tarih);
-    const day = date.toLocaleDateString('tr-TR', { weekday: 'short' });
-    
+    const day = date.toLocaleDateString("tr-TR", { weekday: "short" });
+
     if (!trends[day]) {
       trends[day] = { name: day, total: 0 };
     }
-    trends[day].total += (order.total || order.toplamTutar || 0);
+    trends[day].total += order.total || order.toplamTutar || 0;
   });
 
-  const daysOrder = ['Pzt', 'Sal', 'Çar', 'Per', 'Cum', 'Cmt', 'Paz'];
-  return Object.values(trends).sort((a, b) => daysOrder.indexOf(a.name) - daysOrder.indexOf(b.name));
+  const daysOrder = ["Pzt", "Sal", "Çar", "Per", "Cum", "Cmt", "Paz"];
+  return Object.values(trends).sort(
+    (a, b) => daysOrder.indexOf(a.name) - daysOrder.indexOf(b.name)
+  );
 };
 
 export const transformCategoryPopularity = (products) => {
@@ -22,7 +24,7 @@ export const transformCategoryPopularity = (products) => {
   const categories = {};
 
   products.forEach((product) => {
-    const cat = product.kategori || 'Diğer';
+    const cat = product.kategori || "Diğer";
     if (!categories[cat]) {
       categories[cat] = { name: cat, value: 0 };
     }
@@ -37,7 +39,7 @@ export const transformOrderStatuses = (orders) => {
   const statuses = {};
 
   orders.forEach((order) => {
-    const status = order.durum || 'Beklemede';
+    const status = order.durum || "Beklemede";
     if (!statuses[status]) {
       statuses[status] = { name: status, value: 0 };
     }

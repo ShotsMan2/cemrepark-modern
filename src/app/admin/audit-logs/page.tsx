@@ -11,8 +11,8 @@ export const metadata = {
 
 export default async function AuditLogsPage() {
   const session = await getServerSession(authOptions);
-  
-  if (!session || (session.user as any)?.role !== "admin") {
+
+  if (!session || session.user?.role !== "admin") {
     redirect("/admin");
   }
 
@@ -37,14 +37,21 @@ export default async function AuditLogsPage() {
             Sistem aktivite ve değişiklik kayıtları (Son 100 işlem)
           </p>
         </div>
-        <ExportButton 
-          data={logs.map(log => ({
-            "Tarih": new Date(log.createdAt).toLocaleString("tr-TR"),
-            "Kullanıcı": log.user?.name || log.user?.email || "Bilinmiyor",
-            "Aksiyon": log.action,
-            "Detay": log.details || "-",
-            "IP Adresi": log.ipAddress || "Bilinmiyor"
-          }))}
+        <ExportButton
+          data={logs.map((log) => {
+            let ip = "Bilinmiyor";
+            try {
+              const parsed = JSON.parse(log.details || "{}");
+              ip = parsed.ip || "Bilinmiyor";
+            } catch {}
+            return {
+              Tarih: new Date(log.createdAt).toLocaleString("tr-TR"),
+              Kullanıcı: log.user?.name || log.user?.email || "Bilinmiyor",
+              Aksiyon: log.action,
+              Detay: log.details || "-",
+              "IP Adresi": ip,
+            };
+          })}
           filename="audit_logs.csv"
         />
       </div>
@@ -70,7 +77,10 @@ export default async function AuditLogsPage() {
                 </tr>
               ) : (
                 logs.map((log) => (
-                  <tr key={log.id} className="border-b border-glass-border hover:bg-foreground/5 transition-all duration-300 group">
+                  <tr
+                    key={log.id}
+                    className="border-b border-glass-border hover:bg-foreground/5 transition-all duration-300 group"
+                  >
                     <td className="py-4 px-6 text-foreground/50 font-mono text-xs group-hover:text-foreground transition-colors">
                       {new Date(log.createdAt).toLocaleString("tr-TR")}
                     </td>
@@ -81,7 +91,9 @@ export default async function AuditLogsPage() {
                         </div>
                         <div className="flex flex-col">
                           <span>{log.user?.name || "Bilinmiyor"}</span>
-                          <span className="text-[10px] text-foreground/60 font-mono">{log.user?.email || "Sistem / Anonim"}</span>
+                          <span className="text-[10px] text-foreground/60 font-mono">
+                            {log.user?.email || "Sistem / Anonim"}
+                          </span>
                         </div>
                       </div>
                     </td>
@@ -90,14 +102,32 @@ export default async function AuditLogsPage() {
                         {log.action}
                       </span>
                     </td>
-                    <td className="py-4 px-6 text-foreground/70 max-w-xs truncate" title={log.details || ""}>
+                    <td
+                      className="py-4 px-6 text-foreground/70 max-w-xs truncate"
+                      title={log.details || ""}
+                    >
                       {log.details || "-"}
                     </td>
                     <td className="py-4 px-6 text-foreground/60 font-mono text-xs flex items-center gap-1 mt-2">
-                      <svg className="w-3 h-3" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M21 12a9 9 0 01-9 9m9-9a9 9 0 00-9-9m9 9H3m9 9a9 9 0 01-9-9m9 9c1.657 0 3-4.03 3-9s-1.343-9-3-9m0 18c-1.657 0-3-4.03-3-9s1.343-9 3-9m-9 9a9 9 0 019-9"></path>
+                      <svg
+                        className="w-3 h-3"
+                        fill="none"
+                        stroke="currentColor"
+                        viewBox="0 0 24 24"
+                      >
+                        <path
+                          strokeLinecap="round"
+                          strokeLinejoin="round"
+                          strokeWidth="2"
+                          d="M21 12a9 9 0 01-9 9m9-9a9 9 0 00-9-9m9 9H3m9 9a9 9 0 01-9-9m9 9c1.657 0 3-4.03 3-9s-1.343-9-3-9m0 18c-1.657 0-3-4.03-3-9s1.343-9 3-9m-9 9a9 9 0 019-9"
+                        ></path>
                       </svg>
-                      {log.ipAddress || "Bilinmiyor"}
+                      {(() => {
+                        try {
+                          const p = JSON.parse(log.details || "{}");
+                          return p.ip || "Bilinmiyor";
+                        } catch { return "Bilinmiyor"; }
+                      })()}
                     </td>
                   </tr>
                 ))

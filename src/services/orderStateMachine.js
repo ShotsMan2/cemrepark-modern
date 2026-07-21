@@ -1,9 +1,9 @@
 export const OrderStatus = {
-  PENDING: 'PENDING',
-  PAID: 'PAID',
-  SHIPPED: 'SHIPPED',
-  DELIVERED: 'DELIVERED',
-  CANCELLED: 'CANCELLED'
+  PENDING: "PENDING",
+  PAID: "PAID",
+  SHIPPED: "SHIPPED",
+  DELIVERED: "DELIVERED",
+  CANCELLED: "CANCELLED",
 };
 
 const transitions = {
@@ -11,7 +11,7 @@ const transitions = {
   [OrderStatus.PAID]: [OrderStatus.SHIPPED, OrderStatus.CANCELLED],
   [OrderStatus.SHIPPED]: [OrderStatus.DELIVERED],
   [OrderStatus.DELIVERED]: [],
-  [OrderStatus.CANCELLED]: []
+  [OrderStatus.CANCELLED]: [],
 };
 
 export class OrderStateMachine {
@@ -29,7 +29,9 @@ export class OrderStateMachine {
 
   transitionTo(nextState) {
     if (!this.canTransitionTo(nextState)) {
-      throw new Error(`Invalid transition: Cannot transition from ${this.currentState} to ${nextState}`);
+      throw new Error(
+        `Invalid transition: Cannot transition from ${this.currentState} to ${nextState}`
+      );
     }
     this.currentState = nextState;
     return this.currentState;

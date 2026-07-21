@@ -28,7 +28,7 @@ export default function AdminPage() {
       if (result.error === "Too Many Attempts") {
         errorMessage = "Çok fazla başarısız deneme yaptınız. Lütfen daha sonra tekrar deneyin.";
       }
-      
+
       Swal.fire({
         title: "Hata",
         text: errorMessage,
@@ -122,7 +122,7 @@ export default function AdminPage() {
   }
 
   // Check if user is authenticated but not an admin
-  if (status === "authenticated" && (session?.user as any)?.role !== "admin") {
+  if (status === "authenticated" && session?.user?.role !== "admin") {
     return (
       <div className="min-h-screen pt-32 pb-24 flex items-center justify-center relative overflow-hidden bg-[#0a0a0a]">
         {/* Glow */}
@@ -132,7 +132,9 @@ export default function AdminPage() {
           <h1 className="text-3xl font-black text-red-500 uppercase tracking-widest mb-4">
             Yetkisiz Erişim
           </h1>
-          <p className="text-foreground/70 text-sm mb-8">Bu sayfaya yalnızca yöneticiler erişebilir.</p>
+          <p className="text-foreground/70 text-sm mb-8">
+            Bu sayfaya yalnızca yöneticiler erişebilir.
+          </p>
           <button
             onClick={async () => {
               await signOut({ redirect: false });

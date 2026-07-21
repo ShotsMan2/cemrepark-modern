@@ -1,0 +1,28 @@
+﻿Γû▓ Next.js 16.2.9 (Turbopack)
+- Environments: .env
+- Experiments (use with caution):
+  ┬╖ optimizePackageImports
+
+  Creating an optimized production build ...
+Γ£ô Compiled successfully in 15.8s
+  Running TypeScript ...
+node.exe : Failed to type check.
+At line:1 char:1
++ & "C:\Program Files\nodejs/node.exe" "C:\Program Files\nodejs/node_mo ...
++ ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+    + CategoryInfo          : NotSpecified: (Failed to type check.:String) [], RemoteException
+    + FullyQualifiedErrorId : NativeCommandError
+ 
+
+./src/app/admin/components/views/CouponsView.tsx:46:40
+Type error: Parameter 'c' implicitly has an 'any' type.
+
+  [90m44 |[0m         [36mconst[0m data = [36mawait[0m res.json();
+  [90m45 |[0m         [90m// Add mock performance data if missing[0m
+[31m[1m>[0m [90m46 |[0m         [36mconst[0m enhancedData = data.map((c) => ({
+  [90m   |[0m                                        [31m[1m^[0m
+  [90m47 |[0m           ...c,
+  [90m48 |[0m           revenueGenerated: [33mMath[0m.floor([33mMath[0m.random() * [35m5000[0m), [90m// mock 
+revenue[0m
+  [90m49 |[0m           usedCount: c.usedCount || [35m0[0m,
+Next.js build worker exited with code: 1 and signal: null

@@ -11,8 +11,8 @@ export const metadata = {
 
 export default async function LoginHistoryPage() {
   const session = await getServerSession(authOptions);
-  
-  if (!session || (session.user as any)?.role !== "admin") {
+
+  if (!session || session.user?.role !== "admin") {
     redirect("/admin");
   }
 
@@ -37,13 +37,13 @@ export default async function LoginHistoryPage() {
             Kullanıcı oturum açma kayıtları (Son 100 işlem)
           </p>
         </div>
-        <ExportButton 
-          data={logs.map(log => ({
-            "Tarih": new Date(log.createdAt).toLocaleString("tr-TR"),
-            "Kullanıcı": log.user?.name || log.user?.email || "Bilinmiyor",
-            "Durum": log.success ? "Başarılı" : "Başarısız",
+        <ExportButton
+          data={logs.map((log) => ({
+            Tarih: new Date(log.createdAt).toLocaleString("tr-TR"),
+            Kullanıcı: log.user?.name || log.user?.email || "Bilinmiyor",
+            Durum: log.status === "SUCCESS" ? "Başarılı" : "Başarısız",
             "IP Adresi": log.ipAddress || "Bilinmiyor",
-            "Tarayıcı / Cihaz": log.userAgent || "-"
+            "Tarayıcı / Cihaz": log.userAgent || "-",
           }))}
           filename="login_history.csv"
         />
@@ -70,7 +70,10 @@ export default async function LoginHistoryPage() {
                 </tr>
               ) : (
                 logs.map((log) => (
-                  <tr key={log.id} className="border-b border-glass-border hover:bg-foreground/5 transition-all duration-300 group">
+                  <tr
+                    key={log.id}
+                    className="border-b border-glass-border hover:bg-foreground/5 transition-all duration-300 group"
+                  >
                     <td className="py-4 px-6 text-foreground/50 font-mono text-xs group-hover:text-foreground transition-colors">
                       {new Date(log.createdAt).toLocaleString("tr-TR")}
                     </td>
@@ -81,12 +84,14 @@ export default async function LoginHistoryPage() {
                         </div>
                         <div className="flex flex-col">
                           <span>{log.user?.name || "Bilinmiyor"}</span>
-                          <span className="text-[10px] text-foreground/60 font-mono">{log.user?.email || "Silinmiş Kullanıcı"}</span>
+                          <span className="text-[10px] text-foreground/60 font-mono">
+                            {log.user?.email || "Silinmiş Kullanıcı"}
+                          </span>
                         </div>
                       </div>
                     </td>
                     <td className="py-4 px-6 text-center">
-                      {log.success ? (
+                      {log.status === "SUCCESS" ? (
                         <span className="inline-flex items-center gap-1.5 bg-green-500/10 text-green-400 border border-green-500/20 px-3 py-1.5 rounded-lg text-[10px] font-black uppercase tracking-widest shadow-[0_0_10px_rgba(16,185,129,0.1)]">
                           <div className="w-1.5 h-1.5 rounded-full bg-green-400 animate-pulse"></div>
                           BAŞARILI
@@ -100,13 +105,26 @@ export default async function LoginHistoryPage() {
                     </td>
                     <td className="py-4 px-6 text-foreground/60 font-mono text-xs">
                       <div className="flex items-center gap-1">
-                        <svg className="w-3 h-3" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                          <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M21 12a9 9 0 01-9 9m9-9a9 9 0 00-9-9m9 9H3m9 9a9 9 0 01-9-9m9 9c1.657 0 3-4.03 3-9s-1.343-9-3-9m0 18c-1.657 0-3-4.03-3-9s1.343-9 3-9m-9 9a9 9 0 019-9"></path>
+                        <svg
+                          className="w-3 h-3"
+                          fill="none"
+                          stroke="currentColor"
+                          viewBox="0 0 24 24"
+                        >
+                          <path
+                            strokeLinecap="round"
+                            strokeLinejoin="round"
+                            strokeWidth="2"
+                            d="M21 12a9 9 0 01-9 9m9-9a9 9 0 00-9-9m9 9H3m9 9a9 9 0 01-9-9m9 9c1.657 0 3-4.03 3-9s-1.343-9-3-9m0 18c-1.657 0-3-4.03-3-9s1.343-9 3-9m-9 9a9 9 0 019-9"
+                          ></path>
                         </svg>
                         {log.ipAddress || "Bilinmiyor"}
                       </div>
                     </td>
-                    <td className="py-4 px-6 text-foreground/50 text-xs truncate max-w-[200px]" title={log.userAgent || ""}>
+                    <td
+                      className="py-4 px-6 text-foreground/50 text-xs truncate max-w-[200px]"
+                      title={log.userAgent || ""}
+                    >
                       {log.userAgent || "-"}
                     </td>
                   </tr>

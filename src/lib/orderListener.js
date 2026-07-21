@@ -1,5 +1,5 @@
-import eventBus, { EVENTS } from './eventBus';
-import logger from './logger';
+import eventBus, { EVENTS } from "./eventBus";
+import logger from "./logger";
 // Mock import of emailService. In a real app, import { sendOrderConfirmationEmail } from '../services/emailService';
 
 function sendOrderConfirmationEmail(order) {
@@ -17,8 +17,11 @@ eventBus.on(EVENTS.ORDER_PLACED, async (order) => {
     logger.info(`[Event Listener] Processing ORDER_PLACED event for Order ID: ${order.id}`);
     await sendOrderConfirmationEmail(order);
   } catch (error) {
-    logger.error(`[Event Listener] Failed to process ORDER_PLACED for Order ID: ${order.id}`, error);
+    logger.error(
+      `[Event Listener] Failed to process ORDER_PLACED for Order ID: ${order.id}`,
+      error
+    );
   }
 });
 
-logger.info('[Event Listener] Order listeners initialized.');
+logger.info("[Event Listener] Order listeners initialized.");

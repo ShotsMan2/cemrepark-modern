@@ -54,10 +54,7 @@ export default function NewsletterForm() {
           className="bg-white/5 border-white/20 text-foreground min-w-[300px] h-full"
         />
       </div>
-      <Button
-        type="submit"
-        className="px-8 py-4 h-full"
-      >
+      <Button type="submit" className="px-8 py-4 h-full">
         {t("subscribe")}
       </Button>
     </form>

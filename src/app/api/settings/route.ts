@@ -14,9 +14,12 @@ export const POST = apiHandler(async (request: NextRequest) => {
     "UPDATE_SETTINGS",
     "Updated application settings"
   );
-  
+
   if (errorResponse) {
-    const error = new Error("Yetkisiz Erişim") as Error & { statusCode?: number; isOperational?: boolean };
+    const error = new Error("Yetkisiz Erişim") as Error & {
+      statusCode?: number;
+      isOperational?: boolean;
+    };
     error.statusCode = 403;
     error.isOperational = true;
     throw error;

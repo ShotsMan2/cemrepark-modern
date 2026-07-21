@@ -90,9 +90,6 @@ export const PUT = apiHandler(async (req: NextRequest) => {
       entity: "User",
       entityId: currentUser.id.toString(),
       details: `User updated their profile.`,
-      changes: JSON.stringify({ name, email, phoneNumber }),
-      ipAddress,
-      userAgent,
     })
   );
 

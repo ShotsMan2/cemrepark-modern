@@ -1,4 +1,4 @@
-import React from 'react';
+import React from "react";
 
 interface ProductSchemaProps {
   product: {
@@ -14,17 +14,18 @@ interface ProductSchemaProps {
 
 export default function ProductSchema({ product }: ProductSchemaProps) {
   const jsonLd = {
-    '@context': 'https://schema.org',
-    '@type': 'Product',
+    "@context": "https://schema.org",
+    "@type": "Product",
     name: product.name,
     description: product.description || `Buy ${product.name} at Cemre Park.`,
-    image: product.image || 'https://cemrepark.com/default-product.jpg',
+    image: product.image || "https://cemrepark.com/default-product.jpg",
     sku: product.id,
     offers: {
-      '@type': 'Offer',
+      "@type": "Offer",
       price: product.price,
-      priceCurrency: 'TRY',
-      availability: (product.stock ?? 1) > 0 ? 'https://schema.org/InStock' : 'https://schema.org/OutOfStock',
+      priceCurrency: "TRY",
+      availability:
+        (product.stock ?? 1) > 0 ? "https://schema.org/InStock" : "https://schema.org/OutOfStock",
       url: `https://cemrepark.com/product/${product.slug || product.id}`,
     },
   };

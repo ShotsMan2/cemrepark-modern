@@ -23,9 +23,9 @@ class IyzicoPaymentStrategy extends PaymentStrategy {
     return {
       success: true,
       transactionId: `iyzico_${Math.random().toString(36).substr(2, 9)}`,
-      method: 'iyzico',
-      message: 'Payment processed successfully via Iyzico.',
-      timestamp: new Date().toISOString()
+      method: "iyzico",
+      message: "Payment processed successfully via Iyzico.",
+      timestamp: new Date().toISOString(),
     };
   }
 }
@@ -40,9 +40,9 @@ class CashOnDeliveryStrategy extends PaymentStrategy {
     return {
       success: true,
       transactionId: `cod_${Math.random().toString(36).substr(2, 9)}`,
-      method: 'cash_on_delivery',
-      message: 'Order registered for cash on delivery.',
-      timestamp: new Date().toISOString()
+      method: "cash_on_delivery",
+      message: "Order registered for cash on delivery.",
+      timestamp: new Date().toISOString(),
     };
   }
 }
@@ -52,18 +52,13 @@ class CashOnDeliveryStrategy extends PaymentStrategy {
  */
 function getPaymentStrategy(method) {
   switch (method) {
-    case 'iyzico':
+    case "iyzico":
       return new IyzicoPaymentStrategy();
-    case 'cash_on_delivery':
+    case "cash_on_delivery":
       return new CashOnDeliveryStrategy();
     default:
       throw new Error(`Unsupported payment method: ${method}`);
   }
 }
 
-export {
-  PaymentStrategy,
-  IyzicoPaymentStrategy,
-  CashOnDeliveryStrategy,
-  getPaymentStrategy
-};
+export { PaymentStrategy, IyzicoPaymentStrategy, CashOnDeliveryStrategy, getPaymentStrategy };

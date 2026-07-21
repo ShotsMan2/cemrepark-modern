@@ -5,7 +5,14 @@ export default function robots() {
     rules: {
       userAgent: "*",
       allow: "/",
-      disallow: ["/admin/", "/api/", "/checkout/", "/hesabim/", "/forgot-password/", "/reset-password/"],
+      disallow: [
+        "/admin/",
+        "/api/",
+        "/checkout/",
+        "/hesabim/",
+        "/forgot-password/",
+        "/reset-password/",
+      ],
       crawlDelay: 1,
     },
     sitemap: `${baseUrl}/sitemap.xml`,

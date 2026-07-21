@@ -70,7 +70,6 @@ export default function InstantFilter({
     AOS.init({ duration: 800, once: true });
   }, []);
 
-  // eslint-disable-next-line react-hooks/exhaustive-deps
   const debouncedPriceChange = React.useMemo(
     () =>
       debounce((min: number, max: number) => {
@@ -78,7 +77,7 @@ export default function InstantFilter({
         setFilters(newFilters);
         onFilterChange(newFilters);
       }, 500),
-    [filters, onFilterChange],
+    [filters, onFilterChange]
   );
 
   const handlePriceSlide = (type: "min" | "max", val: number) => {
@@ -104,7 +103,14 @@ export default function InstantFilter({
       <div className="absolute -bottom-24 -left-24 w-48 h-48 bg-gradient-to-tr from-secondary/20 to-primary/10 rounded-full blur-[50px] pointer-events-none group-hover:scale-110 transition-transform duration-1000"></div>
 
       <h3 className="text-xl font-bold bg-clip-text text-transparent bg-gradient-to-r from-foreground to-foreground/70 mb-8 tracking-wide border-b border-foreground/5 pb-4 relative z-10 flex items-center gap-3">
-        <svg className="w-5 h-5 text-primary" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M12 6V4m0 2a2 2 0 100 4m0-4a2 2 0 110 4m-6 8a2 2 0 100-4m0 4a2 2 0 110-4m0 4v2m0-6V4m6 6v10m6-2a2 2 0 100-4m0 4a2 2 0 110-4m0 4v2m0-6V4"></path></svg>
+        <svg className="w-5 h-5 text-primary" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+          <path
+            strokeLinecap="round"
+            strokeLinejoin="round"
+            strokeWidth="2"
+            d="M12 6V4m0 2a2 2 0 100 4m0-4a2 2 0 110 4m-6 8a2 2 0 100-4m0 4a2 2 0 110-4m0 4v2m0-6V4m6 6v10m6-2a2 2 0 100-4m0 4a2 2 0 110-4m0 4v2m0-6V4"
+          ></path>
+        </svg>
         Filtreler
       </h3>
 

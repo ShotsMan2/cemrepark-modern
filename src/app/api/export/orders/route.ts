@@ -1,4 +1,4 @@
-import { logger } from '@/lib/logger';
+import { logger } from "@/lib/logger";
 import { NextResponse, NextRequest } from "next/server";
 import prisma from "@/lib/prisma";
 import { getToken } from "next-auth/jwt";

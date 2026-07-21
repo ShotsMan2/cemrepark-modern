@@ -1,8 +1,8 @@
-const fs = require('fs');
-const path = require('path');
+const fs = require("fs");
+const path = require("path");
 
-const fileToFix = path.join(__dirname, '..', 'src', 'app', 'HomeClient.js');
-let content = fs.readFileSync(fileToFix, 'utf8');
+const fileToFix = path.join(__dirname, "..", "src", "app", "HomeClient.js");
+let content = fs.readFileSync(fileToFix, "utf8");
 
 content = content.replace(/(?<!dark:)text-gray-300/g, "text-gray-700 dark:text-gray-300");
 content = content.replace(/(?<!dark:)text-gray-400/g, "text-gray-600 dark:text-gray-400");

@@ -15,7 +15,7 @@ export interface ShippingRateResponse {
 
 export interface TrackingRequest {
   orderId: string;
-  shippingAddress?: any; 
+  shippingAddress?: any;
   customerInfo?: any;
 }
 

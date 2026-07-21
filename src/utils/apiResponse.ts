@@ -1,4 +1,4 @@
-import { NextResponse } from 'next/server';
+import { NextResponse } from "next/server";
 
 export interface ApiResponse<T = unknown> {
   success: boolean;
@@ -19,7 +19,7 @@ export function successResponse<T>(data: T, message?: string, status: number = 2
 export function errorResponse(message: string, error?: unknown, status: number = 500) {
   // If the error is an instance of Error, we extract the message, otherwise we just pass the unknown error
   const parsedError = error instanceof Error ? error.message : error;
-  
+
   const response: ApiResponse<never> = {
     success: false,
     message,

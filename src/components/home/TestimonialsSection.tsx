@@ -31,9 +31,7 @@ export default memo(function TestimonialsSection() {
           viewport={{ once: true }}
         >
           <div className="text-center md:text-left flex-shrink-0">
-            <div className="text-5xl font-black font-display text-foreground">
-              4.9
-            </div>
+            <div className="text-5xl font-black font-display text-foreground">4.9</div>
             <div className="flex gap-1 text-secondary my-2 justify-center md:justify-start">
               {[...Array(5)].map((_, i) => (
                 <svg key={i} className="w-5 h-5 fill-current" viewBox="0 0 20 20">
@@ -125,9 +123,7 @@ export default memo(function TestimonialsSection() {
                   {review.name.charAt(0)}
                 </div>
                 <div>
-                  <h4 className="text-foreground font-bold tracking-wide">
-                    {review.name}
-                  </h4>
+                  <h4 className="text-foreground font-bold tracking-wide">{review.name}</h4>
                   <div className="badge-premium bg-green-500/10 text-green-600 dark:text-green-400 mt-1">
                     <svg className="w-3 h-3" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                       <path

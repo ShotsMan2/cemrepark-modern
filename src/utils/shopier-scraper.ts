@@ -1,8 +1,8 @@
-import { PrismaClient } from '@prisma/client';
+import { PrismaClient } from "@prisma/client";
 
 const prisma = new PrismaClient();
 
-// Bu script (OpenCode ajanı simülasyonu) Shopier'den çekilecek renk varyasyonlarını 
+// Bu script (OpenCode ajanı simülasyonu) Shopier'den çekilecek renk varyasyonlarını
 // veritabanına eklemek için örnek (mock) bir yapı sunar.
 // Gerçek senaryoda burası cheerio/puppeteer kullanılarak shopier.com DOM parse edilerek doldurulur.
 
@@ -14,17 +14,20 @@ const mockShopierData = [
     colors: [
       {
         renkAdi: "Siyah",
-        gorselUrl: "https://d3tfntuwm2qzo4.cloudfront.net/images/products/2025/01/21/48421948/1d279cf7-4f6c-482d-8857-e9a9a5a5a5a5_1.jpg",
+        gorselUrl:
+          "https://d3tfntuwm2qzo4.cloudfront.net/images/products/2025/01/21/48421948/1d279cf7-4f6c-482d-8857-e9a9a5a5a5a5_1.jpg",
       },
       {
         renkAdi: "Kırmızı",
-        gorselUrl: "https://d3tfntuwm2qzo4.cloudfront.net/images/products/2025/01/21/48421948/1d279cf7-4f6c-482d-8857-e9a9a5a5a5a5_1.jpg", // Using same placeholder image but represents Red
+        gorselUrl:
+          "https://d3tfntuwm2qzo4.cloudfront.net/images/products/2025/01/21/48421948/1d279cf7-4f6c-482d-8857-e9a9a5a5a5a5_1.jpg", // Using same placeholder image but represents Red
       },
       {
         renkAdi: "Zümrüt Yeşili",
-        gorselUrl: "https://d3tfntuwm2qzo4.cloudfront.net/images/products/2025/01/21/48421948/1d279cf7-4f6c-482d-8857-e9a9a5a5a5a5_1.jpg", // Using same placeholder image but represents Green
-      }
-    ]
+        gorselUrl:
+          "https://d3tfntuwm2qzo4.cloudfront.net/images/products/2025/01/21/48421948/1d279cf7-4f6c-482d-8857-e9a9a5a5a5a5_1.jpg", // Using same placeholder image but represents Green
+      },
+    ],
   },
   {
     ad: "BÜYÜK BEDEN JAKARLI TUNİK",
@@ -33,10 +36,11 @@ const mockShopierData = [
     colors: [
       {
         renkAdi: "Standart (Görseldeki)",
-        gorselUrl: "https://d3tfntuwm2qzo4.cloudfront.net/images/products/2025/01/16/48071808/3f7e61e6-b07f-44a6-98af-f63b6eb4e7a8_1.jpg",
-      }
-    ]
-  }
+        gorselUrl:
+          "https://d3tfntuwm2qzo4.cloudfront.net/images/products/2025/01/16/48071808/3f7e61e6-b07f-44a6-98af-f63b6eb4e7a8_1.jpg",
+      },
+    ],
+  },
 ];
 
 export async function syncShopierProducts() {
@@ -51,12 +55,12 @@ export async function syncShopierProducts() {
         stok: item.stok,
         resim: item.colors[0]?.gorselUrl || "", // Varsayılan resim
         colors: {
-          create: item.colors.map(c => ({
+          create: item.colors.map((c) => ({
             renkAdi: c.renkAdi,
-            gorselUrl: c.gorselUrl
-          }))
-        }
-      }
+            gorselUrl: c.gorselUrl,
+          })),
+        },
+      },
     });
 
     console.log(`Ürün eklendi/güncellendi: ${product.ad} (${item.colors.length} renk)`);
@@ -69,7 +73,7 @@ export async function syncShopierProducts() {
 if (require.main === module) {
   syncShopierProducts()
     .then(() => prisma.$disconnect())
-    .catch(e => {
+    .catch((e) => {
       console.error(e);
       prisma.$disconnect();
       process.exit(1);

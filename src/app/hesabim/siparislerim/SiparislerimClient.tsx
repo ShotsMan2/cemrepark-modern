@@ -8,8 +8,10 @@ export default function SiparislerimClient({ orders }) {
   const { t, formatPrice, language } = useStore();
 
   const getStatusColorClass = (status) => {
-    if (status === "Tamamlandı") return "bg-green-500/10 dark:bg-green-500/20 text-green-600 dark:text-green-400";
-    if (status === "İptal Edildi" || status === "İptal") return "bg-red-500/10 dark:bg-red-500/20 text-red-600 dark:text-red-400";
+    if (status === "Tamamlandı")
+      return "bg-green-500/10 dark:bg-green-500/20 text-green-600 dark:text-green-400";
+    if (status === "İptal Edildi" || status === "İptal")
+      return "bg-red-500/10 dark:bg-red-500/20 text-red-600 dark:text-red-400";
     return "bg-blue-500/10 dark:bg-blue-500/20 text-blue-600 dark:text-blue-400";
   };
 
@@ -35,7 +37,7 @@ export default function SiparislerimClient({ orders }) {
   const [expandedOrderId, setExpandedOrderId] = useState(null);
 
   const toggleOrder = (id) => {
-    setExpandedOrderId(prev => prev === id ? null : id);
+    setExpandedOrderId((prev) => (prev === id ? null : id));
   };
 
   return (
@@ -72,12 +74,17 @@ export default function SiparislerimClient({ orders }) {
                 key={order.id}
                 className="border border-black/[0.08] dark:border-white/10 bg-black/[0.03] dark:bg-black/50 p-6 clip-angled flex flex-col gap-4"
               >
-                <div className="flex flex-col md:flex-row justify-between items-start md:items-center cursor-pointer" onClick={() => toggleOrder(order.id)}>
+                <div
+                  className="flex flex-col md:flex-row justify-between items-start md:items-center cursor-pointer"
+                  onClick={() => toggleOrder(order.id)}
+                >
                   <div>
                     <p className="text-foreground font-bold text-lg mb-1">
                       {t("order_no", { id: order.id })}
                     </p>
-                    <p className="text-foreground/70 text-sm font-medium">{getLocalDateString(order.createdAt)}</p>
+                    <p className="text-foreground/70 text-sm font-medium">
+                      {getLocalDateString(order.createdAt)}
+                    </p>
                   </div>
                   <div className="flex flex-col md:items-end mt-4 md:mt-0">
                     <p className="text-glow-gold font-bold text-xl mb-1">
@@ -93,24 +100,34 @@ export default function SiparislerimClient({ orders }) {
 
                 {expandedOrderId === order.id && (
                   <div className="mt-4 pt-4 border-t border-black/10 dark:border-white/10 animate-fade-in">
-                    <h3 className="font-bold text-sm uppercase tracking-wider mb-2">Sipariş Detayı</h3>
+                    <h3 className="font-bold text-sm uppercase tracking-wider mb-2">
+                      Sipariş Detayı
+                    </h3>
                     {order.trackingNumber && (
                       <div className="mb-4 bg-white/50 dark:bg-black/20 p-3 rounded">
                         <p className="text-sm">
-                          <span className="font-bold">Kargo Firması:</span> {order.carrier || "Belirtilmedi"}
+                          <span className="font-bold">Kargo Firması:</span>{" "}
+                          {order.carrier || "Belirtilmedi"}
                         </p>
                         <p className="text-sm">
                           <span className="font-bold">Takip Numarası:</span> {order.trackingNumber}
                         </p>
                       </div>
                     )}
-                    
+
                     {order.items && order.items.length > 0 && (
                       <div className="space-y-2">
                         {order.items.map((item, idx) => (
-                          <div key={idx} className="flex justify-between items-center text-sm border-b border-black/5 dark:border-white/5 pb-2">
-                            <span>{item.quantity}x {item.product?.ad || 'Ürün'}</span>
-                            <span className="font-bold">{formatPrice(item.price * item.quantity)}</span>
+                          <div
+                            key={idx}
+                            className="flex justify-between items-center text-sm border-b border-black/5 dark:border-white/5 pb-2"
+                          >
+                            <span>
+                              {item.quantity}x {item.product?.ad || "Ürün"}
+                            </span>
+                            <span className="font-bold">
+                              {formatPrice(item.price * item.quantity)}
+                            </span>
                           </div>
                         ))}
                       </div>

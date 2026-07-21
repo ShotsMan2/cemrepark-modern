@@ -1,4 +1,4 @@
-import { logger } from '@/lib/logger';
+import { logger } from "@/lib/logger";
 import { NextResponse, NextRequest } from "next/server";
 import { PrismaClient } from "@prisma/client";
 import crypto from "crypto";
@@ -22,7 +22,9 @@ export async function POST(req: NextRequest) {
 
     if (!user) {
       // Return success even if user not found for security reasons
-      return NextResponse.json({ message: "If your email is registered, you will receive a password reset link." });
+      return NextResponse.json({
+        message: "If your email is registered, you will receive a password reset link.",
+      });
     }
 
     // Generate token
@@ -31,12 +33,12 @@ export async function POST(req: NextRequest) {
 
     // Check if a token already exists and delete it
     const existingToken = await prisma.passwordResetToken.findFirst({
-        where: { email }
+      where: { email },
     });
-    if(existingToken) {
-        await prisma.passwordResetToken.delete({
-            where: { id: existingToken.id }
-        });
+    if (existingToken) {
+      await prisma.passwordResetToken.delete({
+        where: { id: existingToken.id },
+      });
     }
 
     // Save token to database
@@ -49,7 +51,7 @@ export async function POST(req: NextRequest) {
     });
 
     // Generate reset link
-    const appUrl = process.env.NEXT_PUBLIC_APP_URL || 'http://localhost:3002';
+    const appUrl = process.env.NEXT_PUBLIC_APP_URL || "http://localhost:3002";
     const resetUrl = `${appUrl}/reset-password?token=${resetToken}`;
 
     // Log the link since we don't have an email provider
@@ -58,11 +60,10 @@ export async function POST(req: NextRequest) {
     logger.info(resetUrl);
     logger.info("=========================================\n");
 
-    return NextResponse.json({ 
-        message: "If your email is registered, you will receive a password reset link.",
-        _devResetUrl: resetUrl // Passing this to frontend for testing
+    return NextResponse.json({
+      message: "If your email is registered, you will receive a password reset link.",
+      _devResetUrl: resetUrl, // Passing this to frontend for testing
     });
-
   } catch (error) {
     logger.error("Forgot password error:", error);
     return NextResponse.json({ error: "An unexpected error occurred" }, { status: 500 });

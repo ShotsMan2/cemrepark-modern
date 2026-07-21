@@ -20,19 +20,22 @@ class UserService {
     });
   }
 
-  async getUsersPaginated(filters = {}, page = 1, limit = 10, sortBy = "createdAt", sortOrder = "desc") {
+  async getUsersPaginated(
+    filters = {},
+    page = 1,
+    limit = 10,
+    sortBy = "createdAt",
+    sortOrder = "desc"
+  ) {
     try {
       const { search, role } = filters;
       const whereClause = {};
 
       if (search) {
-        whereClause.OR = [
-          { name: { contains: search } },
-          { email: { contains: search } }
-        ];
+        whereClause.OR = [{ name: { contains: search } }, { email: { contains: search } }];
       }
 
-      if (role && role !== 'all') {
+      if (role && role !== "all") {
         whereClause.role = role;
       }
 
@@ -53,9 +56,9 @@ class UserService {
             _count: {
               select: { orders: true, reviews: true },
             },
-          }
+          },
         }),
-        prisma.user.count({ where: whereClause })
+        prisma.user.count({ where: whereClause }),
       ]);
 
       return {
@@ -63,7 +66,7 @@ class UserService {
         total,
         page,
         limit,
-        totalPages: Math.ceil(total / limit)
+        totalPages: Math.ceil(total / limit),
       };
     } catch (error) {
       console.error("Failed to fetch paginated users from DB", { error: error.message });
@@ -161,14 +164,14 @@ class UserService {
         id: updatedUser.id,
         name: updatedUser.name,
         email: updatedUser.email,
-        phoneNumber: updatedUser.phoneNumber
-      }
+        phoneNumber: updatedUser.phoneNumber,
+      },
     };
   }
 
   async deleteUser(id) {
     return await prisma.user.delete({
-      where: { id: parseInt(id) }
+      where: { id: parseInt(id) },
     });
   }
 }

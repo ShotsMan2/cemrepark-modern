@@ -8,9 +8,21 @@ export default memo(function FeaturesStrip() {
       <div className="container-premium">
         <div className="flex gap-4 md:justify-between overflow-x-auto no-scrollbar pb-4 md:pb-0 snap-x">
           {[
-            { icon: "\u{1F69A}", title: "\u00DCcretsiz Kargo", desc: "500 TL \u00FCzeri sipari\u015Flerde" },
-            { icon: "\u{1F504}", title: "Kolay \u0130ade", desc: "14 g\u00FCn i\u00E7inde ko\u015Fulsuz iade" },
-            { icon: "\u{1F4B3}", title: "G\u00FCvenli \u00D6deme", desc: "256-bit SSL korumas\u0131" },
+            {
+              icon: "\u{1F69A}",
+              title: "\u00DCcretsiz Kargo",
+              desc: "500 TL \u00FCzeri sipari\u015Flerde",
+            },
+            {
+              icon: "\u{1F504}",
+              title: "Kolay \u0130ade",
+              desc: "14 g\u00FCn i\u00E7inde ko\u015Fulsuz iade",
+            },
+            {
+              icon: "\u{1F4B3}",
+              title: "G\u00FCvenli \u00D6deme",
+              desc: "256-bit SSL korumas\u0131",
+            },
             { icon: "\u{1F4F1}", title: "7/24 Destek", desc: "WhatsApp destek hatt\u0131" },
           ].map((feat, i) => (
             <motion.div

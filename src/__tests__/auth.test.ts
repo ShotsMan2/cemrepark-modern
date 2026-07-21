@@ -31,7 +31,7 @@ describe("Auth Utilities", () => {
       action: "TEST_ACTION",
       userId: 1,
       details: "test details",
-      ipAddress: "127.0.0.1"
+      ipAddress: "127.0.0.1",
     };
 
     await logAuditAction(params);

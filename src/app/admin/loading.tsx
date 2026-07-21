@@ -1,4 +1,4 @@
-import React from 'react';
+import React from "react";
 import { Skeleton } from "@/components/ui/Skeleton";
 
 export default function AdminLoading() {
@@ -36,7 +36,10 @@ export default function AdminLoading() {
           </div>
           <div className="space-y-4">
             {[...Array(5)].map((_, i) => (
-              <div key={i} className="flex items-center justify-between p-4 bg-foreground/5 rounded-xl border border-glass-border">
+              <div
+                key={i}
+                className="flex items-center justify-between p-4 bg-foreground/5 rounded-xl border border-glass-border"
+              >
                 <div className="flex items-center space-x-4">
                   <Skeleton className="h-10 w-10 rounded-full" />
                   <div className="space-y-2">

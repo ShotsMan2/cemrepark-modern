@@ -78,7 +78,7 @@ export default function QuickViewModal({ product, onClose }: QuickViewModalProps
 
         <div className="w-full md:w-1/2 h-[400px] md:h-[600px] relative clip-angled">
           <Image
-            src={getValidImageUrl(product.resim || product.gorsel?.split(',')[0] || '')}
+            src={getValidImageUrl(product.resim || product.gorsel?.split(",")[0] || "")}
             alt={product.ad}
             fill
             className="object-cover"
@@ -95,7 +95,9 @@ export default function QuickViewModal({ product, onClose }: QuickViewModalProps
           </h2>
           <div className="text-3xl font-bold text-holo-gold mb-8">{formatPrice(product.fiyat)}</div>
 
-          <p className="text-foreground/70 text-sm mb-8 leading-relaxed">{t("quick_view_desc") as string}</p>
+          <p className="text-foreground/70 text-sm mb-8 leading-relaxed">
+            {t("quick_view_desc") as string}
+          </p>
 
           <div className="flex gap-4">
             <Link
@@ -124,7 +126,9 @@ export default function QuickViewModal({ product, onClose }: QuickViewModalProps
               >
                 <path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"></path>
               </svg>
-              {isFavorite ? (t("remove_from_favorites") as string) : (t("add_to_favorites") as string)}
+              {isFavorite
+                ? (t("remove_from_favorites") as string)
+                : (t("add_to_favorites") as string)}
             </button>
           </div>
         </div>

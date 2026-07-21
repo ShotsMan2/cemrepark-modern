@@ -24,7 +24,11 @@ export default function KurumsalContentClient({ slug, settings: ssrSettings, dyn
         <div className="space-y-6" data-aos="fade-up">
           <p className="text-foreground leading-relaxed text-lg">{t("about_us_p1")}</p>
           <p className="text-foreground leading-relaxed text-lg">{t("about_us_p2")}</p>
-          <div className="p-8 border border-black/10 dark:border-white/10 bg-black/5 dark:bg-black/40 clip-angled my-10 relative overflow-hidden" data-aos="fade-right" data-aos-delay="200">
+          <div
+            className="p-8 border border-black/10 dark:border-white/10 bg-black/5 dark:bg-black/40 clip-angled my-10 relative overflow-hidden"
+            data-aos="fade-right"
+            data-aos-delay="200"
+          >
             <div className="absolute top-0 right-0 w-32 h-32 bg-neon-pink opacity-10 rounded-bl-full"></div>
             <h3 className="text-foreground font-bold text-xl uppercase tracking-widest mb-4">
               {t("our_vision_title")}
@@ -62,7 +66,9 @@ export default function KurumsalContentClient({ slug, settings: ssrSettings, dyn
                   <h4 className="text-foreground font-bold uppercase tracking-wider text-sm">
                     {t("phone_title")}
                   </h4>
-                  <p className="text-gray-700 dark:text-gray-200">{settings?.destekTelefonu || "0554 169 89 09"}</p>
+                  <p className="text-gray-700 dark:text-gray-200">
+                    {settings?.destekTelefonu || "0554 169 89 09"}
+                  </p>
                 </div>
               </div>
               <div className="flex gap-4 items-center">
@@ -90,7 +96,9 @@ export default function KurumsalContentClient({ slug, settings: ssrSettings, dyn
       title: t("distance_selling"),
       content: (
         <div className="space-y-8" data-aos="fade-up">
-          <p className="text-gray-900 dark:text-gray-200 text-sm leading-relaxed">{t("distance_selling_text")}</p>
+          <p className="text-gray-900 dark:text-gray-200 text-sm leading-relaxed">
+            {t("distance_selling_text")}
+          </p>
         </div>
       ),
     },
@@ -98,7 +106,9 @@ export default function KurumsalContentClient({ slug, settings: ssrSettings, dyn
       title: t("return_policy"),
       content: (
         <div className="space-y-8" data-aos="fade-up">
-          <p className="text-gray-900 dark:text-gray-200 text-sm leading-relaxed">{t("return_policy_text")}</p>
+          <p className="text-gray-900 dark:text-gray-200 text-sm leading-relaxed">
+            {t("return_policy_text")}
+          </p>
         </div>
       ),
     },
@@ -106,7 +116,9 @@ export default function KurumsalContentClient({ slug, settings: ssrSettings, dyn
       title: t("privacy_policy"),
       content: (
         <div className="space-y-8" data-aos="fade-up">
-          <p className="text-gray-900 dark:text-gray-200 text-sm leading-relaxed">{t("privacy_policy_text")}</p>
+          <p className="text-gray-900 dark:text-gray-200 text-sm leading-relaxed">
+            {t("privacy_policy_text")}
+          </p>
         </div>
       ),
     },
@@ -114,23 +126,34 @@ export default function KurumsalContentClient({ slug, settings: ssrSettings, dyn
       title: t("vision_mission") || "Vizyon ve Misyon",
       content: (
         <div className="space-y-8" data-aos="fade-up">
-          <p className="text-gray-900 dark:text-gray-200 text-lg leading-relaxed">Yenilikçi tasarımlarımızla tesettür giyiminde öncü bir marka olmayı hedefliyoruz. Müşteri memnuniyetini her zaman ön planda tutarak, en kaliteli kumaşları modern tasarımlarla harmanlıyoruz.</p>
+          <p className="text-gray-900 dark:text-gray-200 text-lg leading-relaxed">
+            Yenilikçi tasarımlarımızla tesettür giyiminde öncü bir marka olmayı hedefliyoruz.
+            Müşteri memnuniyetini her zaman ön planda tutarak, en kaliteli kumaşları modern
+            tasarımlarla harmanlıyoruz.
+          </p>
         </div>
       ),
     },
-    "surdurulebilirlik": {
+    surdurulebilirlik: {
       title: t("sustainability") || "Sürdürülebilirlik",
       content: (
         <div className="space-y-8" data-aos="fade-up">
-          <p className="text-gray-900 dark:text-gray-200 text-lg leading-relaxed">Doğaya ve insana saygılı, çevre dostu üretim süreçlerini benimsiyoruz. Daha yeşil bir gelecek için adımlar atıyoruz.</p>
+          <p className="text-gray-900 dark:text-gray-200 text-lg leading-relaxed">
+            Doğaya ve insana saygılı, çevre dostu üretim süreçlerini benimsiyoruz. Daha yeşil bir
+            gelecek için adımlar atıyoruz.
+          </p>
         </div>
       ),
     },
-    "kariyer": {
+    kariyer: {
       title: t("career") || "Kariyer",
       content: (
         <div className="space-y-8" data-aos="fade-up">
-          <p className="text-gray-900 dark:text-gray-200 text-lg leading-relaxed">Büyüyen ailemize katılmak ve kariyerinizde yeni bir sayfa açmak ister misiniz? Başvurularınız için iletişim sayfamızı kullanabilir veya bize özgeçmişinizi iletebilirsiniz.</p>
+          <p className="text-gray-900 dark:text-gray-200 text-lg leading-relaxed">
+            Büyüyen ailemize katılmak ve kariyerinizde yeni bir sayfa açmak ister misiniz?
+            Başvurularınız için iletişim sayfamızı kullanabilir veya bize özgeçmişinizi
+            iletebilirsiniz.
+          </p>
         </div>
       ),
     },
@@ -143,7 +166,10 @@ export default function KurumsalContentClient({ slug, settings: ssrSettings, dyn
       title: dynamicPage.title,
       content: (
         <div className="space-y-8" data-aos="fade-up">
-          <div className="prose dark:prose-invert max-w-none" dangerouslySetInnerHTML={{ __html: dynamicPage.content }} />
+          <div
+            className="prose dark:prose-invert max-w-none"
+            dangerouslySetInnerHTML={{ __html: dynamicPage.content }}
+          />
         </div>
       ),
     };

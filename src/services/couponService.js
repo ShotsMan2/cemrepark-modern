@@ -35,10 +35,10 @@ class CouponService {
       }
 
       if (coupon.minCartValue && cartTotal < coupon.minCartValue) {
-        return { 
-          valid: false, 
-          discountAmount: 0, 
-          message: `Bu kuponu kullanmak için sepet tutarı en az ${coupon.minCartValue} TL olmalıdır` 
+        return {
+          valid: false,
+          discountAmount: 0,
+          message: `Bu kuponu kullanmak için sepet tutarı en az ${coupon.minCartValue} TL olmalıdır`,
         };
       }
 
@@ -59,7 +59,7 @@ class CouponService {
         discountAmount,
         message: "Kupon başarıyla uygulandı",
         couponId: coupon.id,
-        code: coupon.code
+        code: coupon.code,
       };
     } catch (error) {
       logger.error("Error validating coupon:", { error: error.message });
@@ -69,7 +69,7 @@ class CouponService {
 
   /**
    * Mark a coupon as used
-   * @param {number} couponId 
+   * @param {number} couponId
    */
   async incrementCouponUsage(couponId) {
     try {
