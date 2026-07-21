@@ -20,6 +20,7 @@ interface InstantFilterProps {
   colors: string[];
   sizes: string[];
   onFilterChange: (filters: FilterState) => void;
+  hideCategories?: boolean;
 }
 
 const colorMap: Record<string, string> = {
@@ -54,6 +55,7 @@ export default function InstantFilter({
   colors,
   sizes,
   onFilterChange,
+  hideCategories = false,
 }: InstantFilterProps) {
   const [filters, setFilters] = useState<FilterState>({
     category: "",
@@ -115,32 +117,34 @@ export default function InstantFilter({
       </h3>
 
       {/* Category Tree */}
-      <div className="mb-8 relative z-10">
-        <h4 className="font-semibold text-xs text-foreground/60 mb-4 uppercase tracking-[0.15em]">
-          Kategoriler
-        </h4>
-        <div className="space-y-1">
-          {["Tümü", ...categories].map((cat, idx) => {
-            const val = cat === "Tümü" ? "" : cat;
-            const isSelected = filters.category === val;
-            return (
-              <button
-                key={idx}
-                onClick={() => handleChange("category", val)}
-                className={`w-full flex items-center justify-between px-4 py-2.5 rounded-xl transition-all duration-300 ${isSelected ? "bg-primary/10 text-primary font-bold shadow-sm" : "hover:bg-foreground/5 text-foreground/80 font-medium"}`}
-              >
-                <div className="flex items-center gap-3">
-                  <div
-                    className={`w-1.5 h-1.5 rounded-full transition-all duration-300 ${isSelected ? "bg-primary scale-125 shadow-[0_0_8px_var(--color-primary)]" : "bg-foreground/20"}`}
-                  ></div>
-                  <span className="text-sm">{cat}</span>
-                </div>
-                {isSelected && <ChevronRight className="w-4 h-4 text-primary" />}
-              </button>
-            );
-          })}
+      {!hideCategories && (
+        <div className="mb-8 relative z-10">
+          <h4 className="font-semibold text-xs text-foreground/60 mb-4 uppercase tracking-[0.15em]">
+            Kategoriler
+          </h4>
+          <div className="space-y-1">
+            {["Tümü", ...categories].map((cat, idx) => {
+              const val = cat === "Tümü" ? "" : cat;
+              const isSelected = filters.category === val;
+              return (
+                <button
+                  key={idx}
+                  onClick={() => handleChange("category", val)}
+                  className={`w-full flex items-center justify-between px-4 py-2.5 rounded-xl transition-all duration-300 ${isSelected ? "bg-primary/10 text-primary font-bold shadow-sm" : "hover:bg-foreground/5 text-foreground/80 font-medium"}`}
+                >
+                  <div className="flex items-center gap-3">
+                    <div
+                      className={`w-1.5 h-1.5 rounded-full transition-all duration-300 ${isSelected ? "bg-primary scale-125 shadow-[0_0_8px_var(--color-primary)]" : "bg-foreground/20"}`}
+                    ></div>
+                    <span className="text-sm">{cat}</span>
+                  </div>
+                  {isSelected && <ChevronRight className="w-4 h-4 text-primary" />}
+                </button>
+              );
+            })}
+          </div>
         </div>
-      </div>
+      )}
 
       {/* Dynamic Price Slider */}
       <div className="mb-8 relative z-10">

@@ -78,8 +78,8 @@ export default function CartPage() {
 
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
         <div className="flex flex-col items-center mb-16" data-aos="fade-down">
-          <div className="w-24 h-24 bg-gradient-to-tr from-neon-pink/20 to-holo-gold/20 rounded-full blur-[40px] absolute -top-10"></div>
-          <h1 className="text-5xl md:text-7xl font-black text-transparent bg-clip-text bg-gradient-to-r from-neon-pink to-holo-gold uppercase tracking-tighter text-center relative z-10">
+          <div className="w-24 h-24 bg-gradient-to-tr from-primary/20 to-purple/20 rounded-full blur-[40px] absolute -top-10"></div>
+          <h1 className="text-4xl md:text-6xl font-black tracking-widest text-transparent bg-clip-text bg-gradient-to-r from-primary via-purple to-primary uppercase text-center relative z-10">
             {t("my_cart")}
           </h1>
           {cartItems.length > 0 && (
@@ -92,7 +92,7 @@ export default function CartPage() {
         {cartItems.length === 0 ? (
           <div className="flex flex-col items-center justify-center py-20" data-aos="zoom-in">
             <div className="w-40 h-40 bg-white/40 dark:bg-zinc-900/40 backdrop-blur-3xl rounded-full shadow-2xl flex items-center justify-center mb-10 border border-white/50 dark:border-white/10 relative overflow-hidden group">
-              <div className="absolute inset-0 bg-gradient-to-tr from-neon-pink/20 to-holo-gold/20 animate-pulse"></div>
+              <div className="absolute inset-0 bg-gradient-to-tr from-primary/20 to-purple/20 animate-pulse"></div>
               <svg
                 className="w-16 h-16 text-neon-pink relative z-10 group-hover:scale-125 transition-transform duration-500"
                 fill="none"
@@ -115,7 +115,7 @@ export default function CartPage() {
             </p>
             <Link
               href="/search"
-              className="bg-gradient-to-r from-neon-pink to-holo-gold text-foreground px-12 py-5 rounded-full uppercase tracking-[0.2em] text-sm font-black shadow-xl shadow-neon-pink/30 transition-all duration-300 transform hover:-translate-y-1 hover:shadow-neon-pink/50 active:scale-95"
+              className="bg-gradient-to-r from-primary to-purple text-foreground px-12 py-5 rounded-full uppercase tracking-[0.2em] text-sm font-black shadow-xl shadow-neon-pink/30 transition-all duration-300 transform hover:-translate-y-1 hover:shadow-neon-pink/50 active:scale-95"
             >
               {t("explore_collection")}
             </Link>
@@ -152,7 +152,7 @@ export default function CartPage() {
                       <div className="flex flex-col justify-center gap-3">
                         <Link
                           href={`/urundetay/${item.id}`}
-                          className="text-xl font-black text-foreground group-hover:text-transparent group-hover:bg-clip-text group-hover:bg-gradient-to-r group-hover:from-neon-pink group-hover:to-holo-gold transition-all duration-300 line-clamp-2"
+                          className="text-xl font-black text-foreground group-hover:text-transparent group-hover:bg-clip-text group-hover:bg-gradient-to-r group-hover:from-primary group-hover:to-purple transition-all duration-300 line-clamp-2"
                         >
                           {t(item.ad)}
                         </Link>
@@ -241,7 +241,7 @@ export default function CartPage() {
 
             <div className="w-full lg:w-1/3" data-aos="fade-left" data-aos-delay="200">
               <div className="bg-white/40 dark:bg-zinc-900/40 backdrop-blur-3xl p-10 rounded-[3rem] shadow-2xl border border-white/50 dark:border-white/10 sticky top-32 relative overflow-hidden group">
-                <div className="absolute top-0 right-0 w-64 h-64 bg-holo-gold/10 rounded-full blur-[60px] pointer-events-none group-hover:scale-150 transition-transform duration-1000"></div>
+                <div className="absolute top-0 right-0 w-64 h-64 bg-purple/10 rounded-full blur-[60px] pointer-events-none group-hover:scale-150 transition-transform duration-1000"></div>
                 <h3 className="text-2xl font-black text-foreground mb-8 uppercase tracking-[0.2em] relative z-10 flex items-center gap-3">
                   Sipariş Özeti
                 </h3>
@@ -263,7 +263,7 @@ export default function CartPage() {
                   <span className="text-foreground/60 font-black text-xs uppercase tracking-[0.3em]">
                     {t("total")}
                   </span>
-                  <span className="text-foreground font-black text-5xl text-transparent bg-clip-text bg-gradient-to-r from-neon-pink to-holo-gold tracking-tighter">
+                  <span className="text-foreground font-black text-5xl text-transparent bg-clip-text bg-gradient-to-r from-primary to-purple tracking-tighter">
                     {formatPrice(totalAmount)}
                   </span>
                 </div>

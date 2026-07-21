@@ -24,10 +24,12 @@ export default function SearchClient({
   initialResults,
   query,
   isSearch,
+  isCategoryView,
 }: {
   initialResults: any[];
   query: string;
   isSearch: boolean;
+  isCategoryView?: boolean;
 }) {
   const router = useRouter();
   const searchParams = useSearchParams();
@@ -109,9 +111,13 @@ export default function SearchClient({
       >
         <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-96 h-96 bg-gradient-to-br from-primary/20 via-purple/15 to-primary/10 rounded-full blur-[100px] pointer-events-none group-hover:scale-150 transition-transform duration-1000"></div>
         <h1 className="text-4xl md:text-6xl font-black mb-4 tracking-widest text-transparent bg-clip-text bg-gradient-to-r from-primary via-purple to-primary relative z-10">
-          {isSearch ? `${t("search_results").toLocaleUpperCase("tr-TR")}: "${query}"` : t("collection").toLocaleUpperCase("tr-TR")}
+          {isSearch
+            ? `${t("search_results").toLocaleUpperCase("tr-TR")}: "${query}"`
+            : isCategoryView
+              ? query.toLocaleUpperCase("tr-TR")
+              : t("collection").toLocaleUpperCase("tr-TR")}
         </h1>
-        {isSearch && (
+        {(isSearch || isCategoryView) && (
           <p className="text-foreground/70 font-medium text-lg relative z-10">
             {t("total_products_listed", { count: String(results.length) })}
           </p>
@@ -126,6 +132,7 @@ export default function SearchClient({
               colors={colors}
               sizes={sizes}
               onFilterChange={handleFilterChange}
+              hideCategories={isCategoryView}
             />
           </div>
         </div>

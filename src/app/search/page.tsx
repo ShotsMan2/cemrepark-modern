@@ -7,12 +7,25 @@ export const dynamic = "force-dynamic";
 export async function generateMetadata({ searchParams }) {
   const resolvedParams = await searchParams;
   const query = resolvedParams.q || "";
+  const isSearch = resolvedParams.type === "search";
+  const isCategoryView = resolvedParams.view === "category";
   const settings = getSettings();
   const siteAdi = settings.siteAdi || "Cemre Park";
-  const title = query ? `Arama: ${query}` : "Tüm Ürünler";
+
+  let title: string;
+  if (isCategoryView && query) {
+    title = query.toLocaleUpperCase("tr-TR");
+  } else if (isSearch && query) {
+    title = `Arama: ${query}`;
+  } else if (query) {
+    title = query;
+  } else {
+    title = "Tüm Ürünler";
+  }
+
   return {
     title: `${title} | ${siteAdi}`,
-    description: `${siteAdi} online mağazasında ${title} sonuçlarını inceleyin.`,
+    description: `${siteAdi} online mağazasında ${title} ürünlerini inceleyin.`,
   };
 }
 
@@ -20,6 +33,7 @@ export default async function SearchPage({ searchParams }) {
   const resolvedParams = await searchParams;
   const query = resolvedParams.q || "";
   const isSearch = resolvedParams.type === "search";
+  const isCategoryView = resolvedParams.view === "category";
 
   let lowerQuery = query.toLowerCase();
 
@@ -107,7 +121,7 @@ export default async function SearchPage({ searchParams }) {
       <div className="absolute bottom-1/4 left-1/4 w-[400px] h-[400px] bg-purple opacity-[0.06] rounded-full blur-[100px] pointer-events-none"></div>
       <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[600px] h-[600px] bg-primary opacity-[0.03] rounded-full blur-[150px] pointer-events-none"></div>
 
-      <SearchClient initialResults={results} query={query} isSearch={isSearch} />
+      <SearchClient initialResults={results} query={query} isSearch={isSearch} isCategoryView={isCategoryView} />
     </div>
   );
 }
