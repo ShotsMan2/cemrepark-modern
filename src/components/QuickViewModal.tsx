@@ -90,10 +90,10 @@ export default function QuickViewModal({ product, onClose }: QuickViewModalProps
           <span className="text-purple text-xs font-bold uppercase tracking-widest mb-2 block">
             {(t(product.kategori) as string) || (t("collection") as string)}
           </span>
-          <h2 className="text-3xl font-black text-foreground uppercase tracking-widest mb-4">
+          <h2 className="text-3xl font-bold text-transparent bg-clip-text bg-gradient-to-r from-primary to-purple uppercase tracking-widest mb-4">
             {t(product.ad)}
           </h2>
-          <div className="text-3xl font-bold text-transparent bg-clip-text bg-gradient-to-r from-primary to-secondary mb-8">{formatPrice(product.fiyat)}</div>
+          <div className="text-3xl font-bold text-foreground mb-8">{formatPrice(product.fiyat)}</div>
 
           <p className="text-foreground/70 text-sm mb-8 leading-relaxed">
             {t("quick_view_desc") as string}

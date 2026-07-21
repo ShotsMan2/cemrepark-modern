@@ -242,7 +242,7 @@ export default function SearchClient({
                           {t(product.kategori)}
                         </p>
                         <Link href={`/urundetay/${product.id}`} className="block">
-                          <h3 className="text-foreground font-black text-lg mb-2 line-clamp-2 leading-tight group-hover:text-transparent group-hover:bg-clip-text group-hover:bg-gradient-to-r group-hover:from-primary group-hover:via-purple group-hover:to-secondary transition-all duration-300">
+                          <h3 className="text-transparent bg-clip-text bg-gradient-to-r from-primary to-purple font-black text-lg mb-2 line-clamp-2 leading-tight group-hover:text-transparent group-hover:bg-clip-text group-hover:bg-gradient-to-r group-hover:from-primary group-hover:via-purple group-hover:to-primary transition-all duration-300">
                             {t(product.ad)}
                           </h3>
                         </Link>
