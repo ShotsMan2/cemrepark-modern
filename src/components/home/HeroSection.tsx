@@ -101,16 +101,14 @@ export default memo(function HeroSection({ activeBanners }: { activeBanners: any
 
   return (
     <motion.section
-      className="relative min-h-[80vh] flex items-center justify-center pt-24 pb-12 overflow-hidden mb-12"
-      style={{
-        background: "linear-gradient(135deg, #1e0a22 0%, #33123e 25%, #4a1555 50%, #521545 75%, #2e0e32 100%)",
-      }}
+      className="relative min-h-[80vh] flex items-center justify-center pt-24 pb-12 overflow-hidden mb-12 dark:bg-gradient-to-br dark:from-[#1e0a22] dark:via-[#33123e] dark:to-[#521545] bg-gradient-to-br from-white via-gray-50 to-purple-50"
     >
       <div className="absolute top-1/4 left-1/4 w-[500px] h-[500px] bg-[#e11c8e]/30 rounded-full blur-[120px] mix-blend-screen pointer-events-none"></div>
       <div className="absolute bottom-1/4 right-1/4 w-[500px] h-[500px] bg-[#c2185b]/20 rounded-full blur-[120px] mix-blend-screen pointer-events-none"></div>
       <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[600px] h-[600px] bg-[#ff4e88]/15 rounded-full blur-[150px] mix-blend-screen pointer-events-none"></div>
 
-      <div className="absolute inset-0 bg-gradient-to-r from-[#1e0a22]/90 via-[#33123e]/70 to-[#521545]/60 pointer-events-none"></div>
+      <div className="absolute inset-0 bg-gradient-to-r from-[#1e0a22]/90 via-[#33123e]/70 to-[#521545]/60 dark:block hidden pointer-events-none"></div>
+      <div className="absolute inset-0 bg-gradient-to-r from-white/80 via-white/60 to-purple-50/50 dark:hidden pointer-events-none"></div>
       <div className="w-full max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 z-10 relative h-[500px] md:h-[600px]">
         {activeBanners.map((slide, index) => {
           const isActive = index === currentSlide;
@@ -130,7 +128,7 @@ export default memo(function HeroSection({ activeBanners }: { activeBanners: any
                 transition={{ duration: 0.8, ease: "easeOut" }}
               >
                 <motion.div
-                  className="inline-block px-4 py-1.5 rounded-full bg-[#e11c8e]/15 border border-[#e11c8e]/30 text-[#ff4e88] font-bold text-xs uppercase tracking-widest mb-6"
+                  className="inline-block px-4 py-1.5 rounded-full bg-[#e11c8e]/15 border border-[#e11c8e]/30 text-[#e11c8e] dark:text-[#ff4e88] font-bold text-xs uppercase tracking-widest mb-6"
                   initial={{ opacity: 0, y: -10 }}
                   animate={isActive ? { opacity: 1, y: 0 } : { opacity: 0, y: -10 }}
                   transition={{ delay: 0.2, duration: 0.5 }}
@@ -138,7 +136,7 @@ export default memo(function HeroSection({ activeBanners }: { activeBanners: any
                   ✨ {t("new_season")}
                 </motion.div>
 
-                <h1 className="text-4xl md:text-6xl font-display font-black mb-4 leading-none text-white tracking-tight flex flex-wrap gap-x-3" style={{ textShadow: "0 0 40px rgba(225,28,142,0.35)" }}>
+                <h1 className="text-4xl md:text-6xl font-display font-black mb-4 leading-none text-foreground dark:text-white tracking-tight flex flex-wrap gap-x-3 dark:text-shadow-[0_0_40px_rgba(225,28,142,0.35)]" style={{ textShadow: "none" }}>
                   {slide.title?.split(" ").map((word, i) => (
                     <motion.span
                       key={i}
@@ -160,7 +158,7 @@ export default memo(function HeroSection({ activeBanners }: { activeBanners: any
                 </h1>
 
                 <motion.p
-                  className="text-gray-300 text-base md:text-lg mb-10 max-w-xl font-light leading-relaxed"
+                  className="text-gray-600 dark:text-gray-300 text-base md:text-lg mb-10 max-w-xl font-light leading-relaxed"
                   initial={{ opacity: 0 }}
                   animate={{ opacity: isActive ? 1 : 0 }}
                   transition={{ delay: 0.8, duration: 0.8 }}
@@ -195,9 +193,7 @@ export default memo(function HeroSection({ activeBanners }: { activeBanners: any
                     <CountdownTimer targetDate={slide.countdownDate} />
                   )}
 
-                  <div className="bg-background/80 backdrop-blur-md rounded-2xl border border-foreground/5 shadow-sm p-1">
-                    <SearchTrigger />
-                  </div>
+                  <SearchTrigger />
                 </motion.div>
               </motion.div>
 
@@ -206,7 +202,7 @@ export default memo(function HeroSection({ activeBanners }: { activeBanners: any
                 <div className="absolute bottom-20 left-10 w-16 h-16 border border-[#c2185b]/40 rounded-lg opacity-40 float-fx pointer-events-none rotate-12"></div>
 
                 <motion.div
-                  className="relative w-[90%] aspect-[4/5] rounded-[2.5rem] overflow-hidden shadow-[0_20px_50px_rgba(225,28,142,0.25),0_0_80px_rgba(194,24,91,0.15)] dark:shadow-[0_20px_50px_rgba(225,28,142,0.35),0_0_80px_rgba(194,24,91,0.2)] border border-[#e11c8e]/25 dark:border-[#c2185b]/15 bg-[#33123e]/30 backdrop-blur-sm"
+                  className="relative w-[90%] aspect-[4/5] rounded-[2.5rem] overflow-hidden shadow-[0_20px_50px_rgba(225,28,142,0.15)] dark:shadow-[0_20px_50px_rgba(225,28,142,0.35),0_0_80px_rgba(194,24,91,0.2)] border border-[#e11c8e]/25 dark:border-[#c2185b]/15 bg-white/80 dark:bg-[#33123e]/30 backdrop-blur-sm"
                   initial={{ opacity: 0, scale: 0.95, rotate: -2 }}
                   animate={{
                     opacity: isActive ? 1 : 0,
@@ -223,7 +219,7 @@ export default memo(function HeroSection({ activeBanners }: { activeBanners: any
                     priority
                     sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
                   />
-                  <div className="absolute inset-0 bg-gradient-to-t from-black/50 via-transparent to-transparent pointer-events-none"></div>
+                  <div className="absolute inset-0 bg-gradient-to-t from-black/30 dark:from-black/50 via-transparent to-transparent pointer-events-none"></div>
                 </motion.div>
               </div>
             </div>
@@ -239,8 +235,8 @@ export default memo(function HeroSection({ activeBanners }: { activeBanners: any
               onClick={() => setCurrentSlide(index)}
               className={`relative h-2 rounded-full transition-all duration-500 overflow-hidden ${
                 index === currentSlide
-                  ? "w-16 bg-white/20"
-                  : "w-4 bg-white/10 hover:bg-[#e11c8e]/50"
+                  ? "w-16 bg-foreground/20 dark:bg-white/20"
+                  : "w-4 bg-foreground/10 dark:bg-white/10 hover:bg-[#e11c8e]/50"
               }`}
               aria-label={`Slayt ${index + 1}`}
             >

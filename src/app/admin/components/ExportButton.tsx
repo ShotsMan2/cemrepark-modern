@@ -77,7 +77,7 @@ export default function ExportButton({ data, filename = "export", label = "Dış
     <div className="relative">
       <button
         onClick={() => setOpen(!open)}
-        className="flex items-center gap-2 glass-panel hover:bg-neon-pink/20 hover:border-neon-pink hover:shadow-[0_0_20px_rgba(255,0,127,0.3)] text-foreground px-5 py-2.5 text-sm font-bold uppercase tracking-wider transition-all duration-300 clip-angled"
+        className="flex items-center gap-2 glass-panel hover:bg-primary/20 hover:border-primary hover:shadow-[0_0_20px_rgba(255,0,127,0.3)] text-foreground px-5 py-2.5 text-sm font-bold uppercase tracking-wider transition-all duration-300 clip-angled"
         aria-label={label}
         aria-haspopup="true"
         aria-expanded={open}

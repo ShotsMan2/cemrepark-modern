@@ -115,7 +115,7 @@ export default async function SearchPage({ searchParams }) {
   }
 
   return (
-    <div className="min-h-screen pt-32 pb-24 relative bg-gradient-to-br from-gray-50 via-pink-50/50 to-purple-50/50 dark:from-[#08060d] dark:via-[#0d0518] dark:to-[#0a0814]">
+    <div className="min-h-screen pt-32 pb-24 relative bg-gradient-to-br from-gray-50 via-primary/50 to-purple/50 dark:from-[#08060d] dark:via-[#0d0518] dark:to-[#0a0814]">
       {/* Background Glow */}
       <div className="absolute top-1/4 right-1/4 w-[500px] h-[500px] bg-primary opacity-[0.06] rounded-full blur-[120px] pointer-events-none"></div>
       <div className="absolute bottom-1/4 left-1/4 w-[400px] h-[400px] bg-purple opacity-[0.06] rounded-full blur-[100px] pointer-events-none"></div>

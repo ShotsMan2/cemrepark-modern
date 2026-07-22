@@ -8,10 +8,10 @@ import Swal from "sweetalert2";
 import { motion } from "framer-motion";
 
 const paymentMethods = [
-  { name: "Visa", color: "text-blue-600" },
-  { name: "Mastercard", color: "text-orange-500" },
-  { name: "Troy", color: "text-green-600" },
-  { name: "American Express", color: "text-blue-400" },
+  { name: "Visa", color: "text-info" },
+  { name: "Mastercard", color: "text-warning" },
+  { name: "Troy", color: "text-success" },
+  { name: "American Express", color: "text-info" },
 ];
 
 const socialLinks = [

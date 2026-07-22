@@ -106,9 +106,9 @@ function calculateSecurityScore(loginLogs: any[], auditLogs: any[]): { score: nu
     issues.push("Çok sayıda kritik eylem");
   }
   score = Math.max(0, Math.min(100, score));
-  if (score >= 80) return { score, label: "Güvenli", color: "text-emerald-500", issues };
-  if (score >= 60) return { score, label: "Orta", color: "text-amber-500", issues };
-  return { score, label: "Riskli", color: "text-red-500", issues };
+  if (score >= 80) return { score, label: "Güvenli", color: "text-success", issues };
+  if (score >= 60) return { score, label: "Orta", color: "text-secondary", issues };
+  return { score, label: "Riskli", color: "text-danger", issues };
 }
 
 function Skeleton({ className = "" }: { className?: string }) {
@@ -170,7 +170,7 @@ const tabContentVariants = {
   exit: { opacity: 0, x: -20, transition: { duration: 0.2 } },
 };
 
-const PIE_COLORS = ["#22c55e", "#ef4444", "#f59e0b", "#3b82f6", "#8b5cf6"];
+const PIE_COLORS = ["#22c55e", "#ef4444", "#be185d", "#3b82f6", "#8b5cf6"];
 
 type TabKey = "login" | "audit" | "sessions" | "blacklist" | "overview";
 
@@ -186,7 +186,7 @@ export default function SecurityView() {
   const [isLoading, setIsLoading] = useState(true);
   const [searchQuery, setSearchQuery] = useState("");
   const [statusFilter, setStatusFilter] = useState("all");
-  const [securityScore, setSecurityScore] = useState({ score: 100, label: "Güvenli", color: "text-emerald-500", issues: [] as string[] });
+  const [securityScore, setSecurityScore] = useState({ score: 100, label: "Güvenli", color: "text-success", issues: [] as string[] });
   const [showExportMenu, setShowExportMenu] = useState(false);
   const [newBlacklistIP, setNewBlacklistIP] = useState("");
   const [newBlacklistReason, setNewBlacklistReason] = useState("");
@@ -368,9 +368,9 @@ export default function SecurityView() {
 
   const kpiCards = [
     { title: "Güvenlik Skoru", value: `${securityScore.score}`, subtitle: securityScore.label, icon: securityScore.score >= 80 ? ShieldCheck : securityScore.score >= 60 ? Shield : ShieldOff, color: securityScore.color, bgColor: `${securityScore.color.replace("text-", "bg-")}/10`, borderColor: `${securityScore.color.replace("text-", "border-")}/20` },
-    { title: "Bugünkü Girişler", value: kpis.todayLogins, subtitle: "Son 24 saat", icon: LogIn, color: "text-blue-500", bgColor: "bg-blue-500/10", borderColor: "border-blue-500/20" },
-    { title: "Başarısız Denemeler", value: kpis.failedAttempts, subtitle: `${kpis.failedToday} bugün`, icon: ShieldAlert, color: "text-red-500", bgColor: "bg-red-500/10", borderColor: "border-red-500/20" },
-    { title: "Başarı Oranı", value: `%${kpis.successRate}`, subtitle: `${kpis.activeSessions} aktif oturum`, icon: TrendingUp, color: "text-emerald-500", bgColor: "bg-emerald-500/10", borderColor: "border-emerald-500/20" },
+    { title: "Bugünkü Girişler", value: kpis.todayLogins, subtitle: "Son 24 saat", icon: LogIn, color: "text-info", bgColor: "bg-info/10", borderColor: "border-info/20" },
+    { title: "Başarısız Denemeler", value: kpis.failedAttempts, subtitle: `${kpis.failedToday} bugün`, icon: ShieldAlert, color: "text-danger", bgColor: "bg-danger/10", borderColor: "border-danger/20" },
+    { title: "Başarı Oranı", value: `%${kpis.successRate}`, subtitle: `${kpis.activeSessions} aktif oturum`, icon: TrendingUp, color: "text-success", bgColor: "bg-success/10", borderColor: "border-success/20" },
   ];
 
   const tabs: { key: TabKey; label: string; icon: any }[] = [
@@ -485,8 +485,8 @@ export default function SecurityView() {
                       <p className="text-xs text-foreground/40 mt-0.5">Başarılı ve başarısız giriş denemeleri</p>
                     </div>
                     <div className="flex items-center gap-4 text-xs text-foreground/50">
-                      <span className="flex items-center gap-1.5"><span className="w-2.5 h-2.5 rounded-full bg-emerald-500" /> Başarılı</span>
-                      <span className="flex items-center gap-1.5"><span className="w-2.5 h-2.5 rounded-full bg-red-500" /> Başarısız</span>
+                      <span className="flex items-center gap-1.5"><span className="w-2.5 h-2.5 rounded-full bg-success" /> Başarılı</span>
+                      <span className="flex items-center gap-1.5"><span className="w-2.5 h-2.5 rounded-full bg-danger" /> Başarısız</span>
                     </div>
                   </div>
                   {isLoading ? <Skeleton className="h-[180px] w-full rounded-lg" /> : (
@@ -540,7 +540,7 @@ export default function SecurityView() {
                         <ul className="mt-2 space-y-1">
                           {securityScore.issues.map((issue, i) => (
                             <li key={i} className="text-xs text-foreground/60 flex items-center gap-1.5">
-                              <AlertTriangle className="w-3 h-3 text-amber-500" /> {issue}
+                              <AlertTriangle className="w-3 h-3 text-secondary" /> {issue}
                             </li>
                           ))}
                         </ul>
@@ -655,11 +655,11 @@ export default function SecurityView() {
                             </td>
                             <td className="p-4 text-center">
                               {log.success ? (
-                                <span className="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-full text-[11px] font-bold bg-emerald-500/10 text-emerald-500 border border-emerald-500/20">
+                                <span className="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-full text-[11px] font-bold bg-success/10 text-success border border-success/20">
                                   <CheckCircle2 className="w-3 h-3" /> Başarılı
                                 </span>
                               ) : (
-                                <span className="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-full text-[11px] font-bold bg-red-500/10 text-red-500 border border-red-500/20">
+                                <span className="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-full text-[11px] font-bold bg-danger/10 text-danger border border-danger/20">
                                   <XCircle className="w-3 h-3" /> Reddedildi
                                 </span>
                               )}
@@ -690,7 +690,7 @@ export default function SecurityView() {
                           </td>
                           <td className="p-4">
                             <div className="flex items-center gap-2.5">
-                              <div className="w-8 h-8 rounded-full bg-amber-500/10 border border-amber-500/20 flex items-center justify-center text-xs font-bold text-amber-500 uppercase">{log.user?.email ? log.user.email.substring(0, 2) : "??"}</div>
+                              <div className="w-8 h-8 rounded-full bg-secondary/10 border border-secondary/20 flex items-center justify-center text-xs font-bold text-secondary uppercase">{log.user?.email ? log.user.email.substring(0, 2) : "??"}</div>
                               <div><p className="text-sm font-semibold text-foreground">{log.user?.name || log.user?.email || "Sistem"}</p><p className="text-xs text-foreground/40 flex items-center gap-1"><Globe className="w-3 h-3" /> {log.ipAddress || "—"}</p></div>
                             </div>
                           </td>
@@ -730,7 +730,7 @@ export default function SecurityView() {
                       Swal.fire("Başarılı", "Tüm oturumlar sonlandırıldı.", "success");
                     } catch { Swal.fire("Hata", "Bir sorun oluştu.", "error"); }
                   }
-                }} className="flex items-center gap-1.5 px-3 py-2 text-xs font-bold text-red-500 hover:bg-red-500/10 rounded-lg transition-colors border border-red-500/20">
+                }} className="flex items-center gap-1.5 px-3 py-2 text-xs font-bold text-danger hover:bg-danger/10 rounded-lg transition-colors border border-danger/20">
                   <Trash2 className="w-3.5 h-3.5" /> Tümünü Sonlandır
                 </button>
               </div>
@@ -762,7 +762,7 @@ export default function SecurityView() {
                         <motion.tr key={session.id} initial={{ opacity: 0 }} animate={{ opacity: 1 }} transition={{ delay: index * 0.03 }} className="hover:bg-foreground/[0.03] transition-colors group">
                           <td className="p-4">
                             <div className="flex items-center gap-2.5">
-                              <div className="w-8 h-8 rounded-full bg-blue-500/10 border border-blue-500/20 flex items-center justify-center text-xs font-bold text-blue-500">{session.user?.name?.[0] || session.user?.email?.[0] || "?"}</div>
+                              <div className="w-8 h-8 rounded-full bg-info/10 border border-info/20 flex items-center justify-center text-xs font-bold text-info">{session.user?.name?.[0] || session.user?.email?.[0] || "?"}</div>
                               <div><p className="text-sm font-semibold text-foreground">{session.user?.name || "Bilinmeyen"}</p><p className="text-xs text-foreground/40">{session.user?.email || "—"}</p></div>
                             </div>
                           </td>
@@ -774,12 +774,12 @@ export default function SecurityView() {
                           </td>
                           <td className="p-4 text-sm text-foreground/60">{timeAgo(session.lastActivity || session.createdAt || session.expires)}</td>
                           <td className="p-4">
-                            <span className={`inline-flex items-center gap-1 px-2.5 py-1 rounded-full text-[11px] font-bold ${new Date(session.expires) > new Date() ? "bg-emerald-500/10 text-emerald-500 border border-emerald-500/20" : "bg-red-500/10 text-red-500 border border-red-500/20"}`}>
+                            <span className={`inline-flex items-center gap-1 px-2.5 py-1 rounded-full text-[11px] font-bold ${new Date(session.expires) > new Date() ? "bg-success/10 text-success border border-success/20" : "bg-danger/10 text-danger border border-danger/20"}`}>
                               {new Date(session.expires) > new Date() ? "Aktif" : "Süresi Dolmuş"}
                             </span>
                           </td>
                           <td className="p-4 text-center">
-                            <button onClick={() => handleRevokeSession(session.id)} className="inline-flex items-center gap-1 px-2.5 py-1 rounded-lg text-[11px] font-bold bg-red-500/10 text-red-500 hover:bg-red-500/20 transition-colors border border-red-500/20">
+                            <button onClick={() => handleRevokeSession(session.id)} className="inline-flex items-center gap-1 px-2.5 py-1 rounded-lg text-[11px] font-bold bg-danger/10 text-danger hover:bg-danger/20 transition-colors border border-danger/20">
                               <XCircle className="w-3 h-3" /> Sonlandır
                             </button>
                           </td>
@@ -832,7 +832,7 @@ export default function SecurityView() {
                               <td className="p-4"><span className="text-sm text-foreground/60">{item.reason || "Belirtilmemiş"}</span></td>
                               <td className="p-4 text-sm text-foreground/60">{timeAgo(item.createdAt)}</td>
                               <td className="p-4 text-center">
-                                <button onClick={() => handleRemoveFromBlacklist(item.ip)} className="inline-flex items-center gap-1 px-2.5 py-1 rounded-lg text-[11px] font-bold bg-emerald-500/10 text-emerald-500 hover:bg-emerald-500/20 transition-colors border border-emerald-500/20">
+                                <button onClick={() => handleRemoveFromBlacklist(item.ip)} className="inline-flex items-center gap-1 px-2.5 py-1 rounded-lg text-[11px] font-bold bg-success/10 text-success hover:bg-success/20 transition-colors border border-success/20">
                                   <CheckCircle2 className="w-3 h-3" /> Kaldır
                                 </button>
                               </td>
@@ -856,7 +856,7 @@ export default function SecurityView() {
                     <label className="block text-xs font-bold text-foreground/60 mb-1.5">Sebep</label>
                     <input type="text" value={newBlacklistReason} onChange={(e) => setNewBlacklistReason(e.target.value)} placeholder="örn: Çoklu başarısız giriş" className="w-full px-4 py-2.5 bg-background border border-glass-border rounded-lg text-sm text-foreground focus:outline-none focus:border-primary focus:ring-1 focus:ring-primary/20 transition-all placeholder:text-foreground/30" />
                   </div>
-                  <button onClick={handleAddToBlacklist} disabled={!newBlacklistIP.trim()} className="w-full flex items-center justify-center gap-2 px-4 py-2.5 text-sm font-bold bg-red-500/10 text-red-500 border border-red-500/20 rounded-lg hover:bg-red-500/20 transition-colors disabled:opacity-50 disabled:cursor-not-allowed">
+                  <button onClick={handleAddToBlacklist} disabled={!newBlacklistIP.trim()} className="w-full flex items-center justify-center gap-2 px-4 py-2.5 text-sm font-bold bg-danger/10 text-danger border border-danger/20 rounded-lg hover:bg-danger/20 transition-colors disabled:opacity-50 disabled:cursor-not-allowed">
                     <Ban className="w-4 h-4" /> Kara Listeye Ekle
                   </button>
                 </div>

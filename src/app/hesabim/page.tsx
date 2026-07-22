@@ -21,7 +21,7 @@ export default function HesabimPage() {
   if (status === "loading" || status === "unauthenticated") {
     return (
       <div className="min-h-screen pt-32 pb-24 bg-background flex justify-center items-center">
-        <div className="animate-spin rounded-full h-12 w-12 border-t-2 border-b-2 border-neon-pink"></div>
+        <div className="animate-spin rounded-full h-12 w-12 border-t-2 border-b-2 border-primary"></div>
       </div>
     );
   }
@@ -32,12 +32,12 @@ export default function HesabimPage() {
         <h1 className="text-4xl font-black text-foreground uppercase tracking-widest mb-4 text-center">
           {t("my_account")}
         </h1>
-        <div className="w-24 h-1 bg-neon-pink mx-auto mb-12"></div>
+        <div className="w-24 h-1 bg-primary mx-auto mb-12"></div>
 
         <div className="grid md:grid-cols-2 gap-6">
           <div className="glass-panel p-8 clip-angled">
             <div className="flex items-center gap-4 mb-6">
-              <div className="w-16 h-16 rounded-full bg-gradient-to-r from-neon-pink to-holo-gold flex items-center justify-center text-xl font-bold text-black uppercase">
+              <div className="w-16 h-16 rounded-full bg-gradient-to-r from-primary to-secondary flex items-center justify-center text-xl font-bold text-black uppercase">
                 {session?.user?.name ? session.user.name.charAt(0) : session?.user?.email.charAt(0)}
               </div>
               <div>
@@ -69,7 +69,7 @@ export default function HesabimPage() {
                   }
                 }
               }}
-              className="mt-4 bg-black/5 dark:bg-white/10 border border-black/10 dark:border-white/20 text-foreground px-6 py-3 uppercase tracking-wider font-bold hover:bg-neon-pink hover:text-foreground hover:border-neon-pink transition-all duration-300 clip-angled w-full cursor-pointer relative z-20"
+              className="mt-4 bg-black/5 dark:bg-white/10 border border-black/10 dark:border-white/20 text-foreground px-6 py-3 uppercase tracking-wider font-bold hover:bg-primary hover:text-foreground hover:border-primary transition-all duration-300 clip-angled w-full cursor-pointer relative z-20"
             >
               {t("logout")}
             </button>
@@ -82,23 +82,23 @@ export default function HesabimPage() {
             <div className="flex flex-col">
               <Link
                 href="/hesabim/siparislerim"
-                className="flex items-center text-foreground/70 hover:text-neon-pink dark:hover:text-neon-pink transition-colors font-medium py-4 border-b border-black/5 dark:border-white/5 touch-manipulation"
+                className="flex items-center text-foreground/70 hover:text-primary dark:hover:text-primary transition-colors font-medium py-4 border-b border-black/5 dark:border-white/5 touch-manipulation"
               >
-                <span className="w-2 h-2 rounded-full bg-holo-gold mr-3 shadow-[0_0_8px_rgba(255,215,0,0.5)]"></span>
+                <span className="w-2 h-2 rounded-full bg-secondary mr-3 shadow-[0_0_8px_rgba(255,215,0,0.5)]"></span>
                 {t("my_orders")}
               </Link>
               <Link
                 href="/favorites"
-                className="flex items-center text-foreground/70 hover:text-neon-pink dark:hover:text-neon-pink transition-colors font-medium py-4 border-b border-black/5 dark:border-white/5 touch-manipulation"
+                className="flex items-center text-foreground/70 hover:text-primary dark:hover:text-primary transition-colors font-medium py-4 border-b border-black/5 dark:border-white/5 touch-manipulation"
               >
-                <span className="w-2 h-2 rounded-full bg-holo-gold mr-3 shadow-[0_0_8px_rgba(255,215,0,0.5)]"></span>
+                <span className="w-2 h-2 rounded-full bg-secondary mr-3 shadow-[0_0_8px_rgba(255,215,0,0.5)]"></span>
                 {t("my_favorites")}
               </Link>
               <Link
                 href="/hesabim/ayarlar"
-                className="flex items-center text-foreground/70 hover:text-neon-pink dark:hover:text-neon-pink transition-colors font-medium py-4 touch-manipulation"
+                className="flex items-center text-foreground/70 hover:text-primary dark:hover:text-primary transition-colors font-medium py-4 touch-manipulation"
               >
-                <span className="w-2 h-2 rounded-full bg-holo-gold mr-3 shadow-[0_0_8px_rgba(255,215,0,0.5)]"></span>
+                <span className="w-2 h-2 rounded-full bg-secondary mr-3 shadow-[0_0_8px_rgba(255,215,0,0.5)]"></span>
                 {t("account_settings")}
               </Link>
             </div>

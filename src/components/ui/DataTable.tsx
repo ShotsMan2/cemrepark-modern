@@ -104,7 +104,7 @@ export function DataTable({
                   <div className="flex items-center gap-1">
                     {col.label}
                     {sortConfig.key === col.key && (
-                      <span className="text-neon-pink">
+                      <span className="text-primary">
                         {sortConfig.direction === "asc" ? "↑" : "↓"}
                       </span>
                     )}

@@ -166,7 +166,7 @@ export default function AccountSettingsPage() {
   if (status === "loading" || status === "unauthenticated") {
     return (
       <div className="min-h-screen pt-32 pb-24 bg-background flex justify-center items-center">
-        <div className="animate-spin rounded-full h-12 w-12 border-t-2 border-b-2 border-neon-pink"></div>
+        <div className="animate-spin rounded-full h-12 w-12 border-t-2 border-b-2 border-primary"></div>
       </div>
     );
   }
@@ -177,7 +177,7 @@ export default function AccountSettingsPage() {
         <div className="mb-8 flex items-center gap-4">
           <Link
             href="/hesabim"
-            className="text-gray-400 hover:text-neon-pink transition-colors flex items-center gap-2 font-medium"
+            className="text-gray-400 hover:text-primary transition-colors flex items-center gap-2 font-medium"
           >
             <svg
               width="20"
@@ -198,7 +198,7 @@ export default function AccountSettingsPage() {
         <h1 className="text-4xl font-black text-foreground uppercase tracking-widest mb-4 text-center">
           {t("account_settings") || "Hesap Ayarları"}
         </h1>
-        <div className="w-24 h-1 bg-neon-pink mx-auto mb-12"></div>
+        <div className="w-24 h-1 bg-primary mx-auto mb-12"></div>
 
         <div className="glass-panel p-8 clip-angled max-w-2xl mx-auto">
           <form onSubmit={handleSubmit} className="space-y-6">
@@ -211,7 +211,7 @@ export default function AccountSettingsPage() {
                 name="name"
                 value={formData.name}
                 onChange={handleChange}
-                className="w-full bg-black/5 dark:bg-black/30 border border-black/10 dark:border-white/10 rounded-none px-4 py-3 text-foreground focus:outline-none focus:border-neon-pink transition-colors"
+                className="w-full bg-black/5 dark:bg-black/30 border border-black/10 dark:border-white/10 rounded-none px-4 py-3 text-foreground focus:outline-none focus:border-primary transition-colors"
                 placeholder={t("name") || "Ad Soyad"}
               />
             </div>
@@ -226,7 +226,7 @@ export default function AccountSettingsPage() {
                 value={formData.email}
                 onChange={handleChange}
                 required
-                className="w-full bg-black/5 dark:bg-black/30 border border-black/10 dark:border-white/10 rounded-none px-4 py-3 text-foreground focus:outline-none focus:border-neon-pink transition-colors"
+                className="w-full bg-black/5 dark:bg-black/30 border border-black/10 dark:border-white/10 rounded-none px-4 py-3 text-foreground focus:outline-none focus:border-primary transition-colors"
                 placeholder="ornek@email.com"
               />
             </div>
@@ -240,7 +240,7 @@ export default function AccountSettingsPage() {
                 name="phoneNumber"
                 value={formData.phoneNumber}
                 onChange={handleChange}
-                className="w-full bg-black/5 dark:bg-black/30 border border-black/10 dark:border-white/10 rounded-none px-4 py-3 text-foreground focus:outline-none focus:border-neon-pink transition-colors"
+                className="w-full bg-black/5 dark:bg-black/30 border border-black/10 dark:border-white/10 rounded-none px-4 py-3 text-foreground focus:outline-none focus:border-primary transition-colors"
                 placeholder="05XX XXX XX XX"
               />
             </div>
@@ -264,7 +264,7 @@ export default function AccountSettingsPage() {
                     name="password"
                     value={formData.password}
                     onChange={handleChange}
-                    className="w-full bg-black/5 dark:bg-black/30 border border-black/10 dark:border-white/10 rounded-none px-4 py-3 text-foreground focus:outline-none focus:border-neon-pink transition-colors"
+                    className="w-full bg-black/5 dark:bg-black/30 border border-black/10 dark:border-white/10 rounded-none px-4 py-3 text-foreground focus:outline-none focus:border-primary transition-colors"
                     placeholder={t("new_password_placeholder") || "En az 6 karakter"}
                   />
                 </div>
@@ -278,7 +278,7 @@ export default function AccountSettingsPage() {
                     name="confirmPassword"
                     value={formData.confirmPassword}
                     onChange={handleChange}
-                    className="w-full bg-black/5 dark:bg-black/30 border border-black/10 dark:border-white/10 rounded-none px-4 py-3 text-foreground focus:outline-none focus:border-neon-pink transition-colors"
+                    className="w-full bg-black/5 dark:bg-black/30 border border-black/10 dark:border-white/10 rounded-none px-4 py-3 text-foreground focus:outline-none focus:border-primary transition-colors"
                     placeholder={t("confirm_password_placeholder") || "Şifrenizi tekrar girin"}
                   />
                 </div>
@@ -288,7 +288,7 @@ export default function AccountSettingsPage() {
             <button
               type="submit"
               disabled={loading}
-              className="w-full bg-neon-pink text-foreground font-bold uppercase tracking-widest py-4 clip-angled hover:bg-white hover:text-neon-pink transition-colors duration-300 disabled:opacity-50 disabled:cursor-not-allowed mt-8"
+              className="w-full bg-primary text-foreground font-bold uppercase tracking-widest py-4 clip-angled hover:bg-white hover:text-primary transition-colors duration-300 disabled:opacity-50 disabled:cursor-not-allowed mt-8"
             >
               {loading ? (
                 <span className="flex items-center justify-center">

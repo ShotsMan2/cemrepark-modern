@@ -124,7 +124,7 @@ export default memo(function TestimonialsSection() {
                 </div>
                 <div>
                   <h4 className="text-foreground font-bold tracking-wide">{review.name}</h4>
-                  <div className="badge-premium bg-green-500/10 text-green-600 dark:text-green-400 mt-1">
+                  <div className="badge-premium bg-success/10 text-success dark:text-success mt-1">
                     <svg className="w-3 h-3" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                       <path
                         strokeLinecap="round"

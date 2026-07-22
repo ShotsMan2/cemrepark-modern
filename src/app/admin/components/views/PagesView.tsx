@@ -108,7 +108,7 @@ export default function PagesView() {
       <div className="glass-panel p-8 clip-angled border border-glass-border relative overflow-hidden">
         <div className="flex justify-between items-center mb-6">
           <h3 className="text-xl font-bold text-foreground uppercase tracking-wider flex items-center gap-3">
-            <span className="w-8 h-8 bg-neon-pink/20 text-neon-pink flex items-center justify-center clip-angled"><FileText size={16} /></span>
+            <span className="w-8 h-8 bg-primary/20 text-primary flex items-center justify-center clip-angled"><FileText size={16} /></span>
             {editingId ? "Sayfayı Düzenle" : "Yeni Sayfa Ekle"}
           </h3>
           {!editingId && (
@@ -125,49 +125,49 @@ export default function PagesView() {
             <div className="grid grid-cols-2 gap-4">
               <div>
                 <label className="block text-foreground/50 text-xs font-bold mb-1 uppercase tracking-wider">Sayfa Başlığı *</label>
-                <input type="text" name="title" required value={formData.title} onChange={handleInputChange} className="w-full bg-background/50 border border-glass-border text-foreground px-4 py-3 text-sm focus:border-neon-pink outline-none transition-colors" placeholder="Örn: Hakkımızda" />
+                <input type="text" name="title" required value={formData.title} onChange={handleInputChange} className="w-full bg-background/50 border border-glass-border text-foreground px-4 py-3 text-sm focus:border-primary outline-none transition-colors" placeholder="Örn: Hakkımızda" />
               </div>
               <div>
                 <label className="block text-foreground/50 text-xs font-bold mb-1 uppercase tracking-wider">URL Slug *</label>
                 <div className="flex">
                   <span className="bg-foreground/10 border border-r-0 border-glass-border px-3 py-3 text-xs text-foreground/50">/</span>
-                  <input type="text" name="slug" required value={formData.slug} onChange={handleInputChange} className="flex-1 bg-background/50 border border-glass-border text-foreground px-4 py-3 text-sm focus:border-neon-pink outline-none transition-colors" placeholder="hakkimizda" />
+                  <input type="text" name="slug" required value={formData.slug} onChange={handleInputChange} className="flex-1 bg-background/50 border border-glass-border text-foreground px-4 py-3 text-sm focus:border-primary outline-none transition-colors" placeholder="hakkimizda" />
                 </div>
               </div>
             </div>
             <div className="flex flex-col relative">
               <label className="block text-foreground/50 text-xs font-bold mb-1 uppercase tracking-wider">İçerik</label>
-              <textarea name="content" value={formData.content} onChange={handleInputChange} className="w-full h-[300px] bg-background/50 border border-glass-border text-foreground px-4 py-3 text-sm focus:border-neon-pink outline-none transition-colors resize-none font-mono" placeholder="HTML veya düz metin içeriği..." />
+              <textarea name="content" value={formData.content} onChange={handleInputChange} className="w-full h-[300px] bg-background/50 border border-glass-border text-foreground px-4 py-3 text-sm focus:border-primary outline-none transition-colors resize-none font-mono" placeholder="HTML veya düz metin içeriği..." />
               <div className="absolute bottom-2 right-2 flex gap-4 text-xs text-foreground/60 font-mono bg-background/80 px-2 py-1 rounded"><span>{wordCount} kelime</span><span>{charCount} karakter</span></div>
             </div>
           </div>
           <div className="space-y-4">
             <div className="bg-foreground/5 p-4 clip-angled border border-glass-border space-y-4">
-              <h4 className="text-holo-gold font-bold uppercase text-xs tracking-wider border-b border-glass-border pb-2">Sayfa Ayarları</h4>
+              <h4 className="text-secondary font-bold uppercase text-xs tracking-wider border-b border-glass-border pb-2">Sayfa Ayarları</h4>
               <label className="flex items-center gap-3 cursor-pointer">
                 <input type="checkbox" name="status" checked={formData.status === "published"} onChange={handleInputChange} className="w-5 h-5 accent-neon-pink" />
                 <span className="text-foreground/70 text-sm font-bold uppercase tracking-wider">Yayında</span>
-                {formData.status === "published" ? <span className="text-green-400 text-[10px] flex items-center gap-1"><Globe size={10} /> Aktif</span> : <span className="text-foreground/50 text-[10px] flex items-center gap-1"><EyeOff size={10} /> Taslak</span>}
+                {formData.status === "published" ? <span className="text-success text-[10px] flex items-center gap-1"><Globe size={10} /> Aktif</span> : <span className="text-foreground/50 text-[10px] flex items-center gap-1"><EyeOff size={10} /> Taslak</span>}
               </label>
               <div>
                 <label className="block text-foreground/50 text-[10px] font-bold mb-1 uppercase tracking-wider">SEO Title</label>
-                <input type="text" name="metaTitle" value={formData.metaTitle} onChange={handleInputChange} className="w-full bg-background/50 border border-glass-border text-foreground px-3 py-2 text-xs focus:border-holo-gold outline-none" />
+                <input type="text" name="metaTitle" value={formData.metaTitle} onChange={handleInputChange} className="w-full bg-background/50 border border-glass-border text-foreground px-3 py-2 text-xs focus:border-secondary outline-none" />
               </div>
               <div>
                 <label className="block text-foreground/50 text-[10px] font-bold mb-1 uppercase tracking-wider">SEO Description</label>
-                <textarea name="metaDescription" rows={2} value={formData.metaDescription} onChange={handleInputChange} className="w-full bg-background/50 border border-glass-border text-foreground px-3 py-2 text-xs focus:border-holo-gold outline-none resize-none" />
+                <textarea name="metaDescription" rows={2} value={formData.metaDescription} onChange={handleInputChange} className="w-full bg-background/50 border border-glass-border text-foreground px-3 py-2 text-xs focus:border-secondary outline-none resize-none" />
               </div>
               <div>
                 <label className="block text-foreground/50 text-[10px] font-bold mb-1 uppercase tracking-wider">SEO Keywords</label>
-                <input type="text" name="metaKeywords" value={formData.metaKeywords || ""} onChange={handleInputChange} className="w-full bg-background/50 border border-glass-border text-foreground px-3 py-2 text-xs focus:border-holo-gold outline-none" placeholder="kelime1, kelime2" />
+                <input type="text" name="metaKeywords" value={formData.metaKeywords || ""} onChange={handleInputChange} className="w-full bg-background/50 border border-glass-border text-foreground px-3 py-2 text-xs focus:border-secondary outline-none" placeholder="kelime1, kelime2" />
               </div>
               <div>
                 <label className="block text-foreground/50 text-[10px] font-bold mb-1 uppercase tracking-wider">OG Image URL</label>
-                <input type="text" name="ogImage" value={formData.ogImage} onChange={handleInputChange} className="w-full bg-background/50 border border-glass-border text-foreground px-3 py-2 text-xs focus:border-holo-gold outline-none" />
+                <input type="text" name="ogImage" value={formData.ogImage} onChange={handleInputChange} className="w-full bg-background/50 border border-glass-border text-foreground px-3 py-2 text-xs focus:border-secondary outline-none" />
               </div>
               {editingId && versionHistory.length > 0 && (
                 <div>
-                  <button type="button" onClick={() => setShowVersionHistory(!showVersionHistory)} className="text-holo-gold text-[10px] font-bold uppercase flex items-center gap-1 hover:underline"><History size={12} /> Sürüm Geçmişi ({versionHistory.length})</button>
+                  <button type="button" onClick={() => setShowVersionHistory(!showVersionHistory)} className="text-secondary text-[10px] font-bold uppercase flex items-center gap-1 hover:underline"><History size={12} /> Sürüm Geçmişi ({versionHistory.length})</button>
                   {showVersionHistory && (
                     <div className="mt-2 space-y-1">
                       {versionHistory.map((v: any, i: number) => (<div key={i} className="text-[10px] text-foreground/60 flex justify-between py-1 border-b border-glass-border/50"><span>v{v.version}</span><span>{v.date}</span><span>{v.author}</span></div>))}
@@ -178,8 +178,8 @@ export default function PagesView() {
             </div>
           </div>
           <div className="md:col-span-3 pt-4 border-t border-glass-border flex gap-4 items-center">
-            <button type="submit" className="bg-neon-pink text-foreground px-8 py-3 uppercase tracking-widest text-xs font-bold hover:bg-white hover:text-black transition-colors clip-angled flex items-center gap-2"><Save size={14} />{editingId ? "Güncelle" : "Sayfayı Ekle"}</button>
-            <button type="button" onClick={handlePreview} className="border border-neon-pink text-neon-pink px-8 py-3 uppercase tracking-widest text-xs font-bold hover:bg-neon-pink hover:text-foreground transition-colors clip-angled flex items-center gap-2"><Eye size={14} />Önizleme</button>
+            <button type="submit" className="bg-primary text-foreground px-8 py-3 uppercase tracking-widest text-xs font-bold hover:bg-white hover:text-black transition-colors clip-angled flex items-center gap-2"><Save size={14} />{editingId ? "Güncelle" : "Sayfayı Ekle"}</button>
+            <button type="button" onClick={handlePreview} className="border border-primary text-primary px-8 py-3 uppercase tracking-widest text-xs font-bold hover:bg-primary hover:text-foreground transition-colors clip-angled flex items-center gap-2"><Eye size={14} />Önizleme</button>
             {editingId && <button type="button" onClick={cancelEdit} className="border border-white/20 text-foreground px-8 py-3 uppercase tracking-widest text-xs font-bold hover:bg-foreground/10 transition-colors clip-angled ml-auto">İptal</button>}
           </div>
         </form>
@@ -200,13 +200,13 @@ export default function PagesView() {
 
       <div className="glass-panel p-8 clip-angled border border-glass-border">
         <h3 className="text-xl font-bold text-foreground mb-6 uppercase tracking-wider flex items-center justify-between">
-          <span className="flex items-center gap-3"><span className="w-8 h-8 bg-holo-gold/20 text-holo-gold flex items-center justify-center clip-angled"><FileText size={16} /></span>Mevcut Sayfalar</span>
-          <input type="text" placeholder="Sayfa Ara..." value={searchQuery} onChange={(e) => setSearchQuery(e.target.value)} className="bg-background/50 border border-glass-border text-foreground px-4 py-2 text-sm focus:border-neon-pink outline-none transition-colors" />
+          <span className="flex items-center gap-3"><span className="w-8 h-8 bg-secondary/20 text-secondary flex items-center justify-center clip-angled"><FileText size={16} /></span>Mevcut Sayfalar</span>
+          <input type="text" placeholder="Sayfa Ara..." value={searchQuery} onChange={(e) => setSearchQuery(e.target.value)} className="bg-background/50 border border-glass-border text-foreground px-4 py-2 text-sm focus:border-primary outline-none transition-colors" />
         </h3>
         {isLoading ? (
-          <div className="py-12 flex justify-center"><div className="w-8 h-8 border-2 border-neon-pink border-t-transparent rounded-full animate-spin"></div></div>
+          <div className="py-12 flex justify-center"><div className="w-8 h-8 border-2 border-primary border-t-transparent rounded-full animate-spin"></div></div>
         ) : error ? (
-          <div className="py-12 text-center"><p className="text-red-400 text-sm font-bold mb-2">{error}</p><button onClick={fetchPages} className="bg-neon-pink text-foreground px-4 py-1 text-xs font-bold uppercase clip-angled">Tekrar Dene</button></div>
+          <div className="py-12 text-center"><p className="text-danger text-sm font-bold mb-2">{error}</p><button onClick={fetchPages} className="bg-primary text-foreground px-4 py-1 text-xs font-bold uppercase clip-angled">Tekrar Dene</button></div>
         ) : filteredPages.length === 0 ? (
           <div className="py-12 text-center text-foreground/60 border border-glass-border border-dashed bg-black/20 clip-angled"><p>Henüz eklenmiş bir sayfa bulunmuyor.</p></div>
         ) : (
@@ -228,13 +228,13 @@ export default function PagesView() {
                     <td className="p-4 pl-6 font-bold text-foreground">{page.title}</td>
                     <td className="p-4 font-mono text-xs">/{page.slug}</td>
                     <td className="p-4">
-                      <span className={`px-2 py-1 text-[10px] font-bold uppercase tracking-wider flex items-center gap-1 w-max ${page.status === "draft" ? "bg-gray-500/20 text-foreground/50" : "bg-green-500/20 text-green-400"}`}>
+                      <span className={`px-2 py-1 text-[10px] font-bold uppercase tracking-wider flex items-center gap-1 w-max ${page.status === "draft" ? "bg-gray-500/20 text-foreground/50" : "bg-success/20 text-success"}`}>
                         {page.status === "draft" ? <EyeOff size={10} /> : <Globe size={10} />}
                         {page.status === "draft" ? "Taslak" : "Yayında"}
                       </span>
                     </td>
                     <td className="p-4">
-                      {page.metaTitle ? <span className="text-[10px] text-green-400/50 flex items-center gap-1"><Globe size={10} /> SEO Var</span> : <span className="text-[10px] text-foreground/30">SEO Yok</span>}
+                      {page.metaTitle ? <span className="text-[10px] text-success/50 flex items-center gap-1"><Globe size={10} /> SEO Var</span> : <span className="text-[10px] text-foreground/30">SEO Yok</span>}
                     </td>
                     <td className="p-4 text-xs text-foreground/50">
                       {page.updatedAt ? new Date(page.updatedAt).toLocaleDateString("tr-TR") : "Bilinmiyor"}
@@ -242,8 +242,8 @@ export default function PagesView() {
                     <td className="p-4 pr-6 text-right">
                       <div className="flex justify-end gap-2">
                         <button onClick={() => handleViewPage(page.slug)} className="text-foreground/50 hover:text-foreground p-2 transition-colors" title="Görüntüle"><ExternalLink size={14} /></button>
-                        <button onClick={() => handleEdit(page)} className="text-foreground/50 hover:text-holo-gold p-2 transition-colors" title="Düzenle"><Edit size={14} /></button>
-                        <button onClick={() => handleDelete(page.id)} className="text-foreground/50 hover:text-red-500 p-2 transition-colors" title="Sil"><Trash2 size={14} /></button>
+                        <button onClick={() => handleEdit(page)} className="text-foreground/50 hover:text-secondary p-2 transition-colors" title="Düzenle"><Edit size={14} /></button>
+                        <button onClick={() => handleDelete(page.id)} className="text-foreground/50 hover:text-danger p-2 transition-colors" title="Sil"><Trash2 size={14} /></button>
                       </div>
                     </td>
                   </tr>

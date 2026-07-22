@@ -36,10 +36,10 @@ export default function RevenueChart({ data, showComparison = false, targetValue
           <XAxis dataKey="name" stroke="rgba(255,255,255,0.3)" tick={{ fill: "rgba(255,255,255,0.5)", fontSize: 12 }} />
           <YAxis stroke="rgba(255,255,255,0.3)" tick={{ fill: "rgba(255,255,255,0.5)", fontSize: 12 }} tickFormatter={(val) => `₺${val / 1000}k`} />
           <RechartsTooltip contentStyle={{ backgroundColor: "rgba(0,0,0,0.9)", border: "1px solid rgba(255,255,255,0.1)", borderRadius: "8px" }} itemStyle={{ color: "#fff", fontWeight: "bold" }} formatter={(value: any) => value ? `₺${Number(value).toLocaleString()}` : "₺0"} />
-          {targetValue && <ReferenceLine y={targetValue} stroke="#f59e0b" strokeDasharray="5 5" strokeWidth={2} label={{ value: "Hedef", fill: "#f59e0b", fontSize: 10, position: "right" }} />}
+          {targetValue && <ReferenceLine y={targetValue} stroke="#be185d" strokeDasharray="5 5" strokeWidth={2} label={{ value: "Hedef", fill: "#be185d", fontSize: 10, position: "right" }} />}
           {showComparison && <Bar dataKey="oncekiDonem" fill="#6b7280" radius={[4, 4, 0, 0]} barSize={20} opacity={0.5} />}
           <Bar dataKey="gerceklesen" fill="#ff007f" radius={[4, 4, 0, 0]} barSize={showComparison ? 20 : 40} isAnimationActive={animated} animationDuration={800} />
-          <Line type="monotone" dataKey="hedef" stroke="#ffd700" strokeWidth={3} dot={{ r: 6, fill: "#ffd700", strokeWidth: 2, stroke: "#000" }} activeDot={{ r: 8 }} isAnimationActive={animated} animationDuration={1000} />
+          <Line type="monotone" dataKey="hedef" stroke="#be185d" strokeWidth={3} dot={{ r: 6, fill: "#be185d", strokeWidth: 2, stroke: "#000" }} activeDot={{ r: 8 }} isAnimationActive={animated} animationDuration={1000} />
         </ComposedChart>
       </ResponsiveContainer>
     </div>

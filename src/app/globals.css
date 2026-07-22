@@ -8,20 +8,20 @@
 
   /* Brand Colors */
   --primary: 340 85% 50%; /* Vibrant Premium Rose */
-  --secondary: 42 95% 55%; /* Rich Luxury Gold */
+  --secondary: 335 78% 42%; /* Deep Berry Pink (Logo uyumlu) */
   --accent: 230 85% 60%; /* Vibrant Corporate Indigo */
   --purple: 270 65% 68%; /* Premium Purple - Soft Lavender */
 
   /* Semantic Colors */
   --success: 142 76% 36%;
-  --warning: 38 92% 50%;
+  --warning: 12 85% 55%;
   --danger: 348 83% 47%;
   --info: 214 90% 52%;
   --muted: 220 15% 45%;
 
   /* Legacy mappings (deprecated but kept for fallback) */
   --neon-pink: 340 85% 50%;
-  --holographic-gold: 42 95% 55%;
+  --holographic-gold: 335 78% 42%;
 
   /* Premium Glassmorphism Variables */
   --glass-bg: rgba(255, 255, 255, 0.7);
@@ -45,12 +45,12 @@
   --foreground: 210 20% 98%;
 
   --primary: 340 80% 58%;
-  --secondary: 42 90% 65%;
+  --secondary: 335 75% 55%;
   --accent: 230 85% 65%;
   --purple: 270 60% 72%;
 
   --neon-pink: 340 80% 58%;
-  --holographic-gold: 42 90% 65%;
+  --holographic-gold: 335 75% 55%;
 
   --glass-bg: rgba(15, 20, 30, 0.65);
   --glass-border: rgba(255, 255, 255, 0.08);
@@ -252,24 +252,31 @@ h6 {
   background: linear-gradient(145deg, hsla(var(--primary), 0.15), hsla(var(--purple), 0.25), hsla(var(--primary), 0.1));
   backdrop-filter: blur(20px) saturate(160%);
   -webkit-backdrop-filter: blur(20px) saturate(160%);
-  border: 1px solid hsla(var(--primary), 0.2);
-  box-shadow: 0 8px 32px -8px hsla(var(--primary), 0.15), 0 4px 16px -4px hsla(var(--purple), 0.1);
+  border: 2px solid hsla(var(--primary), 0.35);
+  border-radius: 1.5rem;
+  box-shadow: 0 8px 32px -8px hsla(var(--primary), 0.15), 0 4px 16px -4px hsla(var(--purple), 0.1), inset 0 1px 0 hsla(var(--primary), 0.15);
+  transition: all 0.5s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+}
+
+.product-card-bg:hover {
+  border-color: hsla(var(--primary), 0.7);
+  box-shadow: 0 20px 60px -12px hsla(var(--primary), 0.3), 0 12px 30px -8px hsla(var(--purple), 0.2), 0 0 40px -10px hsla(var(--primary), 0.15);
 }
 
 @utility product-card-bg-search {
   background: linear-gradient(145deg, hsla(var(--primary), 0.12), hsla(var(--purple), 0.2), hsla(var(--primary), 0.08));
   backdrop-filter: blur(16px) saturate(150%);
   -webkit-backdrop-filter: blur(16px) saturate(150%);
-  border: 1px solid hsla(var(--primary), 0.15);
+  border: 2px solid hsla(var(--primary), 0.35);
   border-radius: 2rem;
-  box-shadow: 0 8px 32px -8px hsla(var(--primary), 0.12), 0 4px 16px -4px hsla(var(--purple), 0.08);
+  box-shadow: 0 8px 32px -8px hsla(var(--primary), 0.15), 0 4px 16px -4px hsla(var(--purple), 0.1), inset 0 1px 0 hsla(var(--primary), 0.1);
   transition: all 0.5s cubic-bezier(0.175, 0.885, 0.32, 1.275);
 }
 
 .product-card-bg-search:hover {
   transform: translateY(-8px);
-  box-shadow: 0 16px 48px -12px hsla(var(--primary), 0.25), 0 8px 24px -8px hsla(var(--purple), 0.15);
-  border-color: hsla(var(--primary), 0.35);
+  border-color: hsla(var(--primary), 0.7);
+  box-shadow: 0 20px 60px -12px hsla(var(--primary), 0.3), 0 12px 30px -8px hsla(var(--purple), 0.2), 0 0 40px -10px hsla(var(--primary), 0.15), 0 0 0 1px hsla(var(--primary), 0.2);
 }
 
 @utility glass-card {
@@ -455,8 +462,7 @@ h6 {
     0 0 30px hsla(var(--primary), 0.3);
 }
 
-.text-glow-secondary,
-.text-glow-gold {
+.text-glow-secondary {
   color: hsl(var(--foreground));
   text-shadow:
     0 0 15px hsla(var(--secondary), 0.5),

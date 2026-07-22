@@ -178,14 +178,17 @@ export default function SearchClient({
                   return (
                     <div
                       key={product.id}
-                      className="product-card-bg-search p-4 group relative transform flex flex-col"
+                      className="relative group/card"
                       data-aos="fade-up"
                       data-aos-delay={(index % 3) * 100}
                     >
+                      {/* Gradient frame border */}
+                      <div className="absolute -inset-[2px] bg-gradient-to-br from-primary/60 via-purple/50 to-secondary/50 rounded-[1.7rem] opacity-60 group-hover/card:opacity-100 transition-opacity duration-500 pointer-events-none" />
+                      <div className="product-card-bg-search p-4 group relative transform flex flex-col">
                       <div className="relative aspect-[3/4] mb-4 overflow-hidden rounded-2xl transform-gpu">
                         {product.etiket && (
                           <div className="absolute top-3 left-3 z-20">
-                            <span className="text-[10px] font-black uppercase tracking-widest bg-gradient-to-r from-neon-pink to-holo-gold text-foreground px-4 py-1.5 rounded-full shadow-lg">
+                            <span className="text-[10px] font-black uppercase tracking-widest bg-gradient-to-r from-primary to-secondary text-foreground px-4 py-1.5 rounded-full shadow-lg">
                               {t(product.etiket)}
                             </span>
                           </div>
@@ -263,6 +266,7 @@ export default function SearchClient({
                           />
                         </div>
                       </div>
+                    </div>
                     </div>
                   );
                 })}

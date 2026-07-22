@@ -30,7 +30,7 @@ export default async function LoginHistoryPage() {
     <div className="p-8 space-y-8 animate-fade-in">
       <div className="flex flex-col md:flex-row justify-between items-start md:items-center gap-4">
         <div>
-          <h2 className="text-3xl font-black text-transparent bg-clip-text bg-gradient-to-r from-neon-pink to-pink-600 uppercase tracking-widest">
+          <h2 className="text-3xl font-black text-transparent bg-clip-text bg-gradient-to-r from-primary to-primary uppercase tracking-widest">
             Giriş Geçmişi
           </h2>
           <p className="text-foreground/50 text-sm mt-1">
@@ -79,7 +79,7 @@ export default async function LoginHistoryPage() {
                     </td>
                     <td className="py-4 px-6">
                       <div className="font-black text-foreground flex items-center gap-2">
-                        <div className="w-8 h-8 rounded-full bg-pink-500/20 flex items-center justify-center text-xs text-pink-400 uppercase border border-pink-500/30">
+                        <div className="w-8 h-8 rounded-full bg-primary/20 flex items-center justify-center text-xs text-primary uppercase border border-primary/30">
                           {log.user?.email ? log.user.email.substring(0, 2) : "?"}
                         </div>
                         <div className="flex flex-col">
@@ -92,13 +92,13 @@ export default async function LoginHistoryPage() {
                     </td>
                     <td className="py-4 px-6 text-center">
                       {log.status === "SUCCESS" ? (
-                        <span className="inline-flex items-center gap-1.5 bg-green-500/10 text-green-400 border border-green-500/20 px-3 py-1.5 rounded-lg text-[10px] font-black uppercase tracking-widest shadow-[0_0_10px_rgba(16,185,129,0.1)]">
-                          <div className="w-1.5 h-1.5 rounded-full bg-green-400 animate-pulse"></div>
+                        <span className="inline-flex items-center gap-1.5 bg-success/10 text-success border border-success/20 px-3 py-1.5 rounded-lg text-[10px] font-black uppercase tracking-widest shadow-[0_0_10px_rgba(16,185,129,0.1)]">
+                          <div className="w-1.5 h-1.5 rounded-full bg-success animate-pulse"></div>
                           BAŞARILI
                         </span>
                       ) : (
-                        <span className="inline-flex items-center gap-1.5 bg-red-500/10 text-red-400 border border-red-500/20 px-3 py-1.5 rounded-lg text-[10px] font-black uppercase tracking-widest shadow-[0_0_10px_rgba(239,68,68,0.1)]">
-                          <div className="w-1.5 h-1.5 rounded-full bg-red-400"></div>
+                        <span className="inline-flex items-center gap-1.5 bg-danger/10 text-danger border border-danger/20 px-3 py-1.5 rounded-lg text-[10px] font-black uppercase tracking-widest shadow-[0_0_10px_rgba(239,68,68,0.1)]">
+                          <div className="w-1.5 h-1.5 rounded-full bg-danger"></div>
                           REDDEDİLDİ
                         </span>
                       )}

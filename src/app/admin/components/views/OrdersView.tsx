@@ -93,12 +93,12 @@ export default function OrdersView() {
 
   const getStatusStyles = (status: string) => {
     switch (status) {
-      case "Beklemede": return { renk: "text-orange-400", border: "border-orange-400/30", bg: "bg-orange-400/10" };
-      case "Onaylandı": return { renk: "text-blue-400", border: "border-blue-400/30", bg: "bg-blue-400/10" };
-      case "Hazırlanıyor": return { renk: "text-holo-gold", border: "border-holo-gold/30", bg: "bg-holo-gold/10" };
-      case "Kargolandı": return { renk: "text-purple-400", border: "border-purple-400/30", bg: "bg-purple-400/10" };
-      case "Teslim Edildi": return { renk: "text-green-500", border: "border-green-500/30", bg: "bg-green-500/10" };
-      case "İptal": return { renk: "text-red-500", border: "border-red-500/30", bg: "bg-red-500/10" };
+      case "Beklemede": return { renk: "text-warning", border: "border-warning/30", bg: "bg-warning/10" };
+      case "Onaylandı": return { renk: "text-info", border: "border-info/30", bg: "bg-info/10" };
+      case "Hazırlanıyor": return { renk: "text-secondary", border: "border-secondary/30", bg: "bg-secondary/10" };
+      case "Kargolandı": return { renk: "text-purple", border: "border-purple/30", bg: "bg-purple/10" };
+      case "Teslim Edildi": return { renk: "text-success", border: "border-success/30", bg: "bg-success/10" };
+      case "İptal": return { renk: "text-danger", border: "border-danger/30", bg: "bg-danger/10" };
       default: return { renk: "text-foreground/50", border: "border-gray-400/30", bg: "bg-gray-400/10" };
     }
   };
@@ -232,7 +232,7 @@ export default function OrdersView() {
             <p className="text-foreground/50 text-sm mt-1">Tüm siparişlerinizi ve süreçleri yönetin.</p>
           </div>
           <div className="flex gap-3">
-            <button onClick={() => setShowFilters(!showFilters)} className={`border ${showFilters ? "border-neon-pink text-neon-pink" : "border-glass-border"} text-foreground px-4 py-2 text-xs font-bold uppercase tracking-widest transition-colors flex items-center gap-2`}>
+            <button onClick={() => setShowFilters(!showFilters)} className={`border ${showFilters ? "border-primary text-primary" : "border-glass-border"} text-foreground px-4 py-2 text-xs font-bold uppercase tracking-widest transition-colors flex items-center gap-2`}>
               <Search size={14} /> Filtreler
             </button>
             <button onClick={handleExport} className="bg-primary hover:bg-secondary text-foreground font-bold py-2 px-6 uppercase tracking-widest text-sm transition-colors clip-angled flex items-center gap-2">
@@ -311,8 +311,8 @@ export default function OrdersView() {
                 </td></tr>
               ) : error ? (
                 <tr><td colSpan={8} className="p-8 text-center">
-                  <p className="text-red-400 text-sm font-bold mb-2">{error}</p>
-                  <button onClick={fetchOrders} className="bg-neon-pink text-foreground px-4 py-1 text-xs font-bold uppercase clip-angled">Tekrar Dene</button>
+                  <p className="text-danger text-sm font-bold mb-2">{error}</p>
+                  <button onClick={fetchOrders} className="bg-primary text-foreground px-4 py-1 text-xs font-bold uppercase clip-angled">Tekrar Dene</button>
                 </td></tr>
               ) : paginatedOrders.length === 0 ? (
                 <tr><td colSpan={8} className="p-8 text-center text-foreground/50">Kayıt bulunamadı.</td></tr>
@@ -342,7 +342,7 @@ export default function OrdersView() {
                       <td className="p-4 text-foreground/60 text-sm">{order.tarih}</td>
                       <td className="p-4 text-foreground font-bold text-sm">{order.tutar}</td>
                       <td className="p-4">
-                        <span className={`text-[10px] px-2 py-1 rounded border uppercase font-bold tracking-widest ${order.odeme === "Ödendi" ? "bg-green-500/10 text-green-500 border-green-500/30" : "bg-orange-500/10 text-orange-500 border-orange-500/30"}`}>{order.odeme}</span>
+                        <span className={`text-[10px] px-2 py-1 rounded border uppercase font-bold tracking-widest ${order.odeme === "Ödendi" ? "bg-success/10 text-success border-success/30" : "bg-warning/10 text-warning border-warning/30"}`}>{order.odeme}</span>
                       </td>
                       <td className="p-4 font-bold text-sm">
                         <select value={order.durum} onChange={(e) => handleStatusChange(order.id, e.target.value)} className={`px-3 py-1.5 text-xs border rounded outline-none font-bold cursor-pointer ${order.renk} ${order.bg} ${order.border}`}>
@@ -352,7 +352,7 @@ export default function OrdersView() {
                       <td className="p-4 text-right">
                         <div className="flex justify-end gap-2 opacity-50 group-hover:opacity-100 transition-opacity">
                           <button onClick={() => setSelectedOrder(order)} className="w-8 h-8 flex items-center justify-center bg-foreground/5 hover:bg-primary hover:text-foreground transition-colors rounded" title="Detay"><Eye size={14} /></button>
-                          <button onClick={() => { setSelectedOrder(order); setTimeout(handlePrintInvoice, 300); }} className="w-8 h-8 flex items-center justify-center bg-foreground/5 hover:bg-holo-gold hover:text-black transition-colors rounded" title="Yazdır"><Printer size={14} /></button>
+                          <button onClick={() => { setSelectedOrder(order); setTimeout(handlePrintInvoice, 300); }} className="w-8 h-8 flex items-center justify-center bg-foreground/5 hover:bg-secondary hover:text-black transition-colors rounded" title="Yazdır"><Printer size={14} /></button>
                         </div>
                       </td>
                     </tr>
@@ -503,7 +503,7 @@ export default function OrdersView() {
                   <div className="space-y-2 text-sm">
                     <div className="flex justify-between"><span className="text-foreground/70">Ara Toplam</span><span>{selectedOrder.tutar}</span></div>
                     <div className="flex justify-between"><span className="text-foreground/70">Kargo</span><span>0.00 ₺</span></div>
-                    <div className="flex justify-between"><span className="text-foreground/70">İndirim</span><span className="text-green-500">-0.00 ₺</span></div>
+                    <div className="flex justify-between"><span className="text-foreground/70">İndirim</span><span className="text-success">-0.00 ₺</span></div>
                     <div className="border-t border-glass-border pt-2 mt-2 flex justify-between font-black text-lg"><span>Toplam</span><span className="text-primary">{selectedOrder.tutar}</span></div>
                   </div>
                   <div className="mt-4 pt-4 border-t border-glass-border">

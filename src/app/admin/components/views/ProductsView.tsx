@@ -198,9 +198,9 @@ export default function ProductsView({
 
   const getStockBadge = (stok: number) => {
     const s = Number(stok) || 0;
-    if (s <= 0) return <span className="bg-red-500/20 text-red-500 text-[10px] px-2 py-1 rounded font-bold uppercase">Stok Yok</span>;
-    if (s < 10) return <span className="bg-orange-500/20 text-orange-500 text-[10px] px-2 py-1 rounded font-bold uppercase">Düşük Stok ({s})</span>;
-    return <span className="bg-green-500/20 text-green-500 text-[10px] px-2 py-1 rounded font-bold uppercase">Stokta ({s})</span>;
+    if (s <= 0) return <span className="bg-danger/20 text-danger text-[10px] px-2 py-1 rounded font-bold uppercase">Stok Yok</span>;
+    if (s < 10) return <span className="bg-warning/20 text-warning text-[10px] px-2 py-1 rounded font-bold uppercase">Düşük Stok ({s})</span>;
+    return <span className="bg-success/20 text-success text-[10px] px-2 py-1 rounded font-bold uppercase">Stokta ({s})</span>;
   };
 
   const handleSort = (col: string) => {
@@ -219,7 +219,7 @@ export default function ProductsView({
             <button onClick={exportCSV} className="bg-foreground/5 border border-glass-border hover:bg-primary hover:text-foreground px-3 py-1.5 text-xs font-bold uppercase tracking-widest transition-colors flex items-center gap-2">
               <Download size={16} /> CSV İndir
             </button>
-            <button onClick={() => setShowFilters(!showFilters)} className={`bg-foreground/5 border ${showFilters ? "border-neon-pink text-neon-pink" : "border-glass-border"} hover:bg-neon-pink/20 px-3 py-1.5 text-xs font-bold uppercase transition-colors flex items-center gap-2`}>
+            <button onClick={() => setShowFilters(!showFilters)} className={`bg-foreground/5 border ${showFilters ? "border-primary text-primary" : "border-glass-border"} hover:bg-primary/20 px-3 py-1.5 text-xs font-bold uppercase transition-colors flex items-center gap-2`}>
               <Filter size={14} /> Filtreler
             </button>
           </div>
@@ -417,8 +417,8 @@ export default function ProductsView({
               </div>
             ) : error ? (
               <div className="flex-1 flex flex-col items-center justify-center h-64 gap-3">
-                <p className="text-red-400 text-sm font-bold">{error}</p>
-                <button onClick={fetchProducts} className="bg-neon-pink text-foreground px-4 py-2 text-xs font-bold uppercase clip-angled">Tekrar Dene</button>
+                <p className="text-danger text-sm font-bold">{error}</p>
+                <button onClick={fetchProducts} className="bg-primary text-foreground px-4 py-2 text-xs font-bold uppercase clip-angled">Tekrar Dene</button>
               </div>
             ) : productsData.length === 0 ? (
               <div className="flex-1 flex flex-col items-center justify-center h-64 gap-3">
@@ -467,11 +467,11 @@ export default function ProductsView({
                           <td className="p-3 text-center">
                             {editingStockId === product.id ? (
                               <div className="flex items-center justify-center gap-1">
-                                <input type="number" value={editingStockValue} onChange={(e) => setEditingStockValue(Number(e.target.value))} className="w-16 bg-background border border-neon-pink text-foreground text-xs px-1 py-0.5 outline-none text-center" autoFocus />
-                                <button onClick={() => handleInlineStockSave(product.id)} className="text-green-400 hover:text-green-300">
+                                <input type="number" value={editingStockValue} onChange={(e) => setEditingStockValue(Number(e.target.value))} className="w-16 bg-background border border-primary text-foreground text-xs px-1 py-0.5 outline-none text-center" autoFocus />
+                                <button onClick={() => handleInlineStockSave(product.id)} className="text-success hover:text-success">
                                   <svg width={14} height={14} viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth={2}><polyline points="20 6 9 17 4 12"></polyline></svg>
                                 </button>
-                                <button onClick={() => setEditingStockId(null)} className="text-red-400 hover:text-red-300">
+                                <button onClick={() => setEditingStockId(null)} className="text-danger hover:text-danger">
                                   <svg width={14} height={14} viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth={2}><line x1="18" y1="6" x2="6" y2="18"></line><line x1="6" y1="6" x2="18" y2="18"></line></svg>
                                 </button>
                               </div>
@@ -489,7 +489,7 @@ export default function ProductsView({
                               <button onClick={() => handleEdit(product)} className="w-7 h-7 rounded bg-foreground/5 hover:bg-primary hover:text-foreground flex items-center justify-center transition-colors text-foreground" title="Düzenle">
                                 <svg width={16} height={16} viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth={2}><path d="M11 4H4a2 2 0 00-2 2v14a2 2 0 002 2h14a2 2 0 002-2v-7"></path><path d="M18.5 2.5a2.121 2.121 0 013 3L12 15l-4 1 1-4 9.5-9.5z"></path></svg>
                               </button>
-                              <button onClick={() => handleDuplicate(product)} className="w-7 h-7 rounded bg-foreground/5 hover:bg-blue-500 hover:text-foreground flex items-center justify-center transition-colors text-foreground" title="Çoğalt">
+                              <button onClick={() => handleDuplicate(product)} className="w-7 h-7 rounded bg-foreground/5 hover:bg-info hover:text-foreground flex items-center justify-center transition-colors text-foreground" title="Çoğalt">
                                 <Copy size={14} />
                               </button>
                               <button onClick={() => handleDelete(product.id)} className="w-7 h-7 rounded bg-foreground/5 hover:bg-danger hover:text-foreground flex items-center justify-center transition-colors text-foreground" title="Sil">
@@ -519,7 +519,7 @@ export default function ProductsView({
                         <div className="flex justify-between items-center mb-3">{getStockBadge(product.stok !== undefined ? product.stok : 100)}</div>
                         <div className="flex gap-2">
                           <button onClick={() => handleEdit(product)} className="flex-1 text-xs bg-foreground/10 hover:bg-primary py-1.5 transition-colors font-bold uppercase text-center">Düzenle</button>
-                          <button onClick={() => handleDuplicate(product)} className="w-8 flex items-center justify-center bg-foreground/10 hover:bg-blue-500 text-blue-400 hover:text-foreground transition-colors" title="Çoğalt"><Copy size={14} /></button>
+                          <button onClick={() => handleDuplicate(product)} className="w-8 flex items-center justify-center bg-foreground/10 hover:bg-info text-info hover:text-foreground transition-colors" title="Çoğalt"><Copy size={14} /></button>
                           <button onClick={() => handleDelete(product.id)} className="w-8 flex items-center justify-center bg-foreground/10 hover:bg-danger text-danger hover:text-foreground transition-colors">
                             <svg width={16} height={16} viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth={2}><path d="M3 6h18M19 6v14a2 2 0 01-2 2H7a2 2 0 01-2-2V6m3 0V4a2 2 0 012-2h4a2 2 0 012 2v2" /></svg>
                           </button>

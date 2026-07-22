@@ -9,10 +9,10 @@ export default function SiparislerimClient({ orders }) {
 
   const getStatusColorClass = (status) => {
     if (status === "Tamamlandı")
-      return "bg-green-500/10 dark:bg-green-500/20 text-green-600 dark:text-green-400";
+      return "bg-success/10 dark:bg-success/20 text-success dark:text-success";
     if (status === "İptal Edildi" || status === "İptal")
-      return "bg-red-500/10 dark:bg-red-500/20 text-red-600 dark:text-red-400";
-    return "bg-blue-500/10 dark:bg-blue-500/20 text-blue-600 dark:text-blue-400";
+      return "bg-danger/10 dark:bg-danger/20 text-danger dark:text-danger";
+    return "bg-info/10 dark:bg-info/20 text-info dark:text-info";
   };
 
   const getTranslatedStatus = (status) => {
@@ -45,7 +45,7 @@ export default function SiparislerimClient({ orders }) {
       <div className="mb-8">
         <Link
           href="/hesabim"
-          className="text-foreground/70 hover:text-neon-pink dark:hover:text-neon-pink transition-colors text-sm uppercase tracking-wider flex items-center gap-2 font-medium"
+          className="text-foreground/70 hover:text-primary dark:hover:text-primary transition-colors text-sm uppercase tracking-wider flex items-center gap-2 font-medium"
         >
           <span>{language === "AR" ? "←" : "←"}</span> {t("back_to_my_account")}
         </Link>
@@ -54,7 +54,7 @@ export default function SiparislerimClient({ orders }) {
       <h1 className="text-4xl font-black text-foreground uppercase tracking-widest mb-4 text-center">
         {t("my_orders")}
       </h1>
-      <div className="w-24 h-1 bg-neon-pink mx-auto mb-12"></div>
+      <div className="w-24 h-1 bg-primary mx-auto mb-12"></div>
 
       <div className="glass-panel p-8 clip-angled">
         {orders.length === 0 ? (
@@ -62,7 +62,7 @@ export default function SiparislerimClient({ orders }) {
             <p className="text-foreground/70 mb-6 font-medium">{t("no_orders_yet")}</p>
             <Link
               href="/"
-              className="inline-block bg-neon-pink text-foreground font-bold py-3 px-8 uppercase tracking-widest hover:bg-gray-900 hover:text-foreground dark:hover:bg-white dark:hover:text-black transition-colors clip-angled cursor-pointer"
+              className="inline-block bg-primary text-foreground font-bold py-3 px-8 uppercase tracking-widest hover:bg-gray-900 hover:text-foreground dark:hover:bg-white dark:hover:text-black transition-colors clip-angled cursor-pointer"
             >
               {t("start_shopping")}
             </Link>
@@ -87,7 +87,7 @@ export default function SiparislerimClient({ orders }) {
                     </p>
                   </div>
                   <div className="flex flex-col md:items-end mt-4 md:mt-0">
-                    <p className="text-glow-gold font-bold text-xl mb-1">
+                    <p className="text-glow-secondary font-bold text-xl mb-1">
                       {formatPrice(order.total)}
                     </p>
                     <span

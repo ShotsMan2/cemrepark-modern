@@ -155,7 +155,7 @@ export default function MessagesView() {
 
   if (isLoading) return (
     <div className="flex items-center justify-center min-h-[400px]">
-      <div className="animate-spin rounded-full h-12 w-12 border-t-2 border-b-2 border-neon-pink"></div>
+      <div className="animate-spin rounded-full h-12 w-12 border-t-2 border-b-2 border-primary"></div>
     </div>
   );
 
@@ -168,20 +168,20 @@ export default function MessagesView() {
         </div>
         <div className="flex items-center gap-4">
           <button onClick={handleExport} className="bg-foreground/10 hover:bg-foreground/20 text-foreground px-4 py-2 text-xs font-bold uppercase tracking-wider transition-colors flex items-center gap-2"><Download size={14} /> CSV</button>
-          <span className="text-xs text-foreground/60 uppercase font-bold tracking-wider"><span className="text-holo-gold font-bold text-lg">2s 15dk</span><br />Ort. Yanıt</span>
+          <span className="text-xs text-foreground/60 uppercase font-bold tracking-wider"><span className="text-secondary font-bold text-lg">2s 15dk</span><br />Ort. Yanıt</span>
         </div>
       </div>
 
       <div className="grid grid-cols-2 md:grid-cols-4 gap-4 mb-6">
         <div className="glass-panel p-4 clip-angled border-l-4 border-white/20"><div className="text-foreground/50 text-xs font-bold uppercase mb-1">Toplam Mesaj</div><div className="text-2xl font-bold text-foreground">{stats.total}</div></div>
-        <div className="glass-panel p-4 clip-angled border-l-4 border-neon-pink/50 bg-neon-pink/5"><div className="text-neon-pink text-xs font-bold uppercase mb-1">Bugün Gelen</div><div className="text-2xl font-bold text-foreground">{stats.today}</div></div>
-        <div className="glass-panel p-4 clip-angled border-l-4 border-green-500/50 bg-green-500/5"><div className="text-green-400 text-xs font-bold uppercase mb-1">Yanıtlanan</div><div className="text-2xl font-bold text-foreground">{stats.replied}</div></div>
-        <div className="glass-panel p-4 clip-angled border-l-4 border-holo-gold/50 bg-holo-gold/5"><div className="text-holo-gold text-xs font-bold uppercase mb-1">Okunmayan</div><div className="text-2xl font-bold text-foreground">{stats.unread}</div></div>
+        <div className="glass-panel p-4 clip-angled border-l-4 border-primary/50 bg-primary/5"><div className="text-primary text-xs font-bold uppercase mb-1">Bugün Gelen</div><div className="text-2xl font-bold text-foreground">{stats.today}</div></div>
+        <div className="glass-panel p-4 clip-angled border-l-4 border-success/50 bg-success/5"><div className="text-success text-xs font-bold uppercase mb-1">Yanıtlanan</div><div className="text-2xl font-bold text-foreground">{stats.replied}</div></div>
+        <div className="glass-panel p-4 clip-angled border-l-4 border-secondary/50 bg-secondary/5"><div className="text-secondary text-xs font-bold uppercase mb-1">Okunmayan</div><div className="text-2xl font-bold text-foreground">{stats.unread}</div></div>
       </div>
 
       <div className="glass-panel p-4 clip-angled mb-6 flex flex-col md:flex-row justify-between items-center gap-4">
         <div className="flex items-center gap-2 w-full md:w-auto">
-          <input type="text" placeholder="İsim veya E-posta ara..." value={searchQuery} onChange={(e) => setSearchQuery(e.target.value)} className="bg-background/50 border border-glass-border text-foreground px-4 py-2 text-sm focus:border-neon-pink outline-none flex-1 md:w-64" />
+          <input type="text" placeholder="İsim veya E-posta ara..." value={searchQuery} onChange={(e) => setSearchQuery(e.target.value)} className="bg-background/50 border border-glass-border text-foreground px-4 py-2 text-sm focus:border-primary outline-none flex-1 md:w-64" />
         </div>
         <div className="flex gap-2 text-xs font-bold uppercase tracking-wider w-full md:w-auto overflow-x-auto">
           {["Tümü", "Okunmadı", "Okundu", "Yanıtlandı"].map((tab) => (
@@ -191,19 +191,19 @@ export default function MessagesView() {
       </div>
 
       {selectedMessages.length > 0 && (
-        <div className="bg-neon-pink/20 border border-neon-pink p-3 mb-6 flex items-center justify-between clip-angled animate-fade-in">
+        <div className="bg-primary/20 border border-primary p-3 mb-6 flex items-center justify-between clip-angled animate-fade-in">
           <span className="text-foreground font-bold text-sm">{selectedMessages.length} mesaj seçildi</span>
           <div className="flex gap-2">
             <button onClick={handleBulkMarkAsRead} className="bg-foreground/10 hover:bg-foreground/20 text-foreground px-3 py-1 text-xs font-bold uppercase"><CheckCircle size={14} className="inline mr-1" />Okundu</button>
-            <button onClick={handleBulkDelete} className="bg-red-500/80 hover:bg-red-500 text-foreground px-3 py-1 text-xs font-bold uppercase"><Trash2 size={14} className="inline mr-1" />Sil</button>
+            <button onClick={handleBulkDelete} className="bg-danger/80 hover:bg-danger text-foreground px-3 py-1 text-xs font-bold uppercase"><Trash2 size={14} className="inline mr-1" />Sil</button>
           </div>
         </div>
       )}
 
       {error ? (
         <div className="glass-panel p-12 clip-angled text-center border border-glass-border">
-          <p className="text-red-400 text-sm font-bold mb-2">{error}</p>
-          <button onClick={fetchMessages} className="bg-neon-pink text-foreground px-4 py-2 text-xs font-bold uppercase clip-angled">Tekrar Dene</button>
+          <p className="text-danger text-sm font-bold mb-2">{error}</p>
+          <button onClick={fetchMessages} className="bg-primary text-foreground px-4 py-2 text-xs font-bold uppercase clip-angled">Tekrar Dene</button>
         </div>
       ) : filteredMessages.length === 0 ? (
         <div className="glass-panel p-12 clip-angled text-center border border-glass-border">
@@ -223,13 +223,13 @@ export default function MessagesView() {
                   <div className="flex justify-between items-start mb-1">
                     <div className="flex items-center gap-3">
                       <h4 className={`font-bold ${msg.status === "okunmadi" ? "text-foreground" : "text-foreground/70"}`}>{msg.adSoyad}</h4>
-                      {msg.status === "okunmadi" && <span className="bg-holo-gold text-black text-[9px] px-1.5 py-0.5 font-bold uppercase">Yeni</span>}
-                      {msg.status === "yanitlandi" && <span className="bg-green-500 text-black text-[9px] px-1.5 py-0.5 font-bold uppercase flex items-center gap-1"><Send size={10} /> Yanıtlandı</span>}
+                      {msg.status === "okunmadi" && <span className="bg-secondary text-black text-[9px] px-1.5 py-0.5 font-bold uppercase">Yeni</span>}
+                      {msg.status === "yanitlandi" && <span className="bg-success text-black text-[9px] px-1.5 py-0.5 font-bold uppercase flex items-center gap-1"><Send size={10} /> Yanıtlandı</span>}
                       {msg.status === "okundu" && <span className="text-[9px] text-foreground/50 font-bold uppercase flex items-center gap-1"><Eye size={10} /> Okundu</span>}
                     </div>
                     <span className="text-xs text-foreground/60 whitespace-nowrap ml-4">{msg.tarih}</span>
                   </div>
-                  <a href={`mailto:${msg.ePosta}`} className="text-xs text-neon-pink hover:underline inline-block mb-2">{msg.ePosta}</a>
+                  <a href={`mailto:${msg.ePosta}`} className="text-xs text-primary hover:underline inline-block mb-2">{msg.ePosta}</a>
                   <p className={`text-sm ${msg.status === "okunmadi" ? "text-gray-200 font-medium" : "text-foreground/50"} line-clamp-2`}>{msg.mesaj}</p>
                   {viewingMessage?.id === msg.id && (
                     <motion.div initial={{ height: 0, opacity: 0 }} animate={{ height: "auto", opacity: 1 }} className="mt-4 p-4 bg-foreground/5 rounded border border-glass-border">
@@ -240,14 +240,14 @@ export default function MessagesView() {
                 </div>
                 <div className="flex items-center gap-2 md:opacity-0 group-hover:opacity-100 transition-opacity">
                   {msg.status !== "yanitlandi" && (
-                    <button onClick={() => handleReplyClick(msg)} className="bg-foreground/10 hover:bg-neon-pink text-foreground px-4 py-2 text-xs font-bold uppercase clip-angled transition-colors flex items-center gap-1"><Reply size={12} />Yanıtla</button>
+                    <button onClick={() => handleReplyClick(msg)} className="bg-foreground/10 hover:bg-primary text-foreground px-4 py-2 text-xs font-bold uppercase clip-angled transition-colors flex items-center gap-1"><Reply size={12} />Yanıtla</button>
                   )}
                   {msg.status === "yanitlandi" ? (
-                    <button onClick={() => handleMarkAsUnread(msg)} className="bg-foreground/5 hover:bg-holo-gold/20 text-foreground/50 hover:text-holo-gold p-2 transition-colors" title="Okunmadı İşaretle"><EyeOff size={16} /></button>
+                    <button onClick={() => handleMarkAsUnread(msg)} className="bg-foreground/5 hover:bg-secondary/20 text-foreground/50 hover:text-secondary p-2 transition-colors" title="Okunmadı İşaretle"><EyeOff size={16} /></button>
                   ) : (
-                    <button onClick={() => { setMessages(messages.map((m) => m.id === msg.id ? { ...m, status: "yanitlandi" } : m)); }} className="bg-foreground/5 hover:bg-green-500/20 text-foreground/50 hover:text-green-400 p-2 transition-colors" title="Yanıtlandı İşaretle"><CheckCheck size={16} /></button>
+                    <button onClick={() => { setMessages(messages.map((m) => m.id === msg.id ? { ...m, status: "yanitlandi" } : m)); }} className="bg-foreground/5 hover:bg-success/20 text-foreground/50 hover:text-success p-2 transition-colors" title="Yanıtlandı İşaretle"><CheckCheck size={16} /></button>
                   )}
-                  <button onClick={() => handleDelete(msg.id)} className="bg-foreground/5 hover:bg-red-500 text-foreground/50 hover:text-foreground p-2 transition-colors"><Trash2 size={16} /></button>
+                  <button onClick={() => handleDelete(msg.id)} className="bg-foreground/5 hover:bg-danger text-foreground/50 hover:text-foreground p-2 transition-colors"><Trash2 size={16} /></button>
                 </div>
               </div>
             </div>
@@ -259,9 +259,9 @@ export default function MessagesView() {
         <div className="border-t border-glass-border p-4 flex justify-between items-center text-foreground/50 text-xs uppercase tracking-wider bg-black/40 mt-6 rounded clip-angled">
           <span>{totalMessages} Mesaj Listeleniyor</span>
           <div className="flex gap-2">
-            <button onClick={() => setCurrentPage((prev) => Math.max(prev - 1, 1))} disabled={currentPage === 1} className="px-3 py-1.5 border border-glass-border hover:border-neon-pink hover:text-neon-pink transition-colors disabled:opacity-30 rounded">&lt; Önceki</button>
+            <button onClick={() => setCurrentPage((prev) => Math.max(prev - 1, 1))} disabled={currentPage === 1} className="px-3 py-1.5 border border-glass-border hover:border-primary hover:text-primary transition-colors disabled:opacity-30 rounded">&lt; Önceki</button>
             <span className="px-4 py-1.5 bg-background/50 text-foreground font-bold border border-glass-border rounded">Sayfa {currentPage} / {totalPages}</span>
-            <button onClick={() => setCurrentPage((prev) => Math.min(prev + 1, totalPages))} disabled={currentPage === totalPages} className="px-3 py-1.5 border border-glass-border hover:border-neon-pink hover:text-neon-pink transition-colors disabled:opacity-30 rounded">Sonraki &gt;</button>
+            <button onClick={() => setCurrentPage((prev) => Math.min(prev + 1, totalPages))} disabled={currentPage === totalPages} className="px-3 py-1.5 border border-glass-border hover:border-primary hover:text-primary transition-colors disabled:opacity-30 rounded">Sonraki &gt;</button>
           </div>
         </div>
       )}
@@ -272,7 +272,7 @@ export default function MessagesView() {
             <button onClick={() => setSelectedMessage(null)} className="absolute top-4 right-4 text-foreground/60 hover:text-foreground transition-colors">
               <svg width={24} height={24} viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth={2}><line x1="18" y1="6" x2="6" y2="18"></line><line x1="6" y1="6" x2="18" y2="18"></line></svg>
             </button>
-            <h3 className="text-xl font-bold text-foreground mb-2 uppercase tracking-wider flex items-center gap-2"><Mail size={20} className="text-neon-pink" /> Yanıtla</h3>
+            <h3 className="text-xl font-bold text-foreground mb-2 uppercase tracking-wider flex items-center gap-2"><Mail size={20} className="text-primary" /> Yanıtla</h3>
             <p className="text-xs text-foreground/50 mb-6 border-b border-glass-border pb-4"><strong>Alıcı:</strong> {selectedMessage.adSoyad} &lt;{selectedMessage.ePosta}&gt;</p>
             <div className="flex-1 overflow-y-auto pr-2 custom-scrollbar space-y-4">
               <div className="bg-foreground/5 p-4 text-sm text-foreground/70 italic border-l-2 border-white/20 mb-4">"{selectedMessage.mesaj}"</div>
@@ -287,16 +287,16 @@ export default function MessagesView() {
                     <option value="urun">Ürün Bilgisi</option>
                   </select>
                 </div>
-                <input required type="text" value={replySubject} onChange={(e) => setReplySubject(e.target.value)} className="w-full bg-background/50 border border-glass-border text-foreground px-4 py-2 text-sm focus:border-neon-pink outline-none transition-colors" />
+                <input required type="text" value={replySubject} onChange={(e) => setReplySubject(e.target.value)} className="w-full bg-background/50 border border-glass-border text-foreground px-4 py-2 text-sm focus:border-primary outline-none transition-colors" />
                 <div>
                   <label className="block text-foreground/50 text-xs font-bold mb-1 uppercase tracking-wider">Mesajınız</label>
-                  <textarea required rows={4} value={replyText} onChange={(e) => setReplyText(e.target.value)} className="w-full bg-background/50 border border-glass-border text-foreground px-4 py-3 text-sm focus:border-neon-pink outline-none transition-colors resize-none font-sans" />
+                  <textarea required rows={4} value={replyText} onChange={(e) => setReplyText(e.target.value)} className="w-full bg-background/50 border border-glass-border text-foreground px-4 py-3 text-sm focus:border-primary outline-none transition-colors resize-none font-sans" />
                 </div>
               </form>
             </div>
             <div className="flex gap-4 pt-4 mt-4 border-t border-glass-border">
               <button type="button" onClick={() => setSelectedMessage(null)} className="flex-1 border border-glass-border text-foreground py-3 uppercase tracking-widest text-xs hover:bg-foreground/5 transition-colors clip-angled font-bold">İptal</button>
-              <button type="submit" form="replyForm" disabled={isSending} className="flex-1 bg-neon-pink text-foreground py-3 uppercase tracking-widest text-xs hover:bg-white hover:text-black transition-colors clip-angled font-bold disabled:opacity-50 flex items-center justify-center gap-2">{isSending ? "Gönderiliyor..." : <><Send size={14} /> Gönder</>}</button>
+              <button type="submit" form="replyForm" disabled={isSending} className="flex-1 bg-primary text-foreground py-3 uppercase tracking-widest text-xs hover:bg-white hover:text-black transition-colors clip-angled font-bold disabled:opacity-50 flex items-center justify-center gap-2">{isSending ? "Gönderiliyor..." : <><Send size={14} /> Gönder</>}</button>
             </div>
           </div>
         </div>

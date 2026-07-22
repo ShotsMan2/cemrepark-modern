@@ -52,7 +52,7 @@ export default function FavoriteButton({ product, className = "" }: FavoriteButt
   return (
     <button
       onClick={toggleFavorite}
-      className={`transition-all duration-300 transform active:scale-75 hover:scale-110 relative z-20 focus-visible:ring-2 focus-visible:ring-neon-pink focus-visible:outline-none focus-visible:ring-offset-2 focus-visible:ring-offset-background ${isFavorite ? "text-neon-pink drop-shadow-md hover:text-pink-600" : "text-gray-400 hover:text-neon-pink dark:hover:text-neon-pink"} ${className}`}
+      className={`transition-all duration-300 transform active:scale-75 hover:scale-110 relative z-20 focus-visible:ring-2 focus-visible:ring-primary focus-visible:outline-none focus-visible:ring-offset-2 focus-visible:ring-offset-background ${isFavorite ? "text-primary drop-shadow-md hover:text-primary" : "text-gray-400 hover:text-primary dark:hover:text-primary"} ${className}`}
       title={(isFavorite ? t("favorite_remove_title") : t("favorite_add_title")) as string}
       aria-label={(isFavorite ? t("favorite_remove_title") : t("favorite_add_title")) as string}
     >

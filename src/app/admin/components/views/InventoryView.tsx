@@ -90,10 +90,10 @@ export default function InventoryView() {
   };
 
   const getStockBadge = (stok: number) => {
-    if (stok === 0) return { label: "Stokta Yok", class: "bg-red-500/20 text-red-400 border-red-500/30" };
-    if (stok <= 5) return { label: "Kritik", class: "bg-yellow-500/20 text-yellow-400 border-yellow-500/30" };
-    if (stok <= 20) return { label: "Düşük", class: "bg-orange-500/20 text-orange-400 border-orange-500/30" };
-    return { label: "Stokta", class: "bg-green-500/20 text-green-400 border-green-500/30" };
+    if (stok === 0) return { label: "Stokta Yok", class: "bg-danger/20 text-danger border-danger/30" };
+    if (stok <= 5) return { label: "Kritik", class: "bg-secondary/20 text-secondary border-secondary/30" };
+    if (stok <= 20) return { label: "Düşük", class: "bg-warning/20 text-warning border-warning/30" };
+    return { label: "Stokta", class: "bg-success/20 text-success border-success/30" };
   };
 
   const columns = [
@@ -113,8 +113,8 @@ export default function InventoryView() {
       return (
         <div className="flex items-center gap-3">
           <div className="flex items-center gap-1.5">
-            <div className={`w-2 h-2 rounded-full ${row.stok === 0 ? "bg-red-500" : row.stok <= 5 ? "bg-yellow-500" : "bg-green-500"}`} />
-            <span className={`text-sm font-bold ${row.stok === 0 ? "text-red-400" : row.stok <= 5 ? "text-yellow-400" : "text-green-400"}`}>
+            <div className={`w-2 h-2 rounded-full ${row.stok === 0 ? "bg-danger" : row.stok <= 5 ? "bg-secondary" : "bg-success"}`} />
+            <span className={`text-sm font-bold ${row.stok === 0 ? "text-danger" : row.stok <= 5 ? "text-secondary" : "text-success"}`}>
               {row.stok}
             </span>
           </div>
@@ -156,16 +156,16 @@ export default function InventoryView() {
           <p className="text-2xl font-black text-foreground">{products.length}</p>
           <p className="text-xs text-foreground/50 font-bold uppercase tracking-widest">Tüm Ürünler</p>
         </div>
-        <div className={`glass-panel p-4 clip-angled border cursor-pointer transition-all ${stockFilter === "in" ? "border-green-500/50 bg-green-500/10" : "border-glass-border hover:border-green-500/30"}`} onClick={() => setStockFilter("in")}>
-          <p className="text-2xl font-black text-green-400">{inStockCount}</p>
+        <div className={`glass-panel p-4 clip-angled border cursor-pointer transition-all ${stockFilter === "in" ? "border-success/50 bg-success/10" : "border-glass-border hover:border-success/30"}`} onClick={() => setStockFilter("in")}>
+          <p className="text-2xl font-black text-success">{inStockCount}</p>
           <p className="text-xs text-foreground/50 font-bold uppercase tracking-widest">Stokta</p>
         </div>
-        <div className={`glass-panel p-4 clip-angled border cursor-pointer transition-all ${stockFilter === "low" ? "border-yellow-500/50 bg-yellow-500/10" : "border-glass-border hover:border-yellow-500/30"}`} onClick={() => setStockFilter("low")}>
-          <p className="text-2xl font-black text-yellow-400">{lowStockCount}</p>
+        <div className={`glass-panel p-4 clip-angled border cursor-pointer transition-all ${stockFilter === "low" ? "border-secondary/50 bg-secondary/10" : "border-glass-border hover:border-secondary/30"}`} onClick={() => setStockFilter("low")}>
+          <p className="text-2xl font-black text-secondary">{lowStockCount}</p>
           <p className="text-xs text-foreground/50 font-bold uppercase tracking-widest">Düşük Stok</p>
         </div>
-        <div className={`glass-panel p-4 clip-angled border cursor-pointer transition-all ${stockFilter === "out" ? "border-red-500/50 bg-red-500/10" : "border-glass-border hover:border-red-500/30"}`} onClick={() => setStockFilter("out")}>
-          <p className="text-2xl font-black text-red-400">{outOfStockCount}</p>
+        <div className={`glass-panel p-4 clip-angled border cursor-pointer transition-all ${stockFilter === "out" ? "border-danger/50 bg-danger/10" : "border-glass-border hover:border-danger/30"}`} onClick={() => setStockFilter("out")}>
+          <p className="text-2xl font-black text-danger">{outOfStockCount}</p>
           <p className="text-xs text-foreground/50 font-bold uppercase tracking-widest">Stokta Yok</p>
         </div>
       </div>
@@ -203,7 +203,7 @@ export default function InventoryView() {
           <div className="flex gap-2">
             <div className="w-3 h-3 bg-primary rounded-full animate-bounce"></div>
             <div className="w-3 h-3 bg-secondary rounded-full animate-bounce" style={{ animationDelay: "150ms" }}></div>
-            <div className="w-3 h-3 bg-pink-500 rounded-full animate-bounce" style={{ animationDelay: "300ms" }}></div>
+            <div className="w-3 h-3 bg-primary rounded-full animate-bounce" style={{ animationDelay: "300ms" }}></div>
           </div>
         </div>
       ) : (

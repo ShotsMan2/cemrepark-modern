@@ -156,8 +156,8 @@ export default function LogsPage() {
                           <span
                             className={`inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium ${
                               log.success
-                                ? "bg-green-100 text-green-800 dark:bg-green-900/30 dark:text-green-400"
-                                : "bg-red-100 text-red-800 dark:bg-red-900/30 dark:text-red-400"
+                                ? "bg-success text-success dark:bg-success/30 dark:text-success"
+                                : "bg-danger text-danger dark:bg-danger/30 dark:text-danger"
                             }`}
                           >
                             {log.success ? "Success" : "Failed"}
@@ -170,7 +170,7 @@ export default function LogsPage() {
                     ) : (
                       <>
                         <td className="px-6 py-4 whitespace-nowrap">
-                          <span className="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-blue-100 text-blue-800 dark:bg-blue-900/30 dark:text-blue-400">
+                          <span className="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-info text-info dark:bg-info/30 dark:text-info">
                             {log.action}
                           </span>
                         </td>

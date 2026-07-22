@@ -59,7 +59,7 @@ export default function QuickViewModal({ product, onClose }: QuickViewModalProps
         <button
           onClick={onClose}
           aria-label="Close"
-          className="absolute top-4 right-4 w-10 h-10 bg-black/50 rounded-full flex items-center justify-center text-foreground hover:text-neon-pink hover:bg-white transition-colors z-20"
+          className="absolute top-4 right-4 w-10 h-10 bg-black/50 rounded-full flex items-center justify-center text-foreground hover:text-primary hover:bg-white transition-colors z-20"
         >
           <svg
             width="24"

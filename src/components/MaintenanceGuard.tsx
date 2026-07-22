@@ -14,10 +14,10 @@ export default function MaintenanceGuard({ children }: { children: React.ReactNo
   if (settings.bakimModu && !isAdmin) {
     return (
       <div className="min-h-screen bg-[#0a0a0a] text-foreground flex flex-col items-center justify-center p-6 text-center relative overflow-hidden">
-        <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[600px] h-[600px] bg-neon-pink opacity-[0.05] rounded-full blur-[120px] pointer-events-none"></div>
+        <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[600px] h-[600px] bg-primary opacity-[0.05] rounded-full blur-[120px] pointer-events-none"></div>
 
         <div className="glass-panel p-12 max-w-xl w-full clip-angled relative z-10 border border-white/10">
-          <div className="w-20 h-20 rounded-full border border-red-500/30 bg-red-500/5 mx-auto flex items-center justify-center mb-8 animate-pulse">
+          <div className="w-20 h-20 rounded-full border border-danger/30 bg-danger/5 mx-auto flex items-center justify-center mb-8 animate-pulse">
             <svg
               width="40"
               height="40"
@@ -34,7 +34,7 @@ export default function MaintenanceGuard({ children }: { children: React.ReactNo
           <h1 className="text-3xl md:text-4xl font-black uppercase tracking-widest mb-4">
             Bakım Modu
           </h1>
-          <div className="w-16 h-1 bg-neon-pink mx-auto mb-6"></div>
+          <div className="w-16 h-1 bg-primary mx-auto mb-6"></div>
 
           <p className="text-gray-400 text-lg mb-8 leading-relaxed">
             Sitemiz şu anda güncelleniyor. Size daha iyi bir deneyim sunmak için kısa bir süreliğine

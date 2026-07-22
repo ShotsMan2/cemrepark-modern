@@ -20,7 +20,7 @@ export default function KurumsalClient() {
       title: "HakkÄ±mÄ±zda",
       description:
         "Cemre Park olarak yÄ±llardÄ±r kaliteyi ve ÅŸÄ±klÄ±ÄŸÄ± sizlerle buluÅŸturuyoruz.",
-      icon: <Building2 className="w-12 h-12 mb-4 text-pink-600" />,
+      icon: <Building2 className="w-12 h-12 mb-4 text-primary" />,
       link: "/kurumsal/hakkimizda",
       delay: 100,
     },
@@ -28,14 +28,14 @@ export default function KurumsalClient() {
       title: "Vizyon & Misyon",
       description:
         "YenilikÃ§i tasarÄ±mlarÄ±mÄ±zla tesettÃ¼r giyiminde Ã¶ncÃ¼ bir marka olmayÄ± hedefliyoruz.",
-      icon: <Target className="w-12 h-12 mb-4 text-pink-600" />,
+      icon: <Target className="w-12 h-12 mb-4 text-primary" />,
       link: "/kurumsal/vizyon-misyon",
       delay: 200,
     },
     {
       title: "SÃ¼rdÃ¼rÃ¼lebilirlik",
       description: "DoÄŸaya ve insana saygÄ±lÄ±, Ã§evre dostu Ã¼retim sÃ¼reÃ§lerini benimsiyoruz.",
-      icon: <Leaf className="w-12 h-12 mb-4 text-pink-600" />,
+      icon: <Leaf className="w-12 h-12 mb-4 text-primary" />,
       link: "/kurumsal/surdurulebilirlik",
       delay: 300,
     },
@@ -43,7 +43,7 @@ export default function KurumsalClient() {
       title: "Kariyer",
       description:
         "BÃ¼yÃ¼yen ailemize katÄ±lmak ve kariyerinizde yeni bir sayfa aÃ§mak ister misiniz?",
-      icon: <Users className="w-12 h-12 mb-4 text-pink-600" />,
+      icon: <Users className="w-12 h-12 mb-4 text-primary" />,
       link: "/kurumsal/kariyer",
       delay: 400,
     },
@@ -57,7 +57,7 @@ export default function KurumsalClient() {
           data-aos="fade-down"
           className="text-4xl md:text-5xl font-extrabold text-gray-900 mb-6 tracking-tight"
         >
-          Cemre Park <span className="text-pink-600">Kurumsal</span>
+          Cemre Park <span className="text-primary">Kurumsal</span>
         </h1>
         <p
           data-aos="fade-up"
@@ -82,7 +82,7 @@ export default function KurumsalClient() {
                 <div className="transform group-hover:scale-110 transition-transform duration-300">
                   {section.icon}
                 </div>
-                <h3 className="text-2xl font-bold text-gray-800 mb-3 group-hover:text-pink-600 transition-colors">
+                <h3 className="text-2xl font-bold text-gray-800 mb-3 group-hover:text-primary transition-colors">
                   {section.title}
                 </h3>
                 <p className="text-gray-600">{section.description}</p>
@@ -110,7 +110,7 @@ export default function KurumsalClient() {
                 {["MÃ¼ÅŸteri OdaklÄ±lÄ±k", "YenilikÃ§i YaklaÅŸÄ±m", "GÃ¼venilirlik"].map(
                   (item, i) => (
                     <li key={i} className="flex items-center text-gray-700">
-                      <span className="w-2 h-2 bg-pink-600 rounded-full mr-3"></span>
+                      <span className="w-2 h-2 bg-primary rounded-full mr-3"></span>
                       <span className="font-medium">{item}</span>
                     </li>
                   )
@@ -119,8 +119,8 @@ export default function KurumsalClient() {
             </div>
             <div className="relative h-[400px] rounded-2xl overflow-hidden shadow-inner bg-gray-200">
               {/* Optional background image or pattern */}
-              <div className="absolute inset-0 bg-gradient-to-tr from-pink-600/20 to-transparent flex items-center justify-center">
-                <Target className="w-32 h-32 text-pink-600 opacity-50" />
+              <div className="absolute inset-0 bg-gradient-to-tr from-primary/20 to-transparent flex items-center justify-center">
+                <Target className="w-32 h-32 text-primary opacity-50" />
               </div>
             </div>
           </div>
