@@ -466,7 +466,7 @@ export default function Header() {
                     initial={{ scale: 0 }}
                     animate={{ scale: 1 }}
                     exit={{ scale: 0 }}
-                    className="absolute -top-2 -right-2 bg-secondary text-background text-[10px] font-bold px-1.5 py-0.5 rounded-full shadow-md"
+                    className="absolute -top-2 -right-2 bg-primary text-white text-[10px] font-bold px-1.5 py-0.5 rounded-full shadow-md"
                   >
                     {favoriteItems.length}
                   </motion.span>

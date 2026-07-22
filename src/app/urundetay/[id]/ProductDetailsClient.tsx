@@ -573,7 +573,8 @@ export default function ProductDetailsClient({
                     <div className="absolute bottom-4 left-0 w-full px-4 flex justify-center opacity-0 group-hover:opacity-100 transition-all duration-500 translate-y-4 group-hover:translate-y-0 z-30">
                       <button
                         onClick={(e) => {
-                          e.preventDefault(); // Prevent navigating to product details page
+                          e.stopPropagation();
+                          e.preventDefault();
                           setQuickViewProduct(rp);
                         }}
                         className="text-xs uppercase tracking-widest font-bold text-foreground hover:text-foreground transition-colors mt-1 bg-background/70 hover:bg-primary px-6 py-3 rounded-full backdrop-blur-md touch-manipulation shadow-lg border border-glass-border w-full hover:shadow-[0_0_15px_hsla(var(--primary),0.5)]"

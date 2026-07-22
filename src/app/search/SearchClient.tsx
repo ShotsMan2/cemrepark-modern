@@ -1,5 +1,6 @@
 "use client";
 import { useState, useEffect, useCallback, useRef, useTransition } from "react";
+import { createPortal } from "react-dom";
 import Image from "next/image";
 import { ProductSkeleton } from "../../components/ui/ProductSkeleton";
 import Link from "next/link";
@@ -105,12 +106,14 @@ export default function SearchClient({
 
   return (
     <div className="container mx-auto px-4 relative z-10">
+      {/* Hero Header */}
       <div
-        className="product-card-bg p-10 pb-12 rounded-[2.5rem] shadow-2xl mb-12 text-center relative group"
+        className="relative p-10 md:p-14 pb-12 rounded-[2.5rem] mb-12 text-center overflow-hidden group"
         data-aos="fade-down"
       >
-        <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-96 h-96 bg-gradient-to-br from-primary/20 via-purple/15 to-primary/10 rounded-full blur-[100px] pointer-events-none group-hover:scale-150 transition-transform duration-1000"></div>
-        <h1 className="text-4xl md:text-6xl font-black mb-4 tracking-widest text-transparent bg-clip-text bg-gradient-to-r from-primary via-purple to-primary relative z-10">
+        <h1
+          className="text-4xl md:text-6xl font-black tracking-widest text-transparent bg-clip-text bg-gradient-to-r from-primary via-purple to-primary uppercase text-center relative z-10"
+        >
           {isSearch
             ? `${t("search_results").toLocaleUpperCase("tr-TR")}: "${query}"`
             : isCategoryView
@@ -118,13 +121,17 @@ export default function SearchClient({
               : t("collection").toLocaleUpperCase("tr-TR")}
         </h1>
         {(isSearch || isCategoryView) && (
-          <p className="text-foreground/70 font-medium text-lg relative z-10">
+          <p className="text-foreground/60 font-medium text-lg relative z-10">
             {t("total_products_listed", { count: String(results.length) })}
           </p>
         )}
+
+        {/* Decorative line */}
+        <div className="mt-6 mx-auto w-32 h-[2px] bg-gradient-to-r from-transparent via-primary/60 to-transparent rounded-full" />
       </div>
 
       <div className="flex flex-col lg:flex-row gap-10">
+        {/* Filter Sidebar */}
         <div className="w-full lg:w-1/4">
           <div className="sticky top-32">
             <InstantFilter
@@ -137,14 +144,25 @@ export default function SearchClient({
           </div>
         </div>
 
+        {/* Product Grid */}
         <div className="w-full lg:w-3/4 min-h-screen">
           {results.length === 0 ? (
             <div
-              className="product-card-bg p-16 rounded-[3rem] flex flex-col items-center justify-center text-center shadow-2xl relative overflow-hidden group"
+              className="relative p-16 rounded-[3rem] flex flex-col items-center justify-center text-center overflow-hidden group"
+              style={{
+                background: "linear-gradient(145deg, hsla(var(--primary), 0.08), hsla(var(--purple), 0.12))",
+                border: "1px solid hsla(var(--primary), 0.2)",
+                boxShadow: "0 8px 40px -12px hsla(var(--primary), 0.1)",
+              }}
               data-aos="zoom-in"
             >
-              <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-64 h-64 bg-gradient-to-tr from-primary/20 to-purple/20 rounded-full blur-[80px] pointer-events-none group-hover:scale-150 transition-transform duration-1000"></div>
-              <div className="w-32 h-32 mb-8 bg-primary/10 rounded-full flex items-center justify-center shadow-inner relative z-10">
+              <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-64 h-64 bg-gradient-to-tr from-primary/20 to-purple/20 rounded-full blur-[80px] pointer-events-none group-hover:scale-150 transition-transform duration-1000" />
+              <div
+                className="w-32 h-32 mb-8 rounded-full flex items-center justify-center shadow-inner relative z-10"
+                style={{
+                  background: "linear-gradient(135deg, hsla(var(--primary), 0.15), hsla(var(--purple), 0.15))",
+                }}
+              >
                 <svg
                   className="w-16 h-16 text-primary opacity-80"
                   fill="none"
@@ -156,13 +174,13 @@ export default function SearchClient({
                     strokeLinejoin="round"
                     strokeWidth="1.5"
                     d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"
-                  ></path>
+                  />
                 </svg>
               </div>
               <h2 className="text-4xl font-black text-foreground mb-4 relative z-10">
                 {t("no_products_found")}
               </h2>
-              <p className="text-foreground/60 relative z-10 text-xl font-medium max-w-md">
+              <p className="text-foreground/50 relative z-10 text-xl font-medium max-w-md">
                 {t("no_products_found_desc")}
               </p>
             </div>
@@ -183,90 +201,137 @@ export default function SearchClient({
                       data-aos-delay={(index % 3) * 100}
                     >
                       {/* Gradient frame border */}
-                      <div className="absolute -inset-[2px] bg-gradient-to-br from-primary/60 via-purple/50 to-secondary/50 rounded-[1.7rem] opacity-60 group-hover/card:opacity-100 transition-opacity duration-500 pointer-events-none" />
-                      <div className="product-card-bg-search p-4 group relative transform flex flex-col">
-                      <div className="relative aspect-[3/4] mb-4 overflow-hidden rounded-2xl transform-gpu">
-                        {product.etiket && (
-                          <div className="absolute top-3 left-3 z-20">
-                            <span className="text-[10px] font-black uppercase tracking-widest bg-gradient-to-r from-primary to-secondary text-foreground px-4 py-1.5 rounded-full shadow-lg">
-                              {t(product.etiket)}
-                            </span>
+                      <div
+                        className="absolute -inset-[2px] rounded-[1.7rem] opacity-50 group-hover/card:opacity-100 transition-opacity duration-500 pointer-events-none"
+                        style={{
+                          background: "linear-gradient(135deg, hsla(var(--primary), 0.5), hsla(var(--purple), 0.4), hsla(var(--secondary), 0.3))",
+                        }}
+                      />
+
+                      {/* Card Content */}
+                      <div
+                        className="relative p-4 group rounded-[1.5rem] flex flex-col h-full transition-all duration-500"
+                        style={{
+                          background: "linear-gradient(145deg, hsla(var(--primary), 0.1), hsla(var(--purple), 0.15), hsla(var(--primary), 0.06))",
+                          backdropFilter: "blur(16px) saturate(150%)",
+                          border: "1px solid hsla(var(--primary), 0.25)",
+                          boxShadow: "0 8px 32px -8px hsla(var(--primary), 0.12), inset 0 1px 0 hsla(var(--primary), 0.1)",
+                        }}
+                      >
+                        {/* Image Container */}
+                        <div className="relative aspect-[3/4] mb-4 overflow-hidden rounded-2xl">
+                          {product.etiket && (
+                            <div className="absolute top-3 left-3 z-20">
+                              <span
+                                className="text-[10px] font-black uppercase tracking-[0.2em] px-4 py-1.5 rounded-full shadow-lg text-white"
+                                style={{
+                                  background: "linear-gradient(135deg, hsl(var(--primary)), hsl(var(--secondary)))",
+                                }}
+                              >
+                                {t(product.etiket)}
+                              </span>
+                            </div>
+                          )}
+
+                          {images.length > 1 ? (
+                            <Swiper
+                              modules={[EffectFade, Pagination, Autoplay]}
+                              effect="fade"
+                              pagination={{ clickable: true, dynamicBullets: true }}
+                              autoplay={{
+                                delay: 3000,
+                                disableOnInteraction: false,
+                                pauseOnMouseEnter: true,
+                              }}
+                              className="w-full h-full group-hover:scale-105 transition-transform duration-1000"
+                            >
+                              {images.map((img: string, i: number) => (
+                                <SwiperSlide key={i}>
+                                  <Image
+                                    src={getValidImageUrl(img)}
+                                    alt={`${t(product.ad)} - Image ${i + 1}`}
+                                    fill
+                                    className="object-cover"
+                                    sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
+                                  />
+                                </SwiperSlide>
+                              ))}
+                            </Swiper>
+                          ) : (
+                            <Image
+                              src={getValidImageUrl(images[0])}
+                              alt={t(product.ad)}
+                              fill
+                              className="object-cover group-hover:scale-110 transition-transform duration-1000 ease-out"
+                              sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
+                            />
+                          )}
+
+                          {/* Hover overlay */}
+                          <div className="absolute inset-0 bg-gradient-to-t from-black/70 via-black/20 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500 flex items-end justify-center pb-6 pointer-events-none z-10" />
+
+                          {/* Quick View Button */}
+                          <div className="absolute bottom-0 left-0 w-full px-6 flex justify-center opacity-0 group-hover:opacity-100 transition-all duration-500 translate-y-8 group-hover:translate-y-0 z-30 pb-6">
+                            <button
+                              onClick={(e) => {
+                                e.stopPropagation();
+                                e.preventDefault();
+                                setQuickViewProduct(product);
+                              }}
+                              className="relative overflow-hidden text-xs uppercase tracking-[0.2em] font-black text-white px-8 py-3.5 rounded-full backdrop-blur-xl shadow-xl w-full active:scale-95 transform hover:-translate-y-1 transition-all duration-300"
+                              style={{
+                                background: "linear-gradient(135deg, hsla(var(--primary), 0.9), hsla(var(--secondary), 0.9))",
+                                boxShadow: "0 4px 20px hsla(var(--primary), 0.4)",
+                              }}
+                            >
+                              <span className="relative z-10">{t("quick_view")}</span>
+                              <div className="absolute inset-0 bg-gradient-to-r from-white/0 via-white/20 to-white/0 translate-x-[-100%] group-hover:translate-x-[100%] transition-transform duration-700" />
+                            </button>
                           </div>
-                        )}
 
-                        {images.length > 1 ? (
-                          <Swiper
-                            modules={[EffectFade, Pagination, Autoplay]}
-                            effect="fade"
-                            pagination={{ clickable: true, dynamicBullets: true }}
-                            autoplay={{
-                              delay: 3000,
-                              disableOnInteraction: false,
-                              pauseOnMouseEnter: true,
-                            }}
-                            className="w-full h-full group-hover:scale-105 transition-transform duration-1000"
-                          >
-                            {images.map((img: string, i: number) => (
-                              <SwiperSlide key={i}>
-                                <Image
-                                  src={getValidImageUrl(img)}
-                                  alt={`${t(product.ad)} - Image ${i + 1}`}
-                                  fill
-                                  className="object-cover"
-                                  sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
-                                />
-                              </SwiperSlide>
-                            ))}
-                          </Swiper>
-                        ) : (
-                          <Image
-                            src={getValidImageUrl(images[0])}
-                            alt={t(product.ad)}
-                            fill
-                            className="object-cover group-hover:scale-110 transition-transform duration-1000 ease-out"
-                            sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
-                          />
-                        )}
-
-                        <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-black/20 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500 flex items-center justify-center pointer-events-none z-10"></div>
-                        <Link
-                          href={`/urundetay/${product.id}`}
-                          className="absolute inset-0 z-20"
-                        ></Link>
-
-                        <div className="absolute bottom-6 left-0 w-full px-6 flex justify-center opacity-0 group-hover:opacity-100 transition-all duration-500 translate-y-8 group-hover:translate-y-0 z-30">
-                          <button
-                            onClick={(e) => {
-                              e.preventDefault();
-                              setQuickViewProduct(product);
-                            }}
-                            className="text-xs uppercase tracking-[0.2em] font-black text-foreground hover:text-white hover:bg-primary transition-all duration-300 glass-panel px-8 py-3.5 rounded-full backdrop-blur-xl shadow-xl w-full active:scale-95 transform hover:-translate-y-1"
-                          >
-                            {t("quick_view")}
-                          </button>
-                        </div>
-                      </div>
-
-                      <div className="p-2 flex-1 flex flex-col relative z-20">
-                        <p className="text-purple/80 text-[10px] font-black uppercase tracking-[0.2em] mb-2 group-hover:text-primary transition-colors">
-                          {t(product.kategori)}
-                        </p>
-                        <Link href={`/urundetay/${product.id}`} className="block">
-                          <h3 className="text-transparent bg-clip-text bg-gradient-to-r from-primary to-purple font-black text-lg mb-2 line-clamp-2 leading-tight group-hover:text-transparent group-hover:bg-clip-text group-hover:bg-gradient-to-r group-hover:from-primary group-hover:via-purple group-hover:to-primary transition-all duration-300">
-                            {t(product.ad)}
-                          </h3>
-                        </Link>
-                        <div className="mt-auto pt-4 flex items-center justify-between border-t border-gray-100 dark:border-white/5">
-                          <span className="text-white font-black text-2xl tracking-tight">
-                            {formatPrice(product.fiyat)}
-                          </span>
-                          <FavoriteButton
-                            product={product}
-                            className="relative z-30 transform hover:scale-125 active:scale-90 transition-transform duration-300"
+                          {/* Link overlay */}
+                          <Link
+                            href={`/urundetay/${product.id}`}
+                            className="absolute inset-0 z-20"
                           />
                         </div>
+
+                        {/* Product Info */}
+                        <div className="p-2 flex-1 flex flex-col relative z-20">
+                          <p
+                            className="text-[10px] font-black uppercase tracking-[0.2em] mb-2 transition-colors"
+                            style={{
+                              color: "hsla(var(--purple), 0.7)",
+                            }}
+                          >
+                            {t(product.kategori)}
+                          </p>
+
+                          <Link href={`/urundetay/${product.id}`} className="block mb-3">
+                            <h3
+                              className="font-black text-lg mb-2 line-clamp-2 leading-tight transition-all duration-300"
+                              style={{
+                                background: "linear-gradient(135deg, hsl(var(--primary)), hsl(var(--purple)))",
+                                WebkitBackgroundClip: "text",
+                                WebkitTextFillColor: "transparent",
+                                backgroundClip: "text",
+                              }}
+                            >
+                              {t(product.ad)}
+                            </h3>
+                          </Link>
+
+                          <div className="mt-auto pt-4 flex items-center justify-between" style={{ borderTop: "1px solid hsla(var(--primary), 0.1)" }}>
+                            <span className="text-white font-black text-2xl tracking-tight">
+                              {formatPrice(product.fiyat)}
+                            </span>
+                            <FavoriteButton
+                              product={product}
+                              className="relative z-30 transform hover:scale-125 active:scale-90 transition-transform duration-300"
+                            />
+                          </div>
+                        </div>
                       </div>
-                    </div>
                     </div>
                   );
                 })}
@@ -275,9 +340,14 @@ export default function SearchClient({
               {visibleCount < results.length && (
                 <div ref={loaderRef} className="w-full py-16 flex justify-center">
                   <div className="relative w-16 h-16 flex items-center justify-center">
-                    <div className="absolute inset-0 border-4 border-primary/20 rounded-full"></div>
-                    <div className="absolute inset-0 border-4 border-primary border-t-transparent rounded-full animate-spin"></div>
-                    <div className="w-4 h-4 bg-purple rounded-full animate-pulse"></div>
+                    <div className="absolute inset-0 border-4 border-primary/20 rounded-full" />
+                    <div className="absolute inset-0 border-4 border-primary border-t-transparent rounded-full animate-spin" />
+                    <div
+                      className="w-4 h-4 rounded-full animate-pulse"
+                      style={{
+                        background: "linear-gradient(135deg, hsl(var(--primary)), hsl(var(--purple)))",
+                      }}
+                    />
                   </div>
                 </div>
               )}

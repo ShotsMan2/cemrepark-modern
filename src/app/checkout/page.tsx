@@ -490,7 +490,7 @@ export default function CheckoutPage() {
 
           animate={{ opacity: 1, y: 0 }}
 
-          className="text-3xl md:text-5xl font-black mb-12 text-transparent bg-clip-text bg-gradient-to-r from-primary to-secondary uppercase tracking-tighter text-center"
+          className="text-3xl md:text-5xl font-black mb-12 tracking-widest text-transparent bg-clip-text bg-gradient-to-r from-primary via-purple to-primary uppercase text-center relative z-10"
         >
           {t("checkout_title")}
         </motion.h1>

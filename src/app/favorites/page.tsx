@@ -3,7 +3,7 @@ import Link from "next/link";
 import Image from "next/image";
 import { useStore } from "../../context/StoreContext";
 import dynamic from "next/dynamic";
-import { useState, useEffect } from "react";
+import { useState, useEffect, useRef } from "react";
 import { getValidImageUrl } from "../../utils/imageHelper";
 import AOS from "aos";
 import "aos/dist/aos.css";
@@ -20,6 +20,7 @@ const QuickViewModal = dynamic(() => import("../../components/QuickViewModal"), 
 export default function FavoritesPage() {
   const { favoriteItems, removeFromFavorites, isLoaded, t, formatPrice } = useStore();
   const [quickViewProduct, setQuickViewProduct] = useState(null);
+  const quickViewClicked = useRef(false);
 
   useEffect(() => {
     AOS.init({ duration: 800, once: true });
@@ -129,12 +130,21 @@ export default function FavoritesPage() {
                     <Link
                       href={`/urundetay/${product.id}`}
                       className="absolute inset-0 z-20"
-                    ></Link>
+                      onClick={(e) => {
+                        if (quickViewClicked.current) {
+                          e.preventDefault();
+                          quickViewClicked.current = false;
+                        }
+                      }}
+                    />
 
                     <div className="absolute bottom-6 left-0 w-full px-6 flex justify-center opacity-0 group-hover:opacity-100 transition-all duration-500 translate-y-8 group-hover:translate-y-0 z-30">
                       <button
+                        onPointerDown={(e) => { e.stopPropagation(); quickViewClicked.current = true; }}
                         onClick={(e) => {
+                          e.stopPropagation();
                           e.preventDefault();
+                          quickViewClicked.current = true;
                           setQuickViewProduct(product);
                         }}
                         className="text-xs uppercase tracking-[0.2em] font-black text-foreground hover:text-foreground hover:bg-primary transition-all duration-300 glass-panel px-8 py-3.5 rounded-full backdrop-blur-xl shadow-xl w-full active:scale-95 transform hover:-translate-y-1"

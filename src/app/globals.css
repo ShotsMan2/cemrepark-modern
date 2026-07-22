@@ -678,3 +678,206 @@ h6 {
 .stagger-5 {
   animation-delay: 0.5s;
 }
+
+/* ==========================================================================
+   Premium Card System
+   ========================================================================== */
+@utility premium-card {
+  background: linear-gradient(145deg, hsla(var(--primary), 0.1), hsla(var(--purple), 0.15), hsla(var(--primary), 0.06));
+  backdrop-filter: blur(20px) saturate(160%);
+  -webkit-backdrop-filter: blur(20px) saturate(160%);
+  border: 1px solid hsla(var(--primary), 0.25);
+  border-radius: 1.5rem;
+  box-shadow: 0 8px 32px -8px hsla(var(--primary), 0.12), inset 0 1px 0 hsla(var(--primary), 0.1);
+  transition: all 0.5s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+}
+
+.premium-card:hover {
+  transform: translateY(-8px);
+  border-color: hsla(var(--primary), 0.5);
+  box-shadow: 0 20px 60px -12px hsla(var(--primary), 0.25), 0 0 40px -10px hsla(var(--primary), 0.15);
+}
+
+/* Premium Gradient Border */
+@utility gradient-border {
+  position: relative;
+}
+
+.gradient-border::before {
+  content: "";
+  position: absolute;
+  inset: -2px;
+  border-radius: inherit;
+  background: linear-gradient(135deg, hsla(var(--primary), 0.5), hsla(var(--purple), 0.4), hsla(var(--secondary), 0.3));
+  z-index: -1;
+  opacity: 0.5;
+  transition: opacity 0.5s ease;
+}
+
+.gradient-border:hover::before {
+  opacity: 1;
+}
+
+/* Shimmer Button Effect */
+@utility shimmer-btn {
+  position: relative;
+  overflow: hidden;
+}
+
+.shimmer-btn::after {
+  content: "";
+  position: absolute;
+  top: 0;
+  left: -100%;
+  width: 100%;
+  height: 100%;
+  background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.2), transparent);
+  transition: transform 0.7s ease;
+}
+
+.shimmer-btn:hover::after {
+  transform: translateX(200%);
+}
+
+/* Glow Effect */
+@utility glow-primary {
+  box-shadow: 0 0 20px hsla(var(--primary), 0.3), 0 0 40px hsla(var(--primary), 0.15);
+}
+
+.glow-primary:hover {
+  box-shadow: 0 0 30px hsla(var(--primary), 0.4), 0 0 60px hsla(var(--primary), 0.2);
+}
+
+/* Smooth Modal Animations */
+@keyframes modalSlideUp {
+  from {
+    opacity: 0;
+    transform: scale(0.95) translateY(20px);
+  }
+  to {
+    opacity: 1;
+    transform: scale(1) translateY(0);
+  }
+}
+
+@keyframes modalFadeIn {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
+
+.animate-modal-in {
+  animation: modalSlideUp 0.4s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+}
+
+.animate-modal-backdrop {
+  animation: modalFadeIn 0.3s ease-out forwards;
+}
+
+/* Premium Input Focus */
+.input-premium:focus {
+  border-color: hsl(var(--primary));
+  box-shadow: 0 0 0 4px hsla(var(--primary), 0.15), 0 0 20px hsla(var(--primary), 0.1);
+  outline: none;
+}
+
+/* Custom Range Slider */
+input[type="range"]::-webkit-slider-thumb {
+  -webkit-appearance: none;
+  appearance: none;
+  width: 18px;
+  height: 18px;
+  border-radius: 50%;
+  background: linear-gradient(135deg, hsl(var(--primary)), hsl(var(--secondary)));
+  cursor: pointer;
+  box-shadow: 0 2px 10px hsla(var(--primary), 0.4);
+  transition: all 0.3s ease;
+}
+
+input[type="range"]::-webkit-slider-thumb:hover {
+  transform: scale(1.2);
+  box-shadow: 0 4px 20px hsla(var(--primary), 0.5);
+}
+
+input[type="range"]::-moz-range-thumb {
+  width: 18px;
+  height: 18px;
+  border-radius: 50%;
+  background: linear-gradient(135deg, hsl(var(--primary)), hsl(var(--secondary)));
+  cursor: pointer;
+  border: none;
+  box-shadow: 0 2px 10px hsla(var(--primary), 0.4);
+  transition: all 0.3s ease;
+}
+
+input[type="range"]::-moz-range-thumb:hover {
+  transform: scale(1.2);
+  box-shadow: 0 4px 20px hsla(var(--primary), 0.5);
+}
+
+/* Toggle Switch Premium */
+.toggle-switch {
+  position: relative;
+  width: 44px;
+  height: 24px;
+  border-radius: 12px;
+  background: rgba(255, 255, 255, 0.1);
+  transition: all 0.3s ease;
+}
+
+.toggle-switch.active {
+  background: linear-gradient(135deg, hsl(var(--primary)), hsl(var(--secondary)));
+  box-shadow: 0 0 15px hsla(var(--primary), 0.3);
+}
+
+.toggle-switch::after {
+  content: "";
+  position: absolute;
+  top: 2px;
+  left: 2px;
+  width: 20px;
+  height: 20px;
+  border-radius: 50%;
+  background: white;
+  transition: all 0.3s ease;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.2);
+}
+
+.toggle-switch.active::after {
+  transform: translateX(20px);
+}
+
+/* Smooth Scrollbar for Modals */
+.modal-scrollbar::-webkit-scrollbar {
+  width: 6px;
+}
+
+.modal-scrollbar::-webkit-scrollbar-track {
+  background: transparent;
+}
+
+.modal-scrollbar::-webkit-scrollbar-thumb {
+  background: hsla(var(--primary), 0.3);
+  border-radius: 3px;
+}
+
+.modal-scrollbar::-webkit-scrollbar-thumb:hover {
+  background: hsla(var(--primary), 0.5);
+}
+
+/* ==========================================================================
+   Thumb Carousel (QuickViewModal)
+   ========================================================================== */
+.thumb-carousel .swiper-slide {
+  opacity: 0.5;
+  transition: opacity 0.3s ease;
+}
+.thumb-carousel .swiper-slide-thumb-active {
+  opacity: 1;
+}
+.thumb-carousel .swiper-slide-progress {
+  display: none;
+}

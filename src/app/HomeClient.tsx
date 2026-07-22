@@ -1,5 +1,6 @@
 "use client";
 import { useState, useMemo } from "react";
+import { createPortal } from "react-dom";
 import dynamic from "next/dynamic";
 import { useStore } from "../context/StoreContext";
 import CountdownTimer from "../components/ui/CountdownTimer";
@@ -86,10 +87,12 @@ export default function HomeClient({ bestSellers, discounted, banners = [] }) {
       <NewsletterSignup />
       <TestimonialsSection />
 
-      {/* QUICK VIEW MODAL */}
-      {quickViewProduct && (
-        <QuickViewModal product={quickViewProduct} onClose={() => setQuickViewProduct(null)} />
-      )}
+      {/* QUICK VIEW MODAL - portal to body to avoid PageTransitionWrapper transform clipping */}
+      {quickViewProduct &&
+        createPortal(
+          <QuickViewModal product={quickViewProduct} onClose={() => setQuickViewProduct(null)} />,
+          document.body
+        )}
     </div>
   );
 }
