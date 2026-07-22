@@ -1,7 +1,7 @@
 "use client";
 import React from "react";
 import Image from "next/image";
-import Link from "next/link";
+import { useRouter } from "next/navigation";
 import PriceDisplay from "../PriceDisplay";
 import FavoriteButton from "../FavoriteButton";
 import { useStore } from "@/context/StoreContext";
@@ -18,6 +18,7 @@ interface ProductCardProps {
 
 export function ProductCard({ product, onQuickView, className = "", delay = 0 }: ProductCardProps) {
   const { t } = useStore();
+  const router = useRouter();
   const [isHovered, setIsHovered] = React.useState(false);
   const [selectedColor, setSelectedColor] = React.useState(0);
 
@@ -74,16 +75,22 @@ export function ProductCard({ product, onQuickView, className = "", delay = 0 }:
               </motion.div>
             )}
 
-            <Link href={`/urundetay/${product.id}`} className="absolute inset-0 z-20">
+            <div
+              className="absolute inset-0 z-20 cursor-pointer"
+              onClick={(e) => {
+                e.stopPropagation();
+                router.push(`/urundetay/${product.id}`);
+              }}
+            >
               <Image
                 src={getValidImageUrl(product.resim || product.gorsel?.split(",")[0] || "")}
                 alt={product.ad}
                 fill
                 sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 25vw"
-                className="object-cover transition-transform duration-700 ease-out"
+                className="object-cover transition-transform duration-700 ease-out pointer-events-none"
                 style={{ transform: isHovered ? "scale(1.08)" : "scale(1)" }}
               />
-            </Link>
+            </div>
 
             {/* Stock indicator */}
             <div className="absolute bottom-3 left-3 right-3 z-20">
@@ -107,6 +114,7 @@ export function ProductCard({ product, onQuickView, className = "", delay = 0 }:
               <div className="absolute bottom-4 left-0 w-full px-4 flex justify-center opacity-0 group-hover:opacity-100 transition-all duration-500 translate-y-6 group-hover:translate-y-0 z-30">
                 <button
                   onClick={(e) => {
+                    e.stopPropagation();
                     e.preventDefault();
                     onQuickView(product);
                   }}
@@ -123,14 +131,17 @@ export function ProductCard({ product, onQuickView, className = "", delay = 0 }:
             <p className="text-primary text-[10px] font-black uppercase tracking-[0.2em] mb-1.5">
               {t(product.kategori) as string}
             </p>
-            <Link
-              href={`/urundetay/${product.id}`}
-              className="block before:absolute before:inset-0 before:z-10"
+            <div
+              className="block cursor-pointer before:absolute before:inset-0 before:z-10"
+              onClick={(e) => {
+                e.stopPropagation();
+                router.push(`/urundetay/${product.id}`);
+              }}
             >
               <h3 className="text-foreground font-black text-base leading-tight truncate mb-2 hover:text-primary transition-colors">
                 {t(product.ad) as string}
               </h3>
-            </Link>
+            </div>
 
             {/* Color Variant Selector */}
             {colorVariants.length > 0 && (
