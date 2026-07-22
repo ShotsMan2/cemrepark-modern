@@ -87,7 +87,7 @@ export default function SiparislerimClient({ orders }) {
                     </p>
                   </div>
                   <div className="flex flex-col md:items-end mt-4 md:mt-0">
-                    <p className="text-glow-gold font-bold text-xl mb-1">
+                    <p className="text-glow-secondary font-bold text-xl mb-1">
                       {formatPrice(order.total)}
                     </p>
                     <span

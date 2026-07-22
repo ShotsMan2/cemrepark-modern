@@ -24,7 +24,7 @@ const ComposedChart = dynamic(() => import("recharts").then((mod) => mod.Compose
 const Line = dynamic(() => import("recharts").then((mod) => mod.Line), { ssr: false });
 import DashboardAnalytics from "../DashboardAnalytics";
 
-const COLORS = ["#ff007f", "#ffd700", "#a855f7", "#3b82f6", "#22c55e", "#ef4444"];
+const COLORS = ["#ff007f", "#be185d", "#a855f7", "#3b82f6", "#22c55e", "#ef4444"];
 
 const generateSparkline = () =>
   Array.from({ length: 10 }, (_, i) => ({ name: i, value: Math.random() * 100 + 50 }));
@@ -186,7 +186,7 @@ export default function DashboardView({ products, setActiveTab }: { products: an
   const funnelData = [
     { step: "Ziyaretçi", value: 12500, color: "#3b82f6" },
     { step: "Sepet", value: 4200, color: "#a855f7" },
-    { step: "Ödeme", value: 1800, color: "#ffd700" },
+    { step: "Ödeme", value: 1800, color: "#be185d" },
     { step: "Satın Alma", value: totalOrders, color: "#ff007f" },
   ];
 
@@ -325,7 +325,7 @@ export default function DashboardView({ products, setActiveTab }: { products: an
         <KPICard title="Toplam Sipariş" value={totalOrders} subtext="Tüm zamanlar" trend="up" trendValue="8" colorClass="success" colorHex="#22c55e" sparklineData={sparklines[1]} />
         <KPICard title="Toplam Müşteri" value={totalCustomers} subtext="Kayıtlı kullanıcı" trend="up" trendValue="12" colorClass="blue-500" colorHex="#3b82f6" sparklineData={sparklines[2]} />
         <KPICard title="Toplam Ürün" value={totalProducts} subtext="Aktif ürünler" trend="up" trendValue="10" colorClass="neon-pink" colorHex="#ff007f" sparklineData={sparklines[3]} />
-        <KPICard title="Ort. Sepet Değeri" value={`${avgCartValue} ₺`} subtext="Sipariş başına" trend="up" trendValue="4" colorClass="holo-gold" colorHex="#ffd700" sparklineData={sparklines[4]} />
+        <KPICard title="Ort. Sepet Değeri" value={`${avgCartValue} ₺`} subtext="Sipariş başına" trend="up" trendValue="4" colorClass="holo-gold" colorHex="#be185d" sparklineData={sparklines[4]} />
         <KPICard title="Dönüşüm Oranı" value={`%${conversionRate}`} subtext="Ziyaretçi/Satış" trend="down" trendValue="1.2" colorClass="purple-500" colorHex="#a855f7" sparklineData={sparklines[5]} />
         <KPICard title="Aktif Kullanıcı" value={activeUsers} subtext="Son 30 gün" trend="up" trendValue="22" colorClass="blue-500" colorHex="#3b82f6" sparklineData={sparklines[6]} />
         <KPICard title="İade Oranı" value={`%${returnRate}`} subtext="Son 30 gün" trend="down" trendValue="0.5" colorClass="red-500" colorHex="#ef4444" sparklineData={sparklines[7]} />
@@ -543,7 +543,7 @@ export default function DashboardView({ products, setActiveTab }: { products: an
                 <XAxis type="number" stroke="rgba(255,255,255,0.3)" tick={{ fill: "rgba(255,255,255,0.5)", fontSize: 10 }} />
                 <YAxis dataKey="name" type="category" stroke="rgba(255,255,255,0.3)" tick={{ fill: "rgba(255,255,255,0.5)", fontSize: 10 }} width={120} />
                 <RechartsTooltip contentStyle={{ backgroundColor: "rgba(0,0,0,0.9)", border: "1px solid rgba(255,255,255,0.1)" }} itemStyle={{ color: "#fff", fontWeight: "bold" }} />
-                <Bar dataKey="value" fill="#ffd700" radius={[0, 4, 4, 0]} barSize={20} />
+                <Bar dataKey="value" fill="#be185d" radius={[0, 4, 4, 0]} barSize={20} />
               </BarChart>
             </ResponsiveContainer>
           </div>

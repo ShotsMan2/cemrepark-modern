@@ -17,7 +17,7 @@ export default function SettingsView() {
     instagram: "", facebook: "", twitter: "", youtube: "", whatsapp: "",
     metaTitle: "", metaDescription: "", googleAnalyticsId: "", facebookPixelId: "",
     usdRate: "", eurRate: "", autoUpdateRates: false,
-    siteLogo: "", favicon: "", primaryColor: "#d61c7b", secondaryColor: "#00ffff", accentColor: "#ffd700",
+    siteLogo: "", favicon: "", primaryColor: "#d61c7b", secondaryColor: "#be185d", accentColor: "#a855f7",
     siteDescription: "", keywords: "",
     enableRegistration: true, enableCheckout: true, enableReviews: true,
     emailNotification: true, smsNotification: false,

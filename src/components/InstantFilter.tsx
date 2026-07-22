@@ -32,7 +32,7 @@ const colorMap: Record<string, string> = {
   Pembe: "#EC4899",
   Yeşil: "#10B981",
   Mavi: "#3B82F6",
-  Sarı: "#EAB308",
+  Sarı: "#be185d",
   Kahverengi: "#78350F",
   Gri: "#6B7280",
   Mor: "#8B5CF6",

@@ -86,7 +86,7 @@ export default function ProductDetailsClient({
         text: t("review_warning_selection_desc"),
         background: "rgba(10, 10, 10, 0.9)",
         color: "#fff",
-        iconColor: "#ffd700",
+        iconColor: "#be185d",
         customClass: {
           popup: "border border-secondary backdrop-blur-md rounded-xl",
         },
@@ -274,7 +274,7 @@ export default function ProductDetailsClient({
               </span>
             </div>
 
-            <h2 className="text-2xl font-bold text-glow-gold mb-6">{formatPrice(product.fiyat)}</h2>
+            <h2 className="text-2xl font-bold text-glow-secondary mb-6">{formatPrice(product.fiyat)}</h2>
 
             <div className="h-px w-full bg-white/10 mb-6"></div>
 

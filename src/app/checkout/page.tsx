@@ -420,7 +420,7 @@ export default function CheckoutPage() {
           <div className="relative w-24 h-24">
             <div className="absolute inset-0 border-4 border-white/10 border-t-neon-pink rounded-full animate-spin"></div>
 
-            <div className="absolute inset-2 border-4 border-white/10 border-b-holo-gold rounded-full animate-spin-slow"></div>
+            <div className="absolute inset-2 border-4 border-white/10 border-b-secondary rounded-full animate-spin-slow"></div>
           </div>
 
           <div className="text-xl font-bold uppercase tracking-widest text-gray-500 animate-pulse">

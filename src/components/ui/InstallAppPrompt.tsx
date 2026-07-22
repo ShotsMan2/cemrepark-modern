@@ -86,7 +86,7 @@ export default function InstallAppPrompt() {
         className="fixed bottom-4 left-4 right-4 z-[9999] md:hidden"
       >
         <div className="bg-gradient-to-r from-primary to-pink-950 text-foreground rounded-2xl shadow-2xl p-4 flex items-center justify-between border border-primary/30 backdrop-blur-xl relative overflow-hidden">
-          {/* Subtle gold accent glow */}
+          {/* Subtle secondary accent glow */}
           <div className="absolute top-0 right-0 w-32 h-32 bg-secondary/10 rounded-full blur-3xl -mr-10 -mt-10 pointer-events-none"></div>
 
           <div className="flex items-center gap-3 relative z-10">

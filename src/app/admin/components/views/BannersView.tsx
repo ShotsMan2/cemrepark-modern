@@ -196,7 +196,7 @@ export default function BannersView() {
                   <span className="text-foreground/70 text-sm font-bold">Aktif</span>
                 </label>
                 <label className="flex items-center gap-3 cursor-pointer">
-                  <input type="checkbox" name="abTesting" checked={formData.abTesting} onChange={handleInputChange} className="w-5 h-5 accent-holo-gold" />
+                  <input type="checkbox" name="abTesting" checked={formData.abTesting} onChange={handleInputChange} className="w-5 h-5 accent-secondary" />
                   <span className="text-foreground/70 text-sm font-bold flex items-center gap-1"><Percent size={14} /> A/B Test</span>
                 </label>
               </div>

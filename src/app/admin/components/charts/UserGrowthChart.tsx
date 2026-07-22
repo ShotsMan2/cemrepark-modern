@@ -43,7 +43,7 @@ export default function UserGrowthChart({ data, showComparison = false, targetVa
           <XAxis dataKey="month" stroke="rgba(255,255,255,0.3)" tick={{ fill: "rgba(255,255,255,0.5)", fontSize: 12 }} />
           <YAxis stroke="rgba(255,255,255,0.3)" tick={{ fill: "rgba(255,255,255,0.5)", fontSize: 12 }} />
           <RechartsTooltip contentStyle={{ backgroundColor: "rgba(0,0,0,0.9)", border: "1px solid rgba(255,255,255,0.1)", borderRadius: "8px" }} itemStyle={{ color: "#fff", fontWeight: "bold" }} />
-          {targetValue && <ReferenceLine y={targetValue} stroke="#f59e0b" strokeDasharray="5 5" strokeWidth={2} label={{ value: "Hedef", fill: "#f59e0b", fontSize: 10 }} />}
+          {targetValue && <ReferenceLine y={targetValue} stroke="#be185d" strokeDasharray="5 5" strokeWidth={2} label={{ value: "Hedef", fill: "#be185d", fontSize: 10 }} />}
           {showComparison && <Area type="monotone" dataKey="oncekiDonem" stroke="#6b7280" fillOpacity={1} fill="url(#colorPrevUsers)" strokeWidth={2} strokeDasharray="4 4" isAnimationActive={animated} animationDuration={800} />}
           <Area type="monotone" dataKey="users" stroke="#3b82f6" fillOpacity={1} fill="url(#colorUsers)" strokeWidth={3} isAnimationActive={animated} animationDuration={1000} />
         </AreaChart>

@@ -29,7 +29,7 @@ const ZAxis = dynamic(() => import("recharts").then((mod) => mod.ZAxis), { ssr: 
 const FunnelChart = dynamic(() => import("recharts").then((mod) => mod.FunnelChart), { ssr: false });
 const Funnel = dynamic(() => import("recharts").then((mod) => mod.Funnel), { ssr: false });
 
-const COLORS = ["#d61c7b", "#d97706", "#e83d8b", "#f59e0b", "#f06292", "#fbbf24", "#a855f7", "#22c55e", "#3b82f6", "#ef4444"];
+const COLORS = ["#d61c7b", "#be185d", "#e83d8b", "#a855f7", "#f06292", "#7c3aed", "#9333ea", "#22c55e", "#3b82f6", "#ef4444"];
 const RANGES = [7, 14, 30, 90];
 
 const CustomTooltip = ({ active, payload, label }: any) => {
@@ -93,7 +93,7 @@ export default function AnalyticsView() {
   const funnelData = [
     { step: "Ziyaretçi", value: 12500, fill: "#3b82f6" },
     { step: "Sepet", value: 4200, fill: "#a855f7" },
-    { step: "Ödeme", value: 1800, fill: "#f59e0b" },
+    { step: "Ödeme", value: 1800, fill: "#be185d" },
     { step: "Satın Alma", value: d?.periodOrdersCount || 0, fill: "#d61c7b" },
   ];
 
@@ -125,7 +125,7 @@ export default function AnalyticsView() {
         {[
           { title: "Toplam Gelir", value: `${(d?.revenue || 0).toLocaleString("tr-TR")} ₺`, sub: "Seçilen dönem", color: "text-primary" },
           { title: "Toplam Sipariş", value: d?.periodOrdersCount || 0, sub: "Adet", color: "text-[#00ffff]" },
-          { title: "Ort. Sipariş Değeri", value: `${Math.round(d?.averageOrderValue || 0).toLocaleString("tr-TR")} ₺`, sub: "Sipariş başına", color: "text-[#f59e0b]" },
+          { title: "Ort. Sipariş Değeri", value: `${Math.round(d?.averageOrderValue || 0).toLocaleString("tr-TR")} ₺`, sub: "Sipariş başına", color: "text-[#be185d]" },
           { title: "Dönüşüm Oranı", value: `%${d?.conversionRate || 0}`, sub: "Ziyaretçi → Satış", color: "text-[#a855f7]" },
         ].map((kpi, i) => (
           <div key={i} className="glass-panel p-5 clip-angled border border-glass-border relative overflow-hidden group hover:border-primary/30 transition-all">
@@ -184,7 +184,7 @@ export default function AnalyticsView() {
               <RadialBarChart cx="50%" cy="50%" innerRadius="20%" outerRadius="80%" barSize={18} data={[
                 { name: "Dönüşüm", value: Math.min(d?.conversionRate || 0, 100), fill: "#d61c7b" },
                 { name: "Müşteri Tutma", value: Math.min(d?.customerRetentionRate || 0, 100), fill: "#00ffff" },
-                { name: "Ort. Sip. Değeri", value: Math.min((d?.averageOrderValue || 0) / 100, 100), fill: "#f59e0b" },
+                { name: "Ort. Sip. Değeri", value: Math.min((d?.averageOrderValue || 0) / 100, 100), fill: "#be185d" },
               ]}>
                 <RadialBar background dataKey="value" cornerRadius={10} isAnimationActive={animated} animationDuration={1200} />
                 <Legend iconType="circle" wrapperStyle={{ fontSize: "11px", color: "#9ca3af" }} />
@@ -264,7 +264,7 @@ export default function AnalyticsView() {
                 <XAxis type="number" stroke="#6b7280" fontSize={12} tickLine={false} axisLine={false} />
                 <YAxis dataKey="name" type="category" stroke="#6b7280" fontSize={10} tickLine={false} axisLine={false} width={140} />
                 <Tooltip content={<CustomTooltip />} />
-                <Bar dataKey="value" fill="#f59e0b" radius={[0, 4, 4, 0]} barSize={20} isAnimationActive={animated} animationDuration={800} />
+                <Bar dataKey="value" fill="#be185d" radius={[0, 4, 4, 0]} barSize={20} isAnimationActive={animated} animationDuration={800} />
               </BarChart>
             </ResponsiveContainer>
           </div>

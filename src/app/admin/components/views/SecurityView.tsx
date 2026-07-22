@@ -170,7 +170,7 @@ const tabContentVariants = {
   exit: { opacity: 0, x: -20, transition: { duration: 0.2 } },
 };
 
-const PIE_COLORS = ["#22c55e", "#ef4444", "#f59e0b", "#3b82f6", "#8b5cf6"];
+const PIE_COLORS = ["#22c55e", "#ef4444", "#be185d", "#3b82f6", "#8b5cf6"];
 
 type TabKey = "login" | "audit" | "sessions" | "blacklist" | "overview";
 

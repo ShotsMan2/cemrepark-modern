@@ -75,10 +75,13 @@ export default function FavoritesPage() {
               return (
                 <div
                   key={product.id}
-                  className="bg-white/60 dark:bg-zinc-900/40 backdrop-blur-xl p-4 rounded-[2rem] group hover:shadow-2xl hover:shadow-primary/20 transition-all duration-500 relative transform hover:-translate-y-2 flex flex-col border border-white/50 dark:border-white/10"
+                  className="relative group/card"
                   data-aos="fade-up"
                   data-aos-delay={(index % 4) * 100}
                 >
+                  {/* Gradient frame border */}
+                  <div className="absolute -inset-[2px] bg-gradient-to-br from-primary/60 via-purple/50 to-secondary/50 rounded-[2.1rem] opacity-60 group-hover/card:opacity-100 transition-opacity duration-500 pointer-events-none" />
+                  <div className="bg-white/60 dark:bg-zinc-900/40 backdrop-blur-xl p-4 rounded-[2rem] group hover:shadow-2xl hover:shadow-primary/20 transition-all duration-500 relative transform hover:-translate-y-2 flex flex-col border border-white/50 dark:border-white/10">
                   <div className="relative aspect-[3/4] mb-4 overflow-hidden rounded-2xl transform-gpu">
                     {product.etiket && (
                       <div className="absolute top-3 left-3 z-20">
@@ -161,6 +164,7 @@ export default function FavoritesPage() {
                     </div>
                   </div>
                 </div>
+              </div>
               );
             })}
           </div>

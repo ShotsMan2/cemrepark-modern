@@ -26,8 +26,8 @@ const ScatterChart = dynamic(() => import("recharts").then((mod) => mod.ScatterC
 const Scatter = dynamic(() => import("recharts").then((mod) => mod.Scatter), { ssr: false });
 const ZAxis = dynamic(() => import("recharts").then((mod) => mod.ZAxis), { ssr: false });
 
-const PIE_COLORS = ["#d61c7b", "#d97706", "#e83d8b", "#f59e0b", "#f06292", "#fbbf24", "#a855f7", "#22c55e"];
-const RADIAL_COLORS = ["#d61c7b", "#f59e0b", "#00ffff", "#a855f7", "#22c55e"];
+const PIE_COLORS = ["#d61c7b", "#be185d", "#e83d8b", "#a855f7", "#f06292", "#7c3aed", "#9333ea", "#22c55e"];
+const RADIAL_COLORS = ["#d61c7b", "#be185d", "#00ffff", "#a855f7", "#22c55e"];
 const DAY_RANGES = [7, 14, 30, 90];
 
 const CustomTooltip = ({ active, payload, label }: { active?: boolean; payload?: Array<{ name: string; value: number; color?: string; fill?: string }>; label?: string }) => {
@@ -191,7 +191,7 @@ export default function DashboardAnalytics() {
                 <YAxis stroke="#6b7280" fontSize={12} tickLine={false} axisLine={false} />
                 <Tooltip content={<CustomTooltip active={undefined} payload={undefined} label={undefined} />} />
                 <Bar dataKey="orders" name="Sipariş Adedi" fill="#00ffff" radius={[4, 4, 0, 0]} barSize={30} isAnimationActive={animated} animationDuration={800} />
-                <Line type="monotone" dataKey="orders" name="Trend" stroke="#f59e0b" strokeWidth={2} dot={{ r: 4, fill: "#f59e0b" }} isAnimationActive={animated} animationDuration={1000} />
+                <Line type="monotone" dataKey="orders" name="Trend" stroke="#be185d" strokeWidth={2} dot={{ r: 4, fill: "#be185d" }} isAnimationActive={animated} animationDuration={1000} />
               </ComposedChart>
             </ResponsiveContainer>
           </div>
@@ -206,7 +206,7 @@ export default function DashboardAnalytics() {
             <ResponsiveContainer width="100%" height="100%">
               <RadialBarChart cx="50%" cy="50%" innerRadius="20%" outerRadius="80%" barSize={20} data={[
                 { name: "Dönüşüm Oranı", value: conversionRate, fill: "#d61c7b" },
-                { name: "Ort. Sipariş Değeri", value: averageOrderValue > 1000 ? 100 : Math.min(averageOrderValue / 100, 100), fill: "#f59e0b" },
+                { name: "Ort. Sipariş Değeri", value: averageOrderValue > 1000 ? 100 : Math.min(averageOrderValue / 100, 100), fill: "#be185d" },
                 { name: "Müşteri Tutma", value: d.customerRetentionRate || 50, fill: "#00ffff" },
                 { name: "Sepet Dönüşüm", value: conversionRate > 0 ? Math.min(conversionRate * 10, 100) : 0, fill: "#a855f7" },
               ]}>
@@ -258,7 +258,7 @@ export default function DashboardAnalytics() {
                 <XAxis dataKey="name" stroke="#6b7280" fontSize={12} tickLine={false} axisLine={false} />
                 <YAxis stroke="#6b7280" fontSize={12} tickLine={false} axisLine={false} />
                 <Tooltip content={<CustomTooltip active={undefined} payload={undefined} label={undefined} />} />
-                <Bar dataKey="value" name="Ürün Sayısı" fill="#ffd700" radius={[4, 4, 0, 0]} isAnimationActive={animated} animationDuration={800} />
+                <Bar dataKey="value" name="Ürün Sayısı" fill="#be185d" radius={[4, 4, 0, 0]} isAnimationActive={animated} animationDuration={800} />
               </BarChart>
             </ResponsiveContainer>
           </div>
@@ -327,7 +327,7 @@ export default function DashboardAnalytics() {
                 <XAxis type="number" stroke="#6b7280" fontSize={12} tickLine={false} axisLine={false} />
                 <YAxis dataKey="name" type="category" stroke="#6b7280" fontSize={10} tickLine={false} axisLine={false} width={140} />
                 <Tooltip content={<CustomTooltip active={undefined} payload={undefined} label={undefined} />} />
-                <Bar dataKey="value" fill="#ffd700" radius={[0, 4, 4, 0]} barSize={20} isAnimationActive={animated} animationDuration={800} />
+                <Bar dataKey="value" fill="#be185d" radius={[0, 4, 4, 0]} barSize={20} isAnimationActive={animated} animationDuration={800} />
               </BarChart>
             </ResponsiveContainer>
           </div>
