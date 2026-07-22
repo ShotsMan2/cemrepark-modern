@@ -11,9 +11,12 @@ export default function SearchTrigger() {
         e.preventDefault();
         window.dispatchEvent(new CustomEvent("open-search"));
       }}
-      className="px-8 py-4 text-gray-300 font-medium uppercase tracking-wider border border-gray-700 hover:border-secondary hover:text-secondary transition-all duration-300 clip-angled inline-block text-center cursor-pointer focus-visible:ring-2 focus-visible:ring-secondary focus-visible:outline-none"
+      className="group relative inline-flex items-center justify-center gap-3 px-8 py-4 bg-foreground text-background font-bold uppercase tracking-[0.15em] rounded-2xl overflow-hidden transition-all duration-300 hover:shadow-[0_0_20px_rgba(225,28,142,0.4)] hover:scale-105 cursor-pointer focus-visible:ring-2 focus-visible:ring-secondary focus-visible:outline-none"
     >
-      {t("search_now")}
+      <span className="absolute inset-0 w-full h-full bg-gradient-to-r from-[#e11c8e] to-[#a855f7] opacity-0 group-hover:opacity-100 transition-opacity duration-300" />
+      <span className="relative z-10 group-hover:text-white transition-colors duration-300">
+        {t("search_now")}
+      </span>
     </button>
   );
 }

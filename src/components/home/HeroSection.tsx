@@ -195,9 +195,7 @@ export default memo(function HeroSection({ activeBanners }: { activeBanners: any
                     <CountdownTimer targetDate={slide.countdownDate} />
                   )}
 
-                  <div className="bg-background/80 backdrop-blur-md rounded-2xl border border-foreground/5 shadow-sm p-1">
-                    <SearchTrigger />
-                  </div>
+                  <SearchTrigger />
                 </motion.div>
               </motion.div>
 
