@@ -109,14 +109,14 @@ export function ProductCard({ product, onQuickView, className = "", delay = 0 }:
             {/* Hover Overlay */}
             <div className="absolute inset-0 bg-gradient-to-t from-black/70 via-black/20 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300 pointer-events-none z-10" />
 
-            {/* Quick View Button */}
+            {/* Quick View Button - Navigates to product detail */}
             {onQuickView && (
               <div className="absolute bottom-4 left-0 w-full px-4 flex justify-center opacity-0 group-hover:opacity-100 transition-all duration-500 translate-y-6 group-hover:translate-y-0 z-30">
                 <button
                   onClick={(e) => {
                     e.stopPropagation();
                     e.preventDefault();
-                    onQuickView(product);
+                    router.push(`/urundetay/${product.id}`);
                   }}
                   className="text-[11px] uppercase tracking-[0.15em] font-black text-white bg-white/20 backdrop-blur-md border border-white/30 hover:bg-primary hover:border-primary transition-all px-6 py-3 rounded-full shadow-xl w-full active:scale-95"
                 >

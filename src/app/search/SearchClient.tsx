@@ -109,25 +109,10 @@ export default function SearchClient({
       {/* Hero Header */}
       <div
         className="relative p-10 md:p-14 pb-12 rounded-[2.5rem] mb-12 text-center overflow-hidden group"
-        style={{
-          background: "linear-gradient(145deg, hsla(var(--primary), 0.12), hsla(var(--purple), 0.18), hsla(var(--primary), 0.08))",
-          border: "1px solid hsla(var(--primary), 0.25)",
-          boxShadow: "0 8px 40px -12px hsla(var(--primary), 0.15), inset 0 1px 0 hsla(var(--primary), 0.1)",
-        }}
         data-aos="fade-down"
       >
-        {/* Decorative orbs */}
-        <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-96 h-96 bg-gradient-to-br from-primary/20 via-purple/15 to-primary/10 rounded-full blur-[100px] pointer-events-none group-hover:scale-150 transition-transform duration-1000" />
-        <div className="absolute -top-20 -right-20 w-60 h-60 bg-gradient-to-br from-purple/20 to-transparent rounded-full blur-[60px] pointer-events-none" />
-
         <h1
-          className="text-4xl md:text-6xl font-black mb-4 tracking-widest relative z-10"
-          style={{
-            background: "linear-gradient(135deg, hsl(var(--primary)), hsl(var(--purple)), hsl(var(--primary)))",
-            WebkitBackgroundClip: "text",
-            WebkitTextFillColor: "transparent",
-            backgroundClip: "text",
-          }}
+          className="text-4xl md:text-6xl font-black tracking-widest text-transparent bg-clip-text bg-gradient-to-r from-primary via-purple to-primary uppercase text-center relative z-10"
         >
           {isSearch
             ? `${t("search_results").toLocaleUpperCase("tr-TR")}: "${query}"`

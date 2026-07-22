@@ -51,7 +51,7 @@ export default function SiparislerimClient({ orders }) {
         </Link>
       </div>
 
-      <h1 className="text-4xl font-black text-foreground uppercase tracking-widest mb-4 text-center">
+      <h1 className="text-4xl font-black tracking-widest text-transparent bg-clip-text bg-gradient-to-r from-primary via-purple to-primary uppercase text-center relative z-10 mb-4">
         {t("my_orders")}
       </h1>
       <div className="w-24 h-1 bg-primary mx-auto mb-12"></div>
